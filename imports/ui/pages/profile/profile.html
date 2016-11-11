@@ -1,0 +1,167 @@
+<head>
+  <link rel="stylesheet" href="/lib/stylesheets/styles.css">
+</head>
+
+<template name="ProfilePage">
+  <div class="row">
+    <div class="col-md-6 m-y-3">
+      <img src="../../../../images/horizontal_logo_blue.svg" style="height: 4em">
+    </div>
+    <div class="col-md-6 m-y-3 text-xs-right">
+      <p>asd</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 text-xs-center m-b-2">
+      <img src="../../../../images/icons/boy.svg" class="c-img-big-2">
+      <h5>{{currentUser.profile.first_name}} {{currentUser.profile.last_name}}</h5>
+      <p class="text-muted">{{currentUser.username}}</p>
+
+      <ul class="list-unstyled">
+        <li class="go-to-section" id="home"><a href>home</a></li>
+        <li class="go-to-section" id="profile"><a href>my profile</a></li>
+        <li class="go-to-section" id="participants"><a href>participants</a></li>
+        <li class="go-to-section" id="faq"><a href>faq</a></li>
+      </ul>
+
+      {{#if survey}}
+        <div class="card card-block card-outline-warning">
+          <img src="/images/icons/survey.svg" class="c-img-big text-center m-b-2">
+          <p class="c-text-13 card-text">
+            Please complete this <a href class="card-link go-to-section text-warning" id="survey">
+            <strong>quick survey</strong></a> to help us improve our work.
+          </p>
+        </div>
+      {{/if}}
+
+
+      <hr>
+      <button class="c-btn" id="logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></button>
+    </div>
+    <div class="col-md-10">
+      {{> Template.dynamic template=tab}}
+    </div>
+  </div>
+</template>
+
+<template name="HomeSection">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+
+        <div class="card-block">
+          <h4 class="card-title">Profile</h4>
+          <h6 class="card-subtitle text-muted">Member since {{moment currentUser.createdAt 'Do MMMM YYYY'}}</h6>
+        </div>
+
+        <div class="card-block">
+          <ul class="list-unstyled">
+            <li>Info 1</li>
+            <li>Info 2</li>
+            <li>Info 3</li>
+            <li>Info 4</li>
+          </ul>
+          <a href="#" class="card-link">View complete profile</a>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+      <div class="card">
+
+        <div class="card-block">
+          <h4 class="card-title">Participants</h4>
+          <h6 class="card-subtitle text-muted m-b-1">
+            [{{n_participants}}/{{a_participants}}]</h6>
+          <progress class="progress progress-striped {{progress n_participants a_participants}}"
+                    value="{{n_participants}}" max="{{a_participants}}"></progress>
+
+          <p class="card-text">List of participants you have already added. </p>
+
+          <a href="#" class="card-link">Add new one</a>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <div class="card-block">
+          <h4 class="card-title">Stats</h4>
+          <h6 class="card-subtitle text-muted m-b-1">Your University</h6>
+
+          <p class="card-text">List of participants you have already added. </p>
+          <a href="#" class="card-link">Add new one</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="ProfileSection">
+  <p>profile</p>
+</template>
+
+<template name="SurveySection">
+  <div id="website-survey"></div>
+  <p class="text-xs-center text-muted"><i class="fa fa-lock" aria-hidden="true"></i> Your feedback will be sent anonymously.</p>
+</template>
+
+<template name="ParticipantsSection">
+  {{#if not_equals n_participants 0}}
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+      </tbody>
+    </table>
+  {{else}}
+    <p>No participants added yet.</p>
+    <a href class="text-primary switch-section" id="add"><i class="fa fa-plus" aria-hidden="true"></i> add new</a>
+  {{/if}}
+</template>
+
+<template name="FaqSection">
+  <p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+       aria-controls="collapseExample">
+      Link with href
+    </a>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+      Button with data-target
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-block">
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim
+      keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+    </div>
+  </div>
+</template>

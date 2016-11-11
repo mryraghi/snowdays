@@ -1,0 +1,86 @@
+<head>
+  <link rel="stylesheet" href="/lib/stylesheets/styles.css">
+</head>
+
+<template name="LoginPage">
+  <a href="/"><i class="fa fa-chevron-left" aria-hidden="true"></i> Home</a>
+  <div class="row section-top-margin">
+    <div class="col-md-4 offset-md-4 text-xs-center">
+      {{> Template.dynamic template=tab}}
+    </div>
+  </div>
+</template>
+
+<template name="LoginSection">
+  <img src="/images/login/login1.svg" class="m-x-auto d-block section-image">
+  <form class="login-form" id="login-form">
+    <div class="form-group">
+      <input type="text" name="username" class="form-control" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" class="form-control" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary">️Login</button>
+    <button type="button" class="btn btn-link btn-sm switchButton">or register instead</button>
+  </form>
+</template>
+
+<template name="SignupSection">
+  <img src="/images/login/signup.svg" class="m-x-auto d-block section-image">
+  <form class="signup-form">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name">
+        </div>
+        <div class="col-xs-6">
+          <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name">
+        </div>
+        <div class="form-control-feedback hidden" id="info_feedback">Please let us know who you are!</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+      <div class="form-control-feedback hidden" id="username_feedback_1">Shit, that username's taken. Try another?</div>
+      <div class="form-control-feedback hidden" id="username_feedback_2">No username entered!</div>
+    </div>
+    <div class="form-group">
+      <input type="text" id="email" name="email" class="form-control" placeholder="Email">
+      <div class="form-control-feedback hidden" id="email_feedback_1">Damn, enter a valid email address!</div>
+      <div class="form-control-feedback hidden" id="email_feedback_2">No email address entered!</div>
+    </div>
+    <div class="form-group">
+
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="col-xs-6">
+          <input type="password" id="password_confirmation" name="password_confirmation" class="form-control"
+                 placeholder="Repeat Password">
+        </div>
+        <div class="form-control-feedback hidden" id="password_feedback_1">Shit, passwords don't match. Try again!</div>
+        <div class="form-control-feedback hidden" id="password_feedback_2">Empty password(s), no good!</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <button type="button" class="btn btn-link btn-sm switchButton">or login instead</button>
+  </form>
+</template>
+
+<template name="Loading">
+  <div class="sk-circle">
+    <div class="sk-circle1 sk-child"></div>
+    <div class="sk-circle2 sk-child"></div>
+    <div class="sk-circle3 sk-child"></div>
+    <div class="sk-circle4 sk-child"></div>
+    <div class="sk-circle5 sk-child"></div>
+    <div class="sk-circle6 sk-child"></div>
+    <div class="sk-circle7 sk-child"></div>
+    <div class="sk-circle8 sk-child"></div>
+    <div class="sk-circle9 sk-child"></div>
+    <div class="sk-circle10 sk-child"></div>
+    <div class="sk-circle11 sk-child"></div>
+    <div class="sk-circle12 sk-child"></div>
+  </div>
+</template>

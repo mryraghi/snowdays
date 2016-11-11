@@ -1,0 +1,168 @@
+@font-face {
+    font-family: 'Brandon_Black';
+    src: url('fonts/Brandon/Brandon_blk.eot');
+    src: local('☺'), url('fonts/Brandon/Brandon_blk.woff') format('woff'), url('fonts/Brandon/Brandon_blk.ttf') format('truetype'), url('fonts/Brandon/Brandon_blk.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Brandon_Light';
+    src: url('fonts/Brandon/Brandon_light.eot');
+    src: local('☺'), url('fonts/Brandon/Brandon_light.woff') format('woff'), url('fonts/Brandon/Brandon_light.ttf') format('truetype'), url('fonts/Brandon/Brandon_light.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Brandon_Medium';
+    src: url('fonts/Brandon/Brandon_med.eot');
+    src: local('☺'), url('fonts/Brandon/Brandon_med.woff') format('woff'), url('fonts/Brandon/Brandon_med.ttf') format('truetype'), url('fonts/Brandon/Brandon_med.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* GENERAL */
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+div.inline {
+    float: left;
+}
+
+button:focus {
+    outline: 0 !important;
+}
+
+.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
+    outline: 0 !important;
+}
+
+.clearBoth {
+    clear: both;
+}
+
+.hidden {
+    display: none;
+}
+
+.section-image {
+    height: 90px;
+    margin-bottom: 30px;
+}
+
+.section-top-margin {
+    margin-top: 100px;
+}
+
+.icon-menu {
+    height: 20px;
+    margin-right: 5px;
+    padding-bottom: 3px;
+}
+
+/* removes bottom margin for form-groups in user-form */
+.card .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* reset arrows on number inputs */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.c-btn {
+    position: relative;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #eee;
+    background-image: -webkit-linear-gradient(#fcfcfc, #eee);
+    background-image: linear-gradient(#fcfcfc, #eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.c-btn:active, .c-btn.selected, .c-btn.zeroclipboard-is-active {
+    background-color: #dcdcdc;
+    background-image: none;
+    border-color: #b5b5b5;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.c-btn:hover, .c-btn:active, .c-btn.zeroclipboard-is-hover, .c-btn.zeroclipboard-is-active {
+    text-decoration: none;
+    background-color: #ddd;
+    background-image: -webkit-linear-gradient(#eee, #ddd);
+    background-image: linear-gradient(#eee, #ddd);
+    border-color: #ccc;
+}
+
+.c-btn-primary {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+    background-color: #60b044;
+    background-image: -webkit-linear-gradient(#8add6d, #60b044);
+    background-image: linear-gradient(#8add6d, #60b044);
+    border-color: #5ca941;
+}
+
+.c-img {
+    height: 25px;
+    margin-right: 5px;
+}
+
+.c-img-2 {
+    height: 47px;
+}
+
+.custom-radio {
+    margin-top: 1em;
+}
+
+.card {
+    margin-right: 1px;
+}
+
+.c-text-13 {
+    font-size: 13px;
+}
+
+.c-text-15 {
+    font-size: 15px;
+}
+
+.c-img-big {
+    height: 35px;
+    margin-right: 5px;
+}
+
+.c-img-big-2 {
+    height: 75px;
+    margin-bottom: 10px;
+}
+
+.carousel-cell {
+    width: 100%;
+    height: auto;
+    margin-right: 20px;
+}

@@ -1,0 +1,59 @@
+/* position dots in carousel */
+.flickity-page-dots {
+    bottom: 20px !important;
+}
+
+/* white circles */
+.flickity-page-dots .dot {
+    width: 12px;
+    height: 12px;
+    opacity: 1;
+    background: transparent;
+    border: 2px solid white;
+}
+
+/* fill-in selected dot */
+.flickity-page-dots .dot.is-selected {
+    background: white;
+}
+
+/* carousel height */
+.carousel {
+    height: 100%;
+}
+
+.carousel-cell {
+    width: 100%; /* full width */
+    height: 100%; /* height of carousel */
+    margin-right: 1px;
+}
+
+/* big buttons, no circle */
+.flickity-prev-next-button {
+    width: 100px;
+    height: 100px;
+    background: transparent;
+}
+
+.flickity-prev-next-button:hover {
+    background: transparent;
+}
+
+/* arrow color */
+.flickity-prev-next-button .arrow {
+    fill: white;
+}
+
+.flickity-prev-next-button.no-svg {
+    color: white;
+}
+
+/* hide disabled button */
+.flickity-prev-next-button:disabled {
+    display: none;
+}
+
+/* images cover container */
+.carousel-cell-image {
+    width: 100%;
+}

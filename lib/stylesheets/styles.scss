@@ -1,0 +1,9 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// instead of editing survey's source code,
+// it extends bootstrap's classes
+.sv_q_rating_item {
+  @extend .btn;
+  @extend .btn-secondary;
+  @extend .m-t-1
+}

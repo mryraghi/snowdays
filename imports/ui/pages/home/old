@@ -1,0 +1,95 @@
+<template name="Home">
+  <button class="cd-nav-trigger cd-image-replace">Open navigation<span aria-hidden="true"></span></button>
+
+  <header class="cd-auto-hide-header">
+    <div class="logo"><a href="#0"><img src="/images/horizontal_logo_blue.svg" alt="Logo"></a></div>
+
+    <nav class="cd-primary-nav">
+      <a href="#cd-navigation" class="nav-trigger"><span><em aria-hidden="true"></em></span></a>
+
+      <ul id="cd-navigation">
+        <li><a href="#0">The team</a></li>
+        <li><a href="#0">Sponsors</a></li>
+        <li><a href="#0">Media</a></li>
+        <li><a href="/login"><img src="images/icons/profile.svg" class="icon-menu">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="cd-hero"
+           style="background: url('/images/home/DSC_8754-Pano.jpg') no-repeat center; background-size: cover;">
+    <!--<div class="cd-hero-content">-->
+    <!--<section class="cd-intro">-->
+    <!--<h1 class="cd-headline letters type">-->
+    <!--<span>SnowDays is</span>-->
+    <!--<span class="cd-words-wrapper waiting">-->
+    <!--<b class="is-visible">a party</b>-->
+    <!--<b>fun</b>-->
+    <!--<b>a competition</b>-->
+    <!--</span>-->
+    <!--</h1>-->
+    <!--</section>-->
+    <!--</div>-->
+    <img src="/images/Logo.png" style="width: 80%; margin-top: 100px" class="m-x-auto d-block">
+  </section>
+
+  <nav class="cd-secondary-nav">
+    <ul>
+      <li><a href="#section1"><img src="images/icons/Snowflake-96.png" class="secondary-nav-icon">Experience</a></li>
+      <li><a href="#section2"><img src="images/icons/Skiing-96.png" class="secondary-nav-icon">Sports</a></li>
+      <li><a href="#section3"><img src="images/icons/Party%20Baloons-96.png" class="secondary-nav-icon">Parties</a></li>
+      <li><a href="#0"><img src="images/icons/Planner-96.png" class="secondary-nav-icon">Schedule</a></li>
+      <li><a href="#0"><img src="images/icons/YouTube%20Play-96.png" class="secondary-nav-icon">Media</a></li>
+      <li><a href="#0"><img src="images/icons/Coins-96.png" class="secondary-nav-icon">Sponsors</a></li>
+      <li><a href="#0"><img src="images/icons/Email-96.png" class="secondary-nav-icon">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="cd-main-content sub-nav-hero">
+    <section id="section1" class="cd-section"
+             style="background: url('/images/home/DSC_8754-Pano.jpg') no-repeat center; background-size: cover;">
+      <div class="content-wrapper">
+
+        <!--<a href="#section2" class="cd-scroll-down cd-image-replace">scroll down</a>-->
+      </div>
+    </section><!-- cd-section -->
+
+    <section id="section2" class="cd-section"
+             style="background: url('/images/home/section-3.jpg') no-repeat bottom left; background-size: cover;">
+      <div class="content-wrapper">
+        <h2>Share</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto numquam, totam iusto officia earum
+          perferendis, culpa ad atque eveniet praesentium nobis expedita similique beatae tenetur. Distinctio vel
+          tenetur,
+          id cum.</p>
+      </div>
+    </section><!-- cd-section -->
+
+    <section id="section3" class="cd-section"
+             style="background: url('/images/home/section-2.jpg') no-repeat top; background-size: cover;">
+      <div class="content-wrapper">
+        <h2 class="section-title"
+            style="font-family: 'Chasing Embers', Arial, sans-serif; color: white; font-size: 150px;">Parties</h2>
+        <p style="color: white;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto numquam, totam
+          iusto officia earum
+          perferendis, culpa ad atque eveniet praesentium nobis expedita similique beatae tenetur. Distinctio vel
+          tenetur,
+          id cum.</p>
+      </div>
+    </section><!-- cd-section -->
+
+    <section id="section4" class="cd-section">
+      <div class="content-wrapper">
+        <div class="carousel" data-flickity>
+          <div class="carousel-cell"
+               style="background: url('images/home/section-2.jpg') no-repeat center; background-size: cover;">
+            <h1>TEST</h1>
+          </div>
+          <div class="carousel-cell" style="background: url('images/home/section-3.jpg') no-repeat center; background-size: cover;">
+            <!-- Sport -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</template>
