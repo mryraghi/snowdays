@@ -57,9 +57,9 @@ Schema.User = new SimpleSchema({
     defaultValue: new Date()
   },
   profile: {
-    type: Schema.UserProfile,
-    optional: true
+    type: Schema.UserProfile
   },
+  // TODO: could be removed
   // Make sure this services field is in your schema if you're using any of the accounts packages
   services: {
     type: Object,

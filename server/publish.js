@@ -1,5 +1,5 @@
 Meteor.publish('currentUserData', function () {
-  return Meteor.users.find({_id: this.userId}, {fields: {createdAt: 1, survey: 1}});
+  return Meteor.users.find({_id: this.userId}, {fields: {createdAt: 1, survey: 1, profile: 1}});
 });
 
 Meteor.publish('participantsData', function () {

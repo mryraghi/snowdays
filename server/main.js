@@ -16,5 +16,5 @@ Accounts.onCreateUser(function (options, user) {
     if (error) console.log('error:', error);
   });
 
-  return user;
+  return options;
 });

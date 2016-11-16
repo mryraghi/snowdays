@@ -122,7 +122,7 @@ Template.SignupSection.events({
     }
 
     if (check) {
-      Accounts.createUser({
+      var user = {
         username: username,
         email: email,
         password: password,
@@ -131,8 +131,11 @@ Template.SignupSection.events({
           last_name: last_name,
           allowed_participants: 20
         }
-      }, (error) => {
+      };
+
+      Accounts.createUser(user, (error) => {
         if (error) {
+          swal('Error ' + error.error, error.reason, 'error')
           switch (error.error) {
             case 400:
               $('.signup-form #email').addClass('form-control-danger').parent().addClass('has-danger');

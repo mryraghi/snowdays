@@ -1,22 +1,3 @@
-/* position dots in carousel */
-.flickity-page-dots {
-    bottom: 20px !important;
-}
-
-/* white circles */
-.flickity-page-dots .dot {
-    width: 12px;
-    height: 12px;
-    opacity: 1;
-    background: transparent;
-    border: 2px solid white;
-}
-
-/* fill-in selected dot */
-.flickity-page-dots .dot.is-selected {
-    background: white;
-}
-
 /* carousel height */
 .carousel {
     height: 100%;
@@ -25,7 +6,11 @@
 .carousel-cell {
     width: 100%; /* full width */
     height: 100%; /* height of carousel */
-    margin-right: 1px;
+    padding-left: 1px;
+}
+
+.flickity-viewport {
+    transition: height 0.5s;
 }
 
 /* big buttons, no circle */

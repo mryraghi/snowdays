@@ -9,10 +9,10 @@ Template.ProfilePage.onCreated(function () {
   this.subscribe("currentUserData");
   this.subscribe("allowedParticipantsData");
 
+
   // set default tab to 'login'
   this.currentTab = new ReactiveVar("AddNewSection");
 
-  var user = Meteor.user();
 
   // if (user) {
   //   // Drift Chat
@@ -45,6 +45,9 @@ Template.ProfilePage.onCreated(function () {
 
 });
 
+Template.ProfilePage.onRendered(function () {
+
+});
 
 Template.ProfilePage.events({
 
