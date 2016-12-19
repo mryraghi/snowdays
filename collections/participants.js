@@ -1,13 +1,22 @@
+import _ from 'lodash'
+
 Schema = {};
 Participants = new Mongo.Collection("participants");
 
 Schema.Participant = new SimpleSchema({
   _id: {
-    type: String
+    type: String,
+    optional: function () {
+      // if owner field is
+      return !!_.isNil(this.owner);
+    }
   },
   owner: {
     type: String,
-    optional: true
+    optional: function () {
+      // if owner field is
+      return !!_.isNil(this._id);
+    }
   },
   first_name: {
     type: String,
@@ -54,7 +63,7 @@ Schema.Participant = new SimpleSchema({
     optional: true
   },
   food_allergies: {
-    type: [String],
+    type: String,
     label: "Food Allergies",
     optional: true
   },
@@ -63,9 +72,25 @@ Schema.Participant = new SimpleSchema({
     label: "T-Shirt Size",
     optional: true
   },
+  is_volley_player: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
+  has_personal_id: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
+  has_student_id: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
   createdAt: {
     type: Date,
-    defaultValue: new Date()
+    defaultValue: new Date(),
+    optional: true
   }
 });
 
@@ -169,6 +194,5 @@ Schema.Birth = new SimpleSchema({
     optional: true
   }
 });
-
 
 Participants.attachSchema(Schema.Participant);

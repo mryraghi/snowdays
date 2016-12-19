@@ -88,7 +88,7 @@ Template.ProfilePage.helpers({
     return Template.instance().currentTab.get();
   },
   survey: function () {
-    var user = Meteor.user();
+    const user = Meteor.user();
     if (user) return !user.survey
   }
 });
@@ -98,7 +98,7 @@ Template.HomeSection.helpers({
 
   // allowed number of participants
   a_participants: () => {
-    var user = Meteor.user();
+    const user = Meteor.user();
     // TODO: allowed_participants of undefined
     if (user) return user.profile.allowed_participants
   },
@@ -106,7 +106,7 @@ Template.HomeSection.helpers({
     return moment(date).format(format)
   },
   progress: (n, m) => {
-    var p = (n * 100) / m;
+    const p = (n * 100) / m;
 
     if (0 < p && p < 80) return 'progress-danger';
     if (80 <= p && p < 100) return 'progress-warning';
@@ -115,7 +115,7 @@ Template.HomeSection.helpers({
 });
 
 Template.registerHelper('n_participants', () => {
-  var user = Meteor.user();
+  const user = Meteor.user();
 
   // owner field must exists and be equal to its owner's _id
   if (user) return Participants.find({owner: {$exists: true, $eq: this.userId}}).count()
@@ -124,7 +124,7 @@ Template.registerHelper('n_participants', () => {
 
 Template.SurveySection.onRendered(function () {
   // Survey.Survey.cssType = "bootstrap";
-  var survey = new Survey.Survey(
+  const survey = new Survey.Survey(
     {
       completedHtml: "<p class=\"text-success m-t-1 text-xs-center\"><i class=\"fa fa-check\" aria-hidden=\"true\"></i> Thank you, your efforts are greatly appreciated.</p>",
       pages: [
@@ -164,15 +164,15 @@ Template.SurveySection.onRendered(function () {
     });
 
   survey.css = {
-    root: "card card-block",
+    root: "s-card card-block",
     rating: {root: "btn-group btn-group-sm"},
     error: {
       root: "text-danger",
       icon: "fa fa-times"
     },
     comment: "form-control",
-    navigationButton: "btn btn-sm btn-secondary m-t-1",
-    navigation: {complete: "btn btn-success"},
+    navigationButton: "s-btn-empty-blue s-btn-sm m-t-1 m-r-1",
+    navigation: {complete: "s-btn-empty-green s-btn-sm"},
     text: "form-control"
   };
 

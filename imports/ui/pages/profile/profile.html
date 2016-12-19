@@ -4,11 +4,8 @@
 
 <template name="ProfilePage">
   <div class="row">
-    <div class="col-md-6 m-y-3">
-      <img src="../../../../images/horizontal_logo_blue.svg" style="height: 4em">
-    </div>
-    <div class="col-md-6 m-y-3 text-xs-right">
-      <p>asd</p>
+    <div class="col-md-12 m-y-3 text-xs-center">
+      <img src="../../../../images/logo4.svg" style="height: 2.5em">
     </div>
   </div>
   <div class="row">
@@ -25,7 +22,7 @@
       </ul>
 
       {{#if survey}}
-        <div class="card card-block card-outline-warning">
+        <div class="s-card-orange card-block card-outline-warning">
           <img src="/images/icons/survey.svg" class="c-img-big text-center m-b-2">
           <p class="c-text-13 card-text">
             Please complete this <a href class="card-link go-to-section text-warning" id="survey">
@@ -36,7 +33,7 @@
 
 
       <hr>
-      <button class="c-btn" id="logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></button>
+      <button class="s-btn-blue" id="logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></button>
     </div>
     <div class="col-md-10">
       {{> Template.dynamic template=tab}}

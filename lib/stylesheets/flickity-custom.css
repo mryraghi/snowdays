@@ -1,11 +1,5 @@
-/* carousel height */
-.carousel {
-    height: 100%;
-}
-
 .carousel-cell {
     width: 100%; /* full width */
-    height: 100%; /* height of carousel */
     padding-left: 1px;
 }
 
@@ -13,32 +7,10 @@
     transition: height 0.5s;
 }
 
-/* big buttons, no circle */
-.flickity-prev-next-button {
-    width: 100px;
-    height: 100px;
-    background: transparent;
+.carousel-cell-2 {
+    height: 560px !important;
 }
 
-.flickity-prev-next-button:hover {
-    background: transparent;
-}
-
-/* arrow color */
-.flickity-prev-next-button .arrow {
-    fill: white;
-}
-
-.flickity-prev-next-button.no-svg {
-    color: white;
-}
-
-/* hide disabled button */
-.flickity-prev-next-button:disabled {
-    display: none;
-}
-
-/* images cover container */
-.carousel-cell-image {
-    width: 100%;
+.carousel-cell-3 {
+    height: 534px !important;
 }

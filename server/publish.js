@@ -3,11 +3,17 @@ Meteor.publish('currentUserData', function () {
 });
 
 Meteor.publish('participantsData', function () {
-  if (Roles.userIsInRole(this.userId, ['contact-person'])) {
-    return Participants.find({$or: [{_id: this.userId}, {owner: this.userId}]});
-  } else this.stop();
+  return Participants.find({$or: [{_id: this.userId}, {owner: this.userId}]});
 });
 
 Meteor.publish('relatedParticipantsData', function () {
   // return Meteor.users.find({owner: this.userId});
+});
+
+Meteor.publish('singlePublicParticipant', function (_id) {
+  return Participants.find(_id);
+});
+
+Meteor.publish('files.ids.all', function () {
+  return IDs.find().cursor;
 });

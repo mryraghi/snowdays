@@ -13,17 +13,27 @@ Meteor.users.allow({
 Participants.allow({
   insert: function (userId, doc) {
     // allow iff is a contact persons and adding himself or sub participant
-    return !!((_.isEqual(userId, doc._id) || _.isEqual(userId, doc.owner))
-    && (Roles.userIsInRole(userId, ['contact-person'])))
+    return true
   },
   update: function (userId, doc, fieldNames, modifier) {
     // allow iff is a contact persons and updating himself or sub participant
-    return !!((_.isEqual(userId, doc._id) || _.isEqual(userId, doc.owner))
-    && (Roles.userIsInRole(userId, ['contact-person'])));
+    return true
   },
   remove: function (userId, doc) {
     // allow iff is a contact persons and removing sub participant
-    return !!((_.isEqual(userId, doc.owner)) && (Roles.userIsInRole(userId, ['contact-person'])));
+    return true
+  }
+});
+
+IDs.allow({
+  insert: function (userId, doc) {
+    return true
+  },
+  update: function (userId, doc, fieldNames, modifier) {
+    return true
+  },
+  remove: function (userId, doc) {
+    return true
   }
 });
 
@@ -38,3 +48,5 @@ Surveys.allow({
     return true
   }
 });
+
+// TODO: DB images permission

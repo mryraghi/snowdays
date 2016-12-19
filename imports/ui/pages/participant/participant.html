@@ -1,0 +1,14 @@
+<template name="ParticipantPage">
+  <br>
+  <div class="text-xs-center">
+    {{#if isValidID}}
+      <div class="alert alert-success" role="alert">
+        <strong>Valid token: </strong> <code> {{_id}}</code>
+      </div>
+    {{else}}
+      <div class="alert alert-danger" role="alert">
+        <strong>Invalid token!</strong>
+      </div>
+    {{/if}}
+  </div>
+</template>

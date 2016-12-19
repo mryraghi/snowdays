@@ -12,16 +12,16 @@
 </template>
 
 <template name="LoginSection">
-  <img src="/images/login/login1.svg" class="m-x-auto d-block section-image">
+  <img src="/images/login/login.svg" class="m-x-auto d-block s-section-title">
   <form class="login-form" id="login-form">
     <div class="form-group">
-      <input type="text" name="username" class="form-control" placeholder="Username">
+      <input type="text" name="username" class="form-control s-input" placeholder="Username">
     </div>
     <div class="form-group">
-      <input type="password" name="password" class="form-control" placeholder="Password">
+      <input type="password" name="password" class="form-control s-input" placeholder="Password">
     </div>
-    <button type="submit" class="btn btn-primary">️Login</button>
-    <button type="button" class="btn btn-link btn-sm switchButton">or register instead</button>
+    <button type="submit" class="s-btn-blue">️Login</button>
+    <button type="button" class="s-btn-empty switchButton">or register instead</button>
   </form>
 </template>
 
@@ -63,8 +63,8 @@
         <div class="form-control-feedback hidden" id="password_feedback_2">Empty password(s), no good!</div>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
-    <button type="button" class="btn btn-link btn-sm switchButton">or login instead</button>
+    <button type="submit" class="s-btn-blue">Sign Up</button>
+    <button type="button" class="s-btn-empty switchButton">or login instead</button>
   </form>
 </template>
 

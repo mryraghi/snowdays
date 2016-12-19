@@ -9,9 +9,13 @@ module.exports = {
     }
   },
 
+  "ssl": {
+    "pem": "./ssl.pem"
+  },
+
   meteor: {
     name: 'snowdays',
-    path: '../../snowdays',
+    path: '../',
     servers: {
       one: {}
     },
@@ -21,7 +25,8 @@ module.exports = {
       serverOnly: true,
     },
     env: {
-      ROOT_URL: 'http://www.snowdays.it'
+      PORT: "3000",
+      ROOT_URL: 'http://138.68.66.74'
       // MONGO_URL: 'mongodb://localhost/meteor'
     },
 

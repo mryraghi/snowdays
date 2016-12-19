@@ -5,8 +5,18 @@ const Flickity = require('flickity');
 import 'flickity/css/flickity.css';
 
 
-
 Template.Home.onRendered(function () {
+
+  Session.set("showLoadingIndicator", true);
+
+  TAPi18n.setLanguage('it')
+    .done(function () {
+      Session.set("showLoadingIndicator", false);
+    })
+    .fail(function (error_message) {
+      // Handle the situation
+      console.log(error_message);
+    });
 
   // var flickity = new Flickity('.carousel', {
   //   lazyLoad: true,
@@ -14,10 +24,9 @@ Template.Home.onRendered(function () {
   //   prevNextButtons: false
   // });
 
-  var scrolling = false;
-  var mainHeader = $('.cd-auto-hide-header'),
-    secondaryNavigation = $('.cd-secondary-nav'),
-    //this applies only if secondary nav is below intro section
+  let scrolling = false;
+  let mainHeader = $('.cd-auto-hide-header'),
+    secondaryNavigation = $('.cd-secondary-nav'),    //this applies only if secondary nav is below intro section
     belowNavHeroContent = $('.sub-nav-hero'),
     verticalNavigation = $('.cd-secondary-nav'),
     headerHeight = mainHeader.height(),
@@ -25,7 +34,7 @@ Template.Home.onRendered(function () {
     navigationItems = verticalNavigation.find('a');
 
 //set scrolling variables
-  var previousTop = 0,
+  let previousTop = 0,
     currentTop = 0,
     scrollDelta = 10,
     scrollOffset = 150;
@@ -50,7 +59,7 @@ Template.Home.onRendered(function () {
   });
 
   function autoHideHeader() {
-    var currentTop = $(window).scrollTop();
+    const currentTop = $(window).scrollTop();
 
     ( belowNavHeroContent.length > 0 )
       ? checkStickyNavigation(currentTop) // secondary navigation below intro
@@ -59,9 +68,9 @@ Template.Home.onRendered(function () {
     previousTop = currentTop;
 
 
-    var scrollTop = $(window).scrollTop();
+    const scrollTop = $(window).scrollTop();
     contentSections.each(function () {
-      var section = $(this),
+      const section = $(this),
         sectionId = section.attr('id'),
         navigationItem = navigationItems.filter('[href^="#' + sectionId + '"]');
       ( (section.offset().top < scrollTop ) && ( section.offset().top + section.height() > scrollTop) )
@@ -86,7 +95,7 @@ Template.Home.onRendered(function () {
 
   function checkStickyNavigation(currentTop) {
     //secondary nav below intro section - sticky secondary nav
-    var secondaryNavOffsetTop = belowNavHeroContent.offset().top - secondaryNavigation.height() - mainHeader.height();
+    const secondaryNavOffsetTop = belowNavHeroContent.offset().top - secondaryNavigation.height() - mainHeader.height();
 
     if (previousTop >= currentTop) {
       //if scrolling up...
@@ -135,17 +144,14 @@ Template.Home.onRendered(function () {
   // -------------------
 
   //set animation timing
-  var animationDelay = 2500,
-    //loading bar effect
+  const animationDelay = 2500,    //loading bar effect
     barAnimationDelay = 3800,
     barWaiting = barAnimationDelay - 3000, //3000 is the duration of the transition on the loading bar - set in the scss/css file
     //letters effect
-    lettersDelay = 50,
-    //type effect
+    lettersDelay = 50,    //type effect
     typeLettersDelay = 150,
     selectionDuration = 500,
-    typeAnimationDelay = selectionDuration + 800,
-    //clip effect
+    typeAnimationDelay = selectionDuration + 800,    //clip effect
     revealDuration = 600,
     revealAnimationDelay = 1500;
 
@@ -161,22 +167,22 @@ Template.Home.onRendered(function () {
 
   function singleLetters($words) {
     $words.each(function () {
-      var word = $(this),
+      const word = $(this),
         letters = word.text().split(''),
         selected = word.hasClass('is-visible');
       for (i in letters) {
         if (word.parents('.rotate-2').length > 0) letters[i] = '<em>' + letters[i] + '</em>';
         letters[i] = (selected) ? '<i class="in">' + letters[i] + '</i>' : '<i>' + letters[i] + '</i>';
       }
-      var newLetters = letters.join('');
+      const newLetters = letters.join('');
       word.html(newLetters).css('opacity', 1);
     });
   }
 
   function animateHeadline($headlines) {
-    var duration = animationDelay;
+    let duration = animationDelay;
     $headlines.each(function () {
-      var headline = $(this);
+      const headline = $(this);
 
       if (headline.hasClass('loading-bar')) {
         duration = barAnimationDelay;
@@ -184,20 +190,19 @@ Template.Home.onRendered(function () {
           headline.find('.cd-words-wrapper').addClass('is-loading')
         }, barWaiting);
       } else if (headline.hasClass('clip')) {
-        var spanWrapper = headline.find('.cd-words-wrapper'),
-          newWidth = spanWrapper.width() + 10
+        const spanWrapper = headline.find('.cd-words-wrapper'),
+          newWidth = spanWrapper.width() + 10;
         spanWrapper.css('width', newWidth);
       } else if (!headline.hasClass('type')) {
         //assign to .cd-words-wrapper the width of its longest word
-        var words = headline.find('.cd-words-wrapper b'),
+        let words = headline.find('.cd-words-wrapper b'),
           width = 0;
         words.each(function () {
-          var wordWidth = $(this).width();
+          const wordWidth = $(this).width();
           if (wordWidth > width) width = wordWidth;
         });
         headline.find('.cd-words-wrapper').css('width', width);
       }
-      ;
 
       //trigger animation
       setTimeout(function () {
@@ -207,10 +212,10 @@ Template.Home.onRendered(function () {
   }
 
   function hideWord($word) {
-    var nextWord = takeNext($word);
+    const nextWord = takeNext($word);
 
     if ($word.parents('.cd-headline').hasClass('type')) {
-      var parentSpan = $word.parent('.cd-words-wrapper');
+      const parentSpan = $word.parent('.cd-words-wrapper');
       parentSpan.addClass('selected').removeClass('waiting');
       setTimeout(function () {
         parentSpan.removeClass('selected');
@@ -221,7 +226,7 @@ Template.Home.onRendered(function () {
       }, typeAnimationDelay);
 
     } else if ($word.parents('.cd-headline').hasClass('letters')) {
-      var bool = ($word.children('i').length >= nextWord.children('i').length) ? true : false;
+      const bool = ($word.children('i').length >= nextWord.children('i').length);
       hideLetter($word.find('i').eq(0), $word, bool, lettersDelay);
       showLetter(nextWord.find('i').eq(0), nextWord, bool, lettersDelay);
 
@@ -277,7 +282,7 @@ Template.Home.onRendered(function () {
     }
 
     if ($letter.is(':last-child') && $('html').hasClass('no-csstransitions')) {
-      var nextWord = takeNext($word);
+      const nextWord = takeNext($word);
       switchWord($word, nextWord);
     }
   }

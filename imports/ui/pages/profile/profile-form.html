@@ -11,109 +11,168 @@
 </template>
 
 <template name="UserFormSection">
-  <nav class="navbar navbar-light bg-faded m-b-1">
-    <span class="navbar-text text-xs-right text-muted">Participant <strong>#3</strong></span>
-  </nav>
 
   <form id="user_form">
 
-    <div class="user_form_carousel" data-flickity>
+    <nav class="m-b-1">
+      <div class="row">
+        <div class="col-md-4">
+          {{#if currentSlideIndex 1}}
+            <a href id="first" class="s-btn-empty-blue s-btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+              Profile</a>
+          {{/if}}
+          {{#if currentSlideIndex 2}}
+            <a href id="second" class="s-btn-empty-blue s-btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+              Activities</a>
+          {{/if}}
+        </div>
+        <div class="col-md-4 text-xs-center">
+          <span class="navbar-text text-muted"><strong>{{currentUser.profile.first_name}} {{currentUser.profile.last_name}}</strong>
+            – Step {{slideIndex}}/3</span>
+        </div>
+        <div class="col-md-4 text-xs-right">
+          {{#if currentSlideIndex 0}}
+            <a href id="second" class="s-btn-empty-blue s-btn-sm">Activities <i class="fa fa-arrow-right"
+                                                                                aria-hidden="true"></i></a>
+          {{/if}}
+          {{#if currentSlideIndex 1}}
+            <a href id="third" class="s-btn-empty-blue s-btn-sm">Others <i class="fa fa-arrow-right"
+                                                                           aria-hidden="true"></i></a>
+          {{/if}}
+          {{#if currentSlideIndex 2}}
+            <button type="submit" class="s-btn-empty-green s-btn-sm">
+              <i class="fa fa-check" aria-hidden="true"></i> Save
+            </button>
+          {{/if}}
+        </div>
+      </div>
+    </nav>
+
+    <div class="user_form_carousel text-xs-center" data-flickity>
       <div class="carousel-cell">
         <div class="row">
           <div class="col-md-4">
-            <div class="card card-block">
-              <h4 class="card-title">Personal</h4>
-              <hr>
-              <div class="form-group">
-                <input type="text" class="form-control" name="first_name"
-                       placeholder="First name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="last_name"
-                       placeholder="Last name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="email" placeholder="Email"
-                       aria-describedby="emailHelp">
-                <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock" aria-hidden="true"></i> We
-                  won't
-                  share it with anyone.
-                </small>
-              </div>
-              <div class="form-group">
-                <input type="number" class="form-control" name="phone" placeholder="Phone number">
-                <small id="emailHelp" class="form-text text-muted">In case of emergency.</small>
-              </div>
-              <hr>
-              <div class="form-group">
-                <input class="form-control" type="text" name="birth_country" placeholder="Country of birth">
-              </div>
-              <div class="form-group">
-                <input class="form-control" type="date" name="birth_date" id="birth_date">
-              </div>
-            </div>
-          </div>
+            <h4>Personal</h4>
+            <hr>
 
-          <div class="col-md-4">
-            <div class="card card-block">
-              <h4 class="card-title">Address</h4>
-              <hr>
-              <div class="form-group">
-                <input type="text" class="form-control" name="address"
-                       placeholder="Street and number">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="city" placeholder="City">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="province" placeholder="Province">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="zip" placeholder="ZIP">
-              </div>
-              <div class="form-group">
-                <input type="number" class="form-control" name="country" placeholder="Country">
+            <div class="sn-field">
+              <div class="sn-field-input-wrapper">
+                <label class="sn-field-label" for="first_name">First name</label>
+                <input placeholder="First name" class="sn-field-input" type="text"
+                       name="first_name" value="{{lp.first_name}}">
               </div>
             </div>
 
-            <div class="card card-block">
-              <div class="form-group">
-                <input type="text" class="form-control" name="Allergies"
-                       placeholder="Allergies">
-              </div>
-
-              <select class="form-control" id="t-shirt" name="t-shirt">
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-                <option value="extra-large">Extra Large</option>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="last_name"
+                     placeholder="Last name" value="{{lp.last_name}}">
+            </div>
+            <div class="form-group">
+              <select class="form-control s-input-select" id="university" name="university" value="{{lp.university}}">
+                <option value="Free University of Bolzano" selected>Free University of Bolzano</option>
+                <option value="Other">Other</option>
               </select>
             </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="email" placeholder="Email"
+                     aria-describedby="emailHelp" value="{{lp.email}}">
+              <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock" aria-hidden="true"></i> We
+                won't share it with anyone.
+              </small>
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control s-input" name="phone" placeholder="Phone number"
+                     value="{{lp.phone}}">
+              <small id="emailHelp" class="form-text text-muted">In case of emergency.</small>
+            </div>
+            <hr>
+            <div class="form-group">
+              <input class="form-control s-input" type="text" name="birth_country" placeholder="Country of birth"
+                     value="{{lp.birth.country}}">
+            </div>
+            <div class="form-group">
+              <input class="form-control s-input" type="date" name="birth_date" id="birth_date"
+                     value="{{lp.birth.date}}">
+            </div>
           </div>
 
           <div class="col-md-4">
+            <h4 class="card-title">Address</h4>
+            <hr>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="address"
+                     placeholder="Street and number" value="{{lp.info.address}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="city" placeholder="City" value="{{lp.info.city}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="province" placeholder="Province"
+                     value="{{lp.info.province}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="zip" placeholder="ZIP" value="{{lp.info.zip}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="country" placeholder="Country"
+                     value="{{lp.info.country}}">
+            </div>
+            <h4>Required documents</h4>
+            <hr>
+            <div class="form-group row">
+              <label for="personal_id" class="col-sm-5 col-form-label">Personal ID:</label>
+              <div class="col-sm-7">
+                {{#if lp.has_personal_id}}
+                  <img src="images/icons/success.svg" class="s-icon-2">
+                {{else}}
+                  <input type="file" name="personal_id" id="personal_id"
+                         class="form-control s-input-file s-btn-rounded"/>
+                  <label for="personal_id">Choose a file</label>
+                {{/if}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="student_id" class="col-sm-5 col-form-label">Student ID:</label>
+              <div class="col-sm-7">
+                <img src="images/icons/success.svg" class="s-icon-2">
+              </div>
+            </div>
+          </div>
 
-
-            <button type="button" class="btn btn-sm btn-secondary" data-toggle="button" aria-pressed="false"
-                    autocomplete="off">
-              Volleyball player <span class="tag tag-default text-xs-right">3/6</span>
-            </button>
+          <div class="col-md-4">
+            <h4 class="card-title">Bank info</h4>
+            <hr>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="beneficiary" placeholder="Beneficiary"
+                     value="{{lp.bank.beneficiary}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="iban" placeholder="IBAN" value="{{lp.bank.IBAN}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="bank_name" placeholder="Bank"
+                     value="{{lp.bank.name}}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control s-input" name="swift_bic" placeholder="SWIFT/BIC"
+                     value="{{lp.bank.swift_bic}}">
+            </div>
           </div>
         </div>
       </div>
-      <div class="carousel-cell" style="min-height: 654px">
+      <div class="carousel-cell carousel-cell-2">
         <div class="row">
           <div class="col-md-6">
-            <div class="card">
+            <div class="s-card">
+              <img class="card-img-top img-fluid" src="./images/profile/skiing.jpg">
               <div class="card-block">
                 <h4 class="card-title">Thursday</h4>
                 <h6 class="card-subtitle text-muted"><i class="fa fa-location-arrow" aria-hidden="true"></i> Obereggen
                 </h6>
-              </div>
-              <img src="images/skiing.jpg" class="img-fluid">
-              <div class="card-block">
+                <hr>
                 <div class="form-group">
-                  <select class="form-control" id="t_activity" name="t_activity">
+                  <select class="form-control s-input-select" id="t_activity" name="t_activity"
+                          value="{{lp.thursday.activity}}">
                     <option value="relax">Relax</option>
                     <option value="ski">Ski</option>
                     <option value="snowboard">Snowboard</option>
@@ -121,7 +180,8 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <select class="form-control" id="t_rental" name="t_rental">
+                  <select class="form-control s-input-select" id="t_rental" name="t_rental"
+                          value="{{lp.thursday.rental}}">
                     <option value="no_rental">No rental</option>
                     <option value="ski">Only Ski</option>
                     <option value="snowboard">Only Snowboard</option>
@@ -134,17 +194,17 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card">
+            <div class="s-card">
+              <img class="card-img-top img-fluid" src="./images/profile/sledging.jpg">
               <div class="card-block">
                 <h4 class="card-title">Friday</h4>
                 <h6 class="card-subtitle text-muted"><i class="fa fa-location-arrow" aria-hidden="true"></i> Val
                   D'Ultimo
                 </h6>
-              </div>
-              <img src="images/sledging.jpg" class="img-fluid">
-              <div class="card-block">
+                <hr>
                 <div class="form-group">
-                  <select class="form-control" id="f_activity">
+                  <select class="form-control s-input-select" id="f_activity" name="f_activity"
+                          value="{{lp.friday.activity}}">
                     <option value="relax">Relax</option>
                     <option value="ski race">Ski Race</option>
                     <option value="snowboard race">Snowboard Race</option>
@@ -152,13 +212,84 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <select class="form-control" id="f_rental" name="f_rental">
+                  <select class="form-control s-input-select" id="f_rental" name="f_rental"
+                          value="{{lp.friday.rental}}">
                     <option value="no_rental">No rental</option>
                     <option value="ski">Only Ski</option>
                     <option value="snowboard">Only Snowboard</option>
                     <option value="ski + boots">Ski + Boots</option>
                     <option value="snowboard + boots">Snowboard + Boots</option>
                     <option value="sledge">Sledge</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="f_race" value="{{lp.friday.race}}">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Race</span>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="f_course" value="{{lp.friday.course}}">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Course</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-cell carousel-cell-3">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="s-card">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card-block">
+                    <h4 class="card-title">Snow Volley</h4>
+                    <hr>
+                    <div class="form-group">
+                      <input maxlength="30" type="text" class="form-control s-input" name="sv_team_name"
+                             placeholder="Team name">
+                      <p class="form-text text-muted">Important for planning our meals!</p>
+                    </div>
+                    <div class="form-group">
+                      <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="is_volley_player"
+                               value="{{lp.is_volley_player}}">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Part of the team</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="s-card">
+              <img class="card-img-top img-fluid" src="./images/allergies.jpg">
+              <div class="card-block">
+                <h4 class="card-title">Food allergies</h4>
+                <hr>
+                <div class="form-group">
+                  <input maxlength="30" type="text" class="form-control s-input" name="food_allergies"
+                         placeholder="Milk, Eggs, Peanuts, ..." value="{{lp.food_allergies}}">
+                  <p class="form-text text-muted">Important for planning our meals!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="s-card">
+              <img class="card-img-top img-fluid p-a-1" src="./images/t-shirt.svg">
+              <div class="card-block">
+                <h4 class="card-title">T-Shirt size</h4>
+                <hr>
+                <div class="form-group">
+                  <select class="form-control s-input-select" name="t_shirt" value="{{lp.t_shirt}}">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                    <option value="extra-large">Extra Large</option>
                   </select>
                 </div>
               </div>
@@ -167,22 +298,6 @@
         </div>
       </div>
     </div>
-    <nav class="navbar navbar-light bg-faded">
-      <div class="row">
-        <div class="col-md-6">
-          <button class="btn btn-sm btn-secondary" type="button" id="profile">Profile</button>
-        </div>
-        <div class="col-md-6 text-xs-right">
-          {{#if isLastSlide}}
-            <button type="submit" class="btn btn-sm btn-success">
-              <i class="fa fa-check" aria-hidden="true"></i> Save
-            </button>
-          {{else}}
-            <button class="btn btn-sm btn-secondary" type="button" id="activities">Activities</button>
-          {{/if}}
-        </div>
-      </div>
-    </nav>
   </form>
 </template>
 
