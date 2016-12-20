@@ -8,7 +8,7 @@ Router.route('/files/:filename', function () {
   try {
     const file = fs.readFileSync(fullPath);
     const headers = {
-      'Content-type': 'application/pdf',
+      'Content-type': '*/*',
       'Content-Disposition': "inline; filename=" + this.params.filename
     };
 
