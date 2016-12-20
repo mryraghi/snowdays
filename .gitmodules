@@ -1,0 +1,3 @@
+[submodule "snowdays-ctrl"]
+	path = snowdays-ctrl
+	url = https://github.com/danielmorandini/snowdays-ctrl.git

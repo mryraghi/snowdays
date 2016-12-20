@@ -1,7 +1,7 @@
-import _ from 'lodash'
-
 Schema = {};
 Participants = new Mongo.Collection("participants");
+
+import _ from 'lodash'
 
 Schema.Participant = new SimpleSchema({
   _id: {
@@ -114,7 +114,7 @@ Schema.Friday = new SimpleSchema({
     type: Boolean,
     label: "Course",
     optional: true
-  },
+  }
 });
 
 Schema.Thursday = new SimpleSchema({

@@ -48,7 +48,7 @@ label {
 .sv_q_rating_item {
   @extend .btn;
   @extend .btn-secondary;
-  @extend .m-t-1
+  @extend .m-t-1 !optional;
 }
 
 .inputfile {

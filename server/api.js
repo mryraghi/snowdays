@@ -190,7 +190,7 @@ API.addCollection(Meteor.users, {
     },
     post: {
       action: function () {
-
+        return insert(Participants, this.bodyParams)
       }
     },
     delete: {}
@@ -215,7 +215,35 @@ API.addCollection(Participants, {
     },
     post: {
       action: function () {
-        return insert(Participants, this.bodyParams)
+        if (_.isUndefined(this.bodyParams._id) && _.isUndefined(this.bodyParams.owner))
+          return error('Either _id or owner must be defined');
+
+        // check if bodyParams is valid before inserting
+        let valid = Participants.simpleSchema().namedContext('API').validate(this.bodyParams);
+
+        // if not valid throw an error
+        if (!valid) return error('Body parameters are invalid, check collection\'s schema');
+
+        // check for owner existence
+        if (!_.isUndefined(this.bodyParams.owner)) {
+          let owner = Meteor.users.findOne({_id: this.bodyParams.owner});
+          if (_.isUndefined(owner)) return error('Owner field doesn\'t match any user');
+        }
+
+
+        let _id = Participants.insert(this.bodyParams, function (err) {
+          if (err) return error(error.message, error.code);
+        });
+
+        return result({_id: _id}, 201)
+      }
+    },
+    put: {
+      action: function () {
+        let params = this.bodyParams;
+        let _id = this.urlParams.id;
+
+        return Participants.update({_id: _id}, {$set: params})
       }
     }
   }
@@ -266,27 +294,16 @@ function find(collection, queryParams, _id) {
   }
 }
 
-function insert(collection, bodyParams) {
-  if (_.isUndefined(bodyParams._id) && _.isUndefined(bodyParams.owner))
-    return error('Either _id or owner must be defined');
-
-  // check if bodyParams is valid before inserting
-  let valid = Participants.simpleSchema().namedContext('API').validate(bodyParams);
-
-  // if not valid throw an error
-  if (!valid) return error('Body parameters not valid, check collection\'s schema');
-
-  let _id = Participants.insert(bodyParams, function (err) {
-    if (err) return error(error.message, error.code);
-  });
-
-  return result({_id: _id})
-}
-
-function result(data) {
+function result(data, code = 200) {
   return {
-    "status": "success",
-    "data": data
+    statusCode: code,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: {
+      "status": "error",
+      "data": data
+    }
   }
 }
 

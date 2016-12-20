@@ -1,7 +1,7 @@
 module.exports = {
   servers: {
     one: {
-      host: '138.68.66.74',
+      host: '138.68.104.17',
       username: 'root',
       // pem:
       password: 'rad3eDru9a'
@@ -25,8 +25,9 @@ module.exports = {
       serverOnly: true,
     },
     env: {
-      PORT: "3000",
-      ROOT_URL: 'http://138.68.66.74'
+      PORT: "3000", // port bind to the server
+      UPSTART_UID: "romeo", // The user you want to run meteor as.
+      ROOT_URL: 'http://138.68.104.17'
       // MONGO_URL: 'mongodb://localhost/meteor'
     },
 
