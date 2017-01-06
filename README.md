@@ -1,1 +1,1 @@
-![](https://www.snowdays.it/images/snowdays-header-logo.jpg)
+![](https://www.snowdays.it/public/header.jpg?q=static)
