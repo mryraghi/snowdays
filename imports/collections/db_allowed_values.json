@@ -1,0 +1,76 @@
+{
+  "participants": {
+    "gender": {
+      "M": "Male",
+      "F": "Female"
+    },
+    "day1": {
+      "activity": {
+        "relax": "Relax",
+        "ski": "Ski",
+        "snowboard": "Snowboard",
+        "sledging": "Sledging"
+      },
+      "rental": {
+        "no": "No",
+        "ski": "Only ski",
+        "ski boots": "Ski boots",
+        "ski + boots": "Ski + boots",
+        "snowboard": "Only Snowboard",
+        "snowboard boots": "Only snowboard boots",
+        "snowboard + boots": "Snowboard + boots",
+        "sledge": "Sledge"
+      }
+    },
+    "day2": {
+      "activity": {
+        "relax": "Relax",
+        "ski race": "Ski race",
+        "snowboard race": "Snowboard race",
+        "snowshoe hiking": "Snowshoe hiking"
+      },
+      "rental": {
+        "no": "No",
+        "ski": "Only ski",
+        "ski boots": "Ski boots",
+        "ski + boots": "Ski + boots",
+        "snowboard": "Only Snowboard",
+        "snowboard boots": "Only snowboard boots",
+        "snowboard + boots": "Snowboard + boots",
+        "snow rackets": "Snow rackets"
+      }
+    },
+    "foodAllergies": {
+      "None": "None"
+    },
+    "host": {
+      "info": {
+        "accommodation": {
+          "Univercity": "Univercity",
+          "Rigler": "Rigler"
+        }
+      }
+    },
+    "university": {
+      "UniBz": "Free University of Bolzano"
+    }
+  },
+  "common": {
+    "boolean": {
+      "true": "True",
+      "false": "False"
+    }
+  },
+  "users": {
+    "roles.0": {
+      "admin": "Admin",
+      "user": "User",
+      "unibz": "UniBz"
+    },
+    "profile": {
+      "university": {
+        "UniBz": "Free University of Bolzano"
+      }
+    }
+  }
+}

@@ -1,12 +1,17 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Romeo">
     <words>
+      <w>bcrypt</w>
+      <w>crypto</w>
       <w>enoent</w>
       <w>flickity</w>
       <w>iban</w>
       <w>keypress</w>
       <w>keyup</w>
+      <w>loggly</w>
       <w>onbeforeunload</w>
+      <w>subdomain</w>
+      <w>tshirt</w>
       <w>upsert</w>
     </words>
   </dictionary>

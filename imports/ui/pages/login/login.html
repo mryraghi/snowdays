@@ -1,71 +1,146 @@
 <head>
-  <link rel="stylesheet" href="/lib/stylesheets/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
 </head>
 
 <template name="LoginPage">
-  <a href="/"><i class="fa fa-chevron-left" aria-hidden="true"></i> Home</a>
-  <div class="row section-top-margin">
-    <div class="col-md-4 offset-md-4 text-xs-center">
-      {{> Template.dynamic template=tab}}
+  <div class="container">
+    <div class="row section-top-margin">
+      <div class="col-xs-12 col-md-4 offset-md-4 text-center">
+        {{> Template.dynamic template=tab}}
+      </div>
     </div>
   </div>
 </template>
 
-<template name="LoginSection">
-  <img src="/images/login/login.svg" class="m-x-auto d-block s-section-title">
-  <form class="login-form" id="login-form">
-    <div class="form-group">
-      <input type="text" name="username" class="form-control s-input" placeholder="Username">
+<template name="LoginUnibzSection">
+  <div class="animated fadeIn">
+    <div style="display:flex; flex-direction: column;">
+      <img src="/images/login.svg" class="sn-section-title">
+      <img src="/images/for_unibz.svg" class="sn-section-subtitle">
     </div>
-    <div class="form-group">
-      <input type="password" name="password" class="form-control s-input" placeholder="Password">
-    </div>
-    <button type="submit" class="s-btn-blue">️Login</button>
-    <button type="button" class="s-btn-empty switchButton">or register instead</button>
-  </form>
+    <form id="login-unibz-form">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="sn-field-group">
+            <input type="text" class="form-control sn-field-input" name="username" id="username" required>
+            <label for="username" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student ID</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="sn-field-group">
+            <input type="password" class="form-control sn-field-input" name="password" id="password" required>
+            <label for="password" class="sn-field-label"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Password</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" class="sn-btn-blue">️Login</button>
+          <button type="button" class="sn-btn-empty-blue switchButton">for externals</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 
-<template name="SignupSection">
-  <img src="/images/login/signup.svg" class="m-x-auto d-block section-image">
-  <form class="signup-form">
-    <div class="form-group">
+<template name="LoginExternalsSection">
+  <div class="animated fadeIn">
+    <div style="display:flex; flex-direction: column;">
+      <img src="/images/login.svg" class="sn-section-title">
+      <img src="/images/for_externals.svg" class="sn-section-subtitle">
+    </div>
+    <form id="login-externals-form">
       <div class="row">
-        <div class="col-xs-6">
-          <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name">
+        <div class="col-md-12">
+          <div class="sn-field-group">
+            <input type="text" class="form-control sn-field-input" name="username" id="username" required>
+            <label for="username" class="sn-field-label">Username</label>
+          </div>
         </div>
-        <div class="col-xs-6">
-          <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name">
-        </div>
-        <div class="form-control-feedback hidden" id="info_feedback">Please let us know who you are!</div>
       </div>
-    </div>
-    <div class="form-group">
-      <input type="text" id="username" name="username" class="form-control" placeholder="Username">
-      <div class="form-control-feedback hidden" id="username_feedback_1">Shit, that username's taken. Try another?</div>
-      <div class="form-control-feedback hidden" id="username_feedback_2">No username entered!</div>
-    </div>
-    <div class="form-group">
-      <input type="text" id="email" name="email" class="form-control" placeholder="Email">
-      <div class="form-control-feedback hidden" id="email_feedback_1">Damn, enter a valid email address!</div>
-      <div class="form-control-feedback hidden" id="email_feedback_2">No email address entered!</div>
-    </div>
-    <div class="form-group">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="sn-field-group">
+            <input type="password" class="form-control sn-field-input" name="password" id="password" required>
+            <label for="password" class="sn-field-label">Password</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" class="sn-btn-blue">️Login</button>
+          <button type="button" class="sn-btn-empty-blue switchButton">for unibz</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
 
-      <div class="row">
-        <div class="col-xs-6">
-          <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-        </div>
-        <div class="col-xs-6">
-          <input type="password" id="password_confirmation" name="password_confirmation" class="form-control"
-                 placeholder="Repeat Password">
-        </div>
-        <div class="form-control-feedback hidden" id="password_feedback_1">Shit, passwords don't match. Try again!</div>
-        <div class="form-control-feedback hidden" id="password_feedback_2">Empty password(s), no good!</div>
-      </div>
+<template name="CreateAdminSection">
+  <div class="animated fadeIn">
+    <div style="display:flex; flex-direction: column;">
+      <img src="/images/login.svg" class="sn-section-title">
+      <p>Admin</p>
     </div>
-    <button type="submit" class="s-btn-blue">Sign Up</button>
-    <button type="button" class="s-btn-empty switchButton">or login instead</button>
-  </form>
+    <form id="signup-admin-form">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="sn-field-group">
+            <input type="text" class="form-control sn-field-input" name="username" id="username" required>
+            <label for="username" class="sn-field-label">Username</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="sn-field-group">
+            <select class="sn-field-input sn-a-0" id="gender" name="gender" required>
+              <option selected disabled>Choose gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+            <label for="gender" class="sn-field-label">Gender</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="sn-field-group">
+            <input type="text" class="form-control sn-field-input" name="first_name" id="first_name" required>
+            <label for="first_name" class="sn-field-label">First name</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="sn-field-group">
+            <input type="text" class="form-control sn-field-input" name="last_name" id="last_name" required>
+            <label for="last_name" class="sn-field-label">Last name</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="sn-field-group">
+            <input type="password" class="form-control sn-field-input" name="password" id="password" required>
+            <label for="password" class="sn-field-label">Password</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="sn-field-group">
+            <input type="password" class="form-control sn-field-input" name="master_password" id="master_password"
+                   required>
+            <label for="master_password" class="sn-field-label">Master Password</label>
+          </div>
+        </div>
+      </div>
+      <div class="row m-t-1">
+        <div class="col-md-12">
+          <button type="submit" class="sn-btn-blue">Create user</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 
 <template name="Loading">

@@ -38,7 +38,7 @@
     margin: 0.5em 0 0 50%;
     font-size: 0.875em;
     line-height: 1.5em;
-    color: #8d3b3e;
+    color: #e74c3c;
     white-space: nowrap;
     -webkit-animation: loader-label 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
     -moz-animation: loader-label 1.15s infinite cubic-bezier(0.215, 0.61, 0.355, 1);

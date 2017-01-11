@@ -1,5 +1,7 @@
 {
   "public": {
-    "mode": "dev"
-  }
+    "mode": "dev",
+    "environment": "development"
+  },
+  "masterPassword": "rad3eDru9a"
 }

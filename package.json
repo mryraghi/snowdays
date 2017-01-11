@@ -6,22 +6,35 @@
     "api-doc": "apidoc -i /server/api/api.js -o ../snowdays-api"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
+    "babel-polyfill": "^6.20.0",
     "babel-runtime": "^6.18.0",
-    "bcrypt": "^0.8.7",
+    "base64url": "^2.0.0",
+    "bcrypt": "^1.0.2",
     "bootstrap": "^4.0.0-alpha.3",
     "chai": "^2.1.2",
     "chai-as-promised": "^6.0.0",
-    "chart.js": "^2.3.0",
+    "chart.js": "^2.4.0",
+    "clipboard": "^1.5.16",
+    "core-js": "^2.4.1",
+    "crypto-js": "^3.1.9-1",
     "flickity": "^2.0.4",
     "flickity-bg-lazyload": "^1.0.0",
-    "jsonwebtoken": "^7.1.9",
+    "jsonwebtoken": "^7.2.1",
     "lodash": "^4.16.6",
     "meteor-node-stubs": "~0.2.0",
     "moment": "^2.15.1",
+    "papaparse": "^4.1.2",
+    "randomcolor": "^0.4.4",
+    "raven": "^1.1.1",
+    "simpl-schema": "0.0.4",
     "survey-knockout": "^0.10.1",
     "sweetalert2": "^4.1.5"
   },
   "devDependencies": {
     "minami": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=7.3.0"
   }
 }

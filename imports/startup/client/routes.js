@@ -1,44 +1,65 @@
 import '/imports/ui/pages/home'
 import '/imports/ui/pages/login'
+import '/imports/ui/pages/admin'
 import '/imports/ui/pages/profile'
 import '/imports/ui/pages/participant'
-import '/imports/ui/layouts'
-
+import '/imports/ui/pages/errors/404/not_found'
 
 const jwt = require('jsonwebtoken');
 
 Router.route('/', {
   name: 'Home',
-  template: 'Home',
-  layoutTemplate: 'HomeLayout'
+  template: 'Home'
 });
 
 Router.route('/login', {
   name: 'Login',
   template: 'LoginPage',
-  layoutTemplate: 'LoginLayout',
   onBeforeAction: function () {
     const user = Meteor.user();
-    if (!_.isNull(Meteor.userId())) {
-      // if not logged in redirect to login
-      this.redirect('/' + user.username);
+    console.log(user);
+    if (user) {
+      // if admin redirect to admin
+      if (Roles.userIsInRole(user, 'admin'))
+        this.redirect('/admin/' + user.username);
+
+      // if user redirect to user
+      if (Roles.userIsInRole(user, 'user'))
+        this.redirect('/user/' + user.username);
     }
 
     this.next()
   }
 });
 
-Router.route('/:username', {
+Router.route('/user/:username', {
   template: 'ProfilePage',
-  layoutTemplate: 'DefaultLayout',
   onBeforeAction: function () {
     const user = Meteor.user();
-    if (_.isNull(Meteor.userId())) {
+    if (!user) {
       // if not logged in redirect to login
       Router.go('Login');
+    } else if (user && Roles.userIsInRole(user, 'admin')) {
+      this.redirect('/admin/' + user.username)
     } else if (user && !_.isEqual(user.username, this.params.username)) {
-      // redirect to current user's profile
-      this.redirect('/' + user.username)
+      this.redirect('/user/' + user.username)
+    }
+
+    this.next()
+  }
+});
+
+Router.route('/admin/:username', {
+  template: 'AdminPage',
+  onBeforeAction: function () {
+    const user = Meteor.user();
+    if (!user) {
+      // if not logged in redirect to login
+      Router.go('Login');
+    } else if (user && Roles.userIsInRole(user, 'user')) {
+      this.redirect('/user/' + user.username)
+    } else if (user && !_.isEqual(user.username, this.params.username)) {
+      this.redirect('/admin/' + user.username)
     }
 
     this.next()
@@ -47,24 +68,9 @@ Router.route('/:username', {
 
 Router.route('/token/:token', {
   template: 'ParticipantPage',
-  layoutTemplate: 'DefaultLayout',
-  subscriptions: function () {
-    // returning a subscription handle or an array of subscription handles
-    // adds them to the wait list.
-
-    let decoded = jwt.verify(this.params.token, 'secret');
-    return this.subscribe('singlePublicParticipant', decoded._id);
-  },
   data: function () {
-    let decoded = jwt.verify(this.params.token, 'secret');
-    let participant = Participants.findOne({_id: decoded._id});
-    // Not Valid/Valid cambia in modo irregolare
     return {
-      isValidID: !!(this.ready() && participant),
-      // token: jwt.sign({_id: 't4qD9ADQfRGfCcu6J'}, 'secret')
-      _id: decoded._id
-
-      /** Missing callback */
+      token: this.params.token
     };
   }
 });

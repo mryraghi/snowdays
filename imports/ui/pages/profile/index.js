@@ -1,53 +1,22 @@
-import './profile.html'
-import './profile-form.html'
-import './profile-form'
 import moment from 'moment'
 import Survey from 'survey-knockout'
+import Participants from '/imports/collections/participants'
+import Surveys from '/imports/collections/surveys'
+
+import './profile.html'
+import './user-form'
+import './participants-table'
+import '/imports/ui/components/loader/loader'
 
 Template.ProfilePage.onCreated(function () {
   // subscribe as soon the template is created
-  this.subscribe("currentUserData");
-  this.subscribe("allowedParticipantsData");
+  this.subscribe("users.current");
 
-
-  // set default tab to 'login'
-  this.currentTab = new ReactiveVar("AddNewSection");
-
-
-  // if (user) {
-  //   // Drift Chat
-  //   !function () {
-  //     var t;
-  //     if (t = window.driftt = window.drift = window.driftt || [], !t.init) return t.invoked ? void (window.console && console.error && console.error("Drift snippet included twice.")) : (t.invoked = !0,
-  //       t.methods = ["identify", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
-  //       t.factory = function (e) {
-  //         return function () {
-  //           var n;
-  //           return n = Array.prototype.slice.call(arguments), n.unshift(e), t.push(n), t;
-  //         };
-  //       }, t.methods.forEach(function (e) {
-  //       t[e] = t.factory(e);
-  //     }), t.load = function (t) {
-  //       var e, n, o, r;
-  //       e = 3e5, r = Math.ceil(new Date() / e) * e, o = document.createElement("script"),
-  //         o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + r + "/" + t + ".js",
-  //         n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
-  //     });
-  //   }();
-  //   drift.SNIPPET_VERSION = '0.2.0';
-  //   drift.load('u9x8a6i34wih');
-  //
-  //   drift.identify(this.userID, {
-  //     name: user.profile.first_name + ' ' + user.profile.last_name,
-  //     email: user.emails[0].address
-  //   });
-  // }
+  // set default tab
+  Session.set('tab', {name: 'ParticipantsTableSection'})
 
 });
 
-Template.ProfilePage.onRendered(function () {
-
-});
 
 Template.ProfilePage.events({
 
@@ -58,25 +27,25 @@ Template.ProfilePage.events({
     })
   },
 
-  'click .go-to-section': (event, template) => {
+  'click .sn-menu-item': (event, template) => {
     switch (event.currentTarget.id) {
       case 'home':
-        template.currentTab.set('HomeSection');
+        Session.set('tab', {name: 'HomeSection'});
         break;
       case 'profile':
-        template.currentTab.set('ProfileSection');
+        Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()});
         break;
       case 'participants':
-        template.currentTab.set('ParticipantsSection');
+        Session.set('tab', {name: 'ParticipantsTableSection'});
         break;
       case 'faq':
-        template.currentTab.set('FaqSection');
+        Session.set('tab', {name: 'FaqSection'});
         break;
-      case 'add':
-        template.currentTab.set('AddNewSection');
+      case 'add_new':
+        Session.set('tab', {name: 'UserFormSection'});
         break;
       case 'survey':
-        template.currentTab.set('SurveySection');
+        Session.set('tab', {name: 'SurveySection'});
         break;
     }
   }
@@ -85,11 +54,19 @@ Template.ProfilePage.events({
 
 Template.ProfilePage.helpers({
   tab: function () {
-    return Template.instance().currentTab.get();
+    return Session.get('tab').name;
   },
   survey: function () {
     const user = Meteor.user();
     if (user) return !user.survey
+  },
+  lp: function () {
+    return Participants.findOne({_id: Meteor.userId()})
+  },
+  isActive: function (section) {
+    let tab = Session.get('tab');
+    if (_.isEqual(tab.name, section) && (_.isUndefined(tab._id) || _.isEqual(tab._id, Meteor.userId())))
+      return 'sn-menu-item-active'
   }
 });
 
@@ -114,19 +91,11 @@ Template.HomeSection.helpers({
   }
 });
 
-Template.registerHelper('n_participants', () => {
-  const user = Meteor.user();
-
-  // owner field must exists and be equal to its owner's _id
-  if (user) return Participants.find({owner: {$exists: true, $eq: this.userId}}).count()
-});
-
-
 Template.SurveySection.onRendered(function () {
   // Survey.Survey.cssType = "bootstrap";
   const survey = new Survey.Survey(
     {
-      completedHtml: "<p class=\"text-success m-t-1 text-xs-center\"><i class=\"fa fa-check\" aria-hidden=\"true\"></i> Thank you, your efforts are greatly appreciated.</p>",
+      completedHtml: "<h6 class=\"text-success m-y-1 text-xs-center\">Thank you, your efforts are greatly appreciated.</h6>",
       pages: [
         {
           name: "page1",
@@ -135,7 +104,7 @@ Template.SurveySection.onRendered(function () {
               type: "rating",
               isRequired: true,
               name: "experience",
-              title: "How would you rate your experience with SnowDays' website?"
+              title: "How would you rate your experience with Snowdays' website?"
             }
           ]
         },
@@ -155,7 +124,7 @@ Template.SurveySection.onRendered(function () {
             {
               type: "comment",
               name: "suggestions",
-              title: "Do you have any other suggestion, comments, or requests for SnowDays?"
+              title: "Do you have any other website-related suggestion or comments to give?"
             }
           ]
         }
@@ -164,15 +133,15 @@ Template.SurveySection.onRendered(function () {
     });
 
   survey.css = {
-    root: "s-card card-block",
+    root: "",
     rating: {root: "btn-group btn-group-sm"},
     error: {
       root: "text-danger",
       icon: "fa fa-times"
     },
-    comment: "form-control",
-    navigationButton: "s-btn-empty-blue s-btn-sm m-t-1 m-r-1",
-    navigation: {complete: "s-btn-empty-green s-btn-sm"},
+    comment: "sn-field-textarea",
+    navigationButton: "sn-btn-empty-blue sn-btn-sm m-t-1 m-r-1",
+    navigation: {complete: "sn-btn-empty-green sn-btn-sm"},
     text: "form-control"
   };
 

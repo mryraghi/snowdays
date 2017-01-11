@@ -1,14 +1,41 @@
+<head>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <title>Snowdays</title>
+</head>
+
 <template name="ParticipantPage">
-  <br>
-  <div class="text-xs-center">
-    {{#if isValidID}}
-      <div class="alert alert-success" role="alert">
-        <strong>Valid token: </strong> <code> {{_id}}</code>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 offset-md-4 my-3 text-xs-center">
+        <img src="/images/snowdays-logo.svg" class="sn-logo">
       </div>
-    {{else}}
-      <div class="alert alert-danger" role="alert">
-        <strong>Invalid token!</strong>
-      </div>
-    {{/if}}
+    </div>
+    <div class="row animated fadeIn">
+      {{#if Template.subscriptionsReady}}
+        {{#if validCookie}}
+          <div class="col-md-12 mb-1">
+            <nav class="navbar navbar-light bg-faded">
+              <a class="navbar-brand" href="#">Navbar</a>
+            </nav>
+          </div>
+          {{> UserFormSection}}
+        {{else}}
+          <div class="col-md-4 offset-lg-4">
+            <form id="password_verification_form">
+              <p>Please enter the password the contact person gave you.</p>
+              <div class="sn-field-group">
+                <input type="password" class="sn-field-input" name="password" id="password" required>
+                <label for="password" class="sn-field-label">Password</label>
+              </div>
+              <button type="submit" class="sn-btn-outline-blue">
+                <i class="fa fa-check" aria-hidden="true"></i> Enter
+              </button>
+            </form>
+          </div>
+        {{/if}}
+      {{else}}
+        {{> Loader}}
+      {{/if}}
+    </div>
   </div>
 </template>

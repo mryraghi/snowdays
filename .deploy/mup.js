@@ -1,17 +1,16 @@
 module.exports = {
   servers: {
     one: {
-      host: '138.68.104.17',
-      username: 'root',
-      // pem:
-      password: 'rad3eDru9a'
-      // or leave blank for authenticate from ssh-agent
+      host: '138.68.93.206',
+      username: 'team'
     }
   },
 
-  "ssl": {
-    "pem": "./ssl.pem"
+  ssl: {
+    pem: "./ssl.pem"
   },
+
+  "appName": "snowdays",
 
   meteor: {
     name: 'snowdays',
@@ -20,19 +19,17 @@ module.exports = {
       one: {}
     },
     buildOptions: {
-      // build with the debug mode on
-      debug: true,
       serverOnly: true,
     },
-    env: {
-      PORT: "3000", // port bind to the server
-      UPSTART_UID: "romeo", // The user you want to run meteor as.
-      ROOT_URL: 'http://138.68.104.17'
-      // MONGO_URL: 'mongodb://localhost/meteor'
+    "env": {
+      "PORT": "8000", // port bind to the 404
+      "UPSTART_UID": "team", // The user you want to run meteor as.
+      "ROOT_URL": 'https://maintenance.snowdays.it',
+      "MONGO_URL": 'mongodb://localhost/meteor'
     },
 
     dockerImage: 'abernix/meteord:base',
-    deployCheckWaitTime: 60
+    deployCheckWaitTime: 45
   },
 
   mongo: {

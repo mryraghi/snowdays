@@ -1,0 +1,1 @@
+import './admin.settings.html'

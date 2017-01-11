@@ -1,3 +1,7 @@
+import Participants from '/imports/collections/participants'
+import IDs from '/imports/collections/ids'
+import Surveys from '/imports/collections/surveys'
+
 Meteor.users.allow({
   insert: function (userId, doc) {
     return true
@@ -42,7 +46,7 @@ Surveys.allow({
     return true
   },
   update: function (userId, doc, fieldNames, modifier) {
-    return !!(Roles.userIsInRole(userId, ['contact-person']))
+    return true
   },
   remove: function (userId, doc) {
     return true

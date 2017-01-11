@@ -1,0 +1,309 @@
+<template name="UserFormSection">
+  <div class="row animated fadeIn">
+    <div class="col-md-12">
+      <form id="user_form">
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Personal</h4>
+            <hr>
+            <div class="row">
+              <div class="col-6">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="first_name" id="first_name"
+                         value="{{lp.firstName}}"
+                         required>
+                  <label for="first_name" class="sn-field-label">First name</label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="last_name" id="last_name" value="{{lp.lastName}}"
+                         required>
+                  <label for="last_name" class="sn-field-label">Last name</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="sn-field-group">
+                  <select class="sn-field-input sn-a-0" id="gender" name="gender"
+                          required>
+                    {{#if lp.gender}}
+                      <option disabled>Choose gender</option>
+                    {{else}}
+                      <option selected disabled>Choose gender</option>
+                    {{/if}}
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                  </select>
+                  <label for="gender" class="sn-field-label">Gender</label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="sn-field-group">
+                  <input class="form-control sn-field-input" type="date" name="birth_date" id="birth_date"
+                         value="{{lp.birth.date}}">
+                  <label for="birth_date" class="sn-field-label">Birth date</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="birth_country" id="birth_country"
+                     value="{{lp.birth.country}}"
+                     required>
+              <label for="birth_country" class="sn-field-label">Birth country</label>
+            </div>
+
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="university" name="university"
+                      required>
+                {{#if lp.university}}
+                  <option disabled>Choose university</option>
+                {{else}}
+                  <option selected disabled>Choose university</option>
+                {{/if}}
+                <option value="UniBz">Free University of Bolzano</option>
+                <option value="WHU">WHU</option>
+              </select>
+              <label for="university" class="sn-field-label">University</label>
+            </div>
+
+            <h4 class="card-title">Contact</h4>
+            <hr>
+
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}"
+                     required>
+              <label for="phone" class="sn-field-label">Phone</label>
+            </div>
+
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}"
+                     required>
+              <label for="email" class="sn-field-label">Email</label>
+              <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock" aria-hidden="true"></i> We
+                won't share it with anyone.
+              </small>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <h4 class="card-title">Address</h4>
+            <hr>
+            <div class="row">
+              <div class="col-8">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="street" id="street" required
+                         value="{{lp.info.street}}">
+                  <label for="street" class="sn-field-label">Street</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="sn-field-group">
+                  <input type="number" class="sn-field-input" name="number" id="number" required
+                         value="{{lp.info.number}}">
+                  <label for="number" class="sn-field-label">#</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="city" id="city" required
+                         value="{{lp.info.city}}">
+                  <label for="city" class="sn-field-label">City</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="sn-field-group">
+                  <input type="number" class="sn-field-input" name="zip" id="zip" required
+                         value="{{lp.info.zip}}">
+                  <label for="zip" class="sn-field-label">ZIP</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="province" id="province" required
+                         value="{{lp.info.province}}">
+                  <label for="province" class="sn-field-label">Province</label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="country" id="country" required
+                         value="{{lp.info.country}}">
+                  <label for="country" class="sn-field-label">Country</label>
+                </div>
+              </div>
+            </div>
+            <h4>Preferences</h4>
+            <hr>
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                {{#if lp.tshirt}}
+                  <option disabled>Choose size</option>
+                {{else}}
+                  <option selected disabled>Choose size</option>
+                {{/if}}
+                <option value="S">Small</option>
+                <option value="M">Medium</option>
+                <option value="L">Large</option>
+                <option value="XL">Extra Large</option>
+              </select>
+              <label for="tshirt" class="sn-field-label">T-shirt</label>
+            </div>
+
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
+                     value="{{lp.foodAllergies}}" required>
+              <label for="food_allergies" class="sn-field-label">Food allergies</label>
+              <small class="form-text text-muted">Separate with commas, set 'None' otherwise.</small>
+            </div>
+
+            <h4>Documents</h4>
+            <hr>
+            <div class="sn-field-group">
+              {{#if lp.hasPersonalID}}
+                <p class="animated fadeIn"><i class="fa fa-check" aria-hidden="true"></i> Personal ID</p>
+              {{else}}
+                {{#with currentUpload}}
+                  <p class="loader-label">Uploading...</p>
+                {{else}}
+                  <input type="file" name="has_personal_id" id="has_personal_id"
+                         class="form-control sn-input-file sn-btn-rounded"/>
+                  <label for="has_personal_id"><b>Personal ID</b>: choose a file</label>
+                {{/with}}
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <h4 class="card-title">Activities</h4>
+            <hr>
+            <h4 class="sn-card-subtitle text-muted">
+              Day 1 @ Obereggen
+            </h4>
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="d1_activity" name="d1_activity">
+                {{#if lp.day1.activity}}
+                  <option disabled>Choose activity</option>
+                {{else}}
+                  <option selected disabled>Choose activity</option>
+                {{/if}}
+                <option value="relax">Relax</option>
+                <option value="ski">Ski</option>
+                <option value="snowboard">Snowboard</option>
+                <option value="sledging">Sledging</option>
+              </select>
+              <label for="d1_activity" class="sn-field-label">Activity</label>
+            </div>
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="d1_rental" name="d1_rental">
+                {{#if lp.day1.rental}}
+                  <option disabled>Choose rental option</option>
+                {{else}}
+                  <option selected disabled>Choose rental option</option>
+                {{/if}}
+                <option value="no">No</option>
+                <option value="ski">Only skis</option>
+                <option value="ski boots">Only ski boots</option>
+                <option value="ski + boots">Ski + boots</option>
+                <option value="snowboard">Only snowboard</option>
+                <option value="snowboard boots">Only snowboard boots</option>
+                <option value="snowboard + boots">Snowboard + boots</option>
+                <option value="sledge">Sledge</option>
+              </select>
+              <label for="d1_rental" class="sn-field-label">Rental</label>
+            </div>
+
+            <hr>
+            <h4 class="sn-card-subtitle text-muted">
+              Day 2 @ Val D'Ultimo
+            </h4>
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="d2_activity" name="d2_activity">
+                {{#if lp.day2.activity}}
+                  <option disabled>Choose activity</option>
+                {{else}}
+                  <option selected disabled>Choose activity</option>
+                {{/if}}
+                <option value="relax">Relax</option>
+                <option value="ski race">Ski race</option>
+                <option value="snowboard race">Snowboard race</option>
+                <option value="snowshoe hiking">Snowshoe hiking</option>
+              </select>
+              <label for="d2_activity" class="sn-field-label">Activity</label>
+            </div>
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="d2_rental" name="d2_rental">
+                {{#if lp.day2.rental}}
+                  <option disabled>Choose activity</option>
+                {{else}}
+                  <option selected disabled>Choose activity</option>
+                {{/if}}
+                <option value="no">No</option>
+                <option value="ski">Only skis</option>
+                <option value="ski boots">Only ski boots</option>
+                <option value="ski + boots">Ski + boots</option>
+                <option value="snowboard">Only snowboard</option>
+                <option value="snowboard boots">Only snowboard boots</option>
+                <option value="snowboard + boots">Snowboard + boots</option>
+                <option value="snow rackets">Snow rackets</option>
+              </select>
+              <label for="d2_rental" class="sn-field-label">Rental</label>
+            </div>
+            <div class="form-group">
+              <label class="custom-control custom-checkbox">
+                {{#if lp.day2.course}}
+                  <input type="checkbox" class="custom-control-input" name="d2_course" checked>
+                {{else}}
+                  <input type="checkbox" class="custom-control-input" name="d2_course">
+                {{/if}}
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Free ski course</span>
+              </label>
+            </div>
+
+            <hr>
+            <h4 class="sn-card-subtitle text-muted">
+              Day 3 @ Canazei
+            </h4>
+            <div class="sn-field-group">
+              <div>
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.isVolleyPlayer}}
+                    <input type="checkbox" class="custom-control-input" name="is_volley_player" checked>
+                  {{else}}
+                    <input type="checkbox" class="custom-control-input" name="is_volley_player">
+                  {{/if}}
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Part of Snow Volley's team</span>
+                </label>
+              </div>
+              <div>
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.isFootballPlayer}}
+                    <input type="checkbox" class="custom-control-input" name="is_football_player" checked>
+                  {{else}}
+                    <input type="checkbox" class="custom-control-input" name="is_football_player">
+                  {{/if}}
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Part of Human Football Table's team</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nav class="m-b-1 text-right">
+          <button type="submit" class="sn-btn-green">
+            <i class="fa fa-check" aria-hidden="true"></i> Save
+          </button>
+        </nav>
+      </form>
+    </div>
+  </div>
+</template>
