@@ -1,70 +1,47 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
+  <title>Snowdays</title>
+</head>
+
 <template name="Home">
-  <header class="cd-auto-hide-header">
-    <!--<div class="logo"><a href="#0"><img src="/images/home/snowdays-logo.svg"></a></div>-->
-
-    <nav class="cd-primary-nav">
-      <a href="#cd-navigation" class="nav-trigger"><span><em aria-hidden="true"></em></span></a>
-
-      <ul id="cd-navigation">
-        <li><a href="#0">The team</a></li>
-        <li><a href="#0">Sponsors</a></li>
-        <li><a href="#0">Media</a></li>
-        <li><a href="/login">Login</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!--<section class="s-h-landing">-->
-    <!--<div class="cd-hero-content">-->
-      <!--<section class="cd-intro">-->
-        <!--<h1 class="cd-headline letters type">-->
-          <!--<span>SnowDays is</span>-->
-          <!--<span class="cd-words-wrapper waiting">-->
-            <!--<b class="is-visible">a party</b>-->
-            <!--<b>fun</b>-->
-            <!--<b>a competition</b>-->
-          <!--</span>-->
-        <!--</h1>-->
-      <!--</section>-->
-    <!--</div>-->
-  <!--</section>-->
-
-  <main class="cd-main-content sub-nav-hero">
-    <section id="s-section-1">
-      <div class="content-wrapper">
-        <img src="images/unibz.svg" id="s-logo">
-        <!--<img src="images/white-logo.png" style="height: 250px;">-->
-        <img src="/images/home/snowdays-white-no_snowflake.png" id="s-title">
-        <h6 id="s-subtitle">Europe's biggest winter sport event organised by students for students!</h6>
+  <div class="container-fluid" style="height: 100%;">
+    <div class="row" style="height: 100%;">
+      <div class="col-12">
+        <img src="images/unibz.svg" id="s-logo" class="mt-2">
+      </div>
+      <div class="col-12 d-flex flex-column justify-content-center align-items-center" id="section-1">
+        <img src="images/snowdays-white-no_snowflake1.svg" id="s-title">
+        <h6 id="s-subtitle" class="mb-2">Europe's biggest winter sport event organised by students for students!</h6>
         <h6 id="s-date">9-10-11 March 2017</h6>
-
         <div class="s-button-flex">
-          <a class="s-button" href="/files/Snowdays-Sponsors-EN-WEB.jpg" target="_blank">Discover&nbsp;&nbsp;
+          <a href="/public/Snowdays-Sponsors-EN-WEB.jpg" target="_blank">Discover&nbsp;&nbsp;
             <img draggable="false" class="s-flag" id="flag-it" src="images/flag_en.svg"></a>
-          <a class="s-button" href="/files/Snowdays-Sponsors-IT-WEB.jpg" target="_blank">
+          <a href="/public/Snowdays-Sponsors-IT-WEB.jpg" target="_blank">
             <img draggable="false" class="s-flag" id="flag-it" src="images/flag_it.svg"></a>
-          <a class="s-button" href="/files/Snowdays-Sponsors-DE-WEB.jpg" target="_blank">
+          <a href="/public/Snowdays-Sponsors-DE-WEB.jpg" target="_blank">
             <img draggable="false" class="s-flag" id="flag-it" src="images/flag_de.svg"></a>
         </div>
+        <div class="s-button-flex mt-2">
+          <a href="/login"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i> Login</a>
+        </div>
+        <img src="images/divider.png" id="s-divider">
       </div>
-    </section>
-
-    <section id="section2" class="s-section" style="background: blue">
-      <div class="content-wrapper">
-        <p>2</p>
+    </div>
+    <div class="row">
+      <div class="col-12" id="section-2">
+        <a href="https://www.facebook.com/Snowdays.Bolzano/"><img class="s-icon" src="images/facebook.svg"></a>
+        <a href="https://www.instagram.com/snowdays.bolzano/"><img class="s-icon" src="images/instagram.svg"></a>
+        <a href="https://vimeo.com/bolzanosnowdays"><img class="s-icon" src="images/vimeo.svg"></a>
+        <img class="s-icon" src="images/snapchat.svg">
       </div>
-    </section>
-
-    <section id="section3" class="s-section" style="background: green">
-      <div class="content-wrapper">
-        <p>3</p>
-      </div>
-    </section>
-
-    <section id="section4" class="s-section" style="background: yellow">
-      <div class="content-wrapper">
-        <p>4</p>
-      </div>
-    </section>
-  </main>
+    </div>
+    <!--<div class="row">-->
+    <!--<div class="col-12 text-center" style="height: 50px;">-->
+    <!--<p>Developed with <img draggable="false" class="emoji" src="https://twemoji.maxcdn.com/2/72x72/1f496.png"> by <a-->
+    <!--href="https://it.linkedin.com/in/romeobellon">Romeo Bellon</a></p>-->
+    <!--</div>-->
+    <!--</div>-->
+  </div>
 </template>

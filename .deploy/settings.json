@@ -2,9 +2,10 @@
   "public": {
     "environment": "production"
   },
-  "masterPassword": "rad3eDru9a",
+    "masterPassword": "dt84s1tw*$ZZKu5M9Uvt",
   "kadira": {
     "appId": "yqKvb9M7we2AY95dd",
     "appSecret": "3195592d-02a8-4f35-943a-f940d5d3e2e2"
-  }
+  },
+  "storagePath": "images/uploads/"
 }

@@ -1,41 +1,80 @@
 <head>
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <title>Snowdays</title>
+  <title>Fuck you</title>
 </head>
 
 <template name="ParticipantPage">
   <div class="container">
     <div class="row">
-      <div class="col-md-4 offset-md-4 my-3 text-xs-center">
+      <div class="col-12 mt-5 mb-5 text-center">
         <img src="/images/snowdays-logo.svg" class="sn-logo">
       </div>
     </div>
-    <div class="row animated fadeIn">
-      {{#if Template.subscriptionsReady}}
-        {{#if validCookie}}
-          <div class="col-md-12 mb-1">
-            <nav class="navbar navbar-light bg-faded">
-              <a class="navbar-brand" href="#">Navbar</a>
-            </nav>
+    {{#if Template.subscriptionsReady}}
+      {{#if complete}}
+        <div class="row mt-5">
+          <div class="col-12 text-center">
+            <h4><i class="fa fa-check" aria-hidden="true"></i> Congratulations!</h4>
+            <p><strong>Your information have been successfully saved.</strong><br>
+              Now lean back and enjoy the <strong>new</strong> promo video and last year's aftermovie!</p>
+            <div class="row mt-5">
+              <div class="col">
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&show_text=0"
+                          allowfullscreen class="embed-responsive-item"></iframe>
+                </div>
+              </div>
+              <div class="col">
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe src="https://player.vimeo.com/video/163717461" class="embed-responsive-item"
+                          allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{else}}
+        {{#if $or loggedIn validToken}}
+          <div class="row mb-5">
+            <div class="col-12">
+              <ul class="nav justify-content-center flex-column flex-md-row text-center">
+                <li class="sn-menu-item nav-item">
+                  <p class="nav-link" href><i class="fa fa-university" aria-hidden="true">
+                  </i> University: <strong>{{owner.profile.university}}</strong>
+                  </p>
+                </li>
+                <li class="sn-menu-item nav-item">
+                  <p class="nav-link" href><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    {{#if validToken}}Contact person: {{/if}}
+                    <strong>{{owner.profile.firstName}} {{owner.profile.lastName}}</strong></p>
+                </li>
+                {{#if loggedIn}}
+                  <li class="sn-menu-item nav-item clearfix">
+                    <a class="nav-link" href id="sn-logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                  </li>
+                {{/if}}
+              </ul>
+            </div>
           </div>
           {{> UserFormSection}}
         {{else}}
-          <div class="col-md-4 offset-lg-4">
-            <form id="password_verification_form">
-              <p>Please enter the password the contact person gave you.</p>
-              <div class="sn-field-group">
-                <input type="password" class="sn-field-input" name="password" id="password" required>
-                <label for="password" class="sn-field-label">Password</label>
-              </div>
-              <button type="submit" class="sn-btn-outline-blue">
-                <i class="fa fa-check" aria-hidden="true"></i> Enter
-              </button>
-            </form>
+          <div class="row animated fadeIn mt-5">
+            <div class="col-md-4 offset-lg-4">
+              <form id="password_verification_form">
+                <p>Please enter the password the contact person gave you.</p>
+                <div class="sn-field-group">
+                  <input type="password" class="sn-field-input" name="password" id="password" required>
+                  <label for="password" class="sn-field-label">Password</label>
+                </div>
+                <button type="submit" class="sn-btn-outline-blue float-right">
+                  <i class="fa fa-check" aria-hidden="true"></i> Enter
+                </button>
+              </form>
+            </div>
           </div>
         {{/if}}
-      {{else}}
-        {{> Loader}}
       {{/if}}
-    </div>
+    {{else}}
+      {{> Loader}}
+    {{/if}}
   </div>
 </template>

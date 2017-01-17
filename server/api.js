@@ -104,7 +104,7 @@ let API = new Restivus({
  */
 
 /**
- * @api {get} /:collection?fields=profile&pageNumber=2&nPerPage=5 Get all
+ * @api {get} /:collection Get all
  * @apiName Get all
  * @apiGroup Collections
  * @apiVersion 0.0.1
@@ -114,6 +114,7 @@ let API = new Restivus({
  * @apiHeader {String} X-User-Id User's '_id'
  *
  * @apiParam (URL parameters) {String} [fields='all'] Dictionary of fields to return
+ * @apiParam (URL parameters) {String} [value] Value to be matched with the first field provided
  * @apiParam (URL parameters) {String} [pageNumber='1'] Number of results to skip at the beginning
  * @apiParam (URL parameters) {String} [nPerPage] Maximum number of results to return
  *
@@ -456,7 +457,7 @@ let API = new Restivus({
     type: Date,
     defaultValue: new Date()
   },
-  profile: {
+  externals: {
     type: Schema.UserProfile
   },
   roles: {
@@ -470,7 +471,7 @@ let API = new Restivus({
  */
 
 /**
- * @api {get} /:collection/:id/?fields=profile&pageNumber=2&nPerPage=5 Get one
+ * @api {get} /:collection/:id/?fields=externals&pageNumber=2&nPerPage=5 Get one
  * @apiName Get one
  * @apiGroup Collections
  * @apiVersion 0.0.1
@@ -810,20 +811,29 @@ function find(collection, queryParams, _id) {
   const req_fields = queryParams.fields || 'all';
   const req_pageNumber = _.toInteger(queryParams.pageNumber);
   const req_nPerPage = _.toInteger(queryParams.nPerPage);
+  let req_value = queryParams.value;
 
   // returned object
   let obj;
 
+  // removes white spaces and parses fields into array
+  const params = req_fields.replace(" ", "").split(',');
+
+  // parse value
+  if (_.isNumber(req_value)) req_value = _.toInteger(req_value);
+  if (req_value === 'true') req_value = true;
+  if (req_value === 'false') req_value = false;
+
   // check whether all or just few fields are requested
   if (_.isEqual(req_fields, 'all')) {
-    return collection.find().fetch()
+    return res(collection.find().fetch())
+  } else if (!_.isUndefined(req_value)) {
+    const query = {};
+    query[params[0]] = req_value;
+    return res(collection.find(query).fetch())
   } else {
-
     // calculates how many documents to skip
     const skip = req_pageNumber > 0 ? ((req_pageNumber - 1) * req_nPerPage) : 0;
-
-    // removes white spaces and parses fields into array
-    const params = req_fields.replace(" ", "").split(',');
 
     // map array to 'key: 1' in obj
     const fields = _.zipObject(params, _.map(params, function () {

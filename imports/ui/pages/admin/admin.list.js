@@ -2,11 +2,11 @@ import './admin.list.html'
 import Participants from '/imports/collections/participants'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
-import {deepFlatten, deepPick, deepFind} from '/lib/js/utilities'
+import {deepPick, deepFind} from '/lib/js/utilities'
 
 let fields = require('/imports/collections/db_allowed_values.json');
 
-const participantsIndices = {'firstName': 1, 'lastName': 1};
+const participantsIndices = {'statusComplete': 1, 'firstName': 1, 'lastName': 1};
 
 const usersIndices = {'username': 1, 'profile.firstName': 1, 'profile.lastName': 1, 'roles': 1};
 
@@ -37,9 +37,13 @@ client.on('error', function (e) {
 
 Template.AdminListSection.onCreated(function () {
 
+  // template instance
   let template = Template.instance();
 
   template.flattenedFields = new ReactiveVar(participantsIndices);
+  template.limit = new ReactiveVar(5);
+  template.skip = new ReactiveVar(0);
+  template.count = new ReactiveVar(0);
 
   template.collection = new ReactiveVar({
     name: 'participants',
@@ -53,13 +57,17 @@ Template.AdminListSection.onCreated(function () {
   // this.subscribe("users.current");
   this.autorun(() => {
     let collection = template.collection.get();
+    let limit = template.limit.get();
+    let skip = template.skip.get();
 
-    $.when(setSubscription(collection.filters, collection.searchQuery, collection.flattened)).done(function (options) {
+    $.when(setSubscription(collection.name, collection.filters, collection.searchQuery, collection.flattened, limit, skip)).done(function (options) {
       Meteor.subscribe(collection.name + ".all", options, () => {
-        console.log(Participants.find().fetch());
-        setTimeout(() => {
-          generateTable(template, options);
-        }, 300);
+        Meteor.call(collection.name + '.count', function (error, count) {
+          template.count.set(count);
+          setTimeout(() => {
+            generateTable(template, options);
+          }, 300);
+        });
       });
     })
   });
@@ -95,6 +103,10 @@ Template.AdminListSection.events({
       })
     }
 
+    // reset skip and limit
+    template.skip.set(0);
+    template.limit.set(5);
+
     // reset search input
     $('#search').val('')
   },
@@ -109,8 +121,6 @@ Template.AdminListSection.events({
 
     // deep find in object, returns values allowed
     let allowed = deepFind(fields[collection], value) || deepFind(fields['common'], value) || deepFind(fields['common'], 'boolean');
-
-    console.log(value, fields[collection], deepFind(fields[collection], value.toString()));
 
     createOptionChildren(allowed, 'select_value');
   },
@@ -127,25 +137,33 @@ Template.AdminListSection.events({
     let operation = event.target.operation.value;
     let value = event.target.select_value.value;
     let currentFilters = collection.filters;
+    let flattened = collection.flattened;
 
-    console.log(field, operation, value);
+    if (!_.isEqual(field, 'Field') && !_.isEqual(value, 'Value')) {
 
+      // _.zipObject returns an object composed from key-value pairs
+      if (_.isEqual(operation, 'e'))
+        newFilter = _.zipObject([field], [{$eq: value}]);
+      else
+        newFilter = _.zipObject([field], [{$ne: value}]);
 
-    // _.zipObject returns an object composed from key-value pairs
-    if (_.isEqual(operation, 'e'))
-      newFilter = _.zipObject([field], [{$eq: value}]);
-    else
-      newFilter = _.zipObject([field], [{$ne: value}]);
+      currentFilters.push(newFilter);
+      flattened[field] = 1;
 
-    currentFilters.push(newFilter);
+      // reset skip
+      template.skip.set(0);
 
-    template.collection.set({
-      name: collection.name,
-      instance: collection.instance,
-      flattened: collection.flattened,
-      searchQuery: collection.searchQuery,
-      filters: currentFilters
-    });
+      template.collection.set({
+        name: collection.name,
+        instance: collection.instance,
+        flattened: flattened,
+        searchQuery: collection.searchQuery,
+        filters: currentFilters
+      });
+
+      // Clear form
+      template.find("#add_filter_form").reset();
+    }
   },
 
   /**
@@ -153,12 +171,15 @@ Template.AdminListSection.events({
    */
   'click #sn-delete-filter': (event, template) => {
     // get filter index
-    let index = $(event.target).parent().attr("value");
+    let index = $(event.target).attr("name");
     let collection = template.collection.get();
     let currentFilters = collection.filters;
 
     // remove from array at index
     _.pullAt(currentFilters, [index]);
+
+    // reset skip
+    template.skip.set(0);
 
     // update reactive variable
     template.collection.set({
@@ -168,6 +189,7 @@ Template.AdminListSection.events({
       searchQuery: collection.searchQuery,
       filters: currentFilters
     });
+
   },
 
   /**
@@ -270,13 +292,16 @@ Template.AdminListSection.events({
         },
         preConfirm: function () {
           return new Promise(function (resolve) {
-            $.when(setSubscription(collection.filters, collection.searchQuery, collection.flattened)).done(function (options) {
+            swal.resetDefaults();
+            // limit, skip = whatever since is not considered in the server route
+            $.when(setSubscription(collection.name, collection.filters, collection.searchQuery, collection.flattened, 0, 0)).done(function (options) {
+              options['collection'] = collection.name;
               options['filename'] = filename;
               options['download'] = download;
               let encoded = jwt.sign(options, 'secret', {expiresIn: 60});
               Meteor.setTimeout(function () {
                 Router.go('/csv/' + encoded);
-              }, 300)
+              }, 300);
             })
           })
         }
@@ -285,13 +310,15 @@ Template.AdminListSection.events({
 
     swal.queue(steps).then(function () {
       console.log('steps');
-      swal.resetDefaults()
+      // TODO: exit dialog before downloading
     })
   },
 
   'click #sn-delete-entry': function (event, template) {
-    let _id = $(event.target).parent().attr("name");
+    let _id = $(event.target).attr("name");
     let collection = template.collection.get();
+    let limit = template.limit.get();
+    let skip = template.skip.get();
 
     swal({
       title: 'Are you sure?',
@@ -304,25 +331,51 @@ Template.AdminListSection.events({
     }).then(function () {
       Meteor.call(collection.name + '.remove', _id, function (error, result) {
         if (error) swal('Error', error.message, 'error');
-        else if (_.isEqual(0, result)) swal('Warning', 'Participant not removed!', 'warning');
+        else if (_.isEqual(0, result)) swal('Warning', 'Object in ' + collection.name + ' not removed!', 'warning');
         else {
-          generateTable(template)
+          $.when(setSubscription(collection.name, collection.filters, collection.searchQuery, collection.flattened, limit, skip)).done(function (options) {
+            generateTable(template, options);
+          })
         }
       })
     });
-  }
+  },
+
+  'click #sn-icon-edit': function (event, template) {
+    let _id = $(event.target).attr("name");
+
+    Session.set('_id', _id);
+    Session.set('tab', 'UserFormSection');
+  },
+
+  'change #limit_field': function (event, template) {
+    let value = event.target.value;
+
+    // update reactive variable
+    template.limit.set(value);
+
+    // reset skip
+    template.skip.set(0)
+  },
+
+  'click .pagination_item': function (event, template) {
+    let value = event.target.name;
+    let limit = template.limit.get();
+    let skip = template.skip.get();
+
+    template.skip.set((value - 1) * limit)
+  },
 
 });
 
 Template.AdminListSection.helpers({
-  count: function (selector) {
+  countText: function (selector) {
     let collection = Template.instance().collection.get();
-    let options = setSubscription(collection.filters, collection.searchQuery, collection.flattened);
+    let count = Template.instance().count.get();
 
     switch (selector) {
       case 'results':
-        let query = collection.instance.find(options.query, options.query).count();
-        return query + (query > 1 ? ' participants' : ' participant');
+        return count + (count == 1 ? ' match' : ' matches');
         break;
       case 'filters':
         return _.size(collection.filters) || '0';
@@ -335,11 +388,23 @@ Template.AdminListSection.helpers({
     }
   },
 
-  listIsEmpty: function () {
+  count: function (selector) {
     let collection = Template.instance().collection.get();
-    $.when(setSubscription(collection.filters, collection.searchQuery, collection.flattened)).done(function (options) {
-      return _.isEqual(collection.instance.find(options.query, {fields: options.fields}).count(), 0)
-    });
+    let count = Template.instance().count.get();
+
+    switch (selector) {
+      case 'results':
+        return count;
+        break;
+      case 'filters':
+        return _.size(collection.filters) || 0;
+        break;
+      case 'fields':
+        return _.size(collection.flattened) || 0;
+        break;
+      default:
+        return '@'
+    }
   },
 
   filtersList: function () {
@@ -347,7 +412,7 @@ Template.AdminListSection.helpers({
   },
 
   query: function () {
-    return Template.instance().collection.get().searchQuery || 'Search first name and last name';
+    return Template.instance().collection.get().searchQuery || 'Search first and last name';
   },
 
   isCollection: function (collection) {
@@ -382,14 +447,22 @@ function createOptionChildren(values, selectName) {
 
 function generateTable(template, options) {
   let collection = template.collection.get();
-  let list = collection.instance.find().fetch();
+  let collCount = collection.instance.find(options.query, {fields: options.fields}).count();
+  let list = collection.instance.find(options.query, {fields: options.fields}).fetch();
   let schema = collection.instance.simpleSchema();
+  let count = template.count.get();
+  let limit = template.limit.get();
+  let skip = template.skip.get();
+  let n_pages = Math.ceil(count / limit);
 
   let table = $('#participants_table');
   let tableHead = table.find('thead');
   let tableBody = table.find('tbody');
+
+  let pagination = $('#participants_pagination');
+
   let flattened = {};
-  let count = 0;
+  let index = 0;
 
   // set select value
   $('#collection_select').val(collection.name);
@@ -400,6 +473,7 @@ function generateTable(template, options) {
   // remove all
   tableHead.children().remove();
   tableBody.children().remove();
+
 
   // HEADER
   tableHead.append("<tr>");
@@ -414,31 +488,55 @@ function generateTable(template, options) {
   tableHead.append("</tr>");
 
   // BODY
-  _.forEach(list, function (row) {
-    tableBody.append("<tr class='animated fadeIn'>");
 
-    // count column
-    tableBody.append("<th class='animated fadeIn' scope=\"row\">" + ++count + "</th>");
+  // if subscription return 0 objects then
+  // do not event generate the table
+  if (!_.isEqual(collCount, 0)) {
+    _.forEach(list, function (row) {
+      tableBody.append("<tr class='animated fadeIn'>");
 
-    _.forEach(flattened, function (value, key) {
-      let cell = deepFind(row, key);
-      tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
+      // count column
+      tableBody.append("<th class='animated fadeIn' scope=\"row\">" + ++index + "</th>");
+
+      _.forEach(flattened, function (value, key) {
+        let cell = deepFind(row, key);
+        tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
+      });
+
+
+      tableBody.append(
+        // "<a class='sn-tooltip' href title='See history'>" +
+        // "<img src='/images/icons/timer.svg' class='sn-icon-1' id='sn-icon-copy'> " +
+        // "</a> " +
+        "<td class='animated fadeIn'>" +
+
+          // edit button only if participants
+        (_.isEqual(collection.name, 'participants') ? "" +
+          "<a class='sn-tooltip' href title='Edit' id='sn-icon-edit' name=" + deepFind(row, '_id') + ">" +
+          "<img src='/images/icons/editing.svg' class='sn-icon-1'></a>" : "") +
+
+        "<a class='sn-tooltip' href title='Remove' id='sn-delete-entry' name=" + deepFind(row, '_id') + "> " +
+        "<img src='/images/icons/tool.svg' class='sn-icon-1'> " +
+        "</a></td></tr>");
+
+      // PAGINATION
+      pagination.children().remove();
+
+      pagination.append("<li class='page-item " + (_.isEqual(skip, 0) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + (skip / limit) + " href tabindex='-1'>Previous</a></li>");
+
+      for (let i = 1; i < n_pages + 1; i++) {
+        pagination.append("<li class='page-item " + (_.isEqual((skip / limit) + 1, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+      }
+
+      pagination.append("<li class='page-item " + (_.isEqual((skip / limit) + 1, n_pages) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + ((skip / limit) + 2) + " href>Next</a></li>");
+
     });
+  } else {
+    tableBody.append("<tr class='animated fadeIn'><td colspan=" + (2 + _.size(flattened)) + "><em>0 matches</em></td></tr>");
 
-    tableBody.append("<td class='animated fadeIn'>" +
-      "<a class='sn-tooltip' href title='Edit'>" +
-      "<img src='/images/icons/editing.svg' class='sn-icon-1' id='sn-icon-edit'> " +
-      "</a>" +
-      "<a class='sn-tooltip' href title='See history'>" +
-      "<img src='/images/icons/timer.svg' class='sn-icon-1' id='sn-icon-copy'> " +
-      "</a> " +
-      "<a class='sn-tooltip' href title='Remove' name=" + deepFind(row, '_id') + "> " +
-      "<img src='/images/icons/tool.svg' class='sn-icon-1' id='sn-delete-entry'> " +
-      "</a>" +
-      "</td>");
-    tableBody.append("</tr>");
-  });
-
+    // PAGINATION
+    pagination.children().remove();
+  }
   setCheckboxes(template);
 }
 
@@ -447,13 +545,12 @@ function setCheckboxes(template) {
 
   _.forEach(flattened, function (value, key) {
     let id = key.replace(/\./g, '_');
-    // console.log(id);
 
     $('#' + id).prop('checked', true);
   });
 }
 
-function setSubscription(filters, search, flattened) {
+function setSubscription(name, filters, search, flattened, limit, skip) {
   let query = {};
 
   _.forEach(filters, function (filter) {
@@ -463,18 +560,17 @@ function setSubscription(filters, search, flattened) {
   if (search) {
     query['$or'] = [];
 
-    _.forEach(flattened, function (value, key) {
-      // let field = {};
-      // field[key] = search;
-      // return query['$or'].push(field)
+    _.forEach(fields.indices[name], function (key) {
       let field = {};
       field[key] = {$regex: search, $options: "i"};
-      return query['$or'].push(field)
+      query['$or'].push(field)
     });
   }
 
   return {
     "query": query,
-    "fields": flattened || {}
+    "fields": flattened || {},
+    "limit": _.toNumber(limit),
+    "skip": _.toNumber((search ? 0 : skip))
   }
 }

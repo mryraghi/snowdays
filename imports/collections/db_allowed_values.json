@@ -62,7 +62,7 @@
     }
   },
   "users": {
-    "roles.0": {
+    "roles": {
       "admin": "Admin",
       "user": "User",
       "unibz": "UniBz"
@@ -70,7 +70,15 @@
     "profile": {
       "university": {
         "UniBz": "Free University of Bolzano"
+      },
+      "gender": {
+        "M": "Male",
+        "F": "Female"
       }
     }
+  },
+  "indices": {
+    "participants": ["firstName", "lastName"],
+    "users": ["profile.firstName", "profile.lastName", "username"]
   }
 }

@@ -8,9 +8,8 @@
   "dependencies": {
     "animate.css": "^3.5.2",
     "babel-polyfill": "^6.20.0",
-    "babel-runtime": "^6.18.0",
+    "babel-runtime": "^6.20.0",
     "base64url": "^2.0.0",
-    "bcrypt": "^1.0.2",
     "bootstrap": "^4.0.0-alpha.3",
     "chai": "^2.1.2",
     "chai-as-promised": "^6.0.0",
@@ -27,7 +26,7 @@
     "papaparse": "^4.1.2",
     "randomcolor": "^0.4.4",
     "raven": "^1.1.1",
-    "simpl-schema": "0.0.4",
+    "simpl-schema": "^0.1.0",
     "survey-knockout": "^0.10.1",
     "sweetalert2": "^4.1.5"
   },

@@ -12,12 +12,14 @@ Meteor.methods({
     let user = Meteor.user();
     let allowed = Roles.userIsInRole(user._id, 'external');
 
+    console.log('allowed', allowed, this.userId);
+
     if (allowed) {
-      if (!_.isUndefined(user.profile.token))
-        throw new Meteor.Error('participants.insert', 'Undefined token');
+      if (_.isUndefined(user.profile) || _.isUndefined(user.profile.token))
+        throw new Meteor.Error('participants.insert', 'Token not found in user\'s schema');
 
       // double check that limit has not been reached
-      let count = Participants.find({_id: {$ne: Meteor.userId()}}).count();
+      let count = Participants.find({_id: {$ne: this.userId}}).count();
 
       // could be moved elsewhere
       if (_.isEqual(count, Meteor.user().profile.allowedParticipants))
@@ -34,8 +36,10 @@ Meteor.methods({
 
       // add properties to participant's object
       participant._id = _id;
-      participant.token = base64url.encode(encrypted.toString());
+      participant['token'] = base64url.encode(encrypted.toString());
     }
+
+    // TODO: check with schema
 
     // insert participant
     return Participants.insert(participant);
@@ -46,7 +50,13 @@ Meteor.methods({
     });
   },
   'participants.remove': function (_id) {
+    let relatedUser = Meteor.users.find({_id: _id});
+    if (relatedUser) Meteor.users.remove({_id: _id});
     return Participants.remove(_id);
+  },
+
+  'participants.count': function () {
+    return Participants.find().count()
   },
 
   // users
@@ -67,6 +77,8 @@ Meteor.methods({
     }
   },
   'users.remove': function (_id) {
+    let relatedParticipant = Participants.find({_id: _id});
+    if (relatedParticipant) Participants.remove({_id: _id});
     return Meteor.users.remove(_id);
   },
   'users.update': function (user) {
@@ -87,6 +99,10 @@ Meteor.methods({
       Roles.addUsersToRoles(_id, role)
     }
 
+  },
+
+  'users.count': function () {
+    return Meteor.users.find().count()
   },
 
   // handle tokens

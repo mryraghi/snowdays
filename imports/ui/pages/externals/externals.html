@@ -1,0 +1,136 @@
+<head>
+  <title>Snowdays</title>
+</head>
+
+<template name="ExternalsPage">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 my-5 text-center">
+        <img src="/images/snowdays-logo.svg" class="sn-logo">
+      </div>
+    </div>
+
+    {{#if Template.subscriptionsReady}}
+      <div class="row animated fadeIn">
+        <div class="col-md-2 text-center mb-2">
+          {{#if gender 'M'}}
+            <img src="/images/icons/skier.svg" class="c-img-big-2 animated fadeIn">
+          {{else}}
+            <img src="/images/icons/snowboarder.svg" class="c-img-big-2 animated fadeIn">
+          {{/if}}
+          <h5>{{currentUser.profile.firstName}} {{currentUser.profile.lastName}}</h5>
+          <p class="text-muted">{{currentUser.username}}</p>
+
+          <ul class="list-unstyled">
+            <li class="sn-menu-item {{isActive 'HomeSection'}}" id="home"><a href>home</a></li>
+            <li class="sn-menu-item {{isActive 'UserFormSection'}}" id="profile"><a href>my profile</a></li>
+            <li class="sn-menu-item {{isActive 'ParticipantsTableSection'}}" id="participants">
+              <a href>participants</a>
+            </li>
+            <li class="sn-menu-item {{isActive 'FaqSection'}}" id="faq"><a href>FAQ</a></li>
+          </ul>
+
+          {{#if survey}}
+            <div class="sn-card-orange card-block card-outline-warning">
+              <img src="/images/icons/survey.svg" class="c-img-big text-center m-b-2">
+              <p class="c-text-13 card-text">
+                Please complete this <a href class="card-link go-to-section text-warning" id="survey">
+                <strong>quick survey</strong></a> to help us improve our work.
+              </p>
+            </div>
+          {{/if}}
+
+
+          <hr>
+          <button class="sn-btn-empty" id="logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></button>
+        </div>
+        <div class="col-md-10">
+          {{> Template.dynamic template=tab}}
+        </div>
+      </div>
+    {{else}}
+      {{> Loader}}
+    {{/if}}
+  </div>
+</template>
+
+<template name="HomeSection">
+  <div class="row animated fadeIn">
+    <div class="col-md-8">
+      <div class="card">
+
+        <div class="card-block">
+          <h4 class="card-title">Profile</h4>
+          <h6 class="card-subtitle text-muted">Member since {{moment currentUser.createdAt 'Do MMMM YYYY'}}</h6>
+        </div>
+
+        <div class="card-block">
+          <ul class="list-unstyled">
+            <li>Info 1</li>
+            <li>Info 2</li>
+            <li>Info 3</li>
+            <li>Info 4</li>
+          </ul>
+          <a href="#" class="card-link">View complete profile</a>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+      <div class="card">
+
+        <div class="card-block">
+          <h4 class="card-title">Participants</h4>
+          <h6 class="card-subtitle text-muted m-b-1">
+            [2/{{a_participants}}]</h6>
+          <progress class="progress progress-striped {{progress 2 a_participants}}"
+                    value="2" max="{{a_participants}}"></progress>
+
+          <p class="card-text">List of participants you have already added. </p>
+
+          <a href="#" class="card-link">Add new one</a>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <div class="card-block">
+          <h4 class="card-title">Stats</h4>
+          <h6 class="card-subtitle text-muted m-b-1">Your University</h6>
+
+          <p class="card-text">List of participants you have already added. </p>
+          <a href="#" class="card-link">Add new one</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="SurveySection">
+  <div id="website-survey" class="animated fadeIn"></div>
+  <p class="text-xs-center text-muted"><i class="fa fa-lock" aria-hidden="true"></i> Your feedback will be sent
+    anonymously.</p>
+</template>
+
+<template name="FaqSection">
+  <p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+       aria-controls="collapseExample">
+      Link with href
+    </a>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+      Button with data-target
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-block">
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim
+      keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+    </div>
+  </div>
+</template>

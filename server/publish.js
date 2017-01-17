@@ -24,13 +24,12 @@ Meteor.publish('participants.all.related', function () {
 });
 
 Meteor.publish('participants.all', function (options) {
-  // console.log(options);
-  return Participants.find(options.query, {fields: options.fields})
+  return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
 });
 
 Meteor.publish('users.all', function (options) {
-  console.log(options);
-  return Meteor.users.find(options.query, {fields: options.fields})
+  // console.log(options);
+  return Meteor.users.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
 });
 
 Meteor.publish('stats.users.all', function () {
@@ -41,6 +40,10 @@ Meteor.publish('stats.users.all', function () {
 Meteor.publish('stats.participants.all', function () {
   // console.log(Participants.find().fetch());
   return Participants.find()
+});
+
+Meteor.publish('users.one.strict', function (_id) {
+  return Meteor.users.find({_id: _id}, {fields: {'profile.firstName': 1, 'profile.lastName': 1, 'profile.university': 1}})
 });
 
 

@@ -38,3 +38,7 @@ Template.registerHelper("objectToPairs", function (array) {
 
   return result
 });
+
+Template.registerHelper('$or', function (a, b) {
+  return a || b;
+});

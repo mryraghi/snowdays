@@ -65,6 +65,12 @@ Schemas.Day2 = new SimpleSchema({
     defaultValue: false,
     label: "Day 2 course",
     optional: true
+  },
+  meal1: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Meal 1",
+    optional: true
   }
 });
 
@@ -79,6 +85,18 @@ Schemas.Day3 = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
     label: "Day 3 Bus 2",
+    optional: true
+  },
+  meal1: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 3) Meal 1",
+    optional: true
+  },
+  meal2: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 3) Meal 2",
     optional: true
   }
 });
@@ -99,7 +117,7 @@ Schemas.Info = new SimpleSchema({
   },
   number: {
     type: String,
-    max: 30,
+    max: 10,
     optional: true
   },
   city: {
@@ -132,14 +150,17 @@ Schemas.Host = new SimpleSchema({
   },
   firstName: {
     type: String,
+    label: '[H] First name',
     optional: true
   },
   lastName: {
     type: String,
+    label: '[H] Last name',
     optional: true
   },
   info: {
     type: Schemas.Info,
+    label: '[H] ',
     optional: true
   }
 });
@@ -313,6 +334,11 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true
   },
+  hasAcceptedTandC: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
   createdAt: {
     type: Date,
     defaultValue: new Date(),
@@ -380,6 +406,11 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
 
   // check if hasPersonalID
   if (!(doc['hasPersonalID'] || $set['hasPersonalID'])) {
+    result = false
+  }
+
+  // check if hasStudentID
+  if (!(doc['hasStudentID'] || $set['hasStudentID'])) {
     result = false
   }
 

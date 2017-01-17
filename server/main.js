@@ -32,7 +32,7 @@ Accounts.onCreateUser(function (options, user) {
     }
   }
 
-  // adds profile
+  // adds externals
   if (options.profile) user.profile = options.profile;
 
   return user;

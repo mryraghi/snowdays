@@ -6,7 +6,8 @@ import Flickity from 'flickity'
 Template.AdminAddNewSection.onRendered(function () {
   let flkty = new Flickity('#admin_add_new_carousel', {
     accessibility: false,
-    draggable: false
+    draggable: false,
+    pageDots: false
   });
 });
 
@@ -20,9 +21,8 @@ Template.AdminAddNewSection.events({
     let lastName = target.last_name.value;
     let studentID = target.student_id.value;
     let gender = target.gender.value;
+    let password = target.password.value || Math.random().toString(36).slice(-8);
 
-    // generate password
-    let password = Math.random().toString(36).slice(-8);
 
     let user = {
       username: studentID,
@@ -62,12 +62,11 @@ Template.AdminAddNewSection.events({
     let lastName = target.last_name.value;
     let university = target.university.value;
     let gender = target.gender.value;
+    let n_participants = target.n_participants.value;
+    let password = target.password.value || Math.random().toString(36).slice(-8);
 
     // generate username
     let username = _.toLower(firstName + '.' + lastName);
-
-    // generate password
-    let password = Math.random().toString(36).slice(-8);
 
     let user = {
       username: username,
@@ -78,6 +77,7 @@ Template.AdminAddNewSection.events({
         university: university,
         gender: gender
       },
+      allowedParticipants: n_participants,
       createParticipant: true
     };
 

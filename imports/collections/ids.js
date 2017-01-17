@@ -3,9 +3,9 @@ import SimpleSchema from 'simpl-schema';
 
 //noinspection JSAnnotator
 const IDs = new FilesCollection({
-  storagePath: 'images/uploads',
+  storagePath: Meteor.settings.storagePath + 'ids',
   // To preserve files in development mode store them outside of the Meteor application, e.g. /data/Meteor/uploads/
-  downloadRoute: 'images/uploads/',
+  downloadRoute: '/ids/',
   chunkSize: 1024 * 2048,
   throttle: 1024 * 512,
   permissions: 0755,
@@ -16,10 +16,10 @@ const IDs = new FilesCollection({
     return 'Upload is still in progress! Upload will be aborted if you leave this page!';
   },
   onBeforeUpload: function (file) {
-    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.ext)) {
+    if (file.size <= 1048576 && /png|jpg|jpeg/i.test(file.ext)) {
       return true;
     } else {
-      return 'Please upload image, with size equal or less than 10MB';
+      return 'Please upload image, with size equal or less than 1MB';
     }
   },
   downloadCallback: function (fileObj) {

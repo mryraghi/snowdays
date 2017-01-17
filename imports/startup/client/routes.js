@@ -1,11 +1,11 @@
 import '/imports/ui/pages/home'
 import '/imports/ui/pages/login'
 import '/imports/ui/pages/admin'
-import '/imports/ui/pages/profile'
+import '/imports/ui/pages/externals'
 import '/imports/ui/pages/participant'
 import '/imports/ui/pages/errors/404/not_found'
 
-const jwt = require('jsonwebtoken');
+import _ from 'lodash'
 
 Router.route('/', {
   name: 'Home',
@@ -17,22 +17,25 @@ Router.route('/login', {
   template: 'LoginPage',
   onBeforeAction: function () {
     const user = Meteor.user();
-    console.log(user);
     if (user) {
-      // if admin redirect to admin
+      // ADMIN
       if (Roles.userIsInRole(user, 'admin'))
         this.redirect('/admin/' + user.username);
 
-      // if user redirect to user
-      if (Roles.userIsInRole(user, 'user'))
-        this.redirect('/user/' + user.username);
+      // EXTERNAL
+      if (Roles.userIsInRole(user, 'external'))
+        this.redirect('/external/' + user.username);
+
+      // UNIBZ
+      if (Roles.userIsInRole(user, 'unibz'))
+        Router.go('ParticipantPage');
     }
 
     this.next()
   }
 });
 
-Router.route('/user/:username', {
+Router.route('/external/:username', {
   template: 'ProfilePage',
   onBeforeAction: function () {
     const user = Meteor.user();
@@ -41,8 +44,11 @@ Router.route('/user/:username', {
       Router.go('Login');
     } else if (user && Roles.userIsInRole(user, 'admin')) {
       this.redirect('/admin/' + user.username)
+    } else if (user && Roles.userIsInRole(user, 'external')) {
+      this.redirect('/external/' + user.username);
+      // TODO: check here
     } else if (user && !_.isEqual(user.username, this.params.username)) {
-      this.redirect('/user/' + user.username)
+      this.redirect('/external/' + user.username)
     }
 
     this.next()
@@ -57,7 +63,7 @@ Router.route('/admin/:username', {
       // if not logged in redirect to login
       Router.go('Login');
     } else if (user && Roles.userIsInRole(user, 'user')) {
-      this.redirect('/user/' + user.username)
+      this.redirect('/external/' + user.username)
     } else if (user && !_.isEqual(user.username, this.params.username)) {
       this.redirect('/admin/' + user.username)
     }
@@ -66,11 +72,23 @@ Router.route('/admin/:username', {
   }
 });
 
-Router.route('/token/:token', {
+Router.route('/participant', {
+  name: 'ParticipantPage',
   template: 'ParticipantPage',
+  onBeforeAction: function () {
+    let user = Meteor.user();
+    if (!user && !this.params.query.token) {
+      // if not logged in redirect to login
+      Router.go('Login');
+    } else if (user && this.params.query.token) {
+      // if both aren't undefined then logout and proceed
+      Meteor.logout()
+    }
+    this.next()
+  },
   data: function () {
     return {
-      token: this.params.token
+      token: this.params.query.token || ''
     };
   }
 });

@@ -1,0 +1,388 @@
+<template name="UserFormSection">
+  <div class="row animated fadeIn">
+    <div class="col-md-12">
+      {{#if filling}}
+        <div class="row">
+          <div class="col-12">
+            <h4>Letter of Agreement</h4>
+            <p>
+              The undersigned, participant at “Bolzano Snowdays” from 9th to 11th March 2017, declares to release the
+              organisers from any liability towards the undersigned and from any responsibility regarding potential
+              casualties suffered or a damage inflicted to a third party in the exercise of the activities of the
+              whole sports event.
+            </p>
+            <h5>Legal aspects</h5>
+            <p>
+              During the whole event, if I willingly or grossly negligently damage anything I will be held responsible
+              for the complete amount of the damage inflicted.
+              <!--<br>In case of property damages either to student dorms or-->
+              <!--to guest houses, I will pay the related amount of the damage inflicted.-->
+              <br>If I break or lose my sledge
+              during the Moon-Sledge-Riding on Thursday 9th, I will pay a fee of 150€ to SCUB.<br>The Snowdays Team
+              cannot take any responsibility for sport accidents or self-inflicted accidents, thefts or losses of any
+              kind. Please take care and look after your belongings yourself.<br>I authorize the release of pictures of
+              myself taken during the event from 9th to 11th March 2017 on the official website of the event, on other
+              internet channels controlled by the organizational team and on informational material.
+            </p>
+
+            <!-- TODO: needed for externals!!! -->
+
+            <!--<h5>Sleeping</h5>-->
+            <!--<p>-->
+              <!--I accept to follow the house rules of the student dorms and the instructions of my host.<br>I accept to be-->
+              <!--excluded from Snowdays in case of violation of house rules, host’s instructions and-->
+              <!--common rules of behavior aimed at ensuring a pleasant environment.<br>If I cause any damage to the student-->
+              <!--dorm and/or I lose the key, S.C.U.B. reserves the right of keeping a deposit of 50€, which will not be-->
+              <!--returned to me after the event.-->
+            <!--</p>-->
+            <h5>Bus damages</h5>
+            <p>If I cause any damage to the buses, I will pay a fee of 100€ as agreed with the bus company.</p>
+          </div>
+        </div>
+        <div class="row">
+          <nav class="col-12 mb-5 flex-column">
+            <hr>
+            <div class="row text-left">
+              <div class="col-6 mt-3">
+                <h6 class="mb-1">Need help?</h6>
+                <p>Drop an email to<br>
+                  <a href="mailto:rbellon@unibz.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">rbellon@unibz.it</a>
+                </p>
+              </div>
+              <div class="col-6 text-right">
+                <button type="button" class="sn-btn-empty-blue mt-3 pr-0" id="acceptTandC">
+                  <i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> I agree to the Terms and Conditions
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      {{else}}
+        <form id="user_form">
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Personal</h4>
+              <hr>
+              <div class="row">
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="first_name" id="first_name"
+                           value="{{lp.firstName}}"
+                           required>
+                    <label for="first_name" class="sn-field-label">First name</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="last_name" id="last_name" value="{{lp.lastName}}"
+                           required>
+                    <label for="last_name" class="sn-field-label">Last name</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <select class="sn-field-input sn-a-0" id="gender" name="gender"
+                            required>
+                      {{#if lp.gender}}
+                        <option disabled>Choose gender</option>
+                      {{else}}
+                        <option selected disabled>Choose gender</option>
+                      {{/if}}
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </select>
+                    <label for="gender" class="sn-field-label">Gender</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <input class="sn-field-input" type="date" name="birth_date" id="birth_date"
+                           value="{{lp.birth.date}}" required>
+                    <label for="birth_date" class="sn-field-label sn-upper-label">Birth date (dd/mm/yyyy)</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sn-field-group">
+                <input type="text" class="sn-field-input" name="birth_country" id="birth_country"
+                       value="{{lp.birth.country}}"
+                       required>
+                <label for="birth_country" class="sn-field-label">Birth country</label>
+              </div>
+
+              <div class="sn-field-group">
+                <select class="sn-field-input sn-a-0" id="university" name="university" required disabled>
+                  {{#if lp.university}}
+                    <option disabled>Choose university</option>
+                  {{else}}
+                    <option selected disabled>Choose university</option>
+                  {{/if}}
+                  <option value="UniBz">Free University of Bolzano</option>
+                  <option value="WHU">WHU</option>
+                </select>
+                <label for="university" class="sn-field-label">University</label>
+              </div>
+
+              <h4 class="card-title">Contact</h4>
+              <hr>
+
+              <div class="sn-field-group">
+                <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}"
+                       required>
+                <label for="phone" class="sn-field-label">Phone</label>
+              </div>
+
+              <div class="sn-field-group">
+                <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}"
+                       required>
+                <label for="email" class="sn-field-label">Email</label>
+                <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock" aria-hidden="true"></i> We
+                  won't share it with anyone.
+                </small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <h4 class="card-title">Address</h4>
+              <hr>
+              <div class="row">
+                <div class="col-8">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="street" id="street" required
+                           value="{{lp.info.street}}">
+                    <label for="street" class="sn-field-label">Street</label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="number" id="number" required
+                           value="{{lp.info.number}}">
+                    <label for="number" class="sn-field-label">#</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="city" id="city" required
+                           value="{{lp.info.city}}">
+                    <label for="city" class="sn-field-label">City</label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="sn-field-group">
+                    <input type="number" class="sn-field-input" name="zip" id="zip" required
+                           value="{{lp.info.zip}}">
+                    <label for="zip" class="sn-field-label">ZIP</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="province" id="province" required
+                           value="{{lp.info.province}}">
+                    <label for="province" class="sn-field-label">Province</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="country" id="country" required
+                           value="{{lp.info.country}}">
+                    <label for="country" class="sn-field-label">Country</label>
+                  </div>
+                </div>
+              </div>
+              <h4>Preferences</h4>
+              <hr>
+              <div class="sn-field-group">
+                <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                  {{#if lp.tshirt}}
+                    <option disabled>Choose size</option>
+                  {{else}}
+                    <option selected disabled>Choose size</option>
+                  {{/if}}
+                  <option value="S">Small</option>
+                  <option value="M">Medium</option>
+                  <option value="L">Large</option>
+                  <option value="XL">Extra Large</option>
+                </select>
+                <label for="tshirt" class="sn-field-label">T-shirt</label>
+              </div>
+
+              <div class="sn-field-group">
+                <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
+                       value="{{lp.foodAllergies}}" required>
+                <label for="food_allergies" class="sn-field-label">Food allergies</label>
+                <small class="form-text text-muted">Separate with commas, set 'None' otherwise.</small>
+              </div>
+
+              <h4>Documents</h4>
+              <hr>
+              {{#if lp.hasPersonalID}}
+                <p class="animated fadeIn mb-0"><i class="fa fa-check" aria-hidden="true"></i> Personal ID</p>
+              {{else}}
+                {{#with uploadingPID}}
+                  <p class="sn-loader">Uploading...</p>
+                {{else}}
+                  <input type="file" name="has_personal_id" id="has_personal_id"
+                         class="sn-input-file sn-btn-rounded"/>
+                  <label for="has_personal_id"><b>Personal ID</b>: choose a file</label>
+                {{/with}}
+              {{/if}}
+              {{#if lp.hasStudentID}}
+                <p class="animated fadeIn"><i class="fa fa-check" aria-hidden="true"></i> Student ID</p>
+              {{else}}
+                {{#with uploadingSID}}
+                  <p class="sn-loader mt-1">Uploading...</p>
+                {{else}}
+                  <input type="file" name="has_student_id" id="has_student_id"
+                         class="sn-input-file sn-btn-rounded mt-1"/>
+                  <label for="has_student_id" class="mt-1"><b>Student ID</b>: choose a file</label>
+                {{/with}}
+              {{/if}}
+            </div>
+
+            <div class="col-md-4">
+              <h4 class="card-title">Activities</h4>
+              <hr>
+              <h4 class="sn-card-subtitle text-muted">
+                Day 1
+              </h4>
+              <div class="sn-field-group">
+                <select class="sn-field-input sn-a-0" id="d1_activity" name="d1_activity">
+                  {{#if lp.day1.activity}}
+                    <option disabled>Choose activity</option>
+                  {{else}}
+                    <option selected disabled>Choose activity</option>
+                  {{/if}}
+                  <option value="relax">Relax</option>
+                  <option value="ski">Ski</option>
+                  <option value="snowboard">Snowboard</option>
+                  <option value="sledging">Sledging</option>
+                </select>
+                <label for="d1_activity" class="sn-field-label">Activity</label>
+              </div>
+              <div class="sn-field-group">
+                <select class="sn-field-input sn-a-0" id="d1_rental" name="d1_rental">
+                  {{#if lp.day1.rental}}
+                    <option disabled>Choose rental option</option>
+                  {{else}}
+                    <option selected disabled>Choose rental option</option>
+                  {{/if}}
+                  <option value="no">No</option>
+                  <option value="ski">Only skis</option>
+                  <option value="ski boots">Only ski boots</option>
+                  <option value="ski + boots">Ski + boots</option>
+                  <option value="snowboard">Only snowboard</option>
+                  <option value="snowboard boots">Only snowboard boots</option>
+                  <option value="snowboard + boots">Snowboard + boots</option>
+                  <option value="sledge">Sledge</option>
+                </select>
+                <label for="d1_rental" class="sn-field-label">Rental</label>
+              </div>
+
+              <hr>
+              <h4 class="sn-card-subtitle text-muted">
+                Day 2
+              </h4>
+              <div class="sn-field-group">
+                <select class="sn-field-input sn-a-0" id="d2_activity" name="d2_activity">
+                  {{#if lp.day2.activity}}
+                    <option disabled>Choose activity</option>
+                  {{else}}
+                    <option selected disabled>Choose activity</option>
+                  {{/if}}
+                  <option value="relax">Relax</option>
+                  <option value="ski race">Ski race</option>
+                  <option value="snowboard race">Snowboard race</option>
+                  <option value="snowshoe hiking">Snowshoe hiking</option>
+                </select>
+                <label for="d2_activity" class="sn-field-label">Activity</label>
+              </div>
+              <div class="sn-field-group">
+                <select class="sn-field-input sn-a-0" id="d2_rental" name="d2_rental">
+                  {{#if lp.day2.rental}}
+                    <option disabled>Choose activity</option>
+                  {{else}}
+                    <option selected disabled>Choose activity</option>
+                  {{/if}}
+                  <option value="no">No</option>
+                  <option value="ski">Only skis</option>
+                  <option value="ski boots">Only ski boots</option>
+                  <option value="ski + boots">Ski + boots</option>
+                  <option value="snowboard">Only snowboard</option>
+                  <option value="snowboard boots">Only snowboard boots</option>
+                  <option value="snowboard + boots">Snowboard + boots</option>
+                  <option value="snow rackets">Snow rackets</option>
+                </select>
+                <label for="d2_rental" class="sn-field-label">Rental</label>
+              </div>
+              <div class="form-group">
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.day2.course}}
+                    <input type="checkbox" class="custom-control-input" name="d2_course" checked>
+                  {{else}}
+                    <input type="checkbox" class="custom-control-input" name="d2_course">
+                  {{/if}}
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Free ski course</span>
+                </label>
+              </div>
+
+              <hr>
+              <h4 class="sn-card-subtitle text-muted">
+                Day 3
+              </h4>
+              <div class="sn-field-group">
+                <div>
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.isVolleyPlayer}}
+                      <input type="checkbox" class="custom-control-input" name="is_volley_player" checked>
+                    {{else}}
+                      <input type="checkbox" class="custom-control-input" name="is_volley_player">
+                    {{/if}}
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Part of Snow Volley's team</span>
+                  </label>
+                </div>
+                <div>
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.isFootballPlayer}}
+                      <input type="checkbox" class="custom-control-input" name="is_football_player" checked>
+                    {{else}}
+                      <input type="checkbox" class="custom-control-input" name="is_football_player">
+                    {{/if}}
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Part of Human Football Table's team</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <nav class="col-12 mb-5 flex-column">
+              <hr>
+              <div class="row">
+                <div class="col-6 mt-3 text-left">
+                  <h6 class="mb-1">Need help?</h6>
+                  <p>Drop an email to<br>
+                    <a href="mailto:rbellon@unibz.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">rbellon@unibz.it</a>
+                  </p>
+                </div>
+                <div class="col-6 text-right">
+                  <button type="submit" class="sn-btn-outline-green mt-3" name="save">
+                    <i class="fa fa-check" aria-hidden="true"></i> Save
+                  </button>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </form>
+      {{/if}}
+    </div>
+  </div>
+</template>

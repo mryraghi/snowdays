@@ -3,9 +3,9 @@
 </head>
 
 <template name="AdminPage">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-12 col-sm-4 offset-sm-4 offset-md-5 col-md-2 mt-5 mb-5 text-center">
+      <div class="col-12 mt-5 mb-5 text-center d-flex flex-column">
         <img src="/images/snowdays-logo.svg" class="sn-logo">
         <img src="/images/admin.svg" class="sn-logo-section">
       </div>
@@ -13,12 +13,12 @@
 
     <div class="row mb-5">
       <div class="col-12">
-        <ul class="nav justify-content-center">
+        <ul class="nav flex-column flex-sm-row justify-content-center text-center">
           <li class="sn-menu-item nav-item {{isActive 'AdminListSection'}}" id="list">
             <a class="nav-link" href><i class="fa fa-bars" aria-hidden="true"></i> List</a>
           </li>
           <li class="sn-menu-item nav-item {{isActive 'AdminAddNewSection'}}" id="add_new">
-            <a class="nav-link" href><i class="fa fa-plus-circle" aria-hidden="true"></i> Add new</a>
+            <a class="nav-link" href><i class="fa fa-plus-circle" aria-hidden="true"></i> New</a>
           </li>
           <li class="sn-menu-item nav-item {{isActive 'AdminSettingsSection'}}" id="settings">
             <a class="nav-link" href><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
@@ -27,7 +27,7 @@
             <a class="nav-link" href><i class="fa fa-bar-chart" aria-hidden="true"></i> Stats</a>
           </li>
           <li>
-            <a class="nav-link" href id="sn-logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <a class="nav-link" href id="sn-logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
           </li>
         </ul>
       </div>

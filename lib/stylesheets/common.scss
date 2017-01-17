@@ -1,0 +1,17 @@
+/* COMMON SECTIONS (login, sign up, error) */
+
+img.sn-section-title {
+  height: 2.2em;
+  width: auto;
+  margin-top: 3em;
+
+  &:last-of-type {
+    margin-bottom: 3em;
+  }
+}
+
+img.sn-section-subtitle {
+  height: .75em;
+  width: auto;
+  margin: .2em 0 3em 0;
+}

@@ -16,13 +16,13 @@
 
 <template name="LoginUnibzSection">
   <div class="animated fadeIn">
-    <div style="display:flex; flex-direction: column;">
+    <div id="admin-login" style="display:flex; flex-direction: column;">
       <img src="/images/login.svg" class="sn-section-title">
-      <img src="/images/for_unibz.svg" class="sn-section-subtitle">
+        <img src="/images/for_unibz.svg" class="sn-section-subtitle">
     </div>
     <form id="login-unibz-form">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
           <div class="sn-field-group">
             <input type="text" class="form-control sn-field-input" name="username" id="username" required>
             <label for="username" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student ID</label>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
           <div class="sn-field-group">
             <input type="password" class="form-control sn-field-input" name="password" id="password" required>
             <label for="password" class="sn-field-label"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Password</label>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
           <button type="submit" class="sn-btn-blue">️Login</button>
           <button type="button" class="sn-btn-empty-blue switchButton">for externals</button>
         </div>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import './admin.html'
+import _ from 'lodash'
+import Participants from '/imports/collections/participants'
+
+let fields = require('/imports/collections/db_allowed_values.json');
+
+Template.AdminPage.onCreated(function () {
+  Session.set('filters', []);
+
+  let template = Template.instance();
+
+  template.searchQuery = new ReactiveVar();
+  template.searching = new ReactiveVar(false);
+  template.filters = new ReactiveVar([]);
+  template.flattenedFields = new ReactiveVar({
+    statusComplete: 1,
+    firstName: 1,
+    lastName: 1,
+    university: 1
+  });
+  template.fields = new ReactiveVar({
+    firstName: 1,
+    lastName: 1,
+    gender: 0,
+    email: 0,
+    phone: 0,
+    university: 1,
+    isVolleyPlayer: 0,
+    isFootballPlayer: 0,
+    hasPersonalID: 0,
+    hasStudentID: 0,
+    foodAllergies: 0,
+    tshirt: 0,
+    birth: {
+      date: 1,
+      country: 0
+    },
+    info: {
+      street: 0,
+      number: 0,
+      city: 0,
+      zip: 0,
+      province: 0,
+      country: 0
+    },
+    host: {
+      firstName: 0,
+      lastName: 0,
+      info: {
+        accommodation: 0,
+        room: 0,
+        street: 0,
+        number: 0,
+        city: 1,
+        zip: 0,
+        province: 0,
+        country: 0
+      }
+    },
+    day1: {
+      activity: 0,
+      rental: 0
+    },
+    day2: {
+      activity: 0,
+      rental: 0,
+      course: 0
+    }
+  });
+
+  // subscribe as soon the template is created
+  this.subscribe("users.current");
+  this.autorun(() => {
+
+    this.subscribe("participants.all", template.filters.get(), template.searchQuery.get(), template.flattenedFields.get(), () => {
+      setTimeout(() => {
+        template.searching.set(false);
+        generateTable(template);
+      }, 300)
+    });
+
+  });
+});
+
+Template.AdminPage.onRendered(function () {
+
+});
+
+Template.AdminPage.events({
+  'change #select_field': function (event) {
+    let value = event.target.value;
+    let select = document.getElementById("select_value");
+
+    switch (value) {
+      case 'university':
+        createOptionChildren(fields.universities);
+        break;
+      case 'gender':
+        createOptionChildren(fields.gender);
+        break;
+      case 'host':
+        console.info('not implemented');
+        break;
+      case 'day1.activity':
+        createOptionChildren(fields.day1.activity);
+        break;
+      case 'day1.rental':
+        createOptionChildren(fields.day1.rental);
+        break;
+      case 'day2.activity':
+        createOptionChildren(fields.day2.activity);
+        break;
+      case 'day2.rental':
+        createOptionChildren(fields.day2.rental);
+        break;
+      case 'isVolleyPlayer':
+        createOptionChildren(fields.boolean);
+        break;
+      case 'isFootballPlayer':
+        createOptionChildren(fields.boolean);
+        break;
+      case 'hasPersonalID':
+        createOptionChildren(fields.boolean);
+        break;
+      case 'hasStudentID':
+        createOptionChildren(fields.boolean);
+        break;
+      case 'foodAllergies':
+        createOptionChildren(fields.boolean);
+        break;
+    }
+  },
+
+  'submit #add-filter-form': function (event, template) {
+    event.preventDefault();
+    let field = event.target.select_field.value;
+    let operation = event.target.operation.value;
+    let value = event.target.select_value.value;
+    let newFilter;
+
+    let currentFilters = template.filters.get();
+
+    // _.zipObject returns an object composed from key-value pairs
+    if (_.isEqual(operation, 'e'))
+      newFilter = _.zipObject([field], [{$eq: value}]);
+    else
+      newFilter = _.zipObject([field], [{$ne: value}]);
+
+    currentFilters.push(newFilter);
+
+    template.filters.set(currentFilters);
+    // Session.set('subscription', {});
+  },
+
+  'click #sn-icon-delete': (event, template) => {
+    // get filter index (jQuery workaround)
+    let index = $(event.target).parent().attr("value");
+    let currentFilters = template.filters.get();
+
+    // remove from array at index
+    _.pullAt(currentFilters, [index]);
+
+    // update reactive variable
+    template.filters.set(currentFilters);
+  },
+
+  'keyup [name="search"]': (event, template) => {
+    let value = event.target.value.trim();
+
+    // keyCode 13 = 'enter'
+    if (value !== '' &amp;&amp; event.keyCode === 13) {
+      template.searchQuery.set(value);
+      template.searching.set(true);
+    }
+
+    if (value === '') {
+      template.searchQuery.set(value);
+    }
+  },
+
+  'submit #fields_form': function (event, template) {
+    event.preventDefault();
+    let currentFlattenedFields = template.flattenedFields.get();
+
+    $(event.target).find('input').each(function () {
+      let replaced = this.id.replace(/_/g, '.');
+
+      if (this.checked) currentFlattenedFields[replaced] = 1;
+      else delete currentFlattenedFields[replaced];
+    });
+
+    template.flattenedFields.set(currentFlattenedFields);
+
+    // TODO: check checkboxes checked
+  },
+
+  'click #logout': (event, template) => {
+    Meteor.logout((error) => {
+      // window.drift.reset();
+      if (error) console.log(error)
+    })
+  },
+
+  'click .sn-menu-item': (event, template) => {
+    switch (event.currentTarget.id) {
+      case 'home':
+        Session.set('tab', {name: 'HomeSection'});
+        break;
+      case 'profile':
+        Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()});
+        break;
+      case 'participants':
+        Session.set('tab', {name: 'ParticipantsTableSection'});
+        break;
+      case 'faq':
+        Session.set('tab', {name: 'FaqSection'});
+        break;
+      case 'add_new':
+        Session.set('tab', {name: 'UserFormSection'});
+        break;
+      case 'survey':
+        Session.set('tab', {name: 'SurveySection'});
+        break;
+    }
+  }
+
+});
+
+Template.AdminPage.helpers({
+  isActive: function (section) {
+    // let tab = Session.get('tab');
+    // if (_.isEqual(tab.name, section) &amp;&amp; (_.isUndefined(tab._id) || _.isEqual(tab._id, Meteor.userId())))
+    //   return 'sn-menu-item-active'
+  },
+  count: function (selector) {
+    switch (selector) {
+      case 'results':
+        let query = Participants.find().count();
+        return query + (query > 1 ? ' participants' : ' participant');
+        break;
+      case 'filters':
+        return Template.instance().filters.get().length || '0';
+        break;
+      default:
+        return '@'
+    }
+  },
+
+  list: function () {
+    return Participants.find()
+  },
+
+  listIsEmpty: function () {
+    return _.isEqual(Participants.find().count(), 0)
+  },
+
+  filtersList: function () {
+    return Template.instance().filters.get()
+  },
+
+  searching: function () {
+    return Template.instance().searching.get();
+  },
+
+  query: function () {
+    return Template.instance().searchQuery.get();
+  },
+});
+
+
+// Functions
+
+function createOptionChildren(values) {
+  let select = document.getElementById("select_value");
+  $(select).empty();
+
+  if (!_.isEmpty(values)) {
+    _.forEach(values, function (key, value) {
+      $(select).append($('&lt;option>', {
+        value: value,
+        text: key
+      }));
+    })
+  }
+}
+
+function generateTable(template) {
+  let fields = template.fields.get();
+  let table = $('#participants_table');
+  let tableHead = table.find('thead');
+  let tableBody = table.find('tbody');
+  let flattened = {};
+  let participants = Participants.find().fetch();
+
+  // pick only values = 1 and flatten object
+  deepPickFlatten(fields);
+
+  // get flattened object
+  flattened = template.flattenedFields.get();
+  console.log(flattened);
+
+  // remove all
+  tableHead.children().remove();
+  tableBody.children().remove();
+
+  // header
+  tableHead.append("&lt;tr>");
+
+  _.forEach(flattened, function (value, key) {
+    tableHead.append("&lt;th>" + Participants.simpleSchema().label(key) + "&lt;/th>");
+  });
+
+  tableHead.append("&lt;/tr>");
+
+  // body
+  _.forEach(participants, function (participant) {
+    tableBody.append("&lt;tr>");
+    _.forEach(flattened, function (value, key) {
+      tableBody.append("&lt;td>" + deepFind(participant, key) + "&lt;/td>");
+    });
+    tableBody.append("&lt;/tr>");
+  });
+
+  setCheckboxes(template)
+}
+
+function setCheckboxes(template) {
+  let flattenedFields = template.flattenedFields.get();
+
+  _.forEach(flattenedFields, function (value, key) {
+    let id = key.replace(/\./g, '_');
+    console.log(id);
+
+    $('#' + id).prop('checked', true);
+  });
+}
+
+function deepPickFlatten(template, fields, keyPath) {
+  return _.forEach(fields, function (value, key) {
+    let currentPath = (_.isUndefined(keyPath) ? key : keyPath + '.' + key);
+
+    let flatten = template.flattenedFields.get();
+
+    if (_.isObject(value)) deepPickFlatten(template, value, (_.isNull(keyPath) || _.isUndefined(keyPath) ? key : currentPath));
+
+    // remove property if != 1 &amp;&amp; != obj || obj &amp;&amp; !empty
+    if ((!_.isEqual(value, 1) &amp;&amp; !_.isObject(value)) || (_.isObject(value) &amp;&amp; _.isEmpty(value))) delete fields[key];
+
+    // if !obj then add to flattenFields reactive var
+    else if (!_.isObject(value)) {
+      flatten[currentPath] = value;
+      template.flattenedFields.set(flatten);
+    }
+  });
+}
+
+/**
+ * Returns value of given string key of the form 'key1.key2.key3' given an object
+ * @param {Object} o - Deep object
+ * @param {String} s - Key of the form 'key1.key2.key3'
+ * @returns {String} v - Value, if any
+ */
+function deepFind(o, s) {
+  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+  s = s.replace(/^\./, '');           // strip a leading dot
+  let a = s.split('.');
+  for (let i = 0, n = a.length; i &lt; n; ++i) {
+    let k = a[i];
+    if (k in o) {
+      o = o[k];
+    } else {
+      return;
+    }
+  }
+  return o;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#deepFind">deepFind</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Jan 07 2017 10:48:30 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
