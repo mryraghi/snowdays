@@ -8,6 +8,8 @@ const Schemas = {};
 // firstName and lastName have index: 1
 // See https://github.com/aldeed/meteor-schema-index
 
+// TODO: shoe size, height, weight
+
 Schemas.Day1 = new SimpleSchema({
   bus1: {
     type: Boolean,
@@ -51,13 +53,13 @@ Schemas.Day2 = new SimpleSchema({
   activity: {
     type: String,
     label: "(Day 2) Activity",
-    allowedValues: ['relax', 'ski race', 'snowboard race', 'snowshoe hiking'],
+    allowedValues: ['relax', 'ski', 'snowboard', 'ski race', 'snowboard race', 'snowshoe hiking', 'cross country'],
     optional: true
   },
   rental: {
     type: String,
     label: "Day 2 rental",
-    allowedValues: ['no', 'ski', 'snowboard', 'ski + boots', 'snowboard + boots', 'ski boots', 'snowboard boots', 'snow rackets'],
+    allowedValues: ['no', 'ski', 'snowboard', 'ski + boots', 'snowboard + boots', 'ski boots', 'snowboard boots', 'snow rackets', 'cross country ski'],
     optional: true
   },
   course: {
@@ -222,7 +224,7 @@ Schemas.Participant = new SimpleSchema({
   },
   university: {
     type: String,
-    max: 30,
+    max: 40,
     optional: true
   },
   host: {
@@ -331,6 +333,7 @@ Schemas.Participant = new SimpleSchema({
   },
   statusComplete: {
     type: Boolean,
+    label: '',
     defaultValue: false,
     optional: true
   },
@@ -395,7 +398,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
   let fields = ['firstName', 'lastName', 'gender', 'email', 'phone', 'university',
     'info.street', 'info.number', 'info.zip', 'info.city', 'info.country', 'info.province',
     'birth.date', 'birth.country', 'day1.activity', 'day1.rental', 'day2.activity',
-    'day2.rental', 'tshirt'];
+    'day2.rental', 'tshirt', 'hasAcceptedTandC'];
 
   // check if every field is set
   _.forEach(fields, function (field) {

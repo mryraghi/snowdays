@@ -66,7 +66,7 @@ Template.AdminAddNewSection.events({
     let password = target.password.value || Math.random().toString(36).slice(-8);
 
     // generate username
-    let username = _.toLower(firstName + '.' + lastName);
+    let username = _.toLower(firstName.split(' ')[0] + '.' + lastName.split(' ')[0]);
 
     let user = {
       username: username,
@@ -75,9 +75,10 @@ Template.AdminAddNewSection.events({
         firstName: firstName,
         lastName: lastName,
         university: university,
-        gender: gender
+        gender: gender,
+        allowedParticipants: n_participants - 1,
+        survey: false
       },
-      allowedParticipants: n_participants,
       createParticipant: true
     };
 

@@ -29,6 +29,13 @@ Schema.Profile = new SimpleSchema({
     max: 128,
     min: 128,
     optional: true
+  },
+  allowedParticipants: {
+    type: Number
+  },
+  survey: {
+    type: Boolean,
+    defaultValue: false
   }
 });
 
@@ -82,13 +89,6 @@ Schema.User = new SimpleSchema({
   },
   'roles.$': {
     type: String
-  },
-  survey: {
-    type: Boolean,
-    defaultValue: false
-  },
-  allowedParticipants: {
-    type: Number
   },
   // Avoid an 'Exception in setInterval callback'
   heartbeat: {

@@ -1,9 +1,10 @@
 import _ from 'lodash'
 let CryptoJS = require("crypto-js");
-
+import {deepFlush} from '/lib/js/utilities'
 import './participant.form.html'
 import Participants from '/imports/collections/participants'
 import IDs from '/imports/collections/ids'
+import '/imports/ui/components/loader/loader'
 
 // Sentry.io
 
@@ -14,7 +15,7 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
 });
 
 // catches all exceptions on the server
-raven.patchGlobal(client);
+// raven.patchGlobal(client);
 
 client.on('logged', function () {
   console.log('Exception handled and sent to Sentry.io');
@@ -29,50 +30,49 @@ client.on('error', function (e) {
   console.log('Couldn\'t connect to Sentry.io');
 });
 
-//
 
 Template.UserFormSection.onCreated(function () {
+  let template = Template.instance();
+
+  // set _id session variable when editing
+  // participant in external cp list
   setSessions();
-  let _id = Session.get('_id');
-  if (_id) this.subscribe("participants.current", _id);
-  else this.subscribe("participants.current", Meteor.userId());
 
-  this.subscribe("users.current");
-  // this.subscribe('files.ids.all');
+  let _id = Session.get('_id') || Meteor.userId();
 
-  let p = Participants.find().fetch();
-  // console.log(p);
+  // if user is admin then set this as true since not needed
+  template.hasAcceptedTandC = new ReactiveVar(!!Roles.userIsInRole(Meteor.userId(), 'admin'));
 
-  // TODO: check p.accepted
-  this.filling = new ReactiveVar(false);
+  template.uploadingSID = new ReactiveVar(false);
+  template.uploadingPID = new ReactiveVar(false);
+  template.filling = new ReactiveVar(true);
 
-  // reactive var need when uploading files
-  this.uploadingSID = new ReactiveVar(false);
-  this.uploadingPID = new ReactiveVar(false);
 
   // set sentry.io context and catch all exceptions
   client.setContext({
     user: Meteor.user()
   });
+
+  // subscriptions
+  this.subscribe("users.current");
+
+  this.subscribe("participants.current", _id, function () {
+    let p = Participants.findOne();
+    if (p) {
+
+      // again, if admin the set true since not needed
+      let acceptTandC = (Roles.userIsInRole(Meteor.userId(), 'admin') ? true : p.hasAcceptedTandC);
+      template.hasAcceptedTandC.set(acceptTandC);
+      template.filling.set(!p.statusComplete);
+    }
+  });
 });
 
 Template.UserFormSection.onRendered(function () {
-  Meteor.defer(function () {
-    Tracker.autorun(function () {
-      let lp = Participants.findOne({_id: Session.get('_id')});
-
-      if (lp) {
-        // since custom checkboxes are used, values are set manually
-        if (_.has(lp, 'gender')) $("#gender").val(lp.gender);
-        if (_.has(lp, 'university')) $("#university").val(lp.university);
-        if (_.has(lp, 'tshirt')) $("#tshirt").val(lp.tshirt);
-        if (_.has(lp, 'day1.activity')) $("#d1_activity").val(lp.day1.activity);
-        if (_.has(lp, 'day1.rental')) $("#d1_rental").val(lp.day1.rental);
-        if (_.has(lp, 'day2.activity')) $("#d2_activity").val(lp.day2.activity);
-        if (_.has(lp, 'day2.rental')) $("#d2_rental").val(lp.day2.rental);
-      }
-    })
-  });
+  // Meteor.autorun(function () {
+  //   let lp = Participants.findOne();
+  //   setCheckboxes(lp)
+  // });
 });
 
 Template.UserFormSection.helpers({
@@ -90,26 +90,57 @@ Template.UserFormSection.helpers({
     let _id = Session.get('_id');
     return Participants.findOne({_id: _id});
   },
-  filling: function () {
-    return !Template.instance().filling.get();
+  hasAcceptedTandC: function () {
+    let template = Template.instance();
+    return (template.hasAcceptedTandC ? template.hasAcceptedTandC.get() : false)
+  },
+  complete: function () {
+    let p = Participants.findOne();
+    let filling = Template.instance().filling.get();
+
+    // if admin never show the completed message
+    if (Roles.userIsInRole(Meteor.userId(), 'admin')) return false;
+
+    return (p && !filling ? p.statusComplete : false);
+  },
+
+  isExternal: function () {
+
+    // since external participants (not cp) do not have an account
+    // here it checks whether is neither unibz nor admin
+    return !Roles.userIsInRole(Session.get('_id'), ['unibz', 'admin'])
   }
 });
 
 Template.UserFormSection.events({
   // form submission
-  'submit #user_form': function (event) {
+  'submit #user_form': function (event, template) {
     event.preventDefault();
 
     // values from form elements
     const target = event.target;
 
+    // saving spinner
+    $(target.save).text('Loading...');
+
+    const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
+
     let _id = Session.get('_id');
     let p = Participants.findOne({_id: _id});
-    if (!p.hasPersonalID)
+    if (!p.hasPersonalID && !isAdmin) {
+      $(target.save).text('Save');
       return swal('Error', 'You need to upload your personal ID!', 'warning');
+    }
 
-    if (!p.hasStudentID)
+    if (!p.hasStudentID && !isAdmin) {
+      $(target.save).text('Save');
       return swal('Error', 'You need to upload your personal ID!', 'warning');
+    }
+
+    let parsedDate = _.replace(target.birth_date.value, /\//g, '-');
+    let splitDate = parsedDate.split('-');
+    if (_.isEqual(splitDate[0].length, 2))
+      parsedDate = splitDate[2] + '-' + splitDate[1] + '-' + splitDate[0];
 
     // TODO: if first name and last name changes either disable or change user info
 
@@ -120,7 +151,7 @@ Template.UserFormSection.events({
       email: target.email.value,
       gender: target.gender.value,
       phone: target.phone.value,
-      university: target.university.value,
+      // university: target.university.value,
       info: {
         street: target.street.value,
         number: target.number.value,
@@ -130,7 +161,7 @@ Template.UserFormSection.events({
         country: target.country.value
       },
       birth: {
-        date: target.birth_date.value,
+        date: parsedDate,
         country: target.birth_country.value
       },
       day1: {
@@ -145,29 +176,44 @@ Template.UserFormSection.events({
       isVolleyPlayer: target.is_volley_player.checked,
       isFootballPlayer: target.is_football_player.checked,
       foodAllergies: target.food_allergies.value,
-      tshirt: target.tshirt.value,
-      hasAcceptedTandC: (!Roles.userIsInRole(Meteor.user(), 'admin'))
+      tshirt: target.tshirt.value
     };
 
+    // if not admin, set hasAcceptedTandC to true when saving
+    if (!Roles.userIsInRole(Meteor.user(), 'admin')) participant['hasAcceptedTandC'] = true;
+
+    // since SimpleSchema seems not to clean deep properties
+
+
     // check if participants object is valid before inserting
-    try {
-      Participants.simpleSchema().validate(participant);
-    } catch (e) {
-      // if not valid throw an error
-      return swal('Error', e.message, 'error')
-    }
+    // try {
+    //   Participants.simpleSchema().validate(participant);
+    // } catch (e) {
+    //   // if not valid throw an error
+    //   return swal('Error', e.message, 'error')
+    // }
 
     // check security section on Meteor's documentation
     Meteor.call('participants.update', participant, function (error, result) {
+      $(target.save).text('Save');
+
       if (error) {
         swal('Error', error.message, 'error');
-        // Template.instance().filling.set(false)
       } else {
-        swal('Success', 'You\'ve successfully updated your externals!', 'success');
+        swal('Success', 'Profile updated!', 'success');
 
-        // TODO: catch undefined
-        let previous = Session.get('tab')['previous'];
-        if (!_.isUndefined(previous)) Session.set('tab', {name: previous})
+        if (Roles.userIsInRole(Meteor.user(), 'admin')) {
+          $('html, body').animate({scrollTop: 0}, 'fast');
+          Session.set('tab', 'AdminListSection');
+        }
+
+        if (Roles.userIsInRole(Meteor.user(), 'unibz')) {
+          $('html, body').animate({scrollTop: 0}, 'fast');
+          template.filling.set(false);
+        } else if (_.has(Session.get('tab'), 'previous')) {
+          let previous = Session.get('tab')['previous'];
+          if (!_.isUndefined(previous)) Session.set('tab', {name: previous})
+        }
       }
     })
   },
@@ -185,10 +231,13 @@ Template.UserFormSection.events({
     }
   },
 
-  'click #acceptTandC': function () {
-    $('html, body').animate({scrollTop: 0}, 'fast');
-    Template.instance().filling.set(true)
-  }
+  'click #acceptTandC': function (e, template) {
+    template.hasAcceptedTandC.set(true)
+  },
+
+  'click #edit-profile': function (e, template) {
+    template.filling.set(true);
+  },
 });
 
 function setSessions() {
@@ -250,3 +299,7 @@ function uploadID(file, template, idType) {
 
   upload.start();
 }
+
+Template.registerHelper("selectedIf", function (left, right) {
+  return left == right ? "selected" : "";
+});

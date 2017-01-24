@@ -10,18 +10,19 @@ Meteor.methods({
   // participants
   'participants.insert': function (participant) {
     let user = Meteor.user();
-    let allowed = Roles.userIsInRole(user._id, 'external');
+    let isExternal = Roles.userIsInRole(user._id, 'external');
 
-    console.log('allowed', allowed, this.userId);
+    // if external then
+    if (isExternal) {
 
-    if (allowed) {
+      // throw error if user has no token
       if (_.isUndefined(user.profile) || _.isUndefined(user.profile.token))
         throw new Meteor.Error('participants.insert', 'Token not found in user\'s schema');
 
       // double check that limit has not been reached
       let count = Participants.find({_id: {$ne: this.userId}}).count();
 
-      // could be moved elsewhere
+      // throw error if participants limit has been reached
       if (_.isEqual(count, Meteor.user().profile.allowedParticipants))
         throw new Meteor.Error('participants.insert', 'Participants limit reached');
 
@@ -38,8 +39,6 @@ Meteor.methods({
       participant._id = _id;
       participant['token'] = base64url.encode(encrypted.toString());
     }
-
-    // TODO: check with schema
 
     // insert participant
     return Participants.insert(participant);

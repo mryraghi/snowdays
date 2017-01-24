@@ -27,7 +27,10 @@ Accounts.onCreateUser(function (options, user) {
       };
 
       Meteor.call('participants.insert', participant, function (error, result) {
-        if (error) throw new Meteor.Error('participants.insert', error.message);
+        if (error) {
+          console.log(error, participant);
+          throw new Meteor.Error('participants.insert', error.message);
+        }
       })
     }
   }

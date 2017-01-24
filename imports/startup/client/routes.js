@@ -18,13 +18,14 @@ Router.route('/login', {
   onBeforeAction: function () {
     const user = Meteor.user();
     if (user) {
+
       // ADMIN
       if (Roles.userIsInRole(user, 'admin'))
         this.redirect('/admin/' + user.username);
 
       // EXTERNAL
       if (Roles.userIsInRole(user, 'external'))
-        this.redirect('/external/' + user.username);
+        this.redirect('/external');
 
       // UNIBZ
       if (Roles.userIsInRole(user, 'unibz'))
@@ -35,8 +36,8 @@ Router.route('/login', {
   }
 });
 
-Router.route('/external/:username', {
-  template: 'ProfilePage',
+Router.route('/external', {
+  template: 'ExternalsPage',
   onBeforeAction: function () {
     const user = Meteor.user();
     if (!user) {
@@ -44,11 +45,11 @@ Router.route('/external/:username', {
       Router.go('Login');
     } else if (user && Roles.userIsInRole(user, 'admin')) {
       this.redirect('/admin/' + user.username)
-    } else if (user && Roles.userIsInRole(user, 'external')) {
-      this.redirect('/external/' + user.username);
+    } else if (user && Roles.userIsInRole(user, 'unibz')) {
+      this.redirect('/participant');
       // TODO: check here
-    } else if (user && !_.isEqual(user.username, this.params.username)) {
-      this.redirect('/external/' + user.username)
+    } else if (user) {
+      this.redirect('/external')
     }
 
     this.next()
@@ -63,7 +64,7 @@ Router.route('/admin/:username', {
       // if not logged in redirect to login
       Router.go('Login');
     } else if (user && Roles.userIsInRole(user, 'user')) {
-      this.redirect('/external/' + user.username)
+      this.redirect('/external')
     } else if (user && !_.isEqual(user.username, this.params.username)) {
       this.redirect('/admin/' + user.username)
     }

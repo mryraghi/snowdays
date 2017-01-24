@@ -12,44 +12,52 @@ Template.ParticipantPage.onCreated(function () {
   this.token = new ReactiveVar((this.data && this.data.token ? this.data.token : ''));
 
   Tracker.autorun(function () {
-    let first = Meteor.subscribe("participants.current", Session.get('_id'));
-    if (first.ready()) {
-      let p = Participants.findOne({_id: Session.get('_id')});
-      if (p && p.owner) Meteor.subscribe("users.one.strict", p.owner)
-    }
+    Meteor.subscribe("participants.current", Session.get('_id'), function () {
+      let p = Participants.findOne();
+      if (p && p.owner) Meteor.subscribe("users.one.strict", p.owner);
+    });
   })
 });
-
-Template.ParticipantPage.onRendered(function () {
-  renderDrift()
-});
-
 Template.ParticipantPage.helpers({
-  complete: function () {
-    let p = Participants.findOne();
-    return (p ? p.statusComplete : false);
-  },
+
   loggedIn: function () {
+
+    // available only when internal participant is logged in
     let user = Meteor.user();
     if (user) Session.set('_id', user._id);
     return !!user;
   },
   validToken: function () {
+
+    // return true if the combination between
+    // token and hash is valid and if the _id
+    // is not undefined (already checked in checkToken)
     let hash = Template.instance().hash.get();
     let token = Template.instance().token.get();
-
     let _id = checkToken(token, hash);
+    let validId = !_.isUndefined(_id);
 
-    if (!_.isUndefined(_id)) Session.set('_id', _id);
+    if (validId) Session.set('_id', _id);
 
-    return (!_.isUndefined(_id))
+    return validId
   },
+
   owner: function () {
+
+    // return strictly useful info about contact person
     return Meteor.users.findOne()
+  },
+
+  id_is_set: function () {
+
+    // check whether _id session variable has been set
+    // display message if undefined
+    return !_.isUndefined(Session.get('_id'))
   }
 });
 
 Template.ParticipantPage.events({
+
   'submit #password_verification_form': function (event, template) {
     event.preventDefault();
 
@@ -64,32 +72,14 @@ Template.ParticipantPage.events({
 
   'click #sn-logout': (event, template) => {
     Meteor.logout((error) => {
-      // window.drift.reset();
       if (error) console.log(error)
     })
   }
+
 });
 
-function renderDrift() {
-  // !function () {
-  //   var t;
-  //   if (t = window.driftt = window.drift = window.driftt || [], !t.init) return t.invoked ? void (window.console && console.error && console.error("Drift snippet included twice.")) : (t.invoked = !0,
-  //       t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
-  //       t.factory = function (e) {
-  //         return function () {
-  //           var n;
-  //           return n = Array.prototype.slice.call(arguments), n.unshift(e), t.push(n), t;
-  //         };
-  //       }, t.methods.forEach(function (e) {
-  //       t[e] = t.factory(e);
-  //     }), t.load = function (t) {
-  //       var e, n, o, i;
-  //       e = 3e5, i = Math.ceil(new Date() / e) * e, o = document.createElement("script"),
-  //         o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + i + "/" + t + ".js",
-  //         n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
-  //     });
-  // }();
-  // drift.SNIPPET_VERSION = '0.3.1';
-  // drift.load('u9x8a6i34wih');
-  // drift.debug();
-}
+Template.ParticipantPage.onDestroyed(function () {
+
+  // set _id as undefined as soon as the template is destroyed
+  Session.set('_id', undefined)
+});

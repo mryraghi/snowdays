@@ -3,7 +3,6 @@ import './admin.list'
 import './admin.add_new'
 import './admin.settings'
 import './admin.stats'
-
 // TODO: controllare eliminazione participanti
 
 import _ from 'lodash'

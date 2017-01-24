@@ -64,7 +64,7 @@ a, p {
   font-size: 16px;
 }
 
-html, body, *, select, button, input, textarea, .swal2-content {
+html, body, *, select, button, input, textarea, p, .swal2-content {
   font-family: CircularBook, sans-serif;
 }
 
@@ -92,7 +92,6 @@ a:focus {
   outline: none;
   text-decoration: none;
 }
-
 
 // TODO: da migliorare (vedi admin e barra ricerca)
 //.row > div[class*=col] {
@@ -276,7 +275,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   vertical-align: middle;
   text-align: center;
   padding: 11px 22px;
-  line-height: 1em;
+  line-height: 1.4;
   font-size: 16px;
   //font-weight: bold;
   text-transform: uppercase;
@@ -316,7 +315,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sn-btn-blue {
   @extend .sn-btn;
-  height: 42px;
+  min-height: 42px;
   color: #fff;
   background-color: #008eff;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #008eff), color-stop(100%, #1d7bf0));
@@ -336,7 +335,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sn-btn-green {
   @extend .sn-btn;
-  height: 42px;
+  min-height: 42px;
   color: #ffffff;
   background-color: #2e933c;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2ecc71), color-stop(100%, #27ae60));
@@ -362,7 +361,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sn-btn-outline-blue {
   @extend .sn-btn-empty-blue;
-  height: 42px;
+  min-height: 42px;
   border: 1px solid #008eff;
 }
 
@@ -380,7 +379,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .sn-btn-outline-green {
   @extend .sn-btn-empty-green;
   border: 1px solid #8bc34a;
-  height: 42px;
+  min-height: 42px;
 
   &:hover {
     background: rgba(181, 255, 93, 0.2);
@@ -496,6 +495,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   @extend .sn-field-textarea;
   height: 42px !important;
   padding: 18px 10px 2px 10px;
+}
+
+select.sn-field-input {
+  padding-right: 20px;
+}
+
+input[type="date"].sn-field-input {
+  padding-right: 0;
 }
 
 .sn-n-field-input {
@@ -623,7 +630,65 @@ div[class*=col-] > .nav {
   text-align: center;
 }
 
-#section-2 {
+#section {
+  text-align: center;
+
+  h1 {
+    color: #e6e6e6;
+    font-family: CircularMedium, sans-serif;
+    font-weight: bold;
+    font-size: 25vw;
+    overflow: hidden;
+  }
+
+  h2 {
+    color: #595959;
+    font-size: 3.5em;
+  }
+
+  h2.animated-headline {
+    font-size: 5vw;
+
+    span {
+      color: #717171;
+    }
+  }
+
+  [class*=col] {
+    padding: 0;
+  }
+
+  div > p {
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    margin-bottom: 1em;
+    font-size: 20px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  h4 {
+    color: #595959;
+  }
+}
+
+@media (max-width: 575px) {
+  #section {
+    h2 {
+      font-size: 2em;
+    }
+
+    div > p {
+      font-size: 18px;
+    }
+  }
+}
+
+#section-last {
   width: 100%;
   height: 200px;
   background: white;

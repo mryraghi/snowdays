@@ -2,7 +2,7 @@
   <div class="row animated fadeIn">
     <div class="col-md-8">
       <h4>Participants
-        <small class="text-muted">{{n_participants}} of {{currentUser.profile.allowedParticipants}} available</small>
+        <small class="text-muted">{{n_participants}} of {{currentUser.profile.allowedParticipants}} enrolled</small>
       </h4>
       <hr>
       <p style="text-align: justify">This year you don't have to fill out each
@@ -10,6 +10,8 @@
         <strong>share a unique link</strong> to each of your fellow students. Once they receive it and type in the
         password, they will be able to fill out the form on their own. As soon as their profiles get completed,
         you'll see their statuses updated.</p>
+
+      <!-- if cp has at least one participant enrolled -->
       {{#if participants_exist}}
         <table class="table table-sm">
           <thead>
@@ -36,15 +38,14 @@
               <td>{{p.lastName}}</td>
               <td>
                 {{#with _id=p._id}}
-                  <a class="sn-tooltip" href data-toggle="tooltip" data-placement="top" title="Edit">
+                  <a href title="Edit" id="sn-icon-edit">
                     <img src="/images/icons/editing.svg" class="sn-icon-1" id="sn-icon-edit">
                   </a>
-                  <a class="sn-tooltip" href data-toggle="tooltip" data-placement="top" title="Copy link">
-                    <img src="/images/icons/copy.svg" class="sn-icon-1" id="sn-icon-copy"
-                         data-clipboard-text="https://www.snowdays.it:8080/token/{{p.token}}">
+                  <a href title="Copy link" id="sn-icon-copy" data-clipboard-text="https://www.snowdays.it/participant?token={{p.token}}">
+                    <img src="/images/icons/copy.svg" class="sn-icon-1">
                   </a>
-                  <a class="sn-tooltip" href data-toggle="tooltip" data-placement="top" title="Remove">
-                    <img src="/images/icons/tool.svg" class="sn-icon-1" id="sn-icon-delete">
+                  <a href title="Remove" id="sn-icon-delete">
+                    <img src="/images/icons/tool.svg" class="sn-icon-1" >
                   </a>
                 {{/with}}
               </td>
@@ -52,8 +53,8 @@
           {{/each}}
           </tbody>
         </table>
-        <div class="row">
-          <div class="col-md-12 text-xs-center">
+        <div class="row animated fadeIn">
+          <div class="col-md-12 text-center">
             <small class="text-muted">
               <span class="sn-status complete"></span> = complete, <span class="sn-status incomplete"></span> =
               incomplete
@@ -67,7 +68,9 @@
     </div>
     <div class="col-md-4">
       <div class="text-xs-center">
-        {{#if has_not_token}}
+
+        <!-- if co has not set the master password yet -->
+        {{#if has_no_token}}
           <h4>Set password</h4>
           <hr>
           <form id="master_password_form">
@@ -90,25 +93,30 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <button type="submit" class="sn-btn-outline-green"><i class="fa fa-lock" aria-hidden="true"></i> Set
+                <button type="submit" class="sn-btn-outline-green sn-full-width">
+                  <i class="fa fa-lock mr-1" aria-hidden="true"></i> Set
                 </button>
               </div>
             </div>
           </form>
         {{else}}
-          {{#if maxAllowed}}
-            <p>max reached</p>
+
+          <!-- if max allowed number of participant is reached -->
+          {{#if max_allowed}}
+            <div class="row">
+              <div class="col-12 text-center">
+                <h6><i class="fa fa-exclamation-triangle mr-1" aria-hidden="true"></i> Max reached</h6>
+              </div>
+            </div>
           {{else}}
             <div class="animated fadeIn">
-              <h4>Add new</h4>
+              <h4>Add new {{max_allowed}}</h4>
               <hr>
               <form id="add_new_participant_form">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="first_name" id="first_name"
-                             value="{{lp.firstName}}"
-                             required>
+                      <input type="text" class="sn-field-input" name="first_name" id="first_name" required>
                       <label for="first_name" class="sn-field-label">First name</label>
                     </div>
                   </div>
@@ -116,33 +124,23 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="last_name" id="last_name"
-                             value="{{lp.firstName}}"
-                             required>
+                      <input type="text" class="sn-field-input" name="last_name" id="last_name" required>
                       <label for="last_name" class="sn-field-label">Last name</label>
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}"
-                             required>
-                      <label for="email" class="sn-field-label">Email</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <button type="submit" class="sn-btn-outline-green"><i class="fa fa-plus" aria-hidden="true"></i>
-                      Add
+                    <button type="submit" class="sn-btn-outline-green sn-full-width">
+                      <i class="fa fa-plus mr-1" aria-hidden="true"></i> Add
                     </button>
                   </div>
                 </div>
               </form>
             </div>
-          {{/if}}
-        {{/if}}
+          {{/if}} <!-- max_allowed -->
+
+        {{/if}} <!-- has_no_token -->
       </div>
     </div>
   </div>

@@ -12,6 +12,10 @@ Meteor.publish('users.current', function (token) {
         'profile.university': 1
       }
     });
+  } else {
+    // return nothing if user is not logged in
+    // and no token is provided
+    return {}
   }
 });
 
@@ -43,7 +47,13 @@ Meteor.publish('stats.participants.all', function () {
 });
 
 Meteor.publish('users.one.strict', function (_id) {
-  return Meteor.users.find({_id: _id}, {fields: {'profile.firstName': 1, 'profile.lastName': 1, 'profile.university': 1}})
+  return Meteor.users.find({_id: _id}, {
+    fields: {
+      'profile.firstName': 1,
+      'profile.lastName': 1,
+      'profile.university': 1
+    }
+  })
 });
 
 

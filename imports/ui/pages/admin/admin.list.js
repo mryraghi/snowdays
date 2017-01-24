@@ -19,7 +19,7 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
 });
 
 // catches all exceptions on the server
-raven.patchGlobal(client);
+// raven.patchGlobal(client);
 
 client.on('logged', function () {
   console.log('Exception handled and sent to Sentry.io');
@@ -484,7 +484,8 @@ function generateTable(template, options) {
     tableHead.append("<th class='animated fadeIn'>" + (_.isNull(schema) ? key : schema.label(key)) + "</th>");
   });
 
-  tableHead.append("<th class='animated fadeIn'>Actions</th>");
+  // button column
+  tableHead.append("<th class='animated fadeIn'></th>");
   tableHead.append("</tr>");
 
   // BODY
@@ -500,7 +501,11 @@ function generateTable(template, options) {
 
       _.forEach(flattened, function (value, key) {
         let cell = deepFind(row, key);
-        tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
+        if (_.isEqual(key, 'statusComplete')) {
+          tableBody.append("<td class='animated fadeIn'><span class='sn-status " + (cell ? 'complete' : 'incomplete') + "'></span></td>");
+        } else {
+          tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
+        }
       });
 
 
@@ -510,7 +515,7 @@ function generateTable(template, options) {
         // "</a> " +
         "<td class='animated fadeIn'>" +
 
-          // edit button only if participants
+        // edit button only if participants
         (_.isEqual(collection.name, 'participants') ? "" +
           "<a class='sn-tooltip' href title='Edit' id='sn-icon-edit' name=" + deepFind(row, '_id') + ">" +
           "<img src='/images/icons/editing.svg' class='sn-icon-1'></a>" : "") +

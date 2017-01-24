@@ -13,7 +13,7 @@ Template.ExternalsPage.onCreated(function () {
   this.subscribe("users.current");
 
   // set default tab
-  Session.set('tab', {name: 'ParticipantsTableSection'})
+  Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()})
 
 });
 
@@ -29,17 +29,11 @@ Template.ExternalsPage.events({
 
   'click .sn-menu-item': (event, template) => {
     switch (event.currentTarget.id) {
-      case 'home':
-        Session.set('tab', {name: 'HomeSection'});
-        break;
       case 'profile':
         Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()});
         break;
       case 'participants':
         Session.set('tab', {name: 'ParticipantsTableSection'});
-        break;
-      case 'faq':
-        Session.set('tab', {name: 'FaqSection'});
         break;
       case 'add_new':
         Session.set('tab', {name: 'UserFormSection'});
@@ -58,7 +52,7 @@ Template.ExternalsPage.helpers({
   },
   survey: function () {
     const user = Meteor.user();
-    if (user) return !user.survey
+    if (user && user.profile) return !user.profile.survey
   },
   lp: function () {
     return Participants.findOne({_id: Meteor.userId()})
@@ -70,32 +64,11 @@ Template.ExternalsPage.helpers({
   }
 });
 
-Template.HomeSection.helpers({
-
-
-  // allowed number of participants
-  a_participants: () => {
-    const user = Meteor.user();
-    // TODO: allowed_participants of undefined
-    if (user) return user.profile.allowed_participants
-  },
-  moment: (date, format) => {
-    return moment(date).format(format)
-  },
-  progress: (n, m) => {
-    const p = (n * 100) / m;
-
-    if (0 < p && p < 80) return 'progress-danger';
-    if (80 <= p && p < 100) return 'progress-warning';
-    return 'progress-success'
-  }
-});
-
 Template.SurveySection.onRendered(function () {
   // Survey.Survey.cssType = "bootstrap";
   const survey = new Survey.Survey(
     {
-      completedHtml: "<h6 class=\"text-success m-y-1 text-xs-center\">Thank you, your efforts are greatly appreciated.</h6>",
+      completedHtml: "<h6 class=\"text-success my-1 text-center\">Thank you, your efforts are greatly appreciated.</h6>",
       pages: [
         {
           name: "page1",
@@ -140,17 +113,18 @@ Template.SurveySection.onRendered(function () {
       icon: "fa fa-times"
     },
     comment: "sn-field-textarea",
-    navigationButton: "sn-btn-empty-blue sn-btn-sm m-t-1 m-r-1",
+    navigationButton: "sn-btn-empty-blue sn-btn-sm mt-1 mr-1",
     navigation: {complete: "sn-btn-empty-green sn-btn-sm"},
     text: "form-control"
   };
 
+  // TODO: check update profile.survey
   survey.onComplete.add(function (s) {
     Surveys.insert(s.data, function (error) {
       if (error) {
         swal('Error', 'There was an error sending your feedback.', 'error')
       } else {
-        Meteor.users.update({_id: Meteor.userId()}, {$set: {survey: true}}, function (error) {
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.survey': true}}, function (error) {
           if (error) swal('Error', error, 'error')
         })
       }

@@ -6,26 +6,26 @@
 
 <template name="LoginPage">
   <div class="container">
-    <div class="row section-top-margin">
-      <div class="col-xs-12 col-md-4 offset-md-4 text-center">
+    <div class="row pt-3 pt-sm-5">
+      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center">
         {{> Template.dynamic template=tab}}
       </div>
     </div>
   </div>
 </template>
 
-<template name="LoginUnibzSection">
+<template name="LoginSection">
   <div class="animated fadeIn">
     <div id="admin-login" style="display:flex; flex-direction: column;">
       <img src="/images/login.svg" class="sn-section-title">
-        <img src="/images/for_unibz.svg" class="sn-section-subtitle">
     </div>
-    <form id="login-unibz-form">
+    <form id="login-form">
       <div class="row">
         <div class="col-12">
           <div class="sn-field-group">
             <input type="text" class="form-control sn-field-input" name="username" id="username" required>
-            <label for="username" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student ID</label>
+            <label for="username" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student
+              ID or username</label>
           </div>
         </div>
       </div>
@@ -33,47 +33,14 @@
         <div class="col-12">
           <div class="sn-field-group">
             <input type="password" class="form-control sn-field-input" name="password" id="password" required>
-            <label for="password" class="sn-field-label"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Password</label>
+            <label for="password" class="sn-field-label"><i class="fa fa-unlock-alt" aria-hidden="true"></i>
+              Password</label>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <button type="submit" class="sn-btn-blue">️Login</button>
-          <button type="button" class="sn-btn-empty-blue switchButton">for externals</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</template>
-
-<template name="LoginExternalsSection">
-  <div class="animated fadeIn">
-    <div style="display:flex; flex-direction: column;">
-      <img src="/images/login.svg" class="sn-section-title">
-      <img src="/images/for_externals.svg" class="sn-section-subtitle">
-    </div>
-    <form id="login-externals-form">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="sn-field-group">
-            <input type="text" class="form-control sn-field-input" name="username" id="username" required>
-            <label for="username" class="sn-field-label">Username</label>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="sn-field-group">
-            <input type="password" class="form-control sn-field-input" name="password" id="password" required>
-            <label for="password" class="sn-field-label">Password</label>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <button type="submit" class="sn-btn-blue">️Login</button>
-          <button type="button" class="sn-btn-empty-blue switchButton">for unibz</button>
         </div>
       </div>
     </form>
