@@ -530,7 +530,7 @@ function generateTable(template, options) {
 
       pagination.append("<li class='page-item " + (_.isEqual(skip, 0) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + (skip / limit) + " href tabindex='-1'>Previous</a></li>");
 
-      if (currentPage > 4) {
+      if (currentPage > 4 && currentPage <= n_pages - 4) {
         pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
 
         for (let i = currentPage - 3; i < currentPage + 4; i++) {
@@ -539,8 +539,14 @@ function generateTable(template, options) {
 
         pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
 
-      } else {
+      } else if (currentPage <= 4) {
         for (let i = 1; i < 5; i++) {
+          pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+        }
+        pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+      } else {
+        pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+        for (let i = n_pages - 3; i <= n_pages; i++) {
           pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
         }
       }
