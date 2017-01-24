@@ -39,7 +39,7 @@ The purpose of this wiki is to give support to the IT Team of future organisatio
 ### Admin section
 #### Participants list
 ![Admin list and filters](https://www.snowdays.it/public/screenshots/admin.list1.png?static=true)
-![Admin fields](https://www.snowdays.it/public/screenshots/admin.list1.png?static=true)
+![Admin fields](https://www.snowdays.it/public/screenshots/admin.list2.png?static=true)
 In this section the staff can _view_, _search_, _filter_, _edit_ and _remove_ every user and participant registered on the website. Snowdays' team is composed of many smaller teams and each one of them may need to filter participants by _activities_ (Sport team), _rental_ options (Logistic team), _food allergies_ (Catering team) and so on. Moreover, it's possible to show/hide almost any field in the table.
 
 #### Add new
@@ -61,7 +61,28 @@ Here contact people can update their profiles, set a master password, manually i
 -> [Link to API docs](https://www.snowdays.it/docs)
 
 ## Android native app
-[...]
+### Snowdays Management Mobile Application
+
+#### Project idea and Introduction
+
+Our project idea starts from the need of simplifying the management of the UniBZ event Snowdays.
+In fact, thanks to the mobile application, every member of the staff can check at any time the state of the ongoing activities. In particular, each participant of the event will be provided with an NFC bracelet and by checking it with our App, it will be known how many people are missing from an activity, whether the bus has to wait for someone etc.
+
+#### Application Flow
+
+The very first activity shown in the application is the login. The staff member using the application should be recognised for security and privacy reasons. Once the user has been successfully authenticated, a new page will be shown. Here it is possible to navigate with four tabs through the activities of the three days of the event. Moreover, one tab is reserved to general utility functions. 
+
+On each tab there is a list of cards, one for every activity of the day. By clicking on the card, a very important phase of the application starts. In fact, it is now possible to read the NFC bracelet. The application reads a token representing the participant and changes the participant's field corresponding to the selected activity. For example, if the transport by bus has been organised, a staff member reads and records all the participants taking the bus. 
+
+Furthermore, it is also possible to have a complete list of those participants whose NFC has not been read. Back to our example, if by the end of the party someone is late for the bus, the staff knows that he is missing and the bus will wait.
+
+Finally, we also implemented a detailed view of the participant including all the necessary information like name, phone number, address and activities he attended. 
+
+![App login](https://www.snowdays.it/public/screenshots/app-list.png?static=true)
+![App cards](https://www.snowdays.it/public/screenshots/app-cards.png?static=true)
+![App nfc](https://www.snowdays.it/public/screenshots/app-nfc.png?static=true)
+![App list](https://www.snowdays.it/public/screenshots/app-list.png?static=true)
+
 
 # Credits
 - Romeo Bellon ([GitHub](https://github.com/mryraghi), [LinkedIn](https://www.linkedin.com/in/romeobellon/))
