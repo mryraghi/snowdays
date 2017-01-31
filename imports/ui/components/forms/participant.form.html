@@ -196,18 +196,20 @@
                         ID</b></label>
                     {{/with}}
                   {{/if}}
-                  {{#if lp.hasStudentID}}
-                    <p class="animated fadeIn"><i class="fa fa-check" aria-hidden="true"></i> Student ID</p>
-                  {{else}}
-                    {{#with uploadingSID}}
-                      <p class="sn-loader mt-1">Uploading...</p>
+                  {{#if not_equals lp.university 'Alumni Bolzano'}}
+                    {{#if lp.hasStudentID}}
+                      <p class="animated fadeIn"><i class="fa fa-check" aria-hidden="true"></i> Student ID</p>
                     {{else}}
-                      <input type="file" name="has_student_id" id="has_student_id"
-                             class="sn-input-file sn-btn-rounded mt-2"/>
-                      <label for="has_student_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
-                                                                  aria-hidden="true"></i><b>Student
-                        ID</b></label>
-                    {{/with}}
+                      {{#with uploadingSID}}
+                        <p class="sn-loader mt-1">Uploading...</p>
+                      {{else}}
+                        <input type="file" name="has_student_id" id="has_student_id"
+                               class="sn-input-file sn-btn-rounded mt-2"/>
+                        <label for="has_student_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
+                                                                    aria-hidden="true"></i><b>Student
+                          ID</b></label>
+                      {{/with}}
+                    {{/if}}
                   {{/if}}
                 </div>
 

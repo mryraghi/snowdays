@@ -1,8 +1,8 @@
-import './admin.list.html'
-import Participants from '/imports/collections/participants'
-import jwt from 'jsonwebtoken'
-import _ from 'lodash'
-import {deepPick, deepFind} from '/lib/js/utilities'
+import "./admin.list.html";
+import Participants from "/imports/collections/participants";
+import jwt from "jsonwebtoken";
+import _ from "lodash";
+import {deepFind} from "/lib/js/utilities";
 
 let fields = require('/imports/collections/db_allowed_values.json');
 
@@ -15,7 +15,8 @@ let raven = require('raven');
 let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1bd9f24d1a93b78b18750afb54@sentry.io/126769', {
   environment: Meteor.settings.public.environment,
   server_name: 'snowdays',
-  tags: {section: 'API'}
+  tags: {section: 'API'},
+  autoBreadcrumbs: true
 });
 
 // catches all exceptions on the server
@@ -62,7 +63,7 @@ Template.AdminListSection.onCreated(function () {
 
     $.when(setSubscription(collection.name, collection.filters, collection.searchQuery, collection.flattened, limit, skip)).done(function (options) {
       Meteor.subscribe(collection.name + ".all", options, () => {
-        Meteor.call(collection.name + '.count', function (error, count) {
+        Meteor.call(collection.name + '.count', options, function (error, count) {
           template.count.set(count);
           setTimeout(() => {
             generateTable(template, options);
@@ -116,11 +117,18 @@ Template.AdminListSection.events({
    * related allowed values' select options
    */
   'change #select_field': function (event, template) {
-    let value = event.target.value;
-    let collection = template.collection.get().name;
+    let field = event.target.value;
+    let collection = template.collection.get();
+    let instance = collection.instance;
+
+    // TODO: everything should be set and retrieve from the website/db like this
+    // if (_.isEqual(field, 'university')) {
+    // retrieve all values from server
+    // console.log(Meteor.call('collection.raw', instance));
+    // }
 
     // deep find in object, returns values allowed
-    let allowed = deepFind(fields[collection], value) || deepFind(fields['common'], value) || deepFind(fields['common'], 'boolean');
+    let allowed = deepFind(fields[collection.name], field) || deepFind(fields['common'], field) || deepFind(fields['common'], 'boolean');
 
     createOptionChildren(allowed, 'select_value');
   },
@@ -142,10 +150,15 @@ Template.AdminListSection.events({
     if (!_.isEqual(field, 'Field') && !_.isEqual(value, 'Value')) {
 
       // _.zipObject returns an object composed from key-value pairs
-      if (_.isEqual(operation, 'e'))
+      if (_.isEqual(operation, 'e')) {
+        if (_.isEqual(value, 'true')) value = true;
+        if (_.isEqual(value, 'false')) value = false;
+
+        console.log(value);
         newFilter = _.zipObject([field], [{$eq: value}]);
-      else
+      } else if (_.isEqual(operation, 'ne')) {
         newFilter = _.zipObject([field], [{$ne: value}]);
+      }
 
       currentFilters.push(newFilter);
       flattened[field] = 1;
@@ -162,7 +175,7 @@ Template.AdminListSection.events({
       });
 
       // Clear form
-      template.find("#add_filter_form").reset();
+      document.getElementById('add_filter_form').reset();
     }
   },
 
@@ -361,7 +374,6 @@ Template.AdminListSection.events({
   'click .pagination_item': function (event, template) {
     let value = event.target.name;
     let limit = template.limit.get();
-    let skip = template.skip.get();
 
     template.skip.set((value - 1) * limit)
   },
@@ -528,31 +540,40 @@ function generateTable(template, options) {
       let currentPage = (skip / limit) + 1;
       pagination.children().remove();
 
-      pagination.append("<li class='page-item " + (_.isEqual(skip, 0) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + (skip / limit) + " href tabindex='-1'>Previous</a></li>");
+      if (n_pages > 1) {
+        pagination.append("<li class='page-item " + (_.isEqual(skip, 0) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + (skip / limit) + " href tabindex='-1'>Previous</a></li>");
 
-      if (currentPage > 3 && currentPage <= n_pages - 4) {
-        pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+        if (currentPage > 3 && currentPage <= n_pages - 4 && n_pages > 7) {
 
-        for (let i = currentPage - 3; i < currentPage + 4; i++) {
-          pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+          if (currentPage > 4) {
+            pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+          }
+
+          for (let i = currentPage - 3; i < currentPage + 4; i++) {
+            pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+          }
+
+          pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+
+        } else if (currentPage <= 3 && n_pages > 7) {
+          for (let i = 1; i < 8; i++) {
+            pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+          }
+          pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+        } else if (n_pages > 7) {
+          pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+          for (let i = n_pages - 6; i <= n_pages; i++) {
+            pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+          }
+        } else {
+          for (let i = 1; i <= n_pages; i++) {
+            pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
+          }
         }
 
-        pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
+        pagination.append("<li class='page-item " + (_.isEqual(currentPage, n_pages) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + ((skip / limit) + 2) + " href>Next</a></li>");
 
-      } else if (currentPage <= 3) {
-        for (let i = 1; i < 5; i++) {
-          pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
-        }
-        pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
-      } else {
-        pagination.append("<li class='page-item disabled'><a class='page-link pagination_item' href>...</a></li>");
-        for (let i = n_pages - 3; i <= n_pages; i++) {
-          pagination.append("<li class='page-item " + (_.isEqual(currentPage, i) ? 'active' : '') + "'><a class='page-link pagination_item' name=" + i + " href>" + i + "</a></li>");
-        }
       }
-
-      pagination.append("<li class='page-item " + (_.isEqual(currentPage, n_pages) ? 'disabled' : '') + "'><a class='page-link pagination_item' name=" + ((skip / limit) + 2) + " href>Next</a></li>");
-
     });
   } else {
     tableBody.append("<tr class='animated fadeIn'><td colspan=" + (2 + _.size(flattened)) + "><em>0 matches</em></td></tr>");

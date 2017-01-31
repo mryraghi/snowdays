@@ -1,10 +1,10 @@
-import _ from 'lodash'
+import _ from "lodash";
+import {deepFlush} from "/lib/js/utilities";
+import "./participant.form.html";
+import Participants from "/imports/collections/participants";
+import IDs from "/imports/collections/ids";
+import "/imports/ui/components/loader/loader";
 let CryptoJS = require("crypto-js");
-import {deepFlush} from '/lib/js/utilities'
-import './participant.form.html'
-import Participants from '/imports/collections/participants'
-import IDs from '/imports/collections/ids'
-import '/imports/ui/components/loader/loader'
 
 // Sentry.io
 
@@ -127,12 +127,12 @@ Template.UserFormSection.events({
 
     let _id = Session.get('_id');
     let p = Participants.findOne({_id: _id});
-    if (!p.hasPersonalID && !isAdmin) {
+    if (!p.hasPersonalID && !isAdmin && !_.isEqual(p.university, 'Alumni Bolzano')) {
       $(target.save).text('Save');
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
 
-    if (!p.hasStudentID && !isAdmin) {
+    if (!p.hasStudentID && !isAdmin && !_.isEqual(p.university, 'Alumni Bolzano')) {
       $(target.save).text('Save');
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }

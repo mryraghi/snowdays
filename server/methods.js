@@ -1,9 +1,8 @@
 let CryptoJS = require("crypto-js");
-import _ from 'lodash'
-import base64url from 'base64url'
-
-import {checkMasterPassword} from './utilities'
-import Participants from '/imports/collections/participants'
+import _ from "lodash";
+import base64url from "base64url";
+import {checkMasterPassword} from "./utilities";
+import Participants from "/imports/collections/participants";
 
 Meteor.methods({
 
@@ -54,8 +53,8 @@ Meteor.methods({
     return Participants.remove(_id);
   },
 
-  'participants.count': function () {
-    return Participants.find().count()
+  'participants.count': function (options) {
+    return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip}).count()
   },
 
   // users
@@ -100,8 +99,8 @@ Meteor.methods({
 
   },
 
-  'users.count': function () {
-    return Meteor.users.find().count()
+  'users.count': function (options) {
+    return Meteor.users.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip}).count()
   },
 
   // handle tokens
@@ -126,6 +125,6 @@ Meteor.methods({
 
     // return hash to be saved as session
     return _id
-  }
+  },
 });
 

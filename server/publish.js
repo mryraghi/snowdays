@@ -1,5 +1,5 @@
-import Participants from '/imports/collections/participants'
-import _ from 'lodash'
+import Participants from "/imports/collections/participants";
+import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
   if (this.userId) {
@@ -15,7 +15,7 @@ Meteor.publish('users.current', function (token) {
   } else {
     // return nothing if user is not logged in
     // and no token is provided
-    return {}
+    this.stop()
   }
 });
 
@@ -28,6 +28,7 @@ Meteor.publish('participants.all.related', function () {
 });
 
 Meteor.publish('participants.all', function (options) {
+  console.log(options);
   return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
 });
 

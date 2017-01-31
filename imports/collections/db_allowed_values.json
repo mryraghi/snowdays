@@ -52,7 +52,29 @@
       }
     },
     "university": {
-      "UniBz": "Free University of Bolzano"
+      "UniBz": "Free University of Bolzano",
+      "Università di Bologna": "Università di Bologna",
+      "Università di Genova": "Università di Genova",
+      "Università di Sassari ": "Università di Sassari ",
+      "Università di Verona": "Università di Verona",
+      "Università di Milano": "Università di Milano",
+      "Università di Trento": "Università di Trento",
+      "Università di Torino": "Università di Torino",
+      "Alumni Bolzano": "Alumni Bolzano",
+      "TU Munich": "TU Munich",
+      "LMU Munich": "LMU Munich",
+      "ESB": "ESB",
+      "Frankfurt School": "Frankfurt School",
+      "Nordakademie": "Nordakademie",
+      "WHU": "WHU",
+      "Goethe Universität Frankfurt am Main": "Goethe Universität Frankfurt am Main",
+      "Zeppelin University": "Zeppelin University",
+      "University of Mainz": "University of Mainz",
+      "University of Bayreuth": "University of Bayreuth",
+      "University of Tuebingen": "University of Tuebingen",
+      "University of Salzburg": "University of Salzburg",
+      "Maastricht University": "Maastricht University",
+      "HEC Lausanne": "HEC Lausanne"
     }
   },
   "common": {
@@ -69,7 +91,29 @@
     },
     "profile": {
       "university": {
-        "UniBz": "Free University of Bolzano"
+        "UniBz": "Free University of Bolzano",
+        "Università di Bologna": "Università di Bologna",
+        "Università di Genova": "Università di Genova",
+        "Università di Sassari ": "Università di Sassari ",
+        "Università di Verona": "Università di Verona",
+        "Università di Milano": "Università di Milano",
+        "Università di Trento": "Università di Trento",
+        "Università di Torino": "Università di Torino",
+        "Alumni Bolzano": "Alumni Bolzano",
+        "TU Munich": "TU Munich",
+        "LMU Munich": "LMU Munich",
+        "ESB": "ESB",
+        "Frankfurt School": "Frankfurt School",
+        "Nordakademie": "Nordakademie",
+        "WHU": "WHU",
+        "Goethe Universität Frankfurt am Main": "Goethe Universität Frankfurt am Main",
+        "Zeppelin University": "Zeppelin University",
+        "University of Mainz": "University of Mainz",
+        "University of Bayreuth": "University of Bayreuth",
+        "University of Tuebingen": "University of Tuebingen",
+        "University of Salzburg": "University of Salzburg",
+        "Maastricht University": "Maastricht University",
+        "HEC Lausanne": "HEC Lausanne"
       },
       "gender": {
         "M": "Male",
@@ -78,7 +122,14 @@
     }
   },
   "indices": {
-    "participants": ["firstName", "lastName"],
-    "users": ["profile.firstName", "profile.lastName", "username"]
+    "participants": [
+      "firstName",
+      "lastName"
+    ],
+    "users": [
+      "profile.firstName",
+      "profile.lastName",
+      "username"
+    ]
   }
 }
