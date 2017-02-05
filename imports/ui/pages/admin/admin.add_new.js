@@ -1,15 +1,5 @@
-import './admin.add_new.html'
-
-import _ from 'lodash'
-import Flickity from 'flickity'
-
-Template.AdminAddNewSection.onRendered(function () {
-  let flkty = new Flickity('#admin_add_new_carousel', {
-    accessibility: false,
-    draggable: false,
-    pageDots: false
-  });
-});
+import "./admin.add_new.html";
+import _ from "lodash";
 
 Template.AdminAddNewSection.events({
   'submit #admin_add_new_unibz_form': function (event, template) {

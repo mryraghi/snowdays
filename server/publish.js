@@ -28,7 +28,7 @@ Meteor.publish('participants.all.related', function () {
 });
 
 Meteor.publish('participants.all', function (options) {
-  console.log(options);
+  // console.log(options);
   return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
 });
 

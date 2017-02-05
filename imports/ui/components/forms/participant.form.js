@@ -37,6 +37,7 @@ Template.UserFormSection.onCreated(function () {
   // set _id session variable when editing
   // participant in external cp list
   setSessions();
+  facebookSetup();
 
   let _id = Session.get('_id') || Meteor.userId();
 
@@ -303,3 +304,25 @@ function uploadID(file, template, idType) {
 Template.registerHelper("selectedIf", function (left, right) {
   return left == right ? "selected" : "";
 });
+
+function facebookSetup() {
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: '216607852080016',
+      xfbml: true,
+      version: 'v2.8'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function (d, s, id) {
+    let js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+}

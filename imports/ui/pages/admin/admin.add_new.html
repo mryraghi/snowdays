@@ -1,142 +1,140 @@
 <template name="AdminAddNewSection">
 
   <div class="row pt-5">
-    <div class="col-10 offset-1 col-md-6 offset-md-3 offset-lg-4 col-lg-4 text-center">
-      <div id="admin_add_new_carousel">
-        <div class="carousel-cell animated fadeIn">
-          <form id="admin_add_new_unibz_form">
-            <h4>Add new UniBZ</h4>
-            <hr>
-            <div class="row">
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="first_name" id="first_name" required>
-                  <label for="first_name" class="sn-field-label">First name</label>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="last_name" id="last_name" required>
-                  <label for="last_name" class="sn-field-label">Last name</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <select class="sn-field-input sn-a-0" id="gender" name="gender"
-                          required>
-                    <option selected disabled>Choose gender</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                  </select>
-                  <label for="gender" class="sn-field-label"><i class="fa fa-venus-mars" aria-hidden="true"></i> Gender</label>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <input type="number" class="sn-field-input" name="student_id" id="student_id" required>
-                  <label for="student_id" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student
-                    ID</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="password" id="password">
-                  <label for="password" class="sn-field-label">Optional password</label>
-                </div>
-              </div>
-            </div>
-            <button type="submit" class="sn-btn-blue mb-5"><i class="fa fa-plus" aria-hidden="true"></i> Create account
-            </button>
-          </form>
-        </div>
-        <div class="carousel-cell animated fadeIn">
-          <form id="admin_add_new_cp_form">
-            <h4>Add new contact person</h4>
-            <hr>
-            <div class="row">
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="first_name" id="first_name" required>
-                  <label for="first_name" class="sn-field-label">First name</label>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="last_name" id="last_name" required>
-                  <label for="last_name" class="sn-field-label">Last name</label>
-                </div>
-              </div>
-            </div>
+    <div class="col-12 col-sm-6 offset-lg-2 col-lg-4 text-center">
+      <form id="admin_add_new_unibz_form">
+        <h4>Add new UniBZ</h4>
+        <hr>
+        <div class="row">
+          <div class="col-12 col-sm-6">
             <div class="sn-field-group">
-              <select class="sn-field-input sn-a-0" id="university" name="university"
-                      required>
-                <option selected disabled>Choose university</option>
-                <option value="UniBz">Free University of Bolzano</option>
-                <option value="Alumni Bolzano">Alumni Bolzano</option>
-                <option disabled>Italy</option>
-                <option value="Università di Bologna">Università di Bologna</option>
-                <option value="Università di Genova">Università di Genova</option>
-                <option value="Università di Sassari ">Università di Sassari </option>
-                <option value="Università di Verona">Università di Verona</option>
-                <option value="Università di Milano">Università di Milano</option>
-                <option value="Università di Trento">Università di Trento</option>
-                <option value="Università di Torino">Università di Torino</option>
-                <option disabled>Germany</option>
-                <option value="TU Munich">TU Munich</option>
-                <option value="LMU Munich">LMU Munich</option>
-                <option value="ESB">ESB</option>
-                <option value="Frankfurt School">Frankfurt School</option>
-                <option value="Nordakademie">Nordakademie</option>
-                <option value="WHU">WHU</option>
-                <option value="Goethe Universität Frankfurt am Main">Goethe Universität Frankfurt am Main</option>
-                <option value="Zeppelin University">Zeppelin University</option>
-                <option value="University of Mainz">University of Mainz</option>
-                <option value="University of Bayreuth">University of Bayreuth</option>
-                <option value="University of Tuebingen">University of Tuebingen</option>
-                <option disabled>Others</option>
-                <option value="University of Salzburg">University of Salzburg</option>
-                <option value="Maastricht University">Maastricht University</option>
-                <option value="HEC Lausanne">HEC Lausanne</option>
-              </select>
-              <label for="university" class="sn-field-label"><i class="fa fa-university" aria-hidden="true"></i>
-                University</label>
+              <input type="text" class="sn-field-input" name="first_name" id="first_name" required>
+              <label for="first_name" class="sn-field-label">First name</label>
             </div>
-            <div class="row">
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <select class="sn-field-input sn-a-0" id="gender" name="gender"
-                          required>
-                    <option selected disabled>Choose gender</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                  </select>
-                  <label for="gender" class="sn-field-label"><i class="fa fa-venus-mars" aria-hidden="true"></i> Gender</label>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="sn-field-group">
-                  <input type="number" class="sn-field-input" name="n_participants" id="n_participants" required>
-                  <label for="n_participants" class="sn-field-label"># participants</label>
-                </div>
-              </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="last_name" id="last_name" required>
+              <label for="last_name" class="sn-field-label">Last name</label>
             </div>
-            <div class="row">
-              <div class="col-12">
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="password" id="password">
-                  <label for="password" class="sn-field-label">Optional password</label>
-                </div>
-              </div>
-            </div>
-            <button type="submit" class="sn-btn-blue mb-5"><i class="fa fa-plus" aria-hidden="true"></i> Create account
-            </button>
-          </form>
+          </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="gender" name="gender"
+                      required>
+                <option selected disabled>Choose</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+              <label for="gender" class="sn-field-label"><i class="fa fa-venus-mars" aria-hidden="true"></i>
+                Gender</label>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <input type="number" class="sn-field-input" name="student_id" id="student_id" required>
+              <label for="student_id" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student
+                ID</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="password" id="password">
+              <label for="password" class="sn-field-label">Optional password</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="sn-btn-blue mb-5"><i class="fa fa-plus" aria-hidden="true"></i> Create account
+        </button>
+      </form>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-4 text-center">
+      <form id="admin_add_new_cp_form">
+        <h4>Add new contact person</h4>
+        <hr>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="first_name" id="first_name" required>
+              <label for="first_name" class="sn-field-label">First name</label>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="last_name" id="last_name" required>
+              <label for="last_name" class="sn-field-label">Last name</label>
+            </div>
+          </div>
+        </div>
+        <div class="sn-field-group">
+          <select class="sn-field-input sn-a-0" id="university" name="university"
+                  required>
+            <option selected disabled>Choose university</option>
+            <option value="UniBz">Free University of Bolzano</option>
+            <option value="Alumni Bolzano">Alumni Bolzano</option>
+            <option disabled>Italy</option>
+            <option value="Università di Bologna">Università di Bologna</option>
+            <option value="Università di Genova">Università di Genova</option>
+            <option value="Università di Sassari ">Università di Sassari</option>
+            <option value="Università di Verona">Università di Verona</option>
+            <option value="Università di Milano">Università di Milano</option>
+            <option value="Università di Trento">Università di Trento</option>
+            <option value="Università di Torino">Università di Torino</option>
+            <option disabled>Germany</option>
+            <option value="TU Munich">TU Munich</option>
+            <option value="LMU Munich">LMU Munich</option>
+            <option value="ESB">ESB</option>
+            <option value="Frankfurt School">Frankfurt School</option>
+            <option value="Nordakademie">Nordakademie</option>
+            <option value="WHU">WHU</option>
+            <option value="Goethe Universität Frankfurt am Main">Goethe Universität Frankfurt am Main</option>
+            <option value="Zeppelin University">Zeppelin University</option>
+            <option value="University of Mainz">University of Mainz</option>
+            <option value="University of Bayreuth">University of Bayreuth</option>
+            <option value="University of Tuebingen">University of Tuebingen</option>
+            <option disabled>Others</option>
+            <option value="University of Salzburg">University of Salzburg</option>
+            <option value="Maastricht University">Maastricht University</option>
+            <option value="HEC Lausanne">HEC Lausanne</option>
+          </select>
+          <label for="university" class="sn-field-label"><i class="fa fa-university" aria-hidden="true"></i>
+            University</label>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="gender" name="gender"
+                      required>
+                <option selected disabled>Choose</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+              <label for="gender" class="sn-field-label"><i class="fa fa-venus-mars" aria-hidden="true"></i>
+                Gender</label>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <input type="number" class="sn-field-input" name="n_participants" id="n_participants" required>
+              <label for="n_participants" class="sn-field-label"># participants</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="sn-field-group">
+              <input type="text" class="sn-field-input" name="password" id="password">
+              <label for="password" class="sn-field-label">Optional password</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="sn-btn-blue mb-5"><i class="fa fa-plus" aria-hidden="true"></i> Create account
+        </button>
+      </form>
     </div>
   </div>
 

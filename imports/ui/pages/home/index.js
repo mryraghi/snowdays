@@ -1,15 +1,14 @@
-import './home.html'
-import LazyLoad from 'vanilla-lazyload'
-
-import initHeadline from '/lib/js/animated-headline'
+import "./home.html";
+import LazyLoad from "vanilla-lazyload";
+import initHeadline from "/lib/js/animated-headline";
 
 // Flickity
-const Flickity = require('flickity');
-import 'flickity/css/flickity.css';
-
+// const Flickity = require('flickity');
+// import 'flickity/css/flickity.css';
 
 Template.Home.onRendered(function () {
   initHeadline();
+  initTeamCarousel();
 
   let myLazyLoad = new LazyLoad();
 
@@ -207,3 +206,23 @@ Meteor.startup(function () {
 //     );
 //   }
 });
+
+function initTeamCarousel() {
+  let mySwiper = new Swiper('.team-carousel', {
+    loop: true,
+    autoplay: 2000,
+
+    slidesPerView: 'auto',
+    watchSlidesVisibility: true,
+
+    // Navigation arrows
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+
+    breakpoints: {
+      575: {
+        slidesPerView: 1
+      }
+    }
+  })
+}

@@ -24,6 +24,8 @@
     "meteor-node-stubs": "~0.2.0",
     "moment": "^2.15.1",
     "papaparse": "^4.1.2",
+    "pg": "^6.1.2",
+    "pg-native": "^1.10.0",
     "randomcolor": "^0.4.4",
     "raven": "^1.1.1",
     "simpl-schema": "^0.1.0",

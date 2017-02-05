@@ -1,11 +1,10 @@
-import '/imports/ui/pages/home'
-import '/imports/ui/pages/login'
-import '/imports/ui/pages/admin'
-import '/imports/ui/pages/externals'
-import '/imports/ui/pages/participant'
-import '/imports/ui/pages/errors/404/not_found'
-
-import _ from 'lodash'
+import "/imports/ui/pages/home";
+import "/imports/ui/pages/login";
+import "/imports/ui/pages/admin";
+import "/imports/ui/pages/externals";
+import "/imports/ui/pages/participant";
+import "/imports/ui/pages/errors/404/not_found";
+import _ from "lodash";
 
 Router.route('/', {
   name: 'Home',
@@ -16,6 +15,8 @@ Router.route('/login', {
   name: 'Login',
   template: 'LoginPage',
   onBeforeAction: function () {
+    // Google Analytics
+    GAnalytics.pageview();
     const user = Meteor.user();
     if (user) {
 
@@ -39,6 +40,8 @@ Router.route('/login', {
 Router.route('/external', {
   template: 'ExternalsPage',
   onBeforeAction: function () {
+    // Google Analytics
+    GAnalytics.pageview();
     const user = Meteor.user();
     if (!user) {
       // if not logged in redirect to login
@@ -59,6 +62,8 @@ Router.route('/external', {
 Router.route('/admin/:username', {
   template: 'AdminPage',
   onBeforeAction: function () {
+    // Google Analytics
+    GAnalytics.pageview();
     const user = Meteor.user();
     if (!user) {
       // if not logged in redirect to login
@@ -77,6 +82,8 @@ Router.route('/participant', {
   name: 'ParticipantPage',
   template: 'ParticipantPage',
   onBeforeAction: function () {
+    // Google Analytics
+    GAnalytics.pageview();
     let user = Meteor.user();
     if (!user && !this.params.query.token) {
       // if not logged in redirect to login
@@ -91,5 +98,13 @@ Router.route('/participant', {
     return {
       token: this.params.query.token || ''
     };
+  }
+});
+
+Router.route('/(.*)', {
+  template: 'NotFoundPage',
+  onBeforeAction: function () {
+    // Google Analytics
+    GAnalytics.pageview();
   }
 });

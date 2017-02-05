@@ -2,10 +2,9 @@ const path = Npm.require('path');
 const fs = Npm.require('fs');
 const _ = Npm.require('lodash');
 const Papa = Npm.require('papaparse');
-import jwt from 'jsonwebtoken'
-import {flatten} from '/lib/js/utilities'
-
-import Participants from '/imports/collections/participants'
+import jwt from "jsonwebtoken";
+import {flatten} from "/lib/js/utilities";
+import Participants from "/imports/collections/participants";
 
 
 Router.route('/csv/:token', function () {
@@ -132,7 +131,7 @@ function findFile(_this, filename, fullPath, query) {
         } else {
           headers = {'Content-type': 'text/html'};
           _this.response.writeHead(200, headers);
-          return _this.response.end('<html style="margin: 0"><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body class="container"><img style="width: 100%; height: auto;" src="data:image/jpeg;base64,' + new Buffer(file).toString('base64') + '"></body></html>');
+          return _this.response.end('<html style="margin: 0"><head><title>" + filename + "</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body class="container"><img style="width: 100%; height: auto;" src="data:image/jpeg;base64,' + new Buffer(file).toString('base64') + '"></body></html>');
         }
         break;
 
@@ -144,7 +143,7 @@ function findFile(_this, filename, fullPath, query) {
         } else {
           headers = {'Content-type': 'text/html'};
           _this.response.writeHead(200, headers);
-          return _this.response.end('<html style="margin: 0"><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body class="container text-xs-center"><img style="width: auto; height: 100%;" src="data:image/png;base64,' + new Buffer(file).toString('base64') + '"></body></html>');
+          return _this.response.end('<html style="margin: 0"><head><title>" + filename + "</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body class="container text-xs-center"><img style="width: auto; height: 100%;" src="data:image/png;base64,' + new Buffer(file).toString('base64') + '"></body></html>');
         }
         break;
 
@@ -156,7 +155,7 @@ function findFile(_this, filename, fullPath, query) {
   } catch (error) {
     if (_.isEqual(error.code, 'ENOENT')) {
       _this.response.writeHead(202, headers);
-      return _this.response.end('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body><div class="container"><div class="text-xs-center" style="margin-top: 50px" role="alert"><strong>404:</strong> File Not Found</div></div></body></html>');
+      return _this.response.end('<html><head><title>Snowdays error</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body><div class="container"><div class="text-xs-center" style="margin-top: 50px" role="alert"><strong>404:</strong> File Not Found</div></div></body></html>');
     }
   }
 }
