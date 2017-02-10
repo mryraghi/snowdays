@@ -1,7 +1,7 @@
-import './externals.table.html'
-import Participants from '/imports/collections/participants'
-import Clipboard from 'clipboard'
-import _ from 'lodash'
+import "./externals.table.html";
+import Participants from "/imports/collections/participants";
+import Clipboard from "clipboard";
+import _ from "lodash";
 let CryptoJS = require("crypto-js");
 
 Template.ParticipantsTableSection.onCreated(function () {
@@ -87,7 +87,10 @@ Template.ParticipantsTableSection.events({
 
       Meteor.call('participants.insert', participant, function (error, result) {
         if (error) swal('Error', error.message, 'error');
-        else template.find("#add_new_participant_form").reset();
+        else {
+          template.find("#add_new_participant_form").reset();
+          template.find("#first_name").focus();
+        }
       })
     }
   },

@@ -16,7 +16,7 @@
         <hr>
 
         <div class="row">
-          <div class="col-12 col-sm-6">
+          <div class="col-12 col-sm-8">
             <div class="sn-field-group mb-2">
               <input type="text" class="sn-field-input" name="search" id="search" required>
               <label for="search" class="sn-field-label">
@@ -24,7 +24,7 @@
               </label>
             </div>
           </div>
-          <div class="col-6 col-sm-3">
+          <div class="col-6 col-sm-2">
             <div class="sn-field-group mb-0">
               <select class="sn-field-input sn-a-0" id="limit_field" name="limit_field">
                 <option selected value="5">5</option>
@@ -36,14 +36,14 @@
                 Entries</label>
             </div>
           </div>
-          <div class="col-6 col-sm-3">
+          <div class="col-6 col-sm-2">
             <button type="button" class="sn-btn-outline-green sn-full-width" id="download_csv">
               <i class="fa fa-cloud-download" aria-hidden="true"></i> CSV
             </button>
           </div>
         </div>
 
-        <table class="table table-sm table-hover animated" id="participants_table" style="margin-top: 1em">
+        <table class="table table-sm table-hover animated" id="participants_table" style="margin-top: 1em;">
           <thead></thead>
           <tbody></tbody>
         </table>
@@ -63,6 +63,8 @@
             </small>
           </div>
         </div>
+
+        {{> UserModal}}
 
         <hr class="hidden-lg-up">
       </div>
@@ -546,6 +548,667 @@
           </label>
         </li>
       </ul>
+    </div>
+  </div>
+</template>
+
+<template name="UserModal">
+  <div class="modal fade" id="user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">{{user.firstName}} {{user.lastName}}</h4>
+        </div>
+        <div class="modal-header">
+          <ul class="nav flex-row justify-content-center text-center">
+            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalParticipant'}}" data-tab-id="participant">
+              <a class="nav-link" href><i class="fa fa-ticket" aria-hidden="true"></i> Participant</a>
+            </li>
+            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalUser'}}" data-tab-id="user">
+              <a class="nav-link" href><i class="fa fa-user-circle-o" aria-hidden="true"></i> User</a>
+            </li>
+            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalHost'}}" data-tab-id="host">
+              <a class="nav-link" href><i class="fa fa-h-square" aria-hidden="true"></i> Host</a>
+            </li>
+            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalSettings'}}" data-tab-id="settings">
+              <a class="nav-link" href><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
+            </li>
+            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalHistory'}}" data-tab-id="history">
+              <a class="nav-link" href><i class="fa fa-history" aria-hidden="true"></i> History</a>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <!-- Sections -->
+              {{> Template.dynamic template=userModalTab data=user}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="sn-btn-empty-blue" data-dismiss="modal">Close</button>
+          <!--<button type="button" class="sn-btn-green">Save changes</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="UserModalParticipant">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h5>Participant<br>
+        {{#if user.updatedAt}}
+          <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
+        {{/if}}
+      </h5>
+      <hr>
+    </div>
+  </div>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">_id</dt>
+    <dd class="col-6 col-sm-7">{{user._id}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="_id" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Owner</dt>
+    <dd class="col-6 col-sm-7">{{user.owner}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="owner" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+  </dl>
+  <hr>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">First name</dt>
+    <dd class="col-6 col-sm-7">{{user.firstName}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="firstName" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Last name</dt>
+    <dd class="col-6 col-sm-7">{{user.lastName}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="lastName" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Gender</dt>
+    <dd class="col-6 col-sm-7">{{user.gender}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="gender" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Email</dt>
+    <dd class="col-6 col-sm-7">{{user.email}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="email" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Phone</dt>
+    <dd class="col-6 col-sm-7">{{user.phone}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="phone" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">University</dt>
+    <dd class="col-6 col-sm-7">{{user.university}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="university" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+  </dl>
+  <hr>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">Date</dt>
+    <dd class="col-6 col-sm-7">{{user.birth.date}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="birth.date" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Country</dt>
+    <dd class="col-6 col-sm-7">{{user.birth.country}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="birth.country" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+  </dl>
+  <hr>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">Accommod.</dt>
+    <dd class="col-6 col-sm-7">{{user.info.accommodation}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.accommodation" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Room</dt>
+    <dd class="col-6 col-sm-7">{{user.info.room}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.room" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Street</dt>
+    <dd class="col-6 col-sm-7">{{user.info.street}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.street" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Number</dt>
+    <dd class="col-6 col-sm-7">{{user.info.number}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.number" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">City</dt>
+    <dd class="col-6 col-sm-7">{{user.info.city}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.city" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">ZIP</dt>
+    <dd class="col-6 col-sm-7">{{user.info.zip}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.zip" data-field-type="number" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Province</dt>
+    <dd class="col-6 col-sm-7">{{user.info.province}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.province" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Country</dt>
+    <dd class="col-6 col-sm-7">{{user.info.country}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="info.country" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+  </dl>
+  <hr>
+  <h5>Day 1</h5>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">Bus 1</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day1.bus1" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day1.bus1}}" checked="{{user.day1.bus1}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Bus 2</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day1.bus2" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day1.bus2}}" checked="{{user.day1.bus2}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Activity</dt>
+    <dd class="col-6 col-sm-7">{{user.day1.activity}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="day1.activity" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Rental</dt>
+    <dd class="col-6 col-sm-7">{{user.day1.rental}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="day1.rental" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+  </dl>
+  <hr>
+  <h5>Day 2</h5>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">Bus 1</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day2.bus1" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day2.bus1}}" checked="{{user.day2.bus1}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Bus 2</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day2.bus2" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day2.bus2}}" checked="{{user.day2.bus2}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Activity</dt>
+    <dd class="col-6 col-sm-7">{{user.day2.activity}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="day2.activity" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Rental</dt>
+    <dd class="col-6 col-sm-7">{{user.day2.rental}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="day2.rental" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Course</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day2.course" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day2.course}}" checked="{{user.day2.course}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Meal 1</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day2.meal1" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day2.meal1}}" checked="{{user.day2.meal1}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+  </dl>
+  <hr>
+  <h5>Day 3</h5>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">Bus 1</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day3.bus1" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day3.bus1}}" checked="{{user.day3.bus1}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Bus 2</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day3.bus2" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day3.bus2}}" checked="{{user.day3.bus2}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Meal 1</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day3.meal1" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day3.meal1}}" checked="{{user.day3.meal1}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Meal 2</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="day3.meal2" data-field-type="checkbox"
+               data-collection="participant" value="{{user.day3.meal2}}" checked="{{user.day3.meal2}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+  </dl>
+  <hr>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">Checked in</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="checkedIn" data-field-type="checkbox"
+               data-collection="participant" value="{{user.checkedIn}}" checked="{{user.checkedIn}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Volley pl.</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="isVolleyPlayer" data-field-type="checkbox"
+               data-collection="participant" value="{{user.isVolleyPlayer}}" checked="{{user.isVolleyPlayer}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Football pl.</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="isFootballPlayer" data-field-type="checkbox"
+               data-collection="participant" value="{{user.isFootballPlayer}}" checked="{{user.isFootballPlayer}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Personal ID</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="hasPersonalID" data-field-type="checkbox"
+               data-collection="participant" value="{{user.hasPersonalID}}" checked="{{user.hasPersonalID}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Student ID</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="hasStudentID" data-field-type="checkbox"
+               data-collection="participant" value="{{user.hasStudentID}}" checked="{{user.hasStudentID}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Food all.</dt>
+    <dd class="col-6 col-sm-7">{{user.foodAllergies}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="foodAllergies" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">T-shirt</dt>
+    <dd class="col-6 col-sm-7">{{user.tshirt}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="tshirt" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Token</dt>
+    <dd class="col-6 col-sm-7">{{user.token}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="token" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">T&C</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="hasAcceptedTandC" data-field-type="checkbox"
+               data-collection="participant" value="{{user.hasAcceptedTandC}}" checked="{{user.hasAcceptedTandC}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Created at</dt>
+    <dd class="col-8 col-sm-9">{{moment user.createdAt 'DD/MM/YY kk:mm'}}</dd>
+
+    <dt class="col-4 col-sm-3">Updated at</dt>
+    <dd class="col-8 col-sm-9">{{moment user.updatedAt 'DD/MM/YY kk:mm'}}</dd>
+
+    <dt class="col-4 col-sm-3">Completed</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="statusComplete" data-field-type="checkbox"
+               data-collection="participant" value="{{user.statusComplete}}" checked="{{user.statusComplete}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+  </dl>
+</template>
+
+<template name="UserModalUser">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h5>User<br>
+        {{#if user.updatedAt}}
+          <small class="text-muted">Created: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
+        {{/if}}
+      </h5>
+      <hr>
+    </div>
+  </div>
+  {{#if user}}
+    <dl class="row">
+      <dt class="col-4 col-sm-3">_id</dt>
+      <dd class="col-6 col-sm-7">{{user._id}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="_id" data-field-type="text" data-collection="user" href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">Username</dt>
+      <dd class="col-6 col-sm-7">{{user.username}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="username" data-field-type="text" data-collection="user" href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">Role</dt>
+      <dd class="col-6 col-sm-7">{{user.roles.[0]}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="roles[0]" data-field-type="text" data-collection="user" href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">Token</dt>
+      <dd class="col-6 col-sm-7">{{user.profile.token}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="profile.token" data-field-type="text" data-collection="user" href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3"># sub partic.</dt>
+      <dd class="col-6 col-sm-7">{{user.profile.allowedParticipants}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="profile.allowedParticipants" data-field-type="number"
+           data-collection="user" href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">Survey</dt>
+      <dd class="col-8 col-sm-9">
+        <label class="sn-checkbox-control sn-checkbox">
+          <input type="checkbox" class="sn-checkbox-input" data-field="profile.survey" data-field-type="checkbox"
+                 data-collection="user" value="{{user.profile.survey}}" checked="{{user.profile.survey}}">
+          <span class="sn-checkbox-indicator"></span>
+        </label>
+      </dd>
+    </dl>
+    <hr>
+    <dl class="row">
+      <dt class="col-4 col-sm-3">First name</dt>
+      <dd class="col-6 col-sm-7">{{user.profile.firstName}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="profile.firstName" data-field-type="text" data-collection="user"
+           href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">Last name</dt>
+      <dd class="col-6 col-sm-7">{{user.profile.lastName}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="profile.lastName" data-field-type="text" data-collection="user"
+           href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">Gender</dt>
+      <dd class="col-6 col-sm-7">{{user.profile.gender}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="profile.gender" data-field-type="text" data-collection="user" href>Edit</a>
+      </dd>
+
+      <dt class="col-4 col-sm-3">University</dt>
+      <dd class="col-6 col-sm-7">{{user.profile.university}}</dd>
+      <dd class="col-2">
+        <a class="sn-modal-edit" data-field="profile.university" data-field-type="text" data-collection="user"
+           href>Edit</a>
+      </dd>
+    </dl>
+  {{else}}
+    <p>No related user</p>
+  {{/if}}
+  {{#if cp}}
+    <hr>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h5>Contact person<br>
+          {{#if cp.updatedAt}}
+            <small class="text-muted">Created: {{moment cp.updatedAt 'DD/MM/YY kk:mm'}}</small>
+          {{/if}}
+        </h5>
+        <hr>
+      </div>
+    </div>
+    <dl class="row">
+      <dt class="col-4 col-sm-3">_id</dt>
+      <dd class="col-8 col-sm-9">{{cp._id}}</dd>
+
+      <dt class="col-4 col-sm-3">Username</dt>
+      <dd class="col-8 col-sm-9">{{cp.username}}</dd>
+
+      <dt class="col-4 col-sm-3">First name</dt>
+      <dd class="col-8 col-sm-9">{{cp.profile.firstName}}</dd>
+
+      <dt class="col-4 col-sm-3">Last name</dt>
+      <dd class="col-8 col-sm-9">{{cp.profile.lastName}}</dd>
+
+      <dt class="col-4 col-sm-3"># sub partic.</dt>
+      <dd class="col-8 col-sm-9">{{cp.profile.allowedParticipants}}</dd>
+    </dl>
+  {{/if}}
+</template>
+
+<template name="UserModalHost">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h5>Host</h5>
+      <hr>
+    </div>
+  </div>
+  <dl class="row">
+    <dt class="col-4 col-sm-3">_id</dt>
+    <dd class="col-6 col-sm-7">{{host._id}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host._id" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">First name</dt>
+    <dd class="col-6 col-sm-7">{{host.firstName}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.firstName" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Last name</dt>
+    <dd class="col-6 col-sm-7">{{host.lastName}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.lastName" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Accommodation</dt>
+    <dd class="col-6 col-sm-7">{{host.info.accommodation}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.accommodation" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Room</dt>
+    <dd class="col-6 col-sm-7">{{host.info.room}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.room" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Street</dt>
+    <dd class="col-6 col-sm-7">{{host.info.street}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.street" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Number</dt>
+    <dd class="col-6 col-sm-7">{{host.info.number}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.number" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">City</dt>
+    <dd class="col-6 col-sm-7">{{host.info.city}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.city" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">ZIP</dt>
+    <dd class="col-6 col-sm-7">{{host.info.zip}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.zip" data-field-type="number" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Province</dt>
+    <dd class="col-6 col-sm-7">{{host.info.province}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.province" data-field-type="text" data-collection="participant"
+         href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Country</dt>
+    <dd class="col-6 col-sm-7">{{host.info.country}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="host.info.country" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+  </dl>
+</template>
+
+<template name="UserModalSettings">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h5>Settings</h5>
+      <hr>
+    </div>
+  </div>
+  <form id="settings-form">
+    <div class="row">
+      <div class="col-12">
+        <ul>
+          <li>
+            <label class="sn-checkbox-control sn-checkbox">
+              <input type="checkbox" class="sn-checkbox-input" name="ask_student_id" id="ask_student_id">
+              <span class="sn-checkbox-indicator"></span>
+              <span class="sn-checkbox-description">Do not ask for student ID</span>
+            </label>
+          </li>
+          <li>
+            <label class="sn-checkbox-control sn-checkbox">
+              <input type="checkbox" class="sn-checkbox-input" name="ask_personal_id" id="ask_personal_id">
+              <span class="sn-checkbox-indicator"></span>
+              <span class="sn-checkbox-description">Do not ask for personal ID</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-right">
+        <button class="sn-btn-empty-green" type="submit" name="save">Save</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="UserModalHistory">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h5>History<br>
+        <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
+      </h5>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      {{#if history}}
+        {{#each entry in user.history}}
+          <dl class="row">
+            <dt class="col-3 text-center">{{moment entry.date 'DD/MM/YY kk:mm'}}</dt>
+            <dd class="col-9">
+              <dl class="row">
+                {{#each update in (objectToArray entry.updates)}}
+                  <dt class="col-6">{{getKey update}}</dt>
+                  <dd class="col-6">{{getValue update}}</dd>
+                {{/each}}
+              </dl>
+            </dd>
+          </dl>
+        {{/each}}
+      {{else}}
+        <p>No history available</p>
+      {{/if}}
     </div>
   </div>
 </template>

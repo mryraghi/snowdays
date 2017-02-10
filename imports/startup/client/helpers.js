@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import _ from "lodash";
+import moment from "moment";
 
 Template.registerHelper('equals', function (a, b) {
   return a === b;
@@ -41,4 +42,41 @@ Template.registerHelper("objectToPairs", function (array) {
 
 Template.registerHelper('$or', function (a, b) {
   return a || b;
+});
+
+Template.registerHelper('moment', function (date, format) {
+  if (_.isUndefined(date)) return;
+  return moment(date).format(format)
+});
+
+Template.registerHelper('objectToArray', function (obj) {
+  return objToArray(obj)
+});
+
+function objToArray(obj, array = [], prefix = '') {
+  _.forEach(obj, function (value, key) {
+    if (_.isObject(value)) objToArray(value, array, key + '.');
+    else {
+      let item = {};
+      item[prefix + key] = value;
+      array.push(item);
+    }
+  });
+  return array
+}
+
+Template.registerHelper('getKey', function (obj) {
+  return _.keys(obj)[0];
+});
+
+Template.registerHelper('getValue', function (obj) {
+  return _.toString(_.values(obj)[0]);
+});
+
+Template.registerHelper('toStr', function (value) {
+  return _.toString(value);
+});
+
+Template.registerHelper("selectedIf", function (left, right) {
+  return left == right ? "selected" : "";
 });

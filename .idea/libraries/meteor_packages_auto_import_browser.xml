@@ -195,6 +195,7 @@
         <item url="file://$USER_HOME$/.meteor/packages/reload/1.1.11/web.browser/deprecated.js" />
         <item url="file://$USER_HOME$/.meteor/packages/reload/1.1.11/web.browser/reload.js" />
         <item url="file://$USER_HOME$/.meteor/packages/retry/1.0.9/web.browser/retry.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/simply_tether/1.1.1/web.browser/client.browserify.js" />
         <item url="file://$USER_HOME$/.meteor/packages/service-configuration/1.0.11/web.browser/service_configuration_common.js" />
         <item url="file://$USER_HOME$/.meteor/packages/sha/1.0.9/web.browser/sha256.js" />
         <item url="file://$USER_HOME$/.meteor/packages/srp/1.0.10/web.browser/srp.js" />
@@ -641,6 +642,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/reload/1.1.11/web.browser/deprecated.js" />
       <root url="file://$USER_HOME$/.meteor/packages/reload/1.1.11/web.browser/reload.js" />
       <root url="file://$USER_HOME$/.meteor/packages/retry/1.0.9/web.browser/retry.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/simply_tether/1.1.1/web.browser/client.browserify.js" />
       <root url="file://$USER_HOME$/.meteor/packages/service-configuration/1.0.11/web.browser/service_configuration_common.js" />
       <root url="file://$USER_HOME$/.meteor/packages/sha/1.0.9/web.browser/sha256.js" />
       <root url="file://$USER_HOME$/.meteor/packages/srp/1.0.10/web.browser/srp.js" />

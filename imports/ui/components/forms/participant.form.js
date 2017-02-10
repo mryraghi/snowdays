@@ -6,6 +6,14 @@ import IDs from "/imports/collections/ids";
 import "/imports/ui/components/loader/loader";
 let CryptoJS = require("crypto-js");
 
+// TODO: offline? save info as cookies
+
+// var online = navigator.onLine;
+// document.body.addEventListener("online", function () {
+// }
+// document.body.addEventListener("offline", function () {
+// }
+
 // Sentry.io
 
 let raven = require('raven');
@@ -34,11 +42,6 @@ client.on('error', function (e) {
 Template.UserFormSection.onCreated(function () {
   let template = Template.instance();
 
-  // set _id session variable when editing
-  // participant in external cp list
-  setSessions();
-  facebookSetup();
-
   let _id = Session.get('_id') || Meteor.userId();
 
   // if user is admin then set this as true since not needed
@@ -47,7 +50,12 @@ Template.UserFormSection.onCreated(function () {
   template.uploadingSID = new ReactiveVar(false);
   template.uploadingPID = new ReactiveVar(false);
   template.filling = new ReactiveVar(true);
+  template.settings = new ReactiveVar([]);
 
+  // set _id session variable when editing
+  // participant in external cp list
+  setSessions();
+  facebookSetup();
 
   // set sentry.io context and catch all exceptions
   client.setContext({
@@ -60,20 +68,13 @@ Template.UserFormSection.onCreated(function () {
   this.subscribe("participants.current", _id, function () {
     let p = Participants.findOne();
     if (p) {
-
-      // again, if admin the set true since not needed
+      // again, if admin then set true since not needed
       let acceptTandC = (Roles.userIsInRole(Meteor.userId(), 'admin') ? true : p.hasAcceptedTandC);
       template.hasAcceptedTandC.set(acceptTandC);
       template.filling.set(!p.statusComplete);
+      getSettings(template);
     }
   });
-});
-
-Template.UserFormSection.onRendered(function () {
-  // Meteor.autorun(function () {
-  //   let lp = Participants.findOne();
-  //   setCheckboxes(lp)
-  // });
 });
 
 Template.UserFormSection.helpers({
@@ -121,6 +122,9 @@ Template.UserFormSection.events({
     // values from form elements
     const target = event.target;
 
+    // get settings
+    let settings = template.settings.get();
+
     // saving spinner
     $(target.save).text('Loading...');
 
@@ -128,14 +132,14 @@ Template.UserFormSection.events({
 
     let _id = Session.get('_id');
     let p = Participants.findOne({_id: _id});
-    if (!p.hasPersonalID && !isAdmin && !_.isEqual(p.university, 'Alumni Bolzano')) {
+    if (_.isEqual($.inArray('hasPersonalID', settings), -1) && !p.hasPersonalID && !isAdmin && !_.isEqual(p.university, 'Alumni Bolzano')) {
       $(target.save).text('Save');
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
 
-    if (!p.hasStudentID && !isAdmin && !_.isEqual(p.university, 'Alumni Bolzano')) {
+    if (_.isEqual($.inArray('hasStudentID', settings), -1) && !p.hasStudentID && !isAdmin && !_.isEqual(p.university, 'Alumni Bolzano')) {
       $(target.save).text('Save');
-      return swal('Error', 'You need to upload your personal ID!', 'warning');
+      return swal('Error', 'You need to upload your student ID!', 'warning');
     }
 
     let parsedDate = _.replace(target.birth_date.value, /\//g, '-');
@@ -177,6 +181,7 @@ Template.UserFormSection.events({
       isVolleyPlayer: target.is_volley_player.checked,
       isFootballPlayer: target.is_football_player.checked,
       foodAllergies: target.food_allergies.value,
+      shoeSize: target.shoe_size.value,
       tshirt: target.tshirt.value
     };
 
@@ -233,11 +238,13 @@ Template.UserFormSection.events({
   },
 
   'click #acceptTandC': function (e, template) {
-    template.hasAcceptedTandC.set(true)
+    template.hasAcceptedTandC.set(true);
+    getSettings(template)
   },
 
   'click #edit-profile': function (e, template) {
     template.filling.set(true);
+    getSettings(template)
   },
 });
 
@@ -271,14 +278,14 @@ function uploadID(file, template, idType) {
   upload.on('start', function () {
     $('#has_' + idType + '_id').removeClass('fadeOut').addClass('animated fadeIn');
     $('#loader-label').removeClass('fadeOut').addClass('animated fadeIn');
-    template.uploadingPID.set(this);
+    toggleLoading(idType, template)
   });
 
   upload.on('error', function (error, fileData) {
     if (error) {
       $('#has_' + idType + '_id').removeClass('fadeOut').addClass('animated fadeIn');
       $('#loader-label').removeClass('fadeIn').addClass('animated fadeOut');
-      template.uploadingPID.set(this);
+      toggleLoading(idType, template);
       swal('Error', error.message, 'error')
     }
   });
@@ -295,15 +302,26 @@ function uploadID(file, template, idType) {
       })
     }
     $('#loader-label').removeClass('fadeIn').addClass('animated fadeOut');
-    template.uploadingPID.set(false);
+    toggleLoading(idType, template)
   });
 
   upload.start();
 }
 
-Template.registerHelper("selectedIf", function (left, right) {
-  return left == right ? "selected" : "";
-});
+function getSettings(template) {
+  let userId = Session.get('_id');
+  Meteor.call('settings.get', userId, function (error, result) {
+    if (result && result.form && result.form.doNotAsk) {
+      _.forEach(result.form.doNotAsk, function (setting) {
+        // set settings as reactive variable
+        template.settings.set(result.form.doNotAsk);
+        let elemId = _.snakeCase(setting);
+        $('#' + elemId).remove();
+        $('label[for=' + elemId + ']').remove()
+      })
+    }
+  });
+}
 
 function facebookSetup() {
   window.fbAsyncInit = function () {
@@ -325,4 +343,19 @@ function facebookSetup() {
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
+}
+
+function toggleLoading(type, template) {
+  switch (type) {
+    case 'personal':
+      let p_value = template.uploadingPID.get();
+      template.uploadingPID.set(!p_value);
+      break;
+    case 'student':
+      let s_value = template.uploadingSID.get();
+      template.uploadingSID.set(!s_value);
+      break;
+    default:
+      throw new Meteor.Error('toggleLoading', 'Unknown type');
+  }
 }

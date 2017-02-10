@@ -1,8 +1,9 @@
 let CryptoJS = require("crypto-js");
 import _ from "lodash";
 import base64url from "base64url";
-import {checkMasterPassword} from "./utilities";
+import {checkMasterPassword, unflatten} from "./utilities";
 import Participants from "/imports/collections/participants";
+import Settings from "/imports/collections/settings";
 
 Meteor.methods({
 
@@ -43,18 +44,35 @@ Meteor.methods({
     return Participants.insert(participant);
   },
   'participants.update': function (participant) {
+    let p = Participants.findOne(participant._id);
+    if (_.isUndefined(p)) throw new Meteor.Error('participants.update', 'No related participant exists');
+
+    // since Mongo throw errors for fucking every update
+    // then retrieve previous state of deep object
+    // and substitute new value
+    let oldParticipant = Participants.findOne({_id: participant._id});
+    // to avoid mongo error remove createdAt property
+    delete oldParticipant.createdAt;
+    let newParticipant = _.merge(oldParticipant, unflatten(participant));
     return Participants.update(participant._id, {
-      $set: participant
+      $set: newParticipant
     });
   },
   'participants.remove': function (_id) {
     let relatedUser = Meteor.users.find({_id: _id});
     if (relatedUser) Meteor.users.remove({_id: _id});
+
+    let relatedSettings = Settings.findOne({_id: _id});
+    if (relatedSettings) Settings.remove({_id: _id});
     return Participants.remove(_id);
   },
 
   'participants.count': function (options) {
     return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip}).count()
+  },
+
+  'participants.fields': function (_id, fields) {
+    return Participants.findOne({_id: _id}, {fields: fields})
   },
 
   // users
@@ -77,11 +95,21 @@ Meteor.methods({
   'users.remove': function (_id) {
     let relatedParticipant = Participants.find({_id: _id});
     if (relatedParticipant) Participants.remove({_id: _id});
+
+    let relatedSettings = Settings.findOne({_id: _id});
+    if (relatedSettings) Settings.remove({_id: _id});
     return Meteor.users.remove(_id);
   },
   'users.update': function (user) {
-    return Meteor.users.update(this.userId, {
-      $set: user
+    // since Mongo throw errors for fucking every update
+    // then retrieve previous state of deep object
+    // and substitute new value
+    let oldUser = Meteor.users.findOne({_id: user._id});
+    // to avoid mongo error remove createdAt property
+    delete oldUser.createdAt;
+    let newUser = _.merge(oldUser, unflatten(user));
+    return Meteor.users.update(user._id || this.userId, {
+      $set: newUser
     })
   },
 
@@ -126,5 +154,20 @@ Meteor.methods({
     // return hash to be saved as session
     return _id
   },
+
+  'settings.update': function (_id, field, rule, object) {
+    switch (field) {
+      case 'form':
+        return Settings.upsert({_id: _id}, {$set: {'form.doNotAsk': object}});
+        break;
+      default:
+        throw new Meteor.Error('settings.update', 'Wrong field');
+        break;
+    }
+  },
+
+  'settings.get': function (_id) {
+    return Settings.findOne({_id: _id});
+  }
 });
 

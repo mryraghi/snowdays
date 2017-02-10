@@ -1,6 +1,6 @@
-import 'babel-polyfill'
-import SimpleSchema from 'simpl-schema';
-import _ from 'lodash'
+import "babel-polyfill";
+import SimpleSchema from "simpl-schema";
+import _ from "lodash";
 
 const Participants = new Mongo.Collection("participants");
 const Schemas = {};
@@ -292,6 +292,12 @@ Schemas.Participant = new SimpleSchema({
     allowedValues: ['S', 'M', 'L', 'XL'],
     optional: true
   },
+  shoeSize: {
+    label: 'Shoe size',
+    type: Number,
+    max: 100,
+    optional: true
+  },
   history: {
     type: Array,
     optional: true,
@@ -407,15 +413,23 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
     }
   });
 
-  // check if hasPersonalID
-  if (!(doc['hasPersonalID'] || $set['hasPersonalID'])) {
-    result = false
-  }
+  // get settings
+  Meteor.call('settings.get', userId, function (error, settings) {
+    if (settings && settings.form && settings.form.doNotAsk) {
+      let formSettings = settings.form.doNotAsk;
 
-  // check if hasStudentID
-  if (!(doc['hasStudentID'] || $set['hasStudentID'])) {
-    result = false
-  }
+      // check if hasPersonalID
+      if (formSettings.indexOf('hasPersonalID') == -1 && !(doc['hasPersonalID'] || $set['hasPersonalID'])) {
+        result = false
+      }
+
+      // check if hasStudentID
+      if (formSettings.indexOf('hasStudentID') == -1 && !(doc['hasStudentID'] || $set['hasStudentID'])) {
+        result = false
+      }
+
+    }
+  });
 
   // finally, if result is true then update statusComplete
   if (result) modifier.$set.statusComplete = true;

@@ -6,6 +6,11 @@ import "/imports/ui/pages/participant";
 import "/imports/ui/pages/errors/404/not_found";
 import _ from "lodash";
 
+Router.configure({
+  notFoundTemplate: 'NotFoundPage',
+  noRoutesTemplate: 'NotFoundPage'
+});
+
 Router.route('/', {
   name: 'Home',
   template: 'Home'
@@ -98,13 +103,5 @@ Router.route('/participant', {
     return {
       token: this.params.query.token || ''
     };
-  }
-});
-
-Router.route('/(.*)', {
-  template: 'NotFoundPage',
-  onBeforeAction: function () {
-    // Google Analytics
-    GAnalytics.pageview();
   }
 });

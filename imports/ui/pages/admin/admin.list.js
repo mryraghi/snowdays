@@ -3,6 +3,7 @@ import Participants from "/imports/collections/participants";
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 import {deepFind} from "/lib/js/utilities";
+import "/node_modules/bootstrap/dist/js/bootstrap.min";
 
 let fields = require('/imports/collections/db_allowed_values.json');
 
@@ -10,6 +11,8 @@ const participantsIndices = {'statusComplete': 1, 'firstName': 1, 'lastName': 1}
 
 const usersIndices = {'username': 1, 'profile.firstName': 1, 'profile.lastName': 1, 'roles': 1};
 
+// Modal
+let modalSub, modalSubOwner, modalSubUser, modalSubParticipant;
 
 let raven = require('raven');
 let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1bd9f24d1a93b78b18750afb54@sentry.io/126769', {
@@ -79,6 +82,21 @@ Template.AdminListSection.onRendered(function () {
 });
 
 Template.AdminListSection.events({
+
+  'click .sn-open-modal': function (event, template) {
+    let modalId = $(event.target).attr('data-modal-id');
+    let userId = $(event.target).attr('data-user-id');
+    Session.set('_id', userId);
+    Session.set('userModalTab', 'UserModalParticipant');
+    $('#' + modalId).modal('show')
+  },
+
+  'click .sn-close-modal': function (event, template) {
+    let modalId = $(event.target).attr('data-modal-id');
+    modalSub.stop();
+    Session.set('_id', '');
+    $('#' + modalId).modal('hide')
+  },
 
   /**
    * Switches between collections
@@ -312,9 +330,7 @@ Template.AdminListSection.events({
               options['filename'] = filename;
               options['download'] = download;
               let encoded = jwt.sign(options, 'secret', {expiresIn: 60});
-              Meteor.setTimeout(function () {
-                Router.go('/csv/' + encoded);
-              }, 300);
+              Router.go('/csv/' + encoded);
             })
           })
         }
@@ -352,13 +368,6 @@ Template.AdminListSection.events({
         }
       })
     });
-  },
-
-  'click #sn-icon-edit': function (event, template) {
-    let _id = $(event.target).attr("name");
-
-    Session.set('_id', _id);
-    Session.set('tab', 'UserFormSection');
   },
 
   'change #limit_field': function (event, template) {
@@ -509,12 +518,12 @@ function generateTable(template, options) {
       tableBody.append("<tr class='animated fadeIn'>");
 
       // count column
-      tableBody.append("<th class='animated fadeIn' scope=\"row\">" + ++index + "</th>");
+      tableBody.append("<th class='animated fadeIn' style='width: 30px;' scope=\"row\">" + ++index + "</th>");
 
       _.forEach(flattened, function (value, key) {
         let cell = deepFind(row, key);
         if (_.isEqual(key, 'statusComplete')) {
-          tableBody.append("<td class='animated fadeIn'><span class='sn-status " + (cell ? 'complete' : 'incomplete') + "'></span></td>");
+          tableBody.append("<td class='animated fadeIn' style='width: 30px;'><span class='sn-status " + (cell ? 'complete' : 'incomplete') + "'></span></td>");
         } else {
           tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
         }
@@ -525,16 +534,12 @@ function generateTable(template, options) {
         // "<a class='sn-tooltip' href title='See history'>" +
         // "<img src='/images/icons/timer.svg' class='sn-icon-1' id='sn-icon-copy'> " +
         // "</a> " +
-        "<td class='animated fadeIn'>" +
+        "<td class='animated fadeIn text-right'>" +
 
         // edit button only if participants
-        (_.isEqual(collection.name, 'participants') ? "" +
-          "<a class='sn-tooltip' href title='Edit' id='sn-icon-edit' name=" + deepFind(row, '_id') + ">" +
-          "<img src='/images/icons/editing.svg' class='sn-icon-1'></a>" : "") +
-
-        "<a class='sn-tooltip' href title='Remove' id='sn-delete-entry' name=" + deepFind(row, '_id') + "> " +
-        "<img src='/images/icons/tool.svg' class='sn-icon-1'> " +
-        "</a></td></tr>");
+        (_.isEqual(collection.name, 'participants') ?
+          "<button title='Edit' type='button' class='btn btn-secondary btn-sm sn-open-modal' data-modal-id='user-modal' data-user-id=" + deepFind(row, '_id') + ">Edit</button>" : "")
+        + "<button title='Remove' type='button' class='ml-1 btn btn-secondary btn-sm' id='sn-delete-entry' name=" + deepFind(row, '_id') + ">Remove</button></td></tr>");
 
       // PAGINATION
       let currentPage = (skip / limit) + 1;
@@ -618,3 +623,261 @@ function setSubscription(name, filters, search, flattened, limit, skip) {
     "skip": _.toNumber((search ? 0 : skip))
   }
 }
+
+// MODAL TEMPLATE
+Template.UserModal.onCreated(function () {
+  this.autorun(() => {
+    console.info('modal sub started');
+    modalSub = Meteor.subscribe("participants.current", Session.get('_id'));
+  });
+  Session.set('userModalTab', 'UserModalParticipant');
+});
+
+Template.UserModal.onDestroyed(function () {
+  console.info('modal sub destroyed');
+  modalSub.stop();
+});
+
+Template.UserModal.events({
+  'click input[data-field-type="checkbox"]': function (event, template) {
+    let checked = event.target.checked;
+    let field = _.toString($(event.currentTarget).attr('data-field'));
+    let collection = $(event.currentTarget).attr('data-collection');
+    let p = {_id: Session.get('_id')};
+    p[field] = checked;
+    switch (collection) {
+      case 'participant':
+        Meteor.call('participants.update', p, function (error, result) {
+          if (error) swal('Error', error, 'error')
+        });
+        break;
+      case 'user':
+        Meteor.call('users.update', p, function (error, result) {
+          if (error) swal('Error', error, 'error')
+        });
+        break;
+      default:
+        swal('Error', 'Wrong collection: ' + field, 'error');
+        break
+    }
+  },
+
+  'click .sn-modal-menu-item': (event, template) => {
+    let tabId = $(event.currentTarget).attr('data-tab-id');
+    switch (tabId) {
+      case 'participant':
+        Session.set('userModalTab', 'UserModalParticipant');
+        break;
+      case 'user':
+        Session.set('userModalTab', 'UserModalUser');
+        break;
+      case 'host':
+        Session.set('userModalTab', 'UserModalHost');
+        break;
+      case 'settings':
+        Session.set('userModalTab', 'UserModalSettings');
+        break;
+      case 'history':
+        Session.set('userModalTab', 'UserModalHistory');
+        break;
+    }
+  },
+
+  'click .sn-modal-edit': function (event, template) {
+    let field = $(event.currentTarget).attr('data-field');
+    let fieldType = $(event.currentTarget).attr('data-field-type');
+    let collection = $(event.currentTarget).attr('data-collection');
+    let currentValue, fields = {};
+    fields[field] = 1;
+
+    Meteor.call('participants.fields', Session.get('_id'), fields, function (error, result) {
+      console.log(result, field);
+      if (error) swal('Error', 'Cannot retrieve object\'s info', 'error');
+      else {
+        currentValue = deepFind(result, field);
+        $(event.currentTarget)
+        // remove 'edit' button, change text and add save class
+          .removeClass('sn-modal-edit').text('Ok').addClass('sn-modal-save')
+        // removes value
+          .parent().prev(".col-sm-7").hide()
+        // substitute with input
+          .before('<dd class="col-sm-7"><input type="' + fieldType + '" placeholder="' + currentValue + '" class="sn-modal-field-input"></dd>').children(function () {
+          console.log(this)
+        }).focus();
+      }
+    });
+  },
+  'click .sn-modal-save': function (event, template) {
+    let field = $(event.currentTarget).attr('data-field');
+    let collection = $(event.currentTarget).attr('data-collection');
+    let newValue = $(event.currentTarget).parent().prev(".col-sm-7").prev(".col-sm-7").children('.sn-modal-field-input').val();
+
+    let fieldObj = {_id: Session.get('_id')};
+    fieldObj[field] = newValue;
+
+    switch (collection) {
+      case 'user':
+        Meteor.call('users.update', fieldObj, function (error, result) {
+          if (error) swal('Error', error, 'error');
+          else {
+            $(event.currentTarget)
+            // remove 'edit' button, change text and add save class
+              .removeClass('sn-modal-save').text('Edit').addClass('sn-modal-edit')
+            // removes value
+              .parent().prev(".col-sm-7").show().prev(".col-sm-7").remove();
+          }
+        });
+        break;
+      case 'participant':
+        Meteor.call('participants.update', fieldObj, function (error, result) {
+          if (error) swal('Error', error, 'error');
+          else {
+            $(event.currentTarget)
+            // remove 'edit' button, change text and add save class
+              .removeClass('sn-modal-save').text('Edit').addClass('sn-modal-edit')
+            // removes value
+              .parent().prev(".col-sm-7").show().prev(".col-sm-7").remove();
+          }
+        });
+        break;
+      default:
+        swal('error', 'Wrong collection', 'error');
+        break;
+    }
+
+    $(event.currentTarget)
+    // remove 'edit' button, change text and add save class
+      .removeClass('sn-modal-save').text('Edit').addClass('sn-modal-edit')
+    // removes value
+      .parent().prev(".col-sm-7").show().prev(".col-sm-7").remove();
+  }
+});
+
+Template.UserModal.helpers({
+  user: function () {
+    let userId = Session.get('_id');
+    console.info('-> UserModal', Participants.findOne({_id: userId}));
+    console.info('-> session _id', Session.get('_id'));
+    return Participants.findOne({_id: userId});
+  },
+  isActive: function (section) {
+    let tab = Session.get('userModalTab');
+    if (_.isEqual(tab, section)) return 'sn-menu-item-active'
+  },
+  userModalTab: function () {
+    return Session.get('userModalTab');
+  },
+});
+
+// UserModalParticipant
+
+Template.UserModalParticipant.onCreated(function () {
+  console.info('participant sub started');
+  modalSubParticipant = Meteor.subscribe("participants.current", Session.get('_id'));
+});
+
+Template.UserModalParticipant.helpers({
+  user: function () {
+    return Participants.findOne({_id: Session.get('_id')})
+  }
+});
+
+Template.UserModalParticipant.onDestroyed(function () {
+  console.info('participant sub destroyed');
+  modalSubParticipant.stop();
+});
+
+// UserModalUser
+
+Template.UserModalUser.onCreated(function () {
+  console.info('user sub started');
+  let userId = Template.instance().data._id;
+  modalSubUser = Meteor.subscribe('users.one', userId);
+  let ownerId = Template.instance().data.owner;
+  modalSubOwner = Meteor.subscribe('users.one', ownerId);
+});
+
+Template.UserModalUser.helpers({
+  user: function () {
+    let userId = Session.get('_id'); // Template.instance().data._id
+    return Meteor.users.findOne({_id: userId});
+  },
+  cp: function () {
+    let ownerId = Template.instance().data.owner;
+    return Meteor.users.findOne({_id: ownerId})
+  }
+});
+
+Template.UserModalUser.onDestroyed(function () {
+  console.info('user sub destroyed');
+  modalSubUser.stop();
+  modalSubOwner.stop();
+});
+
+// UserModalHost
+
+Template.UserModalHost.helpers({
+  host: function () {
+    return Template.instance().data.host
+  }
+});
+
+// UserModalHistory
+
+Template.UserModalHistory.helpers({
+  user: function () {
+    return Template.instance().data
+  }
+});
+
+// UserModalSettings
+
+Template.UserModalSettings.events({
+  'submit #settings-form': function (event, template) {
+    event.preventDefault();
+
+    // values from form elements
+    const target = event.target;
+    let hasStudentID = target.ask_student_id.checked;
+    let hasPersonalID = target.ask_personal_id.checked;
+    let userId = Template.instance().data._id;
+    let item = [];
+
+    if (hasPersonalID) item.push('hasPersonalID');
+    if (hasStudentID) item.push('hasStudentID');
+
+    // saving spinner
+    $(target.save).text('Loading...');
+    Meteor.call('settings.update', userId, 'form', 'doNotAsk', item, function (error, result) {
+      if (error) swal('Error', error.message, 'error');
+      else if (result.numberAffected == 1) swal('Success', 'Settings updated', 'success');
+      else swal('Success', 'Result = ' + result, 'success');
+      $(target.save).text('Save');
+    });
+  }
+});
+
+Template.UserModalSettings.onCreated(function () {
+  let userId = Template.instance().data._id;
+  Meteor.call('settings.get', userId, function (error, result) {
+    if (result && result.form && result.form.doNotAsk) {
+      _.forEach(result.form.doNotAsk, function (setting) {
+        switch (setting) {
+          case 'hasPersonalID':
+            $('#ask_personal_id').prop('checked', true);
+            break;
+          case 'hasStudentID':
+            $('#ask_student_id').prop('checked', true);
+            break;
+          default:
+            break;
+        }
+      })
+    }
+  });
+});
+
+Template.UserModalSettings.onDestroyed(function () {
+  // Clear form
+  document.getElementById('settings-form').reset();
+});

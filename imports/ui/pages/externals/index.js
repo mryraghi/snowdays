@@ -1,19 +1,17 @@
-import moment from 'moment'
-import Survey from 'survey-knockout'
-import Participants from '/imports/collections/participants'
-import Surveys from '/imports/collections/surveys'
-
-import './externals.html'
-import '../../components/forms/participant.form'
-import './participants.table'
-import '/imports/ui/components/loader/loader'
+import Survey from "survey-knockout";
+import Participants from "/imports/collections/participants";
+import Surveys from "/imports/collections/surveys";
+import "./externals.html";
+import "../../components/forms/participant.form";
+import "./participants.table";
+import "/imports/ui/components/loader/loader";
 
 Template.ExternalsPage.onCreated(function () {
   // subscribe as soon the template is created
   this.subscribe("users.current");
 
   // set default tab
-  Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()})
+  Session.set('tab', {name: 'UserFormWelcome'})
 
 });
 
@@ -29,6 +27,9 @@ Template.ExternalsPage.events({
 
   'click .sn-menu-item': (event, template) => {
     switch (event.currentTarget.id) {
+      case 'welcome':
+        Session.set('tab', {name: 'UserFormWelcome'});
+        break;
       case 'profile':
         Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()});
         break;

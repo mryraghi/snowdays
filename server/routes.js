@@ -1,3 +1,5 @@
+"use strict";
+
 const path = Npm.require('path');
 const fs = Npm.require('fs');
 const _ = Npm.require('lodash');
@@ -72,7 +74,6 @@ Router.route('/public/:filename', function () {
   const filename = this.params.filename;
   const query = this.params.query.static;
   const fullPath = path.join(process.cwd(), '../web.browser/app/static', filename);
-
   return findFile(this, filename, fullPath, query)
 }, {where: 'server'});
 
@@ -154,6 +155,7 @@ function findFile(_this, filename, fullPath, query) {
     }
   } catch (error) {
     if (_.isEqual(error.code, 'ENOENT')) {
+      headers = {'Content-type': 'text/html'};
       _this.response.writeHead(202, headers);
       return _this.response.end('<html><head><title>Snowdays error</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"></head><body><div class="container"><div class="text-xs-center" style="margin-top: 50px" role="alert"><strong>404:</strong> File Not Found</div></div></body></html>');
     }

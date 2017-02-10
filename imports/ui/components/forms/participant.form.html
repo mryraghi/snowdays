@@ -6,7 +6,7 @@
           {{#if complete}}
             <div class="row mt-5">
               <div class="col-12 text-center">
-                <h3><i class="fa fa-check" aria-hidden="true"></i> Congratulations!</h3>
+                <h3>Congratulations!</h3>
                 <p><strong>Your information have been <br class="hidden-sm-up"> successfully saved.</strong><br>
                   Now lean back and enjoy <br class="hidden-sm-up"> the <strong>new</strong> promo video <br
                           class="hidden-sm-up"> and last year's aftermovie!</p>
@@ -167,20 +167,34 @@
                   </div>
                   <h4 class="mt-5 mt-md-0">Preferences</h4>
                   <hr>
-                  <div class="sn-field-group">
-                    <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
-                      <option disabled>Choose</option>
-                      <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
-                      <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
-                      <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
-                      <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
-                    </select>
-                    <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                      <div class="sn-field-group">
+                        <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                          <option disabled>Choose</option>
+                          <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
+                          <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
+                          <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
+                          <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
+                        </select>
+                        <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                      <div class="sn-field-group">
+                        <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size"
+                               value="{{lp.shoeSize}}" required>
+                        <label for="shoe_size" class="sn-field-label">Shoe size</label>
+                      </div>
+                    </div>
                   </div>
-
+                  <small id="d1_rental_help" class="form-text text-muted">
+                    Shoe size required if renting.
+                  </small>
                   <div class="sn-field-group">
                     <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
                            value="{{lp.foodAllergies}}" required>
+                    <!-- TODO: datalist -->
                     <label for="food_allergies" class="sn-field-label">Food allergies</label>
                     <small class="form-text text-muted">Separate with commas, set 'None' otherwise.</small>
                   </div>
@@ -188,6 +202,7 @@
                   <h4 class="mt-5 mt-md-0">Documents
                     <small class="text-muted">png/jpg</small>
                   </h4>
+                  <small class="text-muted">Just the front part (inner part for the Italian ID)</small>
                   <hr>
                   {{#if lp.hasPersonalID}}
                     <p class="animated fadeIn mb-0"><i class="fa fa-check" aria-hidden="true"></i> Personal ID</p>
@@ -252,7 +267,7 @@
                     </select>
                     <label for="d1_rental" class="sn-field-label sn-upper-label">Rental</label>
                     <small id="d1_rental_help" class="form-text text-muted">
-                      Not included.
+                      Only the sledge rental is included.
                     </small>
                   </div>
 
@@ -364,7 +379,6 @@
                           Save
                         </button>
                       {{/if}}
-
                     </div>
                   </div>
                 </nav>

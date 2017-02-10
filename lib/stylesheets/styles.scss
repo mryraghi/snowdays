@@ -93,6 +93,11 @@ a:focus {
   text-decoration: none;
 }
 
+.sn-bold-blue {
+  color: #008eff;
+  font-family: CircularMedium, sans-serif;
+}
+
 // TODO: da migliorare (vedi admin e barra ricerca)
 //.row > div[class*=col] {
 //  padding: 0 7.5px;
@@ -146,9 +151,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   appearance: none;
 }
 
+// [ADMIN] button link in admin section's nav
 .nav-link {
   padding: 2px 7px;
   margin: .5em 1em;
+}
+
+@media screen and (max-width: 575px) {
+  .nav-link {
+    margin: .5em 0;
+  }
+}
+
+// [ADMIN] since placed inside col-* with padding,
+// force nav full width
+.nav {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 0 15px;
+  border-top: 1px solid #eceeef;
+  border-bottom: 1px solid #eceeef;
 }
 
 .sn-loader {
@@ -311,6 +333,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sn-btn-sm {
   padding: 7px 0;
+}
+
+.btn-sm {
+  color: #008eff;
+  cursor: pointer;
 }
 
 .sn-btn-blue {
@@ -515,6 +542,11 @@ input[type="date"].sn-field-input {
   background-size: 15px;
 }
 
+.sn-modal-field-input {
+  @extend .sn-n-field-input;
+  margin-top: -4px;
+}
+
 .sn-b-field-input {
   font-size: 1.5rem !important;
   color: inherit;
@@ -603,20 +635,50 @@ label.sn-upper-label {
   font-family: CircularMedium, sans-serif;
 }
 
+// MODALS
+
+.modal-content {
+  border: 1px solid #eef0f3;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 16px;
+
+  .modal-header + .modal-header {
+    padding: 0 15px;
+  }
+}
+
+.modal-body {
+  max-height: 55vh;
+  overflow: auto;
+
+  hr {
+    margin-left: -15px;
+    margin-right: -15px;
+    border-top: 1px solid #eceeef;
+  }
+
+  div[class*=col-] {
+    overflow: auto;
+  }
+}
+
+.modal-header {
+  display: block;
+  text-align: center;
+  border-bottom: none;
+}
+
+.sn-modal-edit {
+  color: #008eff
+}
+
 // ADMIN
 
 // nav background color (ADMIN)
 div[class*=col-] > .nav {
   background: rgb(249, 250, 252);
-}
-
-#admin_add_new_carousel {
-  .flickity-prev-next-button.previous {
-    left: -50px;
-  }
-  .flickity-prev-next-button.next {
-    right: -50px;
-  }
 }
 
 // HOME
@@ -760,7 +822,32 @@ div[class*=col-] > .nav {
   left: 0;
   position: absolute;
   width: 100%;
+  bottom: 44px;
+}
+
+#sn-home-menu {
+  font-family: CircularMedium, sans-serif;
+  position: absolute;
   bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  width: 100%;
+  border: none;
+  margin: 0;
+
+  .sn-home-menu-item {
+    color: #008eff;
+
+    a {
+      font-size: 18px;
+
+      //&:hover {
+      //  border-bottom: 2px solid #008eff;
+      //
+      //}
+    }
+  }
 }
 
 .s-icon {
@@ -960,4 +1047,25 @@ div[class*=col-] > .nav {
   .sn-parallax-parties, .sn-parallax-sport-3, .sn-parallax-section-3, .sn-parallax-section-2 {
     background-attachment: scroll;
   }
+}
+
+// checkbox
+.sn-checkbox-control {
+  @extend .custom-control
+}
+
+.sn-checkbox {
+  @extend .custom-checkbox
+}
+
+.sn-checkbox-input {
+  @extend .custom-control-input
+}
+
+.sn-checkbox-indicator {
+  @extend .custom-control-indicator
+}
+
+.sn-checkbox-description {
+  @extend .custom-control-description
 }

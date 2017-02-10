@@ -57,6 +57,9 @@ Meteor.publish('users.one.strict', function (_id) {
   })
 });
 
+Meteor.publish('users.one', function (_id) {
+  return Meteor.users.find({_id: _id})
+});
 
 // Meteor.publish('files.ids.all', function () {
 //   return IDs.find().cursor;
