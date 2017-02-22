@@ -1,11 +1,11 @@
-import 'babel-polyfill'
-import SimpleSchema from 'simpl-schema';
+import "babel-polyfill";
+import SimpleSchema from "simpl-schema";
 
 //noinspection JSAnnotator
 const IDs = new FilesCollection({
-  storagePath: Meteor.settings.storagePath + 'ids',
+  storagePath: 'images/uploads/ids',
   // To preserve files in development mode store them outside of the Meteor application, e.g. /data/Meteor/uploads/
-  downloadRoute: '/ids/',
+  downloadRoute: 'images/uploads/ids/',
   chunkSize: 1024 * 2048,
   throttle: 1024 * 512,
   permissions: 0755,

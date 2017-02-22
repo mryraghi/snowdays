@@ -1,5 +1,6 @@
 import "./admin.list.html";
 import Participants from "/imports/collections/participants";
+import IDs from "/imports/collections/ids";
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 import {deepFind} from "/lib/js/utilities";
@@ -12,7 +13,7 @@ const participantsIndices = {'statusComplete': 1, 'firstName': 1, 'lastName': 1}
 const usersIndices = {'username': 1, 'profile.firstName': 1, 'profile.lastName': 1, 'roles': 1};
 
 // Modal
-let modalSub, modalSubOwner, modalSubUser, modalSubParticipant;
+let modalSubIDs, modalSub, modalSubOwner, modalSubUser, modalSubParticipant;
 
 let raven = require('raven');
 let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1bd9f24d1a93b78b18750afb54@sentry.io/126769', {
@@ -65,7 +66,12 @@ Template.AdminListSection.onCreated(function () {
     let skip = template.skip.get();
 
     $.when(setSubscription(collection.name, collection.filters, collection.searchQuery, collection.flattened, limit, skip)).done(function (options) {
-      Meteor.subscribe(collection.name + ".all", options, () => {
+      Meteor.subscribe(collection.name + ".all", options, function onStop(error) {
+        if (error) swal('Error', error, 'error');
+        console.log(collection.name + ".all STOP")
+      }, function onReady() {
+        console.log(collection.name + ".all START");
+
         Meteor.call(collection.name + '.count', options, function (error, count) {
           template.count.set(count);
           setTimeout(() => {
@@ -94,6 +100,9 @@ Template.AdminListSection.events({
   'click .sn-close-modal': function (event, template) {
     let modalId = $(event.target).attr('data-modal-id');
     modalSub.stop();
+    modalSubParticipant.stop();
+    modalSubOwner.stop();
+    modalSubUser.stop();
     Session.set('_id', '');
     $('#' + modalId).modal('hide')
   },
@@ -626,15 +635,19 @@ function setSubscription(name, filters, search, flattened, limit, skip) {
 
 // MODAL TEMPLATE
 Template.UserModal.onCreated(function () {
+  let userId = Session.get('_id');
   this.autorun(() => {
-    console.info('modal sub started');
-    modalSub = Meteor.subscribe("participants.current", Session.get('_id'));
+    modalSub = Meteor.subscribe("participants.current", userId, function onStop(error) {
+      if (error) swal('Error', error, 'error');
+      console.log("participants.current [UserModal] STOP: " + userId)
+    }, function onReady() {
+      console.log("participants.current [UserModal] START: " + userId)
+    });
   });
   Session.set('userModalTab', 'UserModalParticipant');
 });
 
 Template.UserModal.onDestroyed(function () {
-  console.info('modal sub destroyed');
   modalSub.stop();
 });
 
@@ -717,7 +730,7 @@ Template.UserModal.events({
 
     switch (collection) {
       case 'user':
-        Meteor.call('users.update', fieldObj, function (error, result) {
+        Meteor.call('admin.users.update', fieldObj, function (error, result) {
           if (error) swal('Error', error, 'error');
           else {
             $(event.currentTarget)
@@ -729,7 +742,7 @@ Template.UserModal.events({
         });
         break;
       case 'participant':
-        Meteor.call('participants.update', fieldObj, function (error, result) {
+        Meteor.call('admin.participants.update', fieldObj, function (error, result) {
           if (error) swal('Error', error, 'error');
           else {
             $(event.currentTarget)
@@ -756,8 +769,8 @@ Template.UserModal.events({
 Template.UserModal.helpers({
   user: function () {
     let userId = Session.get('_id');
-    console.info('-> UserModal', Participants.findOne({_id: userId}));
-    console.info('-> session _id', Session.get('_id'));
+    // console.info('-> UserModal', Participants.findOne({_id: userId}));
+    // console.info('-> session _id', Session.get('_id'));
     return Participants.findOne({_id: userId});
   },
   isActive: function (section) {
@@ -772,46 +785,127 @@ Template.UserModal.helpers({
 // UserModalParticipant
 
 Template.UserModalParticipant.onCreated(function () {
-  console.info('participant sub started');
-  modalSubParticipant = Meteor.subscribe("participants.current", Session.get('_id'));
+  this.autorun(() => {
+    let userId = Session.get('_id');
+    modalSubParticipant = Meteor.subscribe("participants.current", userId, function onStop(error) {
+      if (error) swal('Error', error, 'error');
+      console.log("participants.current [UserModalParticipant] STOP: " + userId)
+    }, function onReady() {
+      console.log("participants.current [UserModalParticipant] START: " + userId)
+    });
+    modalSubIDs = Meteor.subscribe("ids.both", userId, function onStop(error) {
+      if (error) swal('Error', error, 'error');
+      console.log("ids.both [UserModalParticipant] STOP: " + userId)
+    }, function onReady() {
+      console.log("ids.both [UserModalParticipant] START: " + userId)
+    });
+  });
 });
 
 Template.UserModalParticipant.helpers({
   user: function () {
     return Participants.findOne({_id: Session.get('_id')})
+  },
+  id: function (type, _id) {
+    let image = IDs.findOne({$and: [{$or: [{"meta.userId": _id}, {"userId": _id}]}, {'meta.type': type}]});
+    if (image) {
+      let filename = _.last(image.path.split('/'));
+      console.log(filename);
+      return filename
+    }
+  },
+  hasID: function (type, hasID, _id) {
+    let image = IDs.findOne({$and: [{$or: [{"meta.userId": _id}, {"userId": _id}]}, {'meta.type': type}]});
+    return !!(image && hasID);
+  },
+  IDcontraddiction: function (type, hasID, _id) {
+    let image = IDs.findOne({$and: [{$or: [{"meta.userId": _id}, {"userId": _id}]}, {'meta.type': type}]});
+    return !!((image && !hasID) || (!image && hasID));
+  }
+});
+
+Template.UserModalParticipant.events({
+  'click .sn-remove-id': function (event, template) {
+    let _id = $(event.currentTarget).attr('data-id');
+    let type = $(event.currentTarget).attr('data-type');
+    IDs.remove({$and: [{userId: _id}, {'meta.type': type}]}, function (error) {
+      if (error) swal('Error', error, 'error');
+      else swal('Success', 'ID trace removed from database', 'success')
+    });
   }
 });
 
 Template.UserModalParticipant.onDestroyed(function () {
-  console.info('participant sub destroyed');
   modalSubParticipant.stop();
+  // modalSubIDs.stop();
 });
 
 // UserModalUser
 
 Template.UserModalUser.onCreated(function () {
-  console.info('user sub started');
-  let userId = Template.instance().data._id;
-  modalSubUser = Meteor.subscribe('users.one', userId);
-  let ownerId = Template.instance().data.owner;
-  modalSubOwner = Meteor.subscribe('users.one', ownerId);
+  let template = Template.instance(), ownerId = template.data.owner, userId = template.data._id;
+  template.relP = new ReactiveVar();
+  template.owner = new ReactiveVar(ownerId);
+
+  console.log('userId', userId);
+  console.log('ownerId', ownerId);
+
+  this.autorun(() => {
+    template.relP.set();
+
+    modalSubUser = Meteor.subscribe('users.one', userId, function onStop(error) {
+      if (error) swal('Error', error, 'error');
+      console.log("users.one [UserModalUser] STOP: " + userId)
+    }, function onReady() {
+      console.log("users.one [UserModalUser] START: " + userId)
+    });
+
+    modalSubOwner = Meteor.subscribe('users.one', ownerId, function onStop(error) {
+      if (error) swal('Error', error, 'error');
+      console.log("participants.current [Owner] STOP: " + ownerId)
+    }, function onReady() {
+      console.log("participants.current [Owner] START: " + ownerId)
+    });
+
+    Meteor.call('participants.related', ownerId || userId, userId, function (error, result) {
+      template.relP.set(result)
+    });
+  });
+
 });
 
 Template.UserModalUser.helpers({
   user: function () {
     let userId = Session.get('_id'); // Template.instance().data._id
-    return Meteor.users.findOne({_id: userId});
+    let user = Meteor.users.findOne({_id: userId});
+    if (user) return user
   },
   cp: function () {
-    let ownerId = Template.instance().data.owner;
-    return Meteor.users.findOne({_id: ownerId})
+    let cp, ownerId = Template.instance().owner.get();
+    if (ownerId) cp = Meteor.users.findOne({_id: ownerId});
+    if (cp && ownerId) return cp
+  },
+  relatedP: function () {
+    return Template.instance().relP.get();
+  },
+  isCP: function () {
+    let user = Meteor.users.find({_id: Session.get('_id')});
+    if (user) return Roles.userIsInRole(Session.get('_id'), 'external') && !user.owner
+  },
+  isNotCP: function () {
+    let user = Meteor.users.find({_id: Session.get('_id')});
+    if (user) return !(Roles.userIsInRole(Session.get('_id'), 'external') && !user.owner)
+  },
+  isNotInternal: function () {
+    let user = Meteor.users.find({_id: Session.get('_id')});
+    if (user) return !Roles.userIsInRole(Session.get('_id'), 'unibz')
   }
 });
 
 Template.UserModalUser.onDestroyed(function () {
-  console.info('user sub destroyed');
   modalSubUser.stop();
   modalSubOwner.stop();
+  Template.instance().owner.set()
 });
 
 // UserModalHost
@@ -824,9 +918,13 @@ Template.UserModalHost.helpers({
 
 // UserModalHistory
 
+Template.UserModalHistory.onCreated(function () {
+  Template.instance().user = new ReactiveVar(Template.instance().data)
+});
+
 Template.UserModalHistory.helpers({
   user: function () {
-    return Template.instance().data
+    return Template.instance().user.get()
   }
 });
 

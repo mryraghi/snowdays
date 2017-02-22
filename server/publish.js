@@ -1,4 +1,5 @@
 import Participants from "/imports/collections/participants";
+import IDs from "/imports/collections/ids";
 import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
@@ -20,7 +21,17 @@ Meteor.publish('users.current', function (token) {
 });
 
 Meteor.publish('participants.current', function (_id) {
-  return Participants.find({_id: _id});
+  if (_id) {
+    this.ready(() => {
+      console.log('participants.current READY: ' + _id)
+    });
+
+    this.onStop(() => {
+      console.log('participants.current STOP: ' + _id)
+    });
+
+    return Participants.find({_id: _id});
+  } else this.stop()
 });
 
 Meteor.publish('participants.all.related', function () {
@@ -28,11 +39,39 @@ Meteor.publish('participants.all.related', function () {
 });
 
 Meteor.publish('participants.all', function (options) {
+  this.ready(() => {
+    console.log('participants.all READY')
+  });
+
+  this.onStop(() => {
+    console.log('participants.all STOP')
+  });
+
   // console.log(options);
   return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
 });
 
+Meteor.publish('participants', function () {
+  return Participants.find()
+});
+
+Meteor.publish('users', function () {
+  return Meteor.users.find()
+});
+
+Meteor.publish('ids', function () {
+  return IDs.find().cursor
+});
+
 Meteor.publish('users.all', function (options) {
+  this.ready(() => {
+    console.log('users.all READY: ')
+  });
+
+  this.onStop(() => {
+    console.log('users.all STOP: ')
+  });
+
   // console.log(options);
   return Meteor.users.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
 });
@@ -58,7 +97,31 @@ Meteor.publish('users.one.strict', function (_id) {
 });
 
 Meteor.publish('users.one', function (_id) {
-  return Meteor.users.find({_id: _id})
+  if (_id) {
+    this.ready(() => {
+      console.log('users.one READY: ' + _id)
+    });
+
+    this.onStop(() => {
+      console.log('users.one STOP: ' + _id)
+    });
+
+    return Meteor.users.find({_id: _id})
+  } else this.stop()
+});
+
+Meteor.publish('ids.both', function (_id) {
+  if (_id) {
+    this.ready(() => {
+      console.log('ids.both READY: ' + _id)
+    });
+
+    this.onStop(() => {
+      console.log('ids.both STOP: ' + _id)
+    });
+
+    return IDs.find({$or: [{"meta.userId": _id}, {"userId": _id}]}).cursor
+  } else this.stop()
 });
 
 // Meteor.publish('files.ids.all', function () {

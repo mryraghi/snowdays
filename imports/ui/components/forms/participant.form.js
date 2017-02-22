@@ -42,20 +42,20 @@ client.on('error', function (e) {
 Template.UserFormSection.onCreated(function () {
   let template = Template.instance();
 
+  // set _id session variable when editing
+  // participant in external cp list
+  setSessions();
+  facebookSetup();
+
   let _id = Session.get('_id') || Meteor.userId();
 
   // if user is admin then set this as true since not needed
-  template.hasAcceptedTandC = new ReactiveVar(!!Roles.userIsInRole(Meteor.userId(), 'admin'));
+  template.hasAcceptedTandC = new ReactiveVar(!!Roles.userIsInRole(Meteor.userId(), ['admin', 'external']));
 
   template.uploadingSID = new ReactiveVar(false);
   template.uploadingPID = new ReactiveVar(false);
   template.filling = new ReactiveVar(true);
   template.settings = new ReactiveVar([]);
-
-  // set _id session variable when editing
-  // participant in external cp list
-  setSessions();
-  facebookSetup();
 
   // set sentry.io context and catch all exceptions
   client.setContext({
@@ -182,6 +182,8 @@ Template.UserFormSection.events({
       isFootballPlayer: target.is_football_player.checked,
       foodAllergies: target.food_allergies.value,
       shoeSize: target.shoe_size.value,
+      height: target.height.value,
+      weight: target.weight.value,
       tshirt: target.tshirt.value
     };
 
@@ -271,7 +273,8 @@ function uploadID(file, template, idType) {
     chunkSize: 'dynamic',
     // transport: 'http',
     meta: {
-      type: idType
+      type: idType,
+      userId: p._id
     }
   }, false);
 
@@ -294,12 +297,16 @@ function uploadID(file, template, idType) {
     if (error) {
       swal('Error', 'Error during upload: ' + error, 'error');
     } else {
-      swal('Uploaded', 'Your ' + idType + ' id has been uploaded!', 'success');
+      if (fileObj) {
+        swal('Uploaded', 'Your ' + idType + ' ID has been uploaded!', 'success');
 
-      // check security section on Meteor's documentation
-      Meteor.call('participants.update', p, function (error, result) {
-        if (error) swal('Error', error.message, 'error');
-      })
+        // check security section on Meteor's documentation
+        Meteor.call('participants.update', p, function (error, result) {
+          if (error) swal('Error', error.message, 'error');
+        })
+      } else {
+        swal('Error', 'An error occurred, please try again.', 'error');
+      }
     }
     $('#loader-label').removeClass('fadeIn').addClass('animated fadeOut');
     toggleLoading(idType, template)

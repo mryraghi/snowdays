@@ -128,8 +128,8 @@ Schemas.Info = new SimpleSchema({
     optional: true
   },
   zip: {
-    type: Number,
-    max: 9999999,
+    type: String,
+    max: 10,
     optional: true
   },
   province: {
@@ -213,7 +213,7 @@ Schemas.Participant = new SimpleSchema({
   email: {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
-    max: 30,
+    max: 40,
     optional: true
   },
   // TODO: validate phone number
@@ -296,6 +296,18 @@ Schemas.Participant = new SimpleSchema({
     label: 'Shoe size',
     type: Number,
     max: 100,
+    optional: true
+  },
+  height: {
+    label: 'Height',
+    type: Number,
+    max: 230,
+    optional: true
+  },
+  weight: {
+    label: 'Weight',
+    type: Number,
+    max: 200,
     optional: true
   },
   history: {

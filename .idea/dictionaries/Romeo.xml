@@ -3,6 +3,7 @@
     <words>
       <w>bcrypt</w>
       <w>crypto</w>
+      <w>dfilename</w>
       <w>enoent</w>
       <w>flickity</w>
       <w>iban</w>

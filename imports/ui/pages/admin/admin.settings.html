@@ -1,3 +1,45 @@
 <template name="AdminSettingsSection">
-  <p>settings</p>
+  <div class="row mb-5">
+    <div class="col-12">
+      <h4 class="mb-2">Conflicts
+        <small>(first 10)</small>
+      </h4>
+      {{#if Template.subscriptionsReady}}
+        <table class="table table-sm">
+          <thead>
+          <tr>
+            <th>_id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>University</th>
+            <th>PID</th>
+            <th>PID in Coll</th>
+            <th>PID in server</th>
+            <th>SID</th>
+            <th>SID in Coll</th>
+            <th>SID in server</th>
+          </tr>
+          </thead>
+          <tbody>
+          {{#each c in conflicts}}
+            <tr>
+              <td><code>{{c._id}}</code></td>
+              <td>{{c.firstName}}</td>
+              <td>{{c.lastName}}</td>
+              <td>{{c.university}}</td>
+              <td>{{toStr c.hasPID}}</td>
+              <td>{{toStr c.isPIDinCollection}}</td>
+              <td>{{toStr c.pIDonServer}}</td>
+              <td>{{toStr c.hasSID}}</td>
+              <td>{{toStr c.isSIDinCollection}}</td>
+              <td>{{toStr c.sIDonServer}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <p>Loading...</p>
+      {{/if}}
+    </div>
+  </div>
 </template>

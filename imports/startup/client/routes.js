@@ -6,10 +6,10 @@ import "/imports/ui/pages/participant";
 import "/imports/ui/pages/errors/404/not_found";
 import _ from "lodash";
 
-Router.configure({
-  notFoundTemplate: 'NotFoundPage',
-  noRoutesTemplate: 'NotFoundPage'
-});
+// Router.configure({
+//   notFoundTemplate: 'NotFoundPage',
+//   noRoutesTemplate: 'NotFoundPage'
+// });
 
 Router.route('/', {
   name: 'Home',

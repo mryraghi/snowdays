@@ -44,6 +44,10 @@ Template.registerHelper('$or', function (a, b) {
   return a || b;
 });
 
+Template.registerHelper('$and', function (a, b) {
+  return a && b;
+});
+
 Template.registerHelper('moment', function (date, format) {
   if (_.isUndefined(date)) return;
   return moment(date).format(format)

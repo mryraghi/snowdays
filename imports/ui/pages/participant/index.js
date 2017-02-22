@@ -1,9 +1,9 @@
-import './participant.html'
-import {checkToken} from '/lib/js/utilities'
-import _ from 'lodash'
-import Participants from '/imports/collections/participants'
-import '/imports/ui/components/forms/participant.form'
-import '/imports/ui/components/loader/loader'
+import "./participant.html";
+import {checkToken} from "/lib/js/utilities";
+import _ from "lodash";
+import Participants from "/imports/collections/participants";
+import "/imports/ui/components/forms/participant.form";
+import "/imports/ui/components/loader/loader";
 
 let CryptoJS = require("crypto-js");
 
@@ -11,11 +11,15 @@ Template.ParticipantPage.onCreated(function () {
   this.hash = new ReactiveVar();
   this.token = new ReactiveVar((this.data && this.data.token ? this.data.token : ''));
 
-  Tracker.autorun(function () {
-    Meteor.subscribe("participants.current", Session.get('_id'), function () {
+  Meteor.subscribe("participants.current", Session.get('_id'));
+  Tracker.autorun(() => {
+    if (this.subscriptionsReady()) {
       let p = Participants.findOne();
-      if (p && p.owner) Meteor.subscribe("users.one.strict", p.owner);
-    });
+
+      if (p && p.owner) {
+        Meteor.subscribe("users.one.strict", p.owner);
+      }
+    }
   })
 });
 Template.ParticipantPage.helpers({
@@ -43,7 +47,7 @@ Template.ParticipantPage.helpers({
   },
 
   owner: function () {
-
+    console.log(Meteor.users.findOne());
     // return strictly useful info about contact person
     return Meteor.users.findOne()
   },

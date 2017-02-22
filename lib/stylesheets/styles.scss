@@ -93,6 +93,10 @@ a:focus {
   text-decoration: none;
 }
 
+.text-info {
+  color: #008eff !important;
+}
+
 .sn-bold-blue {
   color: #008eff;
   font-family: CircularMedium, sans-serif;
@@ -659,8 +663,12 @@ label.sn-upper-label {
     border-top: 1px solid #eceeef;
   }
 
-  div[class*=col-] {
+  *[class*=col-] {
     overflow: auto;
+  }
+
+  p, .alert, dd {
+    margin-bottom: 0;
   }
 }
 
@@ -1051,7 +1059,8 @@ div[class*=col-] > .nav {
 
 // checkbox
 .sn-checkbox-control {
-  @extend .custom-control
+  @extend .custom-control;
+  min-height: 1em;
 }
 
 .sn-checkbox {

@@ -244,20 +244,21 @@
   <option value="university">University</option>
   <option value="gender">Gender</option>
   <option disabled>Host</option>
-  <option value="host.info.accommodation">– Accommodation</option>
+  <option value="host.info.accommodation" disabled>– Accommodation</option>
   <option disabled>Day 1</option>
   <option value="day1.activity">– Activity</option>
   <option value="day1.rental">– Rental</option>
   <option disabled>Day 2</option>
   <option value="day2.activity">– Activity</option>
-  <option value="day1.rental">– Rental</option>
+  <option value="day2.rental">– Rental</option>
+  <option value="day2.course">– Ski course</option>
   <option disabled>––––––––––––––––––</option>
+  <option value="foodAllergies">Food allergies</option>
   <option value="isVolleyPlayer">isVolleyPlayer</option>
   <option value="isFootballPlayer">isFootballPlayer</option>
   <option value="hasPersonalID">hasPersonalID</option>
   <option value="hasStudentID">hasStudentID</option>
   <option value="statusComplete">statusComplete</option>
-  <option value="foodAllergies">Food allergies</option>
 </template>
 
 <template name="ParticipantsFields">
@@ -425,6 +426,27 @@
             <input type="checkbox" class="custom-control-input" id="tshirt">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">T-shirt</span>
+          </label>
+        </li>
+        <li>
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="shoeSize">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Shoe size</span>
+          </label>
+        </li>
+        <li>
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="height">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Height</span>
+          </label>
+        </li>
+        <li>
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="weight">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Weight</span>
           </label>
         </li>
       </ul>
@@ -604,9 +626,68 @@
           <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
         {{/if}}
       </h5>
-      <hr>
     </div>
   </div>
+  <hr>
+  <div class="row">
+    <div class="col-6 text-center">
+      <h6>Personal ID</h6>
+      {{#if hasID 'personal' user.hasPersonalID user._id}}
+        <img src="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}?auto=compress&fit=crop&h=300&w=300"
+             alt="Personal ID" class="img-thumbnail img-fluid" height="250" width="250">
+        <div class="d-flex flex-row justify-content-around mt-2">
+          <a title="Open" href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}" target="_blank">
+            Open <i class="fa fa-external-link" aria-hidden="true"></i>
+          </a>
+          <a title="Download" href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal'
+                                                                                user._id}}?dl={{user.firstName}}_{{user.lastName}}.jpg">
+            Download <i class="fa fa-cloud-download" aria-hidden="true"></i>
+          </a>
+          <!--<a title="Remove" href class="alert-link sn-remove-id" data-id="{{user._id}}" data-type="personal">-->
+          <!--Remove <i class="fa fa-times" aria-hidden="true"></i>-->
+          <!--</a>-->
+        </div>
+      {{else}}
+        {{#if IDcontraddiction 'personal' user.hasPersonalID user._id}}
+          <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br>Has <strong>personal ID</strong> but
+            <strong>no image has been found</strong>
+          </div>
+        {{else}}
+          <p>Missing personal ID</p>
+        {{/if}}
+      {{/if}}
+    </div>
+    <div class="col-6 text-center">
+      <h6>Student ID</h6>
+      {{#if hasID 'student' user.hasStudentID user._id}}
+        <img src="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}?auto=compress&fit=crop&h=300&w=300"
+             alt="Student ID" class="img-thumbnail img-fluid">
+        <div class="d-flex flex-row justify-content-around mt-2">
+          <a title="Open" href="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}" target="_blank">
+            Open <i class="fa fa-external-link" aria-hidden="true"></i>
+          </a>
+          <a title="Download" href="https://snowdays-bolzano.imgix.net/ids/{{id 'student'
+                                                                                user._id}}?dl={{user.firstName}}_{{user.lastName}}.jpg">
+            Download <i class="fa fa-cloud-download" aria-hidden="true"></i>
+          </a>
+          <!--<a title="Remove" href class="alert-link sn-remove-id" data-id="{{user._id}}" data-type="student">-->
+          <!--Remove <i class="fa fa-times" aria-hidden="true"></i>-->
+          <!--</a>-->
+        </div>
+      {{else}}
+        {{#if IDcontraddiction 'student' user.hasStudentID user._id}}
+          <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br>Has <strong>student ID</strong> but
+            <strong>no image has been found</strong>
+          </div>
+        {{else}}
+          <p>Missing student ID</p>
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+  <hr>
   <dl class="row">
     <dt class="col-4 col-sm-3">_id</dt>
     <dd class="col-6 col-sm-7">{{user._id}}</dd>
@@ -713,7 +794,7 @@
     <dt class="col-4 col-sm-3">ZIP</dt>
     <dd class="col-6 col-sm-7">{{user.info.zip}}</dd>
     <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.zip" data-field-type="number" data-collection="participant"
+      <a class="sn-modal-edit" data-field="info.zip" data-field-type="text" data-collection="participant"
          href>Edit</a>
     </dd>
 
@@ -918,6 +999,24 @@
       <a class="sn-modal-edit" data-field="tshirt" data-field-type="text" data-collection="participant" href>Edit</a>
     </dd>
 
+    <dt class="col-4 col-sm-3">Shoe size</dt>
+    <dd class="col-6 col-sm-7">{{user.shoeSize}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="shoeSize" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Height</dt>
+    <dd class="col-6 col-sm-7">{{user.height}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="height" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Weight</dt>
+    <dd class="col-6 col-sm-7">{{user.weight}}</dd>
+    <dd class="col-2">
+      <a class="sn-modal-edit" data-field="weight" data-field-type="text" data-collection="participant" href>Edit</a>
+    </dd>
+
     <dt class="col-4 col-sm-3">Token</dt>
     <dd class="col-6 col-sm-7">{{user.token}}</dd>
     <dd class="col-2">
@@ -957,6 +1056,9 @@
         {{#if user.updatedAt}}
           <small class="text-muted">Created: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
         {{/if}}
+        {{#if isCP}}
+          <small class="text-info">Contact Person</small>
+        {{/if}}
       </h5>
       <hr>
     </div>
@@ -981,18 +1083,24 @@
         <a class="sn-modal-edit" data-field="roles[0]" data-field-type="text" data-collection="user" href>Edit</a>
       </dd>
 
-      <dt class="col-4 col-sm-3">Token</dt>
-      <dd class="col-6 col-sm-7">{{user.profile.token}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="profile.token" data-field-type="text" data-collection="user" href>Edit</a>
-      </dd>
-
-      <dt class="col-4 col-sm-3"># sub partic.</dt>
-      <dd class="col-6 col-sm-7">{{user.profile.allowedParticipants}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="profile.allowedParticipants" data-field-type="number"
-           data-collection="user" href>Edit</a>
-      </dd>
+      {{#if isNotInternal}}
+        <dt class="col-4 col-sm-3">Token</dt>
+        <dd class="col-6 col-sm-7">{{user.profile.token}}</dd>
+        <dd class="col-2">
+          <a class="sn-modal-edit" data-field="profile.token" data-field-type="text" data-collection="user"
+             href>Edit</a>
+        </dd>
+        {{#if isCP}}
+          <dt class="col-4 col-sm-3"># sub partic.</dt>
+          <dd class="col-6 col-sm-7">{{user.profile.allowedParticipants}}
+            <small class="text-muted">(total - 1)</small>
+          </dd>
+          <dd class="col-2">
+            <a class="sn-modal-edit" data-field="profile.allowedParticipants" data-field-type="number"
+               data-collection="user" href>Edit</a>
+          </dd>
+        {{/if}}
+      {{/if}}
 
       <dt class="col-4 col-sm-3">Survey</dt>
       <dd class="col-8 col-sm-9">
@@ -1035,34 +1143,52 @@
   {{else}}
     <p>No related user</p>
   {{/if}}
-  {{#if cp}}
-    <hr>
-    <div class="row">
-      <div class="col-12 text-center">
-        <h5>Contact person<br>
-          {{#if cp.updatedAt}}
-            <small class="text-muted">Created: {{moment cp.updatedAt 'DD/MM/YY kk:mm'}}</small>
-          {{/if}}
-        </h5>
-        <hr>
+  {{#if isNotInternal}}
+    {{#if isNotCP}}
+      <hr>
+      <div class="row">
+        <div class="col-12 text-center">
+          <h5>Contact person</h5>
+          <hr>
+        </div>
       </div>
-    </div>
-    <dl class="row">
-      <dt class="col-4 col-sm-3">_id</dt>
-      <dd class="col-8 col-sm-9">{{cp._id}}</dd>
+      <dl class="row">
+        <dt class="col-4 col-sm-3">_id</dt>
+        <dd class="col-8 col-sm-9">{{cp._id}}</dd>
 
-      <dt class="col-4 col-sm-3">Username</dt>
-      <dd class="col-8 col-sm-9">{{cp.username}}</dd>
+        <dt class="col-4 col-sm-3">Username</dt>
+        <dd class="col-8 col-sm-9">{{cp.username}}</dd>
 
-      <dt class="col-4 col-sm-3">First name</dt>
-      <dd class="col-8 col-sm-9">{{cp.profile.firstName}}</dd>
+        <dt class="col-4 col-sm-3">First name</dt>
+        <dd class="col-8 col-sm-9">{{cp.profile.firstName}}</dd>
 
-      <dt class="col-4 col-sm-3">Last name</dt>
-      <dd class="col-8 col-sm-9">{{cp.profile.lastName}}</dd>
+        <dt class="col-4 col-sm-3">Last name</dt>
+        <dd class="col-8 col-sm-9">{{cp.profile.lastName}}</dd>
 
-      <dt class="col-4 col-sm-3"># sub partic.</dt>
-      <dd class="col-8 col-sm-9">{{cp.profile.allowedParticipants}}</dd>
-    </dl>
+        <dt class="col-4 col-sm-3">Max sub participants</dt>
+        <dd class="col-8 col-sm-9">{{cp.profile.allowedParticipants}}</dd>
+      </dl>
+    {{/if}}
+    {{#if relatedP}}
+      <hr>
+      <div class="row">
+        <div class="col-12 text-center">
+          <h5>Related participants</h5>
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-unstyled">
+            {{#each r in relatedP}}
+              <li>{{r.firstName}} {{r.lastName}} (<code>{{r._id}}</code>)</li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    {{else}}
+      <p>No related participants</p>
+    {{/if}}
   {{/if}}
 </template>
 
@@ -1127,7 +1253,8 @@
     <dt class="col-4 col-sm-3">ZIP</dt>
     <dd class="col-6 col-sm-7">{{host.info.zip}}</dd>
     <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.zip" data-field-type="number" data-collection="participant" href>Edit</a>
+      <a class="sn-modal-edit" data-field="host.info.zip" data-field-type="text" data-collection="participant"
+         href>Edit</a>
     </dd>
 
     <dt class="col-4 col-sm-3">Province</dt>
@@ -1185,14 +1312,16 @@
   <div class="row">
     <div class="col-12 text-center">
       <h5>History<br>
-        <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
+        {{#if user.updatedAt}}
+          <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
+        {{/if}}
       </h5>
       <hr>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
-      {{#if history}}
+      {{#if user.history}}
         {{#each entry in user.history}}
           <dl class="row">
             <dt class="col-3 text-center">{{moment entry.date 'DD/MM/YY kk:mm'}}</dt>

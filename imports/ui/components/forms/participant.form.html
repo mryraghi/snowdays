@@ -143,7 +143,7 @@
                     </div>
                     <div class="col-12 col-sm-4 col-md-12 col-lg-4">
                       <div class="sn-field-group">
-                        <input type="number" class="sn-field-input" name="zip" id="zip" required
+                        <input type="text" class="sn-field-input" name="zip" id="zip" required
                                value="{{lp.info.zip}}">
                         <label for="zip" class="sn-field-label">ZIP</label>
                       </div>
@@ -182,15 +182,37 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-12 col-lg-6">
                       <div class="sn-field-group">
-                        <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size"
-                               value="{{lp.shoeSize}}" required>
-                        <label for="shoe_size" class="sn-field-label">Shoe size</label>
+                        <input type="number" class="sn-field-input" name="height" id="height"
+                               value="{{lp.height}}">
+                        <label for="height" class="sn-field-label">Height (cm)</label>
+                        <small class="form-text text-muted">
+                          Required if renting.
+                        </small>
                       </div>
                     </div>
                   </div>
-                  <small id="d1_rental_help" class="form-text text-muted">
-                    Shoe size required if renting.
-                  </small>
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                      <div class="sn-field-group">
+                        <input type="number" class="sn-field-input" name="weight" id="weight"
+                               value="{{lp.weight}}">
+                        <label for="weight" class="sn-field-label">Weight (kg)</label>
+                        <small class="form-text text-muted">
+                          Required if renting.
+                        </small>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                      <div class="sn-field-group">
+                        <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size"
+                               value="{{lp.shoeSize}}">
+                        <label for="shoe_size" class="sn-field-label">Shoe size</label>
+                        <small class="form-text text-muted">
+                          Required if renting.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
                   <div class="sn-field-group">
                     <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
                            value="{{lp.foodAllergies}}" required>

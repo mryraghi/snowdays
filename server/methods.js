@@ -1,4 +1,6 @@
 let CryptoJS = require("crypto-js");
+let fs = require('fs');
+
 import _ from "lodash";
 import base64url from "base64url";
 import {checkMasterPassword, unflatten} from "./utilities";
@@ -47,6 +49,14 @@ Meteor.methods({
     let p = Participants.findOne(participant._id);
     if (_.isUndefined(p)) throw new Meteor.Error('participants.update', 'No related participant exists');
 
+    return Participants.update(participant._id, {
+      $set: participant
+    });
+  },
+  'admin.participants.update': function (participant) {
+    let p = Participants.findOne(participant._id);
+    if (_.isUndefined(p)) throw new Meteor.Error('participants.update', 'No related participant exists');
+
     // since Mongo throw errors for fucking every update
     // then retrieve previous state of deep object
     // and substitute new value
@@ -75,6 +85,17 @@ Meteor.methods({
     return Participants.findOne({_id: _id}, {fields: fields})
   },
 
+  'participants.related': function (owner, _id) {
+    console.log(_id, Participants.find({
+      "owner": {$exists: true},
+      $and: [{"owner": owner}, {$and: [{"_id": {$ne: _id}}]}]
+    }).count());
+    return Participants.find({
+      "owner": {$exists: true},
+      $and: [{"owner": owner}, {$and: [{"_id": {$ne: _id}}]}]
+    }).fetch()
+  },
+
   // users
   'users.create': function (user, role, masterPassword) {
     if (_.isEqual(role, 'admin')) {
@@ -101,12 +122,18 @@ Meteor.methods({
     return Meteor.users.remove(_id);
   },
   'users.update': function (user) {
+    return Meteor.users.update(user._id || this.userId, {
+      $set: user
+    })
+  },
+
+  'admin.users.update': function (user) {
     // since Mongo throw errors for fucking every update
     // then retrieve previous state of deep object
     // and substitute new value
     let oldUser = Meteor.users.findOne({_id: user._id});
     // to avoid mongo error remove createdAt property
-    delete oldUser.createdAt;
+    if (oldUser && oldUser.createdAt) delete oldUser.createdAt;
     let newUser = _.merge(oldUser, unflatten(user));
     return Meteor.users.update(user._id || this.userId, {
       $set: newUser
@@ -168,6 +195,10 @@ Meteor.methods({
 
   'settings.get': function (_id) {
     return Settings.findOne({_id: _id});
+  },
+
+  'id.exists': function (filename) {
+    return fs.existsSync('/bundle/bundle/programs/server/images/uploads/ids/' + filename)
   }
 });
 
