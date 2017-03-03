@@ -69,6 +69,7 @@ html, body, *, select, button, input, textarea, p, .swal2-content {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
   font-family: CircularMedium, sans-serif;
 }
 
@@ -128,6 +129,16 @@ table td[class*=col-], table th[class*=col-] {
   float: none;
 }
 
+// in admin's settings section
+// conflicts
+.sn-cell-green {
+  background-color: #27ae60;
+}
+
+.sn-cell-red {
+  background-color: #e74c3c;
+}
+
 // remove arrow
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -156,20 +167,51 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 // [ADMIN] button link in admin section's nav
-.nav-link {
+.sn-nav-link {
+  @extend .nav-link;
   padding: 2px 7px;
   margin: .5em 1em;
 }
 
 @media screen and (max-width: 575px) {
-  .nav-link {
-    margin: .5em 0;
+  .sn-nav-link {
+    margin: 0;
+  }
+}
+
+.sn-stats-card {
+  position: relative;
+  background-color: #FFF;
+  width: 100%;
+  border: 1px solid #EFEFEF;
+  border-radius: 5px;
+  padding: 12px;
+  box-sizing: border-box;
+  font-family: "CircularBook", sans-serif;
+
+  .sn-stats-title {
+    color: rgb(109, 122, 135);
+    font-size: 1.5em;
+    line-height: 1.5em;
+    font-family: inherit;
+    text-transform: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sn-stats-value {
+    color: #008eff;
+    font-family: inherit;
   }
 }
 
 // [ADMIN] since placed inside col-* with padding,
 // force nav full width
-.nav {
+.sn-nav {
+  @extend .nav;
   margin-left: -15px;
   margin-right: -15px;
   padding: 0 15px;
@@ -204,6 +246,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .sn-logo-section {
   height: .6em;
   width: auto;
+}
+
+.card-title:only-child {
+  margin-bottom: 0;
 }
 
 .card-subtitle {
@@ -682,10 +728,24 @@ label.sn-upper-label {
   color: #008eff
 }
 
+.sn-alert-link {
+  @extend .alert-link;
+  text-transform: uppercase;
+  font-size: 10px;
+  border: 1px solid rgba(0, 142, 255, 0.5);;
+  border-radius: 3px;
+  padding: 0 5px;
+  line-height: 25px;
+
+  &:hover {
+    background: rgba(0, 142, 255, 0.3);
+  }
+}
+
 // ADMIN
 
 // nav background color (ADMIN)
-div[class*=col-] > .nav {
+div[class*=col-] > .sn-nav {
   background: rgb(249, 250, 252);
 }
 
@@ -694,10 +754,60 @@ div[class*=col-] > .nav {
 #section-1 {
   width: 100%;
   height: 100%;
-  background: url('images/background.jpg') no-repeat left center;
   -webkit-background-size: cover;
   background-size: cover;
   text-align: center;
+  padding: 0;
+
+  #description {
+    background: url('images/background.jpg') no-repeat left center;
+    background-size: cover;
+  }
+}
+
+.sn-countdown {
+  display: flex;
+  justify-content: center;
+
+  .sn-countdown-block {
+    background-color: white;
+    padding: 1.2em 1em 1em 1em;
+    //border-radius: 10px;
+    //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    margin: 0 .6em;
+
+    h2 {
+      font-size: 2em;
+      font-family: "CircularMedium", sans-serif;
+      line-height: .65em;
+    }
+
+    h4 {
+      text-transform: uppercase;
+      margin-top: .5em;
+      font-size: 1em;
+    }
+  }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .sn-countdown {
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 575px) {
+  .sn-countdown {
+    width: 100%;
+    background-color: white;
+    //border-bottom: 1px solid #ddd;
+
+    .sn-countdown-block {
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
 }
 
 .section {
@@ -812,7 +922,7 @@ div[class*=col-] > .nav {
 #s-date {
   font-family: "CircularBook", sans-serif;
   font-size: 1.2em;
-  margin: 0 0 2em 0;
+  margin: 0;
   font-weight: normal;
   color: #F8E81C;
   text-shadow: 0 0 15px rgba(0, 0, 0, .5);
@@ -828,17 +938,13 @@ div[class*=col-] > .nav {
 
 #s-divider {
   left: 0;
-  position: absolute;
+  //position: absolute;
   width: 100%;
-  bottom: 44px;
+  bottom: 0;
 }
 
 #sn-home-menu {
   font-family: CircularMedium, sans-serif;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: white;
   width: 100%;
   border: none;

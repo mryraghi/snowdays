@@ -631,21 +631,23 @@
   <hr>
   <div class="row">
     <div class="col-6 text-center">
-      <h6>Personal ID</h6>
+      <h6 class="mb-2">Personal ID</h6>
       {{#if hasID 'personal' user.hasPersonalID user._id}}
         <img src="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}?auto=compress&fit=crop&h=300&w=300"
              alt="Personal ID" class="img-thumbnail img-fluid" height="250" width="250">
         <div class="d-flex flex-row justify-content-around mt-2">
-          <a title="Open" href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}" target="_blank">
-            Open <i class="fa fa-external-link" aria-hidden="true"></i>
+          <a title="Open" class="sn-alert-link" href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}"
+             target="_blank">
+            Open
           </a>
-          <a title="Download" href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal'
-                                                                                user._id}}?dl={{user.firstName}}_{{user.lastName}}.jpg">
-            Download <i class="fa fa-cloud-download" aria-hidden="true"></i>
+          <a title="Download" class="sn-alert-link"
+             href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal'
+                                                               user._id}}?dl={{user.firstName}}_{{user.lastName}}_personal.jpg">
+            Download
           </a>
-          <!--<a title="Remove" href class="alert-link sn-remove-id" data-id="{{user._id}}" data-type="personal">-->
-          <!--Remove <i class="fa fa-times" aria-hidden="true"></i>-->
-          <!--</a>-->
+          <a title="Remove" href class="sn-alert-link sn-remove-id" data-id="{{user._id}}" data-type="personal">
+            Remove
+          </a>
         </div>
       {{else}}
         {{#if IDcontraddiction 'personal' user.hasPersonalID user._id}}
@@ -659,21 +661,23 @@
       {{/if}}
     </div>
     <div class="col-6 text-center">
-      <h6>Student ID</h6>
+      <h6 class="mb-2">Student ID</h6>
       {{#if hasID 'student' user.hasStudentID user._id}}
         <img src="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}?auto=compress&fit=crop&h=300&w=300"
-             alt="Student ID" class="img-thumbnail img-fluid">
+             alt="Student ID" class="img-thumbnail img-fluid" height="250" width="250">
         <div class="d-flex flex-row justify-content-around mt-2">
-          <a title="Open" href="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}" target="_blank">
-            Open <i class="fa fa-external-link" aria-hidden="true"></i>
+          <a title="Open" class="sn-alert-link" href="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}"
+             target="_blank">
+            Open
           </a>
-          <a title="Download" href="https://snowdays-bolzano.imgix.net/ids/{{id 'student'
-                                                                                user._id}}?dl={{user.firstName}}_{{user.lastName}}.jpg">
-            Download <i class="fa fa-cloud-download" aria-hidden="true"></i>
+          <a title="Download" class="sn-alert-link"
+             href="https://snowdays-bolzano.imgix.net/ids/{{id 'student'
+                                                               user._id}}?dl={{user.firstName}}_{{user.lastName}}_student.jpg">
+            Download
           </a>
-          <!--<a title="Remove" href class="alert-link sn-remove-id" data-id="{{user._id}}" data-type="student">-->
-          <!--Remove <i class="fa fa-times" aria-hidden="true"></i>-->
-          <!--</a>-->
+          <a title="Remove" href class="sn-alert-link sn-remove-id" data-id="{{user._id}}" data-type="student">
+            Remove
+          </a>
         </div>
       {{else}}
         {{#if IDcontraddiction 'student' user.hasStudentID user._id}}

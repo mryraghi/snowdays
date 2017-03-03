@@ -1,9 +1,10 @@
-import './admin.stats.html'
-import Chart from 'chart.js'
-import _ from 'lodash'
-import moment from 'moment'
-import Participants from '/imports/collections/participants'
-import randomColor from 'randomcolor'
+import "./admin.stats.html";
+import Chart from "chart.js";
+import _ from "lodash";
+import moment from "moment";
+import Participants from "/imports/collections/participants";
+import randomColor from "randomcolor";
+import reflect from "reflect-node";
 
 let participants, users;
 
@@ -17,6 +18,24 @@ Template.AdminStatsSection.onRendered(function () {
   let genderCanvas = document.getElementById("gender");
   let meanAgesCanvas = document.getElementById("mean_ages");
   let universitiesCanvas = document.getElementById("universities");
+
+
+  let reflectApiToken = "a1b2c3d-your-secure-api-token-4e5f6g7";
+
+  let usernameParam = {
+    field: "Username",
+    op: "=",
+    value: "tonydanza"
+  };
+
+  let tokenParams = [
+    usernameParam
+  ];
+
+  let signedToken = reflect.generateToken(reflectApiToken, tokenParams);
+  console.log(signedToken);
+
+
 
   // _.forEach();
 
@@ -140,4 +159,13 @@ Template.AdminStatsSection.onRendered(function () {
       });
     }
   });
+});
+
+Template.AdminStatsSection.helpers({
+  internals: function () {
+    return 750
+  },
+  externals: function () {
+    return 750
+  }
 });

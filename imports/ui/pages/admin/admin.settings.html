@@ -1,45 +1,256 @@
 <template name="AdminSettingsSection">
   <div class="row mb-5">
     <div class="col-12">
-      <h4 class="mb-2">Conflicts
-        <small>(first 10)</small>
-      </h4>
-      {{#if Template.subscriptionsReady}}
-        <table class="table table-sm">
-          <thead>
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item ">
+          <a class="nav-link active" data-toggle="tab" href="#settings-events" role="tab">
+            <i class="mr-2 fa fa-calendar" aria-hidden="true"></i> Schedule events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#settings-conflicts" role="tab">
+            <i class="mr-2 fa fa-exclamation-triangle" aria-hidden="true"></i>Conflicts</a>
+        </li>
+      </ul>
+
+      <div class="tab-content mt-4">
+        <div class="tab-pane active" id="settings-events" role="tabpanel">
+          <div class="row">
+            <div class="col-4">
+              <div class="card">
+                <div class="card-block">
+                  <h4 class="card-title">Day 1</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                  {{#each event in (day 1)}}
+                    <a href class="list-group-item sn-open-modal" data-action="edit" data-event-id="{{event._id}}">
+                      <span class="badge badge-default mr-3">{{moment event.startDate 'HH:mm'}} - {{moment event.endDate
+                                                                                                           'HH:mm'}}</span> {{event.name}}
+                    </a>
+                  {{/each}}
+                  <a href class="list-group-item text-center sn-open-modal">
+                    <i class="fa fa-plus-circle" aria-hidden="true" style="width:100%;"></i>
+                  </a>
+                </ul>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="card">
+                <div class="card-block">
+                  <h4 class="card-title">Day 2</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                  {{#each event in (day 2)}}
+                    <a href class="list-group-item sn-open-modal" data-event-id="{{event._id}}">
+                      <span class="badge badge-default mr-3">{{moment event.startDate 'HH:mm'}} - {{moment event.endDate
+                                                                                                           'HH:mm'}}</span> {{event.name}}
+                    </a>
+                  {{/each}}
+                  <a href class="list-group-item text-center sn-open-modal">
+                    <i class="fa fa-plus-circle" aria-hidden="true" style="width:100%;"></i>
+                  </a>
+                </ul>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="card">
+                <div class="card-block">
+                  <h4 class="card-title">Day 3</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                  {{#each event in (day 3)}}
+                    <a href class="list-group-item sn-open-modal" data-action="edit" data-event-id="{{event._id}}">
+                      <span class="badge badge-default mr-3">{{moment event.startDate 'HH:mm'}} - {{moment event.endDate
+                                                                                                           'HH:mm'}}</span> {{event.name}}
+                    </a>
+                  {{/each}}
+                  <a href class="list-group-item text-center sn-open-modal">
+                    <i class="ml-3 fa fa-plus-circle" aria-hidden="true" style="width:100%;"></i>
+                  </a>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="settings-conflicts" role="tabpanel">
+          <div class="row mb-5">
+            <div class="col-12">
+              {{> AdminSettingsConflicts}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{> AdminSettingsScheduleModal}}
+</template>
+
+<template name="AdminSettingsConflicts">
+  <h4 class="mb-2">Conflicts</h4>
+  {{#if loading}}
+    <p>Loading...</p>
+  {{else}}
+    {{#if isEmpty conflicts}}
+      <p>No conflicts</p>
+    {{else}}
+      <table class="table table-sm">
+        <thead>
+        <tr>
+          <th>_id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>University</th>
+          <th>Email</th>
+          <th></th>
+          <th>PID</th>
+          <th>Coll.</th>
+          <th>Server</th>
+          <th></th>
+          <th>SID</th>
+          <th>Coll</th>
+          <th>Server</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each c in conflicts}}
           <tr>
-            <th>_id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>University</th>
-            <th>PID</th>
-            <th>PID in Coll</th>
-            <th>PID in server</th>
-            <th>SID</th>
-            <th>SID in Coll</th>
-            <th>SID in server</th>
+            <td><code>{{c._id}}</code></td>
+            <td>{{c.firstName}}</td>
+            <td>{{c.lastName}}</td>
+            <td>{{c.university}}</td>
+            <td>{{c.email}}</td>
+            <td></td>
+            <td class="{{boolToColor c.hasPID}}"></td>
+            <td class="{{boolToColor c.isPIDinCollection}}"></td>
+            <td class="{{boolToColor c.PIDonServer}}"></td>
+            <td></td>
+            <td class="{{boolToColor c.hasSID}}"></td>
+            <td class="{{boolToColor c.isSIDinCollection}}"></td>
+            <td class="{{boolToColor c.SIDonServer}}"></td>
           </tr>
-          </thead>
-          <tbody>
-          {{#each c in conflicts}}
-            <tr>
-              <td><code>{{c._id}}</code></td>
-              <td>{{c.firstName}}</td>
-              <td>{{c.lastName}}</td>
-              <td>{{c.university}}</td>
-              <td>{{toStr c.hasPID}}</td>
-              <td>{{toStr c.isPIDinCollection}}</td>
-              <td>{{toStr c.pIDonServer}}</td>
-              <td>{{toStr c.hasSID}}</td>
-              <td>{{toStr c.isSIDinCollection}}</td>
-              <td>{{toStr c.sIDonServer}}</td>
-            </tr>
-          {{/each}}
-          </tbody>
-        </table>
-      {{else}}
-        <p>Loading...</p>
-      {{/if}}
+        {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="AdminSettingsScheduleModal">
+  <div class="modal fade" id="admin-event-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form id="event-form">
+          <div class="modal-header">
+            {{#if event}}
+              <h4 class="modal-title">{{event.name}}<br>
+                <small>{{event._id}}</small>
+              </h4>
+            {{else}}
+              <h4 class="modal-title">Add new</h4>
+            {{/if}}
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="name" id="name" value="{{event.name}}" required>
+                      <label for="name" class="sn-field-label">Name</label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="subtitle" id="subtitle"
+                             value="{{event.subtitle}}">
+                      <label for="subtitle" class="sn-field-label sn-upper-label">Subtitle</label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="sn-field-group">
+                      <select class="sn-field-input sn-a-0" id="type" name="type" required>
+                        <option disabled>Choose</option>
+                        <option value="meal" {{selectedIf event.type 'meal'}}>Meal</option>
+                        <option value="transportation" {{selectedIf event.type 'transportation'}}>Transportation
+                        </option>
+                        <option value="other" {{selectedIf event.type 'other'}}>Other</option>
+                      </select>
+                      <label for="type" class="sn-field-label sn-upper-label">Type</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="sn-field-group">
+                      <input type="date" class="sn-field-input " name="startDate" id="startDate" required>
+                      <label for="startDate" class="sn-field-label sn-upper-label">Start date</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="startTime" id="startTime"
+                             placeholder="HH:mm" required>
+                      <label for="startTime" class="sn-field-label sn-upper-label">Start time</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="sn-field-group">
+                      <input type="date" class="sn-field-input" name="endDate" id="endDate"
+                             required>
+                      <label for="endDate" class="sn-field-label sn-upper-label">End date</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="endTime" id="endTime"
+                             placeholder="HH:mm"
+                             required>
+                      <label for="endTime" class="sn-field-label sn-upper-label">End time</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="custom-control custom-checkbox">
+                    {{#if event}}
+                      <input type="checkbox" class="custom-control-input" name="all_day" checked>
+                    {{else}}
+                      <input type="checkbox" class="custom-control-input" name="all_day">
+                    {{/if}}
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">All day event</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="custom-control custom-checkbox">
+                    {{#if event}}
+                      <input type="checkbox" class="custom-control-input" name="nfc_check" checked>
+                    {{else}}
+                      <input type="checkbox" class="custom-control-input" name="nfc_check">
+                    {{/if}}
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">NFC check during the event</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 pb-1">
+                <h6 class="mb-2">Description</h6>
+                <div id="event-description-editor"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="sn-btn-empty-blue" data-dismiss="modal">Close</button>
+            <button type="submit" class="sn-btn-green sn-save-event" name="save">Save changes</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>

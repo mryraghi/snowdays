@@ -7,26 +7,32 @@
 
 <template name="Home">
   <div class="container-fluid" style="height: 100%;">
-    <div class="row" style="height: 100%;">
-      <div class="col-12">
+    <div class="row" style="height: 100%; padding: 0">
+      <div class="col-12 d-flex flex-column justify-content-center align-items-stretch" id="section-1">
+
         <img src="images/unibz.svg" id="s-logo" class="mt-2">
-      </div>
-      <div class="col-12 d-flex flex-column justify-content-center align-items-center" id="section-1">
-        <img src="images/snowdays-white-no_snowflake1.svg" id="s-title" class="mx-3 mx-md-0">
-        <h6 id="s-subtitle" class="mb-2">Europe's biggest winter sport event organised by students for students!</h6>
-        <h6 id="s-date">9-10-11 March 2017</h6>
-        <!--<div class="s-button-flex">-->
-        <!--<a href="/public/Snowdays-Sponsors-EN-WEB.jpg" target="_blank">Discover&nbsp;&nbsp;-->
-        <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_en.svg"></a>-->
-        <!--<a href="/public/Snowdays-Sponsors-IT-WEB.jpg" target="_blank">-->
-        <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_it.svg"></a>-->
-        <!--<a href="/public/Snowdays-Sponsors-DE-WEB.jpg" target="_blank">-->
-        <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_de.svg"></a>-->
-        <!--</div>-->
-        <div class="s-button-flex mt-2">
-          <a href="/login"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i> Login</a>
+
+        <div class="d-flex flex-column justify-content-center align-items-center" id="description"
+             style="height: 100%;">
+          <img src="images/snowdays-white-no_snowflake1.svg" id="s-title" class="px-3 px-md-0">
+          <h6 id="s-subtitle" class="mb-2">Europe's biggest winter sports event organised by students for students!</h6>
+          <h6 id="s-date">9-10-11 March 2017</h6>
+          <!--<img src="images/divider.png" id="s-divider">-->
+          <div class="s-button-flex mt-4">
+            <a href="/login"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i> Login</a>
+          </div>
         </div>
-        <img src="images/divider.png" id="s-divider">
+
+
+        <div class="sn-countdown">
+          {{#each t in countdown}}
+            <div class="sn-countdown-block d-flex flex-column justify-content-center">
+              <h2>{{getValue t}}</h2>
+              <h4>{{getKey t}}</h4>
+            </div>
+          {{/each}}
+        </div>
+
         <ul class="nav flex-row justify-content-center text-center flex-wrap" id="sn-home-menu">
           <li class="sn-home-menu-item">
             <a class="nav-link" href="#welcome">Welcome</a>
@@ -49,9 +55,40 @@
           <li class="sn-home-menu-item">
             <a class="nav-link" href="#media">Media</a>
           </li>
+          <li class="sn-home-menu-item">
+            <a class="nav-link" href="#sponsors">Sponsors</a>
+          </li>
+          <!--<li class="sn-home-menu-item">-->
+          <!--<a class="nav-link" href="/login">Login</a>-->
+          <!--</li>-->
         </ul>
+
       </div>
     </div>
+    <!--<div class="s-button-flex">-->
+    <!--<a href="/public/Snowdays-Sponsors-EN-WEB.jpg" target="_blank">Discover&nbsp;&nbsp;-->
+    <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_en.svg"></a>-->
+    <!--<a href="/public/Snowdays-Sponsors-IT-WEB.jpg" target="_blank">-->
+    <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_it.svg"></a>-->
+    <!--<a href="/public/Snowdays-Sponsors-DE-WEB.jpg" target="_blank">-->
+    <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_de.svg"></a>-->
+    <!--</div>-->
+
+    <div class="row">
+      <div class="col-12 section">
+        <div class="row mt-3">
+          <div class="col-12">
+            <h1 id="events">SCHEDULE</h1>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row text-left">
+            {{> HomeSchedule}}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-12 section">
         <div class="row mt-5">
@@ -321,42 +358,132 @@
             <h1 class="mb-4" id="media">MEDIA</h1>
             <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
               <a href="https://www.facebook.com/Snowdays.Bolzano/">
-                <img class="s-icon" data-original="images/facebook.svg" width="1000" height="1000">
+                <img class="s-icon" data-original="images/home/social/facebook.svg" width="400" height="400">
               </a>
               <a href="https://www.instagram.com/snowdays.bolzano/">
-                <img class="s-icon" data-original="images/instagram.svg" width="1000" height="1000">
+                <img class="s-icon" data-original="images/home/social/instagram.svg" width="400" height="400">
               </a>
               <a href="https://vimeo.com/bolzanosnowdays">
-                <img class="s-icon" data-original="images/vimeo.svg" width="1000" height="1000">
+                <img class="s-icon" data-original="images/home/social/vimeo.svg" width="400" height="400">
               </a>
-              <img class="s-icon" data-original="images/snapchat.svg" width="1000" height="1000">
+              <img class="s-icon" data-original="images/home/social/snapchat.svg" width="400" height="400">
             </div>
           </div>
         </div>
         <div class="row mt-4 mb-5">
           <div class="col-6">
-            <img data-original="images/home/medias-1.jpg" class="img-fluid" width="2000" height="2000">
+            <img data-original="images/home/media/medias-1.jpg" class="img-fluid" width="2000" height="2000">
           </div>
           <div class="col-6">
-            <img data-original="images/home/medias-2.jpg" class="img-fluid" width="2000" height="2000">
+            <img data-original="images/home/media/medias-2.jpg" class="img-fluid" width="2000" height="2000">
           </div>
         </div>
         <div class="row">
           <div class="col-12">
             <div class="container">
               <div class="row px-md-5 d-flex align-items-center mb-5">
-                <div class="col-4 px-2 px-md-4"><img src="images/home/dolomiten.png" class="img-fluid"></div>
-                <div class="col-4 px-2 px-md-4"><img src="images/home/altoadige.png" class="img-fluid"></div>
-                <div class="col-4 px-2 px-md-4"><img src="images/home/franzmagazine.png" class="img-fluid"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/dolomiten.png" class="img-fluid"
+                                                     width="400" height="400"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/altoadige.png" class="img-fluid"
+                                                     width="400" height="400"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/franzmagazine.png"
+                                                     class="img-fluid" width="400" height="400"></div>
               </div>
               <div class="row px-md-5 d-flex align-items-center mb-5">
-                <div class="col-4 px-2 px-md-4"><img src="images/home/orf.png" class="img-fluid"></div>
-                <div class="col-4 px-2 px-md-4"><img src="images/home/sdf.jpg" class="img-fluid"></div>
-                <div class="col-4 px-2 px-md-4"><img src="images/home/rai_sudtirol.png" class="img-fluid"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/orf.png" class="img-fluid"
+                                                     width="400" height="400"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/sdf.jpg" class="img-fluid"
+                                                     width="400" height="400"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/rai_sudtirol.png"
+                                                     class="img-fluid" width="400" height="400"></div>
               </div>
               <div class="row px-md-5 d-flex align-items-center mb-4">
-                <div class="offset-2 col-4 px-2 px-md-4"><img src="images/home/sudtirol1.jpg" class="img-fluid"></div>
-                <div class="col-4 px-2 px-md-4"><img src="images/home/vivafm.png" class="img-fluid"></div>
+                <div class="offset-2 col-4 px-2 px-md-4"><img data-original="images/home/media/sudtirol1.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 px-2 px-md-4"><img data-original="images/home/media/vivafm.png" class="img-fluid"
+                                                     width="400" height="400"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 section">
+        <div class="row mt-3">
+          <div class="col-12">
+            <h1 class="mb-4" id="sponsors" style="font-size: 16vw;">SPONSORS</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>OFFICIAL SPONSORS</h4>
+            </div>
+            <div class="container">
+              <div class="row px-md-5 d-flex align-items-center mb-5">
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/capone.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-3 px-2 px-md-4"><img data-original="images/home/sponsors/edna.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/valdifassa.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 offset-2 offset-md-0 col-md-3 px-2 px-md-4"><img
+                        data-original="images/home/sponsors/alpenstoff.png" class="img-fluid" width="400" height="400">
+                </div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/burgerbrau.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>MAIN SPONSORS</h4>
+            </div>
+            <div class="container">
+              <div class="row px-md-5 d-flex align-items-center mb-5">
+                <div class="col-4 offset-md-3 col-md-2 px-2 px-md-4"><img
+                        data-original="images/home/sponsors/flixbus.jpg" class="img-fluid" width="400" height="400">
+                </div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/twenty.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/rossignol.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>SPONSORS</h4>
+            </div>
+            <div class="container">
+              <div class="row px-md-5 d-flex align-items-center mb-5">
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/salewa.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/burgerking.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/loacker.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/marlene.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/pizzacall.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/wams.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 offset-md-2 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/lenis.png"
+                                                                          class="img-fluid" width="400" height="400">
+                </div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/adgems.png"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/machdichbunt.jpg"
+                                                              class="img-fluid" width="400" height="400"></div>
+                <div class="offset-4 col-4 offset-md-0 col-md-2 px-2 px-md-4"><img
+                        data-original="images/home/sponsors/whatsbroadcast.png" class="img-fluid" width="400"
+                        height="400"></div>
               </div>
             </div>
           </div>

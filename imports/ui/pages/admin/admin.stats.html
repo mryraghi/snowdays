@@ -1,5 +1,20 @@
 <template name="AdminStatsSection">
-  <div class="row text-center">
+  <div class="row">
+    <div class="col-4">
+      <div class="row text-left">
+        <div class="col-6 sn-stats-card">
+          <h3 class="sn-stats-title">Internals</h3>
+          <h1 class="sn-stats-value">{{internals}}</h1>
+        </div>
+        <div class="col-6 sn-stats-card">
+          <h3 class="sn-stats-title">Externals</h3>
+          <h1 class="sn-stats-value">{{externals}}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-8"></div>
+  </div>
+  <div class="row text-center mt-5">
     <div class="col-12 col-sm-6 col-md-3 mb-5">
       <h4>UniBz / Externals</h4>
       <hr>

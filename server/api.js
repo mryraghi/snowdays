@@ -1,5 +1,7 @@
 import _ from "lodash";
 import Participants from "/imports/collections/participants";
+const path = Npm.require('path');
+const fs = Npm.require('fs');
 
 const CryptoJS = require("crypto-js");
 
@@ -9,6 +11,8 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
   server_name: 'snowdays',
   tags: {section: 'API'}
 });
+
+// todo: check if updated value is already set and return error
 
 // catches all exceptions on the server
 //raven.patchGlobal(client);
@@ -305,7 +309,7 @@ API.addCollection(Participants, {
         // check whether related owner or user exists
         let u = Meteor.users.findOne({$or: [{_id: this.bodyParams._id}, {_id: this.bodyParams.owner}]});
         if (!u) {
-          let response = error('No related owner or user exist with this _id');
+          let response = err('No related owner or user exist with this _id');
 
           captureMessage('POST Participant', {
             endpoint: 'post',
@@ -320,7 +324,7 @@ API.addCollection(Participants, {
         }
 
         if (_.isUndefined(this.bodyParams._id) && _.isUndefined(this.bodyParams.owner)) {
-          let response = error('Either _id or owner must be defined');
+          let response = err('Either _id or owner must be defined');
 
           captureMessage('POST Participant', {
             endpoint: 'post',
@@ -337,9 +341,9 @@ API.addCollection(Participants, {
         // check if bodyParams is valid before inserting
         try {
           Participants.simpleSchema().validate(this.bodyParams);
-        } catch (e) {
+        } catch (error) {
           // if not valid throw an error
-          let response = error(e.message);
+          let response = err(error.message);
 
           captureMessage('POST Participant', {
             endpoint: 'post',
@@ -357,7 +361,7 @@ API.addCollection(Participants, {
         if (!_.isUndefined(this.bodyParams.owner)) {
           let owner = Meteor.users.findOne({_id: this.bodyParams.owner});
           if (_.isUndefined(owner)) {
-            let response = error('Owner field doesn\'t match any user');
+            let response = err('Owner field doesn\'t match any user');
 
             captureMessage('POST Participant', {
               endpoint: 'post',
@@ -373,9 +377,9 @@ API.addCollection(Participants, {
         }
 
 
-        let _id = Participants.insert(this.bodyParams, function (err) {
-          if (err) {
-            let response = error(error.message, error.code);
+        let _id = Participants.insert(this.bodyParams, function (error) {
+          if (error) {
+            let response = err(error.message, error.code);
 
             captureMessage('POST Participant', {
               endpoint: 'post',
@@ -413,7 +417,7 @@ API.addCollection(Participants, {
         // check if _id exists
         let p = Participants.findOne({_id: _id});
         if (!p) {
-          let response = error('No participant exist with this _id');
+          let response = err('No participant exist with this _id');
 
           captureMessage('PUT Participant', {
             endpoint: 'put',
@@ -439,9 +443,9 @@ API.addCollection(Participants, {
         // check if bodyParams is valid before inserting
         try {
           Participants.simpleSchema().validate(params);
-        } catch (e) {
+        } catch (error) {
           // if not valid throw an error
-          let response = error(e.reason);
+          let response = err(error.reason);
 
           captureMessage('PUT Participant', {
             endpoint: 'put',
@@ -479,6 +483,38 @@ API.addCollection(Participants, {
   }
 });
 
+API.addRoute('cards', {authRequired: true}, {
+  get: function () {
+    // todo: use database instead of a file
+    // todo: add option 'all'
+    // get cards file
+    const fullPath = path.join(process.cwd(), '../web.browser/app/static/mobile_app/cards.json');
+
+    // get requester _id
+    let role = Roles.getRolesForUser(this.userId)[0];
+
+    let rawFile, parsedFile;
+    try {
+      rawFile = fs.readFileSync(fullPath, 'utf8');
+      parsedFile = JSON.parse(rawFile);
+
+      switch (role) {
+        case 'admin':
+          return res(parsedFile["admin"]);
+          break;
+        case 'dorm':
+          return res(parsedFile["dorm"]);
+          break;
+        default:
+          return err('Unknown role');
+          break;
+      }
+    } catch (error) {
+      return err(error.message)
+    }
+  }
+});
+
 function find(collection, queryParams, _id) {
   // getting query params
   const req_fields = queryParams.fields || 'all';
@@ -505,7 +541,7 @@ function find(collection, queryParams, _id) {
     query[params[0]] = req_value;
     return res(collection.find(query).fetch())
   } else {
-    // calculates how many documents to skip
+    // calculates how many docs to skip
     const skip = req_pageNumber > 0 ? ((req_pageNumber - 1) * req_nPerPage) : 0;
 
     // map array to 'key: 1' in obj
@@ -546,7 +582,7 @@ function res(data, code = 200) {
   }
 }
 
-function error(message, code = 400) {
+function err(message, code = 400) {
   return {
     statusCode: code,
     headers: {

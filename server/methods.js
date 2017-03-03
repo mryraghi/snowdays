@@ -1,10 +1,12 @@
 let CryptoJS = require("crypto-js");
 let fs = require('fs');
-
+let path = Npm.require('path');
+import Events from "/imports/collections/events";
 import _ from "lodash";
 import base64url from "base64url";
 import {checkMasterPassword, unflatten} from "./utilities";
 import Participants from "/imports/collections/participants";
+import IDs from "/imports/collections/ids";
 import Settings from "/imports/collections/settings";
 
 Meteor.methods({
@@ -197,8 +199,94 @@ Meteor.methods({
     return Settings.findOne({_id: _id});
   },
 
-  'id.exists': function (filename) {
-    return fs.existsSync('/bundle/bundle/programs/server/images/uploads/ids/' + filename)
-  }
+  'conflicts.check': function () {
+
+    // reset conflicts list
+    let conflicts = [];
+
+    // fetch available participants
+    let participants = Participants.find().fetch();
+
+    // iterate over each participant
+    _.forEach(participants, function (p) {
+      let isConflict = false;
+
+      // set default info
+      let newConflict = {
+        _id: p._id,
+        firstName: p.firstName,
+        lastName: p.lastName,
+        university: p.university,
+        email: p.email,
+        hasPID: false,
+        isPIDinCollection: false,
+        PIDonServer: false,
+        hasSID: false,
+        isSIDinCollection: false,
+        SIDonServer: false
+      };
+
+      // get info from IDs collection
+      let PIDonServer, PIDfilename, PID = IDs.findOne({$and: [{$or: [{"meta.userId": p._id}, {"userId": p._id}]}, {'meta.type': 'personal'}]});
+      let SIDonServer, SIDfilename, SID = IDs.findOne({$and: [{$or: [{"meta.userId": p._id}, {"userId": p._id}]}, {'meta.type': 'student'}]});
+
+      // parse filename
+      if (PID && PID.path) PIDfilename = _.last(PID.path.split('/'));
+      if (SID && SID.path) SIDfilename = _.last(SID.path.split('/'));
+
+      // check if files are on the server
+      if (PID && PIDfilename) PIDonServer = existsSync(PIDfilename);
+      if (SID && SIDfilename) SIDonServer = existsSync(SIDfilename);
+
+      // avoid showing participants who haven't
+      // tried to upload any ID
+      if (p.hasPersonalID) {
+        if (!(p.hasPersonalID && !!PID && PIDonServer)) {
+          isConflict = true;
+          newConflict['hasPID'] = p.hasPersonalID || false;
+          newConflict['isPIDinCollection'] = !!PID;
+          newConflict['PIDonServer'] = PIDonServer || false;
+        }
+      }
+
+      if (p.hasStudentID) {
+        if (!(p.hasStudentID && !!SID && SIDonServer)) {
+          isConflict = true;
+          newConflict['hasSID'] = p.hasStudentID || false;
+          newConflict['isSIDinCollection'] = !!SID;
+          newConflict['SIDonServer'] = SIDonServer || false;
+        }
+      }
+
+      // push new conflict
+      if (isConflict) conflicts.push(newConflict)
+    });
+
+    return conflicts
+  },
+
+  'server.ids.delete': function (filename) {
+    let fullPath = path.join(process.cwd(), '../server/images/uploads/ids/', filename);
+    return fs.unlinkSync(fullPath)
+  },
+
+  'events.strict': function () {
+    return Events.find({}, {fields: {content: 0}}).fetch();
+  },
+
+  'events.one.description': function (_id) {
+    return Events.findOne(_id).description
+  },
+
+  'event.update': function (event) {
+    return Events.update(event._id, {
+      $set: event
+    })
+  },
 });
+
+function existsSync(filename) {
+  let fullPath = path.join(process.cwd(), '../server/images/uploads/ids/', filename);
+  return fs.existsSync(fullPath)
+}
 

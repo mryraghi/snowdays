@@ -85,6 +85,14 @@ Router.route('/public/screenshots/:filename', function () {
   return findFile(this, filename, fullPath, query)
 }, {where: 'server'});
 
+Router.route('/public/docs/:filename', function () {
+  const filename = this.params.filename;
+  const query = this.params.query.static;
+  const fullPath = path.join(process.cwd(), '../web.browser/app/static/docs', filename);
+
+  return findFile(this, filename, fullPath, query)
+}, {where: 'server'});
+
 // Old routes, they redirect
 
 Router.route('/files/:filename', function () {

@@ -1,15 +1,22 @@
 import "./home.html";
+import "./schedule";
 import LazyLoad from "vanilla-lazyload";
 import initHeadline from "/lib/js/animated-headline";
+import countdown from "/lib/js/countdown.min";
 
 // Flickity
 // const Flickity = require('flickity');
 // import 'flickity/css/flickity.css';
+Template.Home.onCreated(function () {
+  Session.set('countdown', [])
+});
 
 Template.Home.onRendered(function () {
   initHeadline();
   initTeamCarousel();
 
+  // initiates lazy loading library
+  // TODO: check because with parallax some pictures do not have the data-* attribute
   let myLazyLoad = new LazyLoad();
 
   Session.set("showLoadingIndicator", true);
@@ -23,30 +30,52 @@ Template.Home.onRendered(function () {
       console.log(error_message);
     });
 
+  countdown.setLabels(
+    null,
+    null,
+    ', ', // overrides final 'and ...'
+    ', ',
+    'Now!');
+
+  countdown(
+    new Date(2017, 2, 9),
+    function (ts) {
+      let unitArray = ts.toString().split(', ');
+      let result = [];
+      _.forEach(unitArray, function (unit) {
+        let split = unit.split(' ');
+        let time = {};
+        time[split[1]] = split[0];
+        result.push(time)
+      });
+      Session.set('countdown', result)
+    }, countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS);
+
   // var flickity = new Flickity('.carousel', {
   //   lazyLoad: true,
   //   autoPlay: true,
   //   prevNextButtons: false
   // });
-
-
 });
 
 
 Template.Home.events({
   'click .nav-link': function (event, template) {
-    console.log(event.target);
-    $('body,html').animate(
-      {'scrollTop': $($(event.currentTarget).attr('href')).offset().top},
-      500
-    );
+    // menu items have .nav-link class
+    // go to section with animation
+    $('body,html').animate({'scrollTop': $($(event.currentTarget).attr('href')).offset().top}, 500);
   }
 });
 
-Meteor.startup(function () {
-
+Template.Home.helpers({
+  countdown: function () {
+    return Session.get('countdown') || []
+  }
 });
 
+/**
+ * Initiates team carousel with options
+ */
 function initTeamCarousel() {
   let mySwiper = new Swiper('.team-carousel', {
     loop: true,
@@ -66,4 +95,10 @@ function initTeamCarousel() {
       }
     }
   })
+}
+
+function initCountdown() {
+  Meteor.setTimeout(function () {
+    Session.set('countdown', countdown(new Date(2017, 3, 9)).toString())
+  }, 1000);
 }

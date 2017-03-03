@@ -84,3 +84,13 @@ Template.registerHelper('toStr', function (value) {
 Template.registerHelper("selectedIf", function (left, right) {
   return left == right ? "selected" : "";
 });
+
+Template.registerHelper("boolToColor", function (boolean) {
+  return boolean ? "sn-cell-green" : "sn-cell-red";
+});
+
+Template.registerHelper("isEmpty", function (array) {
+  check(array, Array);
+  return _.isEmpty(array);
+});
+

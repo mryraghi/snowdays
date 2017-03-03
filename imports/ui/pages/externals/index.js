@@ -11,7 +11,7 @@ Template.ExternalsPage.onCreated(function () {
   this.subscribe("users.current");
 
   // set default tab
-  Session.set('tab', {name: 'UserFormWelcome'})
+  Session.set('tab', {name: 'ParticipantWelcomeSection'})
 
 });
 
@@ -28,7 +28,10 @@ Template.ExternalsPage.events({
   'click .sn-menu-item': (event, template) => {
     switch (event.currentTarget.id) {
       case 'welcome':
-        Session.set('tab', {name: 'UserFormWelcome'});
+        Session.set('tab', {name: 'ParticipantWelcomeSection'});
+        break;
+      case 'stats':
+        Session.set('tab', {name: 'ParticipantStatsSection'});
         break;
       case 'profile':
         Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()});
@@ -132,4 +135,31 @@ Template.SurveySection.onRendered(function () {
     })
   });
   survey.render("website-survey");
+});
+
+Template.ParticipantStatsSection.onCreated(function () {
+  this.subscribe('participants.all.related');
+
+  let currentUser = Template.instance().data;
+
+  if (this.subscriptionsReady()) {
+    console.log(Participants.find().fetch())
+  }
+
+  // get info about related participants
+});
+
+Template.ParticipantStatsSection.helpers({
+  snowvolley: function () {
+    return Participants.find({"isVolleyPlayer": true}).fetch()
+  },
+  snowfootball: function () {
+    return Participants.find({"isFootballPlayer": true}).fetch()
+  },
+  skirace: function () {
+    return Participants.find({"day2.activity": "ski race"}).fetch()
+  },
+  snowboardrace: function () {
+    return Participants.find({"day2.activity": "snowboard race"}).fetch()
+  }
 });

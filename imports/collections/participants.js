@@ -8,6 +8,10 @@ const Schemas = {};
 // firstName and lastName have index: 1
 // See https://github.com/aldeed/meteor-schema-index
 
+// 1 Unicity (ale piccoli)
+// 1 benedikt
+//
+
 // TODO: shoe size, height, weight
 
 Schemas.Day1 = new SimpleSchema({
@@ -35,6 +39,14 @@ Schemas.Day1 = new SimpleSchema({
     allowedValues: ['no', 'ski', 'snowboard', 'ski + boots', 'snowboard + boots', 'ski boots', 'snowboard boots', 'sledge'],
     optional: true
   },
+  meal1: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) Meal 1",
+    optional: true
+    // todo: return if external or not
+    // only for externals in UniMensa
+  }
 });
 
 Schemas.Day2 = new SimpleSchema({
@@ -68,25 +80,39 @@ Schemas.Day2 = new SimpleSchema({
     label: "Day 2 course",
     optional: true
   },
+
+  // Kronplatz
   meal1: {
     type: Boolean,
     defaultValue: false,
     label: "(Day 2) Meal 1",
     optional: true
+  },
+
+  // UniMensa
+  meal2: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Meal 2",
+    optional: true
+  },
+
+  // todo: check if already true
+  // if dressed up
+  drink1: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Drink 1",
+    optional: true
   }
 });
 
 Schemas.Day3 = new SimpleSchema({
+
   bus1: {
     type: Boolean,
     defaultValue: false,
     label: "Day 3 Bus 1",
-    optional: true
-  },
-  bus2: {
-    type: Boolean,
-    defaultValue: false,
-    label: "Day 3 Bus 2",
     optional: true
   },
   meal1: {

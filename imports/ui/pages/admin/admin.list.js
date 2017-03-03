@@ -12,6 +12,9 @@ const participantsIndices = {'statusComplete': 1, 'firstName': 1, 'lastName': 1}
 
 const usersIndices = {'username': 1, 'profile.firstName': 1, 'profile.lastName': 1, 'roles': 1};
 
+// AdminListSection
+let collSub;
+
 // Modal
 let modalSubIDs, modalSub, modalSubOwner, modalSubUser, modalSubParticipant;
 
@@ -58,15 +61,13 @@ Template.AdminListSection.onCreated(function () {
     filters: []
   });
 
-  // subscribe as soon the template is created
-  // this.subscribe("users.current");
   this.autorun(() => {
     let collection = template.collection.get();
     let limit = template.limit.get();
     let skip = template.skip.get();
 
     $.when(setSubscription(collection.name, collection.filters, collection.searchQuery, collection.flattened, limit, skip)).done(function (options) {
-      Meteor.subscribe(collection.name + ".all", options, function onStop(error) {
+      collSub = Meteor.subscribe(collection.name + ".all", options, function onStop(error) {
         if (error) swal('Error', error, 'error');
         console.log(collection.name + ".all STOP")
       }, function onReady() {
@@ -83,8 +84,9 @@ Template.AdminListSection.onCreated(function () {
   });
 });
 
-Template.AdminListSection.onRendered(function () {
-
+Template.AdminListSection.onDestroyed(function () {
+  // stop main subscription
+  collSub.stop()
 });
 
 Template.AdminListSection.events({
@@ -806,38 +808,76 @@ Template.UserModalParticipant.helpers({
   user: function () {
     return Participants.findOne({_id: Session.get('_id')})
   },
+
   id: function (type, _id) {
-    let image = IDs.findOne({$and: [{$or: [{"meta.userId": _id}, {"userId": _id}]}, {'meta.type': type}]});
+    let image = IDs.findOne({$and: [{$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}, {'meta.type': type}]});
     if (image) {
-      let filename = _.last(image.path.split('/'));
-      console.log(filename);
-      return filename
+      return _.last(image.path.split('/'))
     }
   },
+
   hasID: function (type, hasID, _id) {
-    let image = IDs.findOne({$and: [{$or: [{"meta.userId": _id}, {"userId": _id}]}, {'meta.type': type}]});
+    let image = IDs.findOne({$and: [{$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}, {'meta.type': type}]});
     return !!(image && hasID);
   },
+
+  /**
+   * @return {boolean}
+   */
   IDcontraddiction: function (type, hasID, _id) {
-    let image = IDs.findOne({$and: [{$or: [{"meta.userId": _id}, {"userId": _id}]}, {'meta.type': type}]});
+    let image = IDs.findOne({$and: [{$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}, {'meta.type': type}]});
     return !!((image && !hasID) || (!image && hasID));
   }
 });
 
 Template.UserModalParticipant.events({
   'click .sn-remove-id': function (event, template) {
+    // get _id and id type from attributes
     let _id = $(event.currentTarget).attr('data-id');
     let type = $(event.currentTarget).attr('data-type');
-    IDs.remove({$and: [{userId: _id}, {'meta.type': type}]}, function (error) {
-      if (error) swal('Error', error, 'error');
-      else swal('Success', 'ID trace removed from database', 'success')
-    });
+
+    // find any match
+    let match = IDs.find({$and: [{$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}, {'meta.type': type}]});
+
+    // match.count() == 0
+    if (_.isEqual(match.count(), 0)) swal('Error', 'There\'s no match for this ID', 'error');
+    // match.count() == 1
+    else if (_.isEqual(match.count(), 1)) {
+      // remove ID's trace from the IDs collection
+      IDs.remove({$and: [{$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}, {'meta.type': type}]},
+        function (error) {
+          if (error) swal('Error', error, 'error');
+          else {
+            let image = match.fetch()[0];
+            let p = {_id: _id};
+            if (_.isEqual(type, 'personal')) p['hasPersonalID'] = false;
+            if (_.isEqual(type, 'student')) p['hasStudentID'] = false;
+
+            Meteor.call('participants.update', p, function (error, result) {
+              if (error) swal('Error', error, 'error');
+              else if (image) {
+                let filename = _.last(image.path.split('/'));
+                // if participant's info has been updated and
+                // the image has been removed from collection
+                // then remove physically on the server
+                Meteor.call('server.ids.delete', filename, function (error, result) {
+                  if (error) swal('Error', error, 'error');
+                  else swal('Success', 'Image deleted from \'IDs\' and server ' + result, 'error')
+                })
+              }
+            });
+          }
+        });
+    }
+    // match.count() > 1
+    else swal('Error', 'There are two possible matches for this ID', 'error');
   }
-});
+})
+;
 
 Template.UserModalParticipant.onDestroyed(function () {
   modalSubParticipant.stop();
-  // modalSubIDs.stop();
+  modalSubIDs.stop();
 });
 
 // UserModalUser

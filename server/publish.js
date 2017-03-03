@@ -1,5 +1,6 @@
 import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
+import Events from "/imports/collections/events";
 import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
@@ -120,8 +121,16 @@ Meteor.publish('ids.both', function (_id) {
       console.log('ids.both STOP: ' + _id)
     });
 
-    return IDs.find({$or: [{"meta.userId": _id}, {"userId": _id}]}).cursor
+    return IDs.find({$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}).cursor
   } else this.stop()
+});
+
+Meteor.publish('events.all', function () {
+  return Events.find()
+});
+
+Meteor.publish('events.one', function (_id) {
+  return Events.find(_id)
 });
 
 // Meteor.publish('files.ids.all', function () {

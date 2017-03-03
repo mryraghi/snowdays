@@ -2,6 +2,7 @@ import Participants from "/imports/collections/participants";
 import Settings from "/imports/collections/settings";
 import IDs from "/imports/collections/ids";
 import Surveys from "/imports/collections/surveys";
+import Events from "/imports/collections/events";
 
 Meteor.users.allow({
   insert: function (userId, doc) {
@@ -55,6 +56,18 @@ Surveys.allow({
 });
 
 Settings.allow({
+  insert: function (userId, doc) {
+    return true
+  },
+  update: function (userId, doc, fieldNames, modifier) {
+    return true
+  },
+  remove: function (userId, doc) {
+    return true
+  }
+});
+
+Events.allow({
   insert: function (userId, doc) {
     return true
   },

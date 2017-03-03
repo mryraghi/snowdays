@@ -20,8 +20,9 @@
           {{/if}}
           <h5>{{currentUser.profile.firstName}} {{currentUser.profile.lastName}}</h5>
 
-          <ul class="list-unstyled">
-            <li class="sn-menu-item {{isActive 'UserFormWelcome'}}" id="welcome"><a href>welcome</a></li>
+          <ul class="list-unstyled mt-2">
+            <li class="sn-menu-item {{isActive 'ParticipantWelcomeSection'}}" id="welcome"><a href>welcome</a></li>
+            <li class="sn-menu-item {{isActive 'ParticipantStatsSection'}}" id="stats"><a href>stats</a></li>
             <li class="sn-menu-item {{isActive 'UserFormSection'}}" id="profile"><a href>my profile</a></li>
             <li class="sn-menu-item {{isActive 'ParticipantsTableSection'}}" id="participants">
               <a href>participants</a>
@@ -44,7 +45,7 @@
           <hr class="hidden-sm-up">
         </div>
         <div class="col-md-10">
-          {{> Template.dynamic template=tab}}
+          {{> Template.dynamic template=tab data=currentUser}}
         </div>
       </div>
     {{else}}
@@ -53,7 +54,7 @@
   </div>
 </template>
 
-<template name="UserFormWelcome">
+<template name="ParticipantWelcomeSection">
   <h4>Welcome <strong>{{currentUser.profile.firstName}}</strong>,</h4>
   <p>
     Finally, things are getting real! The Snowdays selection process is over. Less than two months are left to the best
@@ -109,4 +110,81 @@
   <div id="website-survey" class="animated fadeIn"></div>
   <p class="text-center text-muted"><i class="fa fa-lock" aria-hidden="true"></i> Your feedback will be sent
     anonymously.</p>
+</template>
+
+<template name="ParticipantStatsSection">
+  {{#if Template.subscriptionsReady}}
+    <div class="row">
+      <div class="col-6">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">Snow Volley players</h4>
+            <p class="card-text">The team has to be composed by at least <strong>8 players and at least 1 woman always
+              on the field</strong> (max. 7 people)</p>
+            <hr>
+            <ul>
+              {{#if snowvolley}}
+                {{#each player in snowvolley}}
+                  <li>{{player.firstName}} {{player.lastName}}</li>
+                {{/each}}
+              {{else}}
+                <p>No participants</p>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+        <div class="card mt-3">
+          <div class="card-block">
+            <h4 class="card-title">Snow Football players</h4>
+            <p class="card-text">The team has to be composed by <strong>8 players</strong> plus some reserves (no more
+              than 1 substitution can be done during the game)</p>
+            <hr>
+            <ul>
+              {{#if snowfootball}}
+                {{#each player in snowfootball}}
+                  <li>{{player.firstName}} {{player.lastName}}</li>
+                {{/each}}
+              {{else}}
+                <p>No participants</p>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">Ski race</h4>
+            <hr>
+            <ul>
+              {{#if skirace}}
+                {{#each s in skirace}}
+                  <li>{{s.firstName}} {{s.lastName}}</li>
+                {{/each}}
+              {{else}}
+                <p>No participants</p>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+        <div class="card mt-3">
+          <div class="card-block">
+            <h4 class="card-title">Snowboard race</h4>
+            <hr>
+            <ul>
+              {{#if snowboardrace}}
+                {{#each s in snowboardrace}}
+                  <li>{{s.firstName}} {{s.lastName}}</li>
+                {{/each}}
+              {{else}}
+                <p>No participants</p>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{else}}
+    <p>Loading...</p>
+  {{/if}}
 </template>

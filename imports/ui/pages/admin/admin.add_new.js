@@ -10,9 +10,9 @@ Template.AdminAddNewSection.events({
     let firstName = target.first_name.value;
     let lastName = target.last_name.value;
     let studentID = target.student_id.value;
+    let role = target.role.value;
     let gender = target.gender.value;
     let password = target.password.value || Math.random().toString(36).slice(-8);
-
 
     let user = {
       username: studentID,
@@ -20,14 +20,14 @@ Template.AdminAddNewSection.events({
       profile: {
         firstName: firstName,
         lastName: lastName,
-        university: 'UniBz',
+        university: (_.isEqual(role, 'unibz') ? 'UniBz' : ''),
         gender: gender
       },
       createParticipant: true
     };
 
     // create user
-    Meteor.call('users.create', user, 'unibz', function (error) {
+    Meteor.call('users.create', user, role, function (error) {
       if (error) swal('Error', error.message, 'error');
       else {
         swal({

@@ -1,0 +1,50 @@
+{
+  "admin": {
+    "day1": {
+      "checkin": {
+        "title": "Check-In",
+        "actionKey": "checkedIn",
+        "actionType": "put",
+        "startDate": "7:30",
+        "endDate": "18:00"
+      },
+      "meal1": {
+        "title": "Meal 1",
+        "actionKey": "day1.meal1",
+        "actionType": "put",
+        "startDate": "11:00",
+        "endDate": "2:30"
+      },
+      "bus1": {
+        "title": "Bus 1",
+        "actionKey": "day1.bus1",
+        "actionType": "put",
+        "startDate": "15:00",
+        "endDate": "18:00"
+      },
+      "bus2": {
+        "title": "Bus 2",
+        "actionKey": "day1.bus2",
+        "actionType": "put",
+        "startDate": "23:30",
+        "endDate": "2:30"
+      }
+    },
+    "day2": {
+    },
+    "day3": {
+    }
+  },
+  "dorm": {
+    "univercity": {
+    },
+    "rigler": {
+    },
+    "kolping": {
+    },
+    "galilei": {
+    },
+    "carducci": {
+    }
+  }
+}
