@@ -1,12 +1,29 @@
 import "./admin.settings.html";
 import Events from "/imports/collections/events";
+import Participants from "/imports/collections/participants";
+import Reports from "/imports/collections/reports";
 import moment from "moment";
 
 let eventSub;
 
 Template.AdminSettingsSection.onCreated(function () {
-  Template.instance().editorPreview = new ReactiveVar();
-  this.subscribe('events.all')
+  this.subscribe('events.all');
+  this.subscribe('reports.all');
+  this.subscribe('participants.all', {
+    query: {checkedIn: true},
+    fields: {
+      firstName: 1,
+      lastName: 1,
+      statusComplete: 1,
+      hasPersonalID: 1,
+      hasStudentID: 1,
+      updatedAt: 1,
+      checkedIn: 1
+    },
+    limit: 10,
+    sort: {updatedAt: -1},
+    skip: 0
+  })
 });
 
 Template.AdminSettingsSection.onRendered(function () {
@@ -41,14 +58,13 @@ Template.AdminSettingsSection.helpers({
     let startDate;
     switch (day) {
       case 1:
-        startDate = moment('2017-03-09 00:00:00');
-        console.log(startDate);
+        startDate = moment('2017-03-09');
         break;
       case 2:
-        startDate = moment('2017-03-10 00:00:00');
+        startDate = moment('2017-03-10');
         break;
       case 3:
-        startDate = moment('2017-03-11 00:00:00');
+        startDate = moment('2017-03-11');
         break;
       default:
         throw new Meteor.Error('AdminSettingsSection helpers', 'wrong day')
@@ -62,6 +78,15 @@ Template.AdminSettingsSection.helpers({
     return Events.find({
       startDate: query
     }, {sort: {startDate: 1}}).fetch()
+  },
+  mobileEvents: function () {
+    return Events.find({checkRequired: true}, {sort: {startDate: 1}}).fetch()
+  },
+  lastUpdates: function () {
+    return Participants.find({}, {sort: {updatedAt: -1}, limit: 10}).fetch()
+  },
+  reports: function () {
+    return Reports.find({}, {sort: {createdAt: 1}}).fetch()
   }
 });
 
@@ -75,16 +100,6 @@ Template.AdminSettingsSection.events({
 
     // show modal
     $('#admin-event-modal').modal('show');
-  },
-
-  'click .sn-close-modal': function (event, template) {
-    // let modalId = $(event.target).attr('data-modal-id');
-    // modalSub.stop();
-    // modalSubParticipant.stop();
-    // modalSubOwner.stop();
-    // modalSubUser.stop();
-    // Session.set('_id', '');
-    // $('#' + modalId).modal('hide')
   },
 
   'submit #event-form': function (event, template) {
@@ -105,6 +120,8 @@ Template.AdminSettingsSection.events({
     let endDate = target.endDate.value;
     let endTime = target.endTime.value;
     let description = $('div#event-description-editor').froalaEditor('html.get', true);
+    let checkRequired = target.check_required.checked;
+    let showInSchedule = target.show_in_schedule.checked;
 
     // date and time regex
     let dateRegex = new RegExp('[0-9]{4}-[0-9]{2}-[0-9]{2}');
@@ -126,7 +143,7 @@ Template.AdminSettingsSection.events({
 
     // split dates
     let sds = startDate.split('-'); // startDateSplit
-    let eds = startDate.split('-'); // endDateSplit
+    let eds = endDate.split('-'); // endDateSplit
 
     // split times
     let sts = startTime.split(':'); // startTimeSplit
@@ -143,12 +160,46 @@ Template.AdminSettingsSection.events({
       type: target.type.value,
       startDate: startDateObj,
       endDate: endDateObj,
-      description: description
+      description: description,
+      checkRequired: checkRequired,
+      showInSchedule: showInSchedule,
+      css: {
+        height: target.height.value,
+        width: target.width.value,
+        top: target.top.value,
+        left: target.left.value
+      }
     };
 
-    if (!_.isUndefined(eventId)) {
+    // if NFC check is required then save check action as well
+    if (checkRequired) {
+      let checkAction = target.check_action.value;
 
+      // check action cannot be empty
+      if (_.isEmpty(checkAction)) {
+        // reset save button
+        $(target.save).text('Save');
+        return swal('Error', 'Check action cannot be empty if a check is required', 'error');
+      } else eventObj['checkAction'] = checkAction
     }
+
+    // if eventId is undefined then insert, otherwise update
+    let action = _.isUndefined(eventId) ? 'insert' : 'update';
+
+    // update event
+    Meteor.call('event.' + action, eventObj, function (error) {
+      if (error) {
+        swal('Error', error, 'error');
+      } else {
+        // clear form
+        template.find("#event-form").reset();
+        // hide modal
+        $('#admin-event-modal').modal('hide');
+      }
+      // reset save button
+      $(target.save).text('Save');
+    });
+
   }
 });
 
@@ -163,7 +214,15 @@ Template.AdminSettingsConflicts.onCreated(function () {
       template.conflicts.set(conflicts);
       template.loading.set(false)
     }
-  })
+  });
+
+  // duplicated here because otherwise this template
+  // wouldn't be accessible from others
+  // event fired whenever the modal has finished being hidden
+  $('#admin-event-modal').on('hidden.bs.modal', function (e) {
+    // clear form
+    template.find("#event-form").reset();
+  });
 });
 
 Template.AdminSettingsConflicts.onDestroyed(function () {
@@ -180,6 +239,8 @@ Template.AdminSettingsConflicts.helpers({
 });
 
 Template.AdminSettingsScheduleModal.onCreated(function () {
+  Template.instance().checkRequired = new ReactiveVar(false);
+
   this.autorun(() => {
     let eventId = Session.get('eventId');
     eventSub = Meteor.subscribe("events.one", eventId, function onStop(error) {
@@ -210,8 +271,20 @@ Template.AdminSettingsScheduleModal.helpers({
 
       // set description in editor
       $('div#event-description-editor').froalaEditor('html.set', event.description);
+
+      //
+      Template.instance().checkRequired.set(event.checkRequired)
     }
 
     return event; // undefined if adding new event
+  },
+  checkRequired: function () {
+    return Template.instance().checkRequired.get()
+  }
+});
+
+Template.AdminSettingsScheduleModal.events({
+  'change #check_required': function (event, template) {
+    template.checkRequired.set(event.target.checked)
   }
 });

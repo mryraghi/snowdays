@@ -4,10 +4,22 @@ import SimpleSchema from "simpl-schema";
 Schema = {};
 const Events = new Mongo.Collection("events");
 
-Schema.Card = new SimpleSchema({
-  name: {
-    type: String,
-    max: 100
+Schema.CSS = new SimpleSchema({
+  width: {
+    type: Number,
+    optional: true
+  },
+  left: {
+    type: Number,
+    optional: true
+  },
+  height: {
+    type: Number,
+    optional: true
+  },
+  top: {
+    type: Number,
+    optional: true
   }
 });
 
@@ -18,8 +30,8 @@ Schema.Events = new SimpleSchema({
   },
   subtitle: {
     type: String,
-    optional: true,
-    max: 100
+    max: 100,
+    optional: true
   },
   startDate: {
     type: Date
@@ -27,7 +39,7 @@ Schema.Events = new SimpleSchema({
   endDate: {
     type: Date
   },
-  allDay: {
+  showInSchedule: {
     type: Boolean,
     defaultValue: false
   },
@@ -41,7 +53,16 @@ Schema.Events = new SimpleSchema({
     optional: true
   },
   checkRequired: {
-    type: Schema.Card
+    type: Boolean,
+    defaultValue: false
+  },
+  checkAction: {
+    type: String,
+    optional: true
+  },
+  css: {
+    type: Schema.CSS,
+    optional: true
   }
 });
 

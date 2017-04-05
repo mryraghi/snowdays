@@ -5,6 +5,7 @@
 .cd-schedule {
     position: relative;
     margin: 2em 0;
+    width: 100%;
 }
 
 .cd-schedule::before {
@@ -155,7 +156,7 @@
 .cd-schedule .events .single-event a {
     display: block;
     height: 100%;
-    padding: .8em;
+    padding: .65em;
 }
 
 @media only screen and (min-width: 550px) {
@@ -204,7 +205,7 @@
     }
 
     .cd-schedule .events .events-group > ul {
-        height: 950px;
+        height: 2150px;
         /* reset style */
         display: block;
         overflow: visible;
@@ -228,7 +229,7 @@
         /* top position and height will be set using js */
         width: calc(100% + 2px);
         left: -1px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), inset 0 -3px 0 rgba(0, 0, 0, 0.2);
+        /*box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), inset 0 -3px 0 rgba(0, 0, 0, 0.2);*/
         /* reset style */
         -ms-flex-negative: 1;
         flex-shrink: 1;
@@ -274,6 +275,7 @@
     font-weight: bold;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 23px;
 }
 
 .cd-schedule .event-name {
@@ -281,8 +283,10 @@
 }
 
 .cd-schedule .event-subtitle {
+    margin-top: .4em;
     font-size: .9em;
     text-transform: uppercase;
+    line-height: 18px;
 }
 
 @media only screen and (min-width: 800px) {
@@ -305,30 +309,91 @@
 
 .cd-schedule .single-event[data-event="transportation"],
 .cd-schedule [data-event="transportation"] .header-bg {
-    /* this is used to set a background color for the event and the modal window */
-    background: rgb(254, 216, 3);
+    background: #e67e22;
 }
 
-.cd-schedule .single-event[data-event="transportation"]:hover {
-    background: rgb(235, 197, 3);
+i[data-event="transportation"] {
+    color: #e67e22;
+}
+
+.cd-schedule .single-event[data-event="transportation"]:not(.no-hover):hover {
+    background: #d35400;
 }
 
 .cd-schedule .single-event[data-event="meal"],
 .cd-schedule [data-event="meal"] .header-bg {
-    background: #008eff;
+    background: #f1c40f;
 }
 
-.cd-schedule .single-event[data-event="meal"]:hover {
-    background: #0080eb;
+i[data-event="meal"] {
+    color: #f1c40f;
+}
+
+.cd-schedule .single-event[data-event="meal"]:not(.no-hover):hover {
+    background: #e1b40f;
 }
 
 .cd-schedule .single-event[data-event="other"],
 .cd-schedule [data-event="other"] .header-bg {
-    background: #A2B9B2;
+    background: #008eff;
 }
 
-.cd-schedule .single-event[data-event="other"]:hover {
-    background: #b1c4be;
+i[data-event="other"] {
+    color: #008eff;
+}
+
+.cd-schedule .single-event[data-event="other"]:not(.no-hover):hover {
+    background: #0083e6;
+}
+
+.cd-schedule .single-event[data-event="party"],
+.cd-schedule [data-event="party"] .header-bg {
+    background: repeating-linear-gradient(
+            to bottom,
+            #9b59b6,
+            #9b59b6 10px,
+            #8e44ad 10px,
+            #8e44ad 20px
+    );
+}
+
+i[data-event="party"] {
+    color: #9b59b6;
+}
+
+.cd-schedule .single-event[data-event="party"]:not(.no-hover):hover {
+    background: repeating-linear-gradient(
+            to bottom,
+            #8e44ad,
+            #8e44ad 10px,
+            #9b59b6 10px,
+            #9b59b6 20px
+    );
+}
+
+.cd-schedule .single-event[data-event="allday"],
+.cd-schedule [data-event="allday"] .header-bg {
+    background: repeating-linear-gradient(
+            45deg,
+            #3498db,
+            #3498db 10px,
+            #2980b9 10px,
+            #2980b9 20px
+    );
+}
+
+i[data-event="allday"] {
+    color: #2980b9;
+}
+
+.cd-schedule .single-event[data-event="allday"]:not(.no-hover):hover {
+    background: repeating-linear-gradient(
+            45deg,
+            #2980b9,
+            #2980b9 10px,
+            #3498db 10px,
+            #3498db 20px
+    );
 }
 
 .cd-schedule .event-modal {
@@ -389,6 +454,11 @@
     overflow: auto;
     height: 100%;
     padding: 1.4em 5%;
+}
+
+.cd-schedule .event-modal .event-info > div p, .cd-schedule .event-modal .event-info > div a {
+    font-size: 20px;
+    text-align: left;
 }
 
 .cd-schedule .event-modal .header-bg, .cd-schedule .event-modal .body-bg {

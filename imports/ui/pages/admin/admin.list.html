@@ -89,7 +89,7 @@
                     <code>≠</code>
                   {{/if}}
                 </td>
-                <td><code>{{f.value}}</code></td>
+                <td><code>{{toStr f.value}}</code></td>
                 <td class="text-sm-center">
                   <a class="sn-icon-button" name="{{@index}}" title="Remove"
                      id="sn-delete-filter">
@@ -259,6 +259,7 @@
   <option value="hasPersonalID">hasPersonalID</option>
   <option value="hasStudentID">hasStudentID</option>
   <option value="statusComplete">statusComplete</option>
+  <option value="checkedIn">checkedIn</option>
 </template>
 
 <template name="ParticipantsFields">
@@ -656,7 +657,16 @@
             <strong>no image has been found</strong>
           </div>
         {{else}}
-          <p>Missing personal ID</p>
+          <p>Missing personal ID</p><br>
+          {{#with uploadingPID}}
+            <p class="sn-loader mt-1">Uploading...</p>
+          {{else}}
+            <input type="file" name="has_personal_id" id="has_personal_id"
+                   class="sn-input-file sn-btn-rounded mt-2"/>
+            <label for="has_personal_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
+                                                         aria-hidden="true"></i><b>Personal
+              ID</b></label>
+          {{/with}}
         {{/if}}
       {{/if}}
     </div>
@@ -686,7 +696,16 @@
             <strong>no image has been found</strong>
           </div>
         {{else}}
-          <p>Missing student ID</p>
+          <p>Missing student ID</p><br>
+          {{#with uploadingSID}}
+            <p class="sn-loader mt-1">Uploading...</p>
+          {{else}}
+            <input type="file" name="has_student_id" id="has_student_id"
+                   class="sn-input-file sn-btn-rounded mt-2"/>
+            <label for="has_student_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
+                                                        aria-hidden="true"></i><b>Student
+              ID</b></label>
+          {{/with}}
         {{/if}}
       {{/if}}
     </div>

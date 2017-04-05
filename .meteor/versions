@@ -1,6 +1,6 @@
 accounts-base@1.2.14
 accounts-password@1.3.4
-alanning:roles@1.2.15
+alanning:roles@1.2.16
 aldeed:collection2-core@2.0.0
 aldeed:schema-deny@2.0.0
 aldeed:schema-index@2.0.0
@@ -21,7 +21,7 @@ callback-hook@1.0.10
 cfs:http-methods@0.0.32
 check@1.2.5
 coffeescript@1.12.3_1
-cosmos:browserify@0.9.4
+cosmos:browserify@0.10.0
 datariot:ganalytics@0.2.1
 ddp@1.2.5
 ddp-client@1.3.3
@@ -66,7 +66,7 @@ meteorhacks:kadira@2.30.3
 meteorhacks:meteorx@1.4.1
 meteorspark:util@0.2.0
 minifier-css@1.2.16
-minifier-js@1.2.17
+minifier-js@1.2.18
 minimongo@1.0.20
 mobile-experience@1.0.4
 mobile-status-bar@1.0.14
@@ -84,7 +84,7 @@ observe-sequence@1.0.15
 ongoworks:security@2.0.1
 ordered-dict@1.0.9
 ostrio:cookies@2.1.3
-ostrio:files@1.7.11
+ostrio:files@1.7.12
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2
 practicalmeteor:mocha@2.4.5_6
@@ -108,8 +108,8 @@ simply:tether@1.1.1
 spacebars@1.0.13
 spacebars-compiler@1.1.0
 srp@1.0.10
-standard-minifier-css@1.3.3
-standard-minifier-js@1.2.2
+standard-minifier-css@1.3.4
+standard-minifier-js@1.2.3
 tap:i18n@1.8.2
 templating@1.3.0
 templating-compiler@1.3.0

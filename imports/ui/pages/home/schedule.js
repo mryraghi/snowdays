@@ -11,24 +11,26 @@ Template.HomeSchedule.onCreated(function () {
 
 Template.HomeSchedule.onRendered(function () {
   let template = Template.instance();
-  Meteor.call('events.strict', function (error, result) {
-    if (error) throw new Meteor.Error('events.strict', error);
+  Meteor.call('events.schedule.strict', function (error, result) {
+    if (error) throw new Meteor.Error('events.schedule.strict', error);
+
+    // iterate over the events
     _.forEach(result, function (event) {
       let startDate = moment(event.startDate);
 
-      if (startDate.isBetween('2017-03-09', '2017-03-10')) {
+      if (startDate.isBetween('2017-03-09', '2017-03-10 04:30')) {
         let current = template.day1.get();
         current.push(event);
         template.day1.set(current);
       }
 
-      if (startDate.isBetween('2017-03-10', '2017-03-11')) {
+      if (startDate.isBetween('2017-03-10 04:31', '2017-03-11 04:30')) {
         let current = template.day2.get();
         current.push(event);
         template.day2.set(current);
       }
 
-      if (startDate.isBetween('2017-03-11', '2017-03-12')) {
+      if (startDate.isBetween('2017-03-11 04:31', '2017-03-12 04:30')) {
         let current = template.day3.get();
         current.push(event);
         template.day3.set(current);
@@ -119,14 +121,32 @@ function initSchedule() {
       let self = this;
 
       this.singleEvents.each(function () {
-        //create the .event-date element for each event
-        let durationLabel = '<span class="event-date">' + $(this).data('start') + ' - ' + $(this).data('end') + '</span>';
-        $(this).children('a').prepend($(durationLabel));
+        let _this = this;
+        let eventId = $(this).data('id');
+        let durationLabel;
 
-        //detect click on the event and open the modal
-        $(this).on('click', 'a', function (event) {
-          event.preventDefault();
-          if (!self.animating) self.openModal($(this));
+        // get true/false if event description exists
+        Meteor.call('events.one.description.exists', eventId, function (error, exists) {
+
+          // create the .event-date element for each event
+          // if event has description then add ...
+          // if event is 'allday' then avoid adding dates
+          if (exists) {
+            durationLabel = '<div class="d-flex flex-row justify-content-between">' +
+              (_.isEqual($(_this).data('event'), 'allday') ? '' : '<span class="event-date">' + $(_this).data('start') + ' - ' + $(_this).data('end') + '</span>') +
+              '<span class="event-date"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></span>' +
+              '</div>';
+          } else {
+            durationLabel = (_.isEqual($(_this).data('event'), 'allday') ? '' : '<span class="event-date">' + $(_this).data('start') + ' - ' + $(_this).data('end') + '</span>');
+          }
+
+          $(_this).children('a').prepend($(durationLabel));
+
+          //detect click on the event and open the modal
+          $(_this).on('click', 'a', function (event) {
+            event.preventDefault();
+            if (!self.animating) self.openModal($(this));
+          });
         });
       });
 
@@ -143,16 +163,38 @@ function initSchedule() {
     SchedulePlan.prototype.placeEvents = function () {
       let self = this;
       this.singleEvents.each(function () {
-        //place each event in the grid -> need to set top position and height
-        let start = getScheduleTimestamp($(this).attr('data-start')),
-          duration = getScheduleTimestamp($(this).attr('data-end')) - start;
+        let _this = this;
+        let eventId = $(this).attr('data-id');
 
-        let eventTop = self.eventSlotHeight * (start - self.timelineStart) / self.timelineUnitDuration,
-          eventHeight = self.eventSlotHeight * duration / self.timelineUnitDuration;
+        // place each event in the grid -> need to set top position and height
+        let start = getScheduleTimestamp($(this).attr('data-start'));
+        let end = getScheduleTimestamp($(this).attr('data-end'));
+        let midnight = getScheduleTimestamp('24:00');
+        let minTime = getScheduleTimestamp('7:00');
+        let duration = start < end ? end - start : (midnight - start) + end;
 
-        $(this).css({
-          top: (eventTop - 1) + 'px',
-          height: (eventHeight + 1) + 'px'
+        // if startDate is after midnight, display on previous day's column
+        let eventTop = function () {
+          if (start < minTime) return (self.eventSlotHeight * (start + midnight - self.timelineStart) / self.timelineUnitDuration);
+          else return self.eventSlotHeight * (start - self.timelineStart) / self.timelineUnitDuration
+        };
+
+        let eventHeight = self.eventSlotHeight * duration / self.timelineUnitDuration;
+
+        // check whether there's another event that starts before the end of another one
+        // then set width 50% for both and left 50% for the latter
+        Meteor.call('events.one.css', eventId, function (error, result) {
+          let height = (result && result.height ? result.height : undefined);
+          let width = (result && result.width ? result.width : 100);
+          let top = (result && result.top ? result.top : undefined);
+          let left = (result && result.left ? result.left : 0);
+
+          $(_this).css({
+            top: (_.isUndefined(top) ? (eventTop() - 1) + 'px' : top),
+            height: (_.isUndefined(height) ? (eventHeight + 1) + 'px' : height),
+            width: width + '%',
+            left: left + '%'
+          });
         });
       });
 
@@ -163,91 +205,96 @@ function initSchedule() {
       let self = this;
       let mq = self.mq();
       let eventId = event.parent().attr('data-id');
-      this.animating = true;
 
-      //update event name and time
-      this.modalHeader.find('.event-name').text(event.find('.event-name').text());
-      this.modalHeader.find('.event-date').text(event.find('.event-date').text());
-      this.modalHeader.find('.event-subtitle').text(event.find('.event-subtitle').text());
-      this.modal.attr('data-event', event.parent().attr('data-event'));
-
-      //update event content
+      // get event description
       Meteor.call('events.one.description', eventId, function (error, description) {
-        self.modalBody.find('.event-info').html('<div>' + description + '</div>');
+
+        // proceed and open the modal only if there's actually a description available
+        if (!_.isUndefined(description)) {
+          self.animating = true;
+
+          //update event name and time
+          self.modalHeader.find('.event-name').text(event.find('.event-name').text());
+          self.modalHeader.find('.event-date').text(event.find('.event-date').text());
+          self.modalHeader.find('.event-subtitle').text(event.find('.event-subtitle').text());
+          self.modal.attr('data-event', event.parent().attr('data-event'));
+
+          self.modalBody.find('.event-info').html('<div>' + description + '</div>');
+
+          self.element.addClass('modal-is-open content-loaded');
+
+          setTimeout(function () {
+            //fixes a flash when an event is selected - desktop version only
+            event.parent('li').addClass('selected-event');
+          }, 10);
+
+          if (mq == 'mobile') {
+            self.modal.one(transitionEnd, function () {
+              self.modal.off(transitionEnd);
+              self.animating = false;
+            });
+          } else {
+            let eventTop = event.offset().top - $(window).scrollTop(),
+              eventLeft = event.offset().left,
+              eventHeight = event.innerHeight(),
+              eventWidth = event.innerWidth();
+
+            let windowWidth = $(window).width(),
+              windowHeight = $(window).height();
+
+            let modalWidth = ( windowWidth * .8 > self.modalMaxWidth ) ? self.modalMaxWidth : windowWidth * .8,
+              modalHeight = ( windowHeight * .8 > self.modalMaxHeight ) ? self.modalMaxHeight : windowHeight * .8;
+
+            let modalTranslateX = parseInt((windowWidth - modalWidth) / 2 - eventLeft),
+              modalTranslateY = parseInt((windowHeight - modalHeight) / 2 - eventTop);
+
+            let HeaderBgScaleY = modalHeight / eventHeight,
+              BodyBgScaleX = (modalWidth - eventWidth);
+
+            //change modal height/width and translate it
+            self.modal.css({
+              top: eventTop + 'px',
+              left: eventLeft + 'px',
+              height: modalHeight + 'px',
+              width: modalWidth + 'px',
+            });
+            transformElement(self.modal, 'translateY(' + modalTranslateY + 'px) translateX(' + modalTranslateX + 'px)');
+
+            //set modalHeader width
+            self.modalHeader.css({
+              width: eventWidth + 'px',
+            });
+            //set modalBody left margin
+            self.modalBody.css({
+              marginLeft: eventWidth + 'px',
+            });
+
+            //change modalBodyBg height/width ans scale it
+            self.modalBodyBg.css({
+              height: eventHeight + 'px',
+              width: '1px',
+            });
+            transformElement(self.modalBodyBg, 'scaleY(' + HeaderBgScaleY + ') scaleX(' + BodyBgScaleX + ')');
+
+            //change modal modalHeaderBg height/width and scale it
+            self.modalHeaderBg.css({
+              height: eventHeight + 'px',
+              width: eventWidth + 'px',
+            });
+            transformElement(self.modalHeaderBg, 'scaleY(' + HeaderBgScaleY + ')');
+
+            self.modalHeaderBg.one(transitionEnd, function () {
+              //wait for the  end of the modalHeaderBg transformation and show the modal content
+              self.modalHeaderBg.off(transitionEnd);
+              self.animating = false;
+              self.element.addClass('animation-completed');
+            });
+          }
+
+          //if browser do not support transitions -> no need to wait for the end of it
+          if (!transitionsSupported) self.modal.add(self.modalHeaderBg).trigger(transitionEnd);
+        }
       });
-
-      this.element.addClass('modal-is-open content-loaded');
-
-      setTimeout(function () {
-        //fixes a flash when an event is selected - desktop version only
-        event.parent('li').addClass('selected-event');
-      }, 10);
-
-      if (mq == 'mobile') {
-        self.modal.one(transitionEnd, function () {
-          self.modal.off(transitionEnd);
-          self.animating = false;
-        });
-      } else {
-        let eventTop = event.offset().top - $(window).scrollTop(),
-          eventLeft = event.offset().left,
-          eventHeight = event.innerHeight(),
-          eventWidth = event.innerWidth();
-
-        let windowWidth = $(window).width(),
-          windowHeight = $(window).height();
-
-        let modalWidth = ( windowWidth * .8 > self.modalMaxWidth ) ? self.modalMaxWidth : windowWidth * .8,
-          modalHeight = ( windowHeight * .8 > self.modalMaxHeight ) ? self.modalMaxHeight : windowHeight * .8;
-
-        let modalTranslateX = parseInt((windowWidth - modalWidth) / 2 - eventLeft),
-          modalTranslateY = parseInt((windowHeight - modalHeight) / 2 - eventTop);
-
-        let HeaderBgScaleY = modalHeight / eventHeight,
-          BodyBgScaleX = (modalWidth - eventWidth);
-
-        //change modal height/width and translate it
-        self.modal.css({
-          top: eventTop + 'px',
-          left: eventLeft + 'px',
-          height: modalHeight + 'px',
-          width: modalWidth + 'px',
-        });
-        transformElement(self.modal, 'translateY(' + modalTranslateY + 'px) translateX(' + modalTranslateX + 'px)');
-
-        //set modalHeader width
-        self.modalHeader.css({
-          width: eventWidth + 'px',
-        });
-        //set modalBody left margin
-        self.modalBody.css({
-          marginLeft: eventWidth + 'px',
-        });
-
-        //change modalBodyBg height/width ans scale it
-        self.modalBodyBg.css({
-          height: eventHeight + 'px',
-          width: '1px',
-        });
-        transformElement(self.modalBodyBg, 'scaleY(' + HeaderBgScaleY + ') scaleX(' + BodyBgScaleX + ')');
-
-        //change modal modalHeaderBg height/width and scale it
-        self.modalHeaderBg.css({
-          height: eventHeight + 'px',
-          width: eventWidth + 'px',
-        });
-        transformElement(self.modalHeaderBg, 'scaleY(' + HeaderBgScaleY + ')');
-
-        self.modalHeaderBg.one(transitionEnd, function () {
-          //wait for the  end of the modalHeaderBg transformation and show the modal content
-          self.modalHeaderBg.off(transitionEnd);
-          self.animating = false;
-          self.element.addClass('animation-completed');
-        });
-      }
-
-      //if browser do not support transitions -> no need to wait for the end of it
-      if (!transitionsSupported) self.modal.add(self.modalHeaderBg).trigger(transitionEnd);
     };
 
     SchedulePlan.prototype.closeModal = function (event) {

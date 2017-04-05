@@ -1,112 +1,197 @@
 <template name="HomeSchedule">
-  <div class="cd-schedule loading">
-    <div class="timeline">
-      <ul>
-        <li><span>07:00</span></li>
-        <li><span>07:30</span></li>
-        <li><span>08:00</span></li>
-        <li><span>08:30</span></li>
-        <li><span>09:00</span></li>
-        <li><span>09:30</span></li>
-        <li><span>10:00</span></li>
-        <li><span>10:30</span></li>
-        <li><span>11:00</span></li>
-        <li><span>11:30</span></li>
-        <li><span>12:00</span></li>
-        <li><span>12:30</span></li>
-        <li><span>13:00</span></li>
-        <li><span>13:30</span></li>
-        <li><span>14:00</span></li>
-        <li><span>14:30</span></li>
-        <li><span>15:00</span></li>
-        <li><span>15:30</span></li>
-        <li><span>16:00</span></li>
-        <li><span>16:30</span></li>
-        <li><span>17:00</span></li>
-        <li><span>17:30</span></li>
-        <li><span>18:00</span></li>
-      </ul>
-    </div>
-
-    <div class="events">
-      <ul>
-        <li class="events-group">
-          <div class="top-info">
-            <h6>Day 1</h6>
-            <span>Thursday 9th March</span>
-          </div>
-
-          <ul>
-            {{#each event in day1}}
-              <li class="single-event" data-start="{{moment event.startDate 'HH:mm'}}"
-                  data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
-                  data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
-                <a href>
-                  <em class="event-name">{{event.name}}</em>
-                  {{#if event.subtitle}}
-                    <em class="event-subtitle">{{event.subtitle}}</em>
-                  {{/if}}
-                </a>
-              </li>
-            {{/each}}
-          </ul>
-        </li>
-
-        <li class="events-group">
-          <div class="top-info">
-            <h6>Day 2</h6>
-            <span>Friday 10th March</span>
-          </div>
-
-          <ul>
-            {{#each event in day2}}
-              <li class="single-event" data-start="{{moment event.startDate 'HH:mm'}}"
-                  data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
-                  data-id="{{event._id}}">
-                <a href><em class="event-name">{{event.name}}</em></a>
-              </li>
-            {{/each}}
-          </ul>
-        </li>
-
-        <li class="events-group">
-          <div class="top-info">
-            <h6>Day 3</h6>
-            <span>Saturday 11th March</span>
-          </div>
-
-          <ul>
-            {{#each event in day3}}
-              <li class="single-event" data-start="{{moment event.startDate 'HH:mm'}}"
-                  data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
-                  data-id="{{event._id}}">
-                <a href><em class="event-name">{{event.name}}</em></a>
-              </li>
-            {{/each}}
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <div class="event-modal">
-      <header class="header">
-        <div class="content">
-          <span class="event-date"></span>
-          <em class="event-name"></em>
-          <em class="event-subtitle"></em>
+  <div class="row mt-3">
+    <div class="col-12">
+      <div class="container">
+        <div class="mx-1 mx-md-0 row d-lg-flex flex-lg-row justify-content-lg-around">
+          <p class="col-12 col-md-6 col-lg-auto mb-0"><i class="fa fa-ellipsis-h mr-1"></i> description available</p>
+          <p class="col-12 col-md-6 col-lg-auto mb-0"><i class="fa fa-square mr-1" data-event="transportation"></i>
+            transportation</p>
+          <p class="col-12 col-md-6 col-lg-auto mb-0"><i class="fa fa-square mr-1" data-event="meal"></i> meal</p>
+          <p class="col-12 col-md-6 col-lg-auto mb-0"><i class="fa fa-square mr-1" data-event="party"></i> party</p>
+          <p class="col-12 col-md-6 col-lg-auto mb-0"><i class="fa fa-square mr-1" data-event="other"></i> activities
+            and other</p>
+          <p class="col-12 col-md-6 col-lg-auto mb-0"><i class="fa fa-square mr-1" data-event="allday"></i> all day</p>
         </div>
-
-        <div class="header-bg"></div>
-      </header>
-
-      <div class="body">
-        <div class="event-info"></div>
-        <div class="body-bg"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mx-1 mx-md-0 col-12 mt-3">
+      <button type="button" class="sn-btn-outline-blue">
+        <a href="https://www.snowdays.it/public/docs/program.pdf" target="_blank">
+          <i class="fa fa-cloud-download mr-3" aria-hidden="true"></i> Schedule (.pdf)
+        </a>
+      </button>
+    </div>
+  </div>
+  <div class="row text-left">
+    <div class="cd-schedule loading">
+      <div class="timeline">
+        <ul>
+          <li><span>07:00</span></li>
+          <li><span>07:30</span></li>
+          <li><span>08:00</span></li>
+          <li><span>08:30</span></li>
+          <li><span>09:00</span></li>
+          <li><span>09:30</span></li>
+          <li><span>10:00</span></li>
+          <li><span>10:30</span></li>
+          <li><span>11:00</span></li>
+          <li><span>11:30</span></li>
+          <li><span>12:00</span></li>
+          <li><span>12:30</span></li>
+          <li><span>13:00</span></li>
+          <li><span>13:30</span></li>
+          <li><span>14:00</span></li>
+          <li><span>14:30</span></li>
+          <li><span>15:00</span></li>
+          <li><span>15:30</span></li>
+          <li><span>16:00</span></li>
+          <li><span>16:30</span></li>
+          <li><span>17:00</span></li>
+          <li><span>17:30</span></li>
+          <li><span>18:00</span></li>
+          <li><span>18:30</span></li>
+          <li><span>19:00</span></li>
+          <li><span>19:30</span></li>
+          <li><span>20:00</span></li>
+          <li><span>20:30</span></li>
+          <li><span>21:00</span></li>
+          <li><span>21:30</span></li>
+          <li><span>22:00</span></li>
+          <li><span>22:30</span></li>
+          <li><span>23:00</span></li>
+          <li><span>23:30</span></li>
+          <li><span>00:00</span></li>
+          <li><span>00:30</span></li>
+          <li><span>01:00</span></li>
+          <li><span>01:30</span></li>
+          <li><span>02:00</span></li>
+          <li><span>02:30</span></li>
+          <li><span>03:00</span></li>
+          <li><span>03:30</span></li>
+          <li><span>04:00</span></li>
+          <li><span>04:30</span></li>
+        </ul>
       </div>
 
-      <a href="#0" class="close">Close</a>
-    </div>
+      <div class="events">
+        <ul>
+          <li class="events-group">
+            <div class="top-info">
+              <h6>Day 1</h6>
+              <span>Thursday 9th March</span>
+            </div>
 
-    <div class="cover-layer"></div>
+            <ul>
+              {{#each event in day1}}
+                {{#if $or (isUndefined event.description) (isEmpty event.description)}}
+                  <li class="single-event no-hover" data-start="{{moment event.startDate 'HH:mm'}}"
+                      data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
+                      data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
+                    <a>
+                      <em class="event-name">{{event.name}}</em>
+                      <em class="event-subtitle">{{event.subtitle}}</em>
+                    </a>
+                  </li>
+                {{else}}
+                  <li class="single-event" data-start="{{moment event.startDate 'HH:mm'}}"
+                      data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
+                      data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
+                    <a href>
+                      <em class="event-name">{{event.name}}</em>
+                      <em class="event-subtitle">{{event.subtitle}}</em>
+                    </a>
+                  </li>
+                {{/if}}
+              {{/each}}
+            </ul>
+          </li>
+
+          <li class="events-group">
+            <div class="top-info">
+              <h6>Day 2</h6>
+              <span>Friday 10th March</span>
+            </div>
+
+            <ul>
+              {{#each event in day2}}
+                {{#if $or (isUndefined event.description) (isEmpty event.description)}}
+                  <li class="single-event no-hover" data-start="{{moment event.startDate 'HH:mm'}}"
+                      data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
+                      data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
+                    <a>
+                      <em class="event-name">{{event.name}}</em>
+                      <em class="event-subtitle">{{event.subtitle}}</em>
+                    </a>
+                  </li>
+                {{else}}
+                  <li class="single-event" data-start="{{moment event.startDate 'HH:mm'}}"
+                      data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
+                      data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
+                    <a href>
+                      <em class="event-name">{{event.name}}</em>
+                      <em class="event-subtitle">{{event.subtitle}}</em>
+                    </a>
+                  </li>
+                {{/if}}
+              {{/each}}
+            </ul>
+          </li>
+
+          <li class="events-group">
+            <div class="top-info">
+              <h6>Day 3</h6>
+              <span>Saturday 11th March</span>
+            </div>
+
+            <ul>
+              {{#each event in day3}}
+                {{#if $or (isUndefined event.description) (isEmpty event.description)}}
+                  <li class="single-event no-hover" data-start="{{moment event.startDate 'HH:mm'}}"
+                      data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
+                      data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
+                    <a>
+                      <em class="event-name">{{event.name}}</em>
+                      <em class="event-subtitle">{{event.subtitle}}</em>
+                    </a>
+                  </li>
+                {{else}}
+                  <li class="single-event" data-start="{{moment event.startDate 'HH:mm'}}"
+                      data-end="{{moment event.endDate 'HH:mm'}}" data-event="{{event.type}}"
+                      data-id="{{event._id}}" data-subtitle="{{event.subtitle}}">
+                    <a href>
+                      <em class="event-name">{{event.name}}</em>
+                      <em class="event-subtitle">{{event.subtitle}}</em>
+                    </a>
+                  </li>
+                {{/if}}
+              {{/each}}
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="event-modal">
+        <header class="header">
+          <div class="content">
+            <span class="event-date"></span>
+            <em class="event-name"></em>
+            <em class="event-subtitle"></em>
+          </div>
+
+          <div class="header-bg"></div>
+        </header>
+
+        <div class="body">
+          <div class="event-info"></div>
+          <div class="body-bg"></div>
+        </div>
+
+        <a href="#0" class="close">Close</a>
+      </div>
+
+      <div class="cover-layer"></div>
+    </div>
   </div>
 </template>

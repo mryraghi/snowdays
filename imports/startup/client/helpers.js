@@ -1,3 +1,4 @@
+import Participants from "/imports/collections/participants";
 import _ from "lodash";
 import moment from "moment";
 
@@ -53,6 +54,11 @@ Template.registerHelper('moment', function (date, format) {
   return moment(date).format(format)
 });
 
+Template.registerHelper('momentFromNow', function (date) {
+  if (_.isUndefined(date)) return;
+  return moment(date).fromNow()
+});
+
 Template.registerHelper('objectToArray', function (obj) {
   return objToArray(obj)
 });
@@ -90,7 +96,17 @@ Template.registerHelper("boolToColor", function (boolean) {
 });
 
 Template.registerHelper("isEmpty", function (array) {
-  check(array, Array);
   return _.isEmpty(array);
 });
 
+Template.registerHelper("isUndefined", function (any) {
+  return _.isUndefined(any) || _.isEqual(any, 'undefined');
+});
+
+Template.registerHelper("idToName", function (_id) {
+  let participant = Participants.findOne(_id);
+  if (_.isUndefined(participant)) return;
+  let firstName = participant.firstName;
+  let lastName = participant.lastName;
+  return firstName + ' ' + lastName
+});

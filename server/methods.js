@@ -88,10 +88,6 @@ Meteor.methods({
   },
 
   'participants.related': function (owner, _id) {
-    console.log(_id, Participants.find({
-      "owner": {$exists: true},
-      $and: [{"owner": owner}, {$and: [{"_id": {$ne: _id}}]}]
-    }).count());
     return Participants.find({
       "owner": {$exists: true},
       $and: [{"owner": owner}, {$and: [{"_id": {$ne: _id}}]}]
@@ -209,6 +205,21 @@ Meteor.methods({
 
     // iterate over each participant
     _.forEach(participants, function (p) {
+
+      // set default values if fields do not exists
+      // if (_.isUndefined(p.day1.bus1) || _.isEqual(p.day1.bus1, true)) Participants.update(p._id, {$set: {'day1.bus1': false}});
+      // if (_.isUndefined(p.day1.bus2) || _.isEqual(p.day1.bus2, true)) Participants.update(p._id, {$set: {'day1.bus2': false}});
+      // if (_.isUndefined(p.day1.meal1) || _.isEqual(p.day1.meal1, true)) Participants.update(p._id, {$set: {'day1.meal1': false}});
+      // if (_.isUndefined(p.day2.bus1) || _.isEqual(p.day2.bus1, true)) Participants.update(p._id, {$set: {'day2.bus1': false}});
+      // if (_.isUndefined(p.day2.bus2) || _.isEqual(p.day2.bus2, true)) Participants.update(p._id, {$set: {'day2.bus2': false}});
+      // if (_.isUndefined(p.day2.meal1) || _.isEqual(p.day2.meal1, true)) Participants.update(p._id, {$set: {'day2.meal1': false}});
+      // if (_.isUndefined(p.day2.meal2) || _.isEqual(p.day2.meal2, true)) Participants.update(p._id, {$set: {'day2.meal2': false}});
+      // if (_.isUndefined(p.day2.drink1) || _.isEqual(p.day2.drink1, true)) Participants.update(p._id, {$set: {'day2.drink1': false}});
+      // if (_.isUndefined(p.day3.bus1) || _.isEqual(p.day3.bus1, true)) Participants.update(p._id, {$set: {'day3.bus1': false}});
+      // if (_.isUndefined(p.day3.meal1) || _.isEqual(p.day3.meal1, true)) Participants.update(p._id, {$set: {'day3.meal1': false}});
+      // if (_.isUndefined(p.day3.meal2) || _.isEqual(p.day3.meal2, true)) Participants.update(p._id, {$set: {'day3.meal2': false}});
+      // if (_.isUndefined(p.checkedIn) || _.isEqual(p.checkedIn, true)) Participants.update(p._id, {$set: {'checkedIn': false}});
+
       let isConflict = false;
 
       // set default info
@@ -270,12 +281,21 @@ Meteor.methods({
     return fs.unlinkSync(fullPath)
   },
 
-  'events.strict': function () {
-    return Events.find({}, {fields: {content: 0}}).fetch();
+  'events.schedule.strict': function () {
+    return Events.find({showInSchedule: true}, {fields: {css: 0}, sort: {startDate: 1}}).fetch();
+  },
+
+  'events.one.css': function (_id) {
+    return Events.findOne(_id).css
   },
 
   'events.one.description': function (_id) {
     return Events.findOne(_id).description
+  },
+
+  'events.one.description.exists': function (_id) {
+    let description = Events.findOne(_id).description;
+    return (!_.isUndefined(description) || !_.isEmpty(description))
   },
 
   'event.update': function (event) {
@@ -283,10 +303,12 @@ Meteor.methods({
       $set: event
     })
   },
+  'event.insert': function (event) {
+    return Events.insert(event)
+  },
 });
 
 function existsSync(filename) {
   let fullPath = path.join(process.cwd(), '../server/images/uploads/ids/', filename);
   return fs.existsSync(fullPath)
 }
-

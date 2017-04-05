@@ -3,13 +3,14 @@ import "/imports/ui/pages/login";
 import "/imports/ui/pages/admin";
 import "/imports/ui/pages/externals";
 import "/imports/ui/pages/participant";
+import "/imports/ui/pages/event";
 import "/imports/ui/pages/errors/404/not_found";
 import _ from "lodash";
 
-// Router.configure({
-//   notFoundTemplate: 'NotFoundPage',
-//   noRoutesTemplate: 'NotFoundPage'
-// });
+Router.configure({
+  notFoundTemplate: 'NotFoundPage',
+  noRoutesTemplate: 'Home'
+});
 
 Router.route('/', {
   name: 'Home',
@@ -37,6 +38,17 @@ Router.route('/login', {
       if (Roles.userIsInRole(user, 'unibz'))
         Router.go('ParticipantPage');
     }
+
+    this.next()
+  }
+});
+
+Router.route('/event', {
+  name: 'Event',
+  template: 'EventPage',
+  onBeforeAction: function () {
+    // Google Analytics
+    GAnalytics.pageview();
 
     this.next()
   }

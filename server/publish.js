@@ -1,6 +1,7 @@
 import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
 import Events from "/imports/collections/events";
+import Reports from "/imports/collections/reports";
 import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
@@ -48,8 +49,12 @@ Meteor.publish('participants.all', function (options) {
     console.log('participants.all STOP')
   });
 
-  // console.log(options);
-  return Participants.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
+  return Participants.find(options.query, {
+    fields: options.fields,
+    limit: options.limit,
+    skip: options.skip,
+    sort: options.sort
+  })
 });
 
 Meteor.publish('participants', function () {
@@ -75,6 +80,18 @@ Meteor.publish('users.all', function (options) {
 
   // console.log(options);
   return Meteor.users.find(options.query, {fields: options.fields, limit: options.limit, skip: options.skip})
+});
+
+Meteor.publish('reports.all', function () {
+  this.ready(() => {
+    console.log('reports.all READY: ')
+  });
+
+  this.onStop(() => {
+    console.log('reports.all STOP: ')
+  });
+
+  return Reports.find()
 });
 
 Meteor.publish('stats.users.all', function () {

@@ -787,6 +787,10 @@ Template.UserModal.helpers({
 // UserModalParticipant
 
 Template.UserModalParticipant.onCreated(function () {
+  let template = Template.instance();
+  template.uploadingSID = new ReactiveVar(false);
+  template.uploadingPID = new ReactiveVar(false);
+
   this.autorun(() => {
     let userId = Session.get('_id');
     modalSubParticipant = Meteor.subscribe("participants.current", userId, function onStop(error) {
@@ -827,6 +831,13 @@ Template.UserModalParticipant.helpers({
   IDcontraddiction: function (type, hasID, _id) {
     let image = IDs.findOne({$and: [{$or: [{$and: [{'userId': _id}, {'meta.userId': {$exists: false}}]}, {'meta.userId': _id}]}, {'meta.type': type}]});
     return !!((image && !hasID) || (!image && hasID));
+  },
+
+  uploadingSID: function () {
+    return Template.instance().uploadingSID.get();
+  },
+  uploadingPID: function () {
+    return Template.instance().uploadingPID.get();
   }
 });
 
@@ -871,7 +882,20 @@ Template.UserModalParticipant.events({
     }
     // match.count() > 1
     else swal('Error', 'There are two possible matches for this ID', 'error');
-  }
+  },
+
+  // upload files
+  'change #has_personal_id': function (e, template) {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      uploadID(e.currentTarget.files[0], template, 'personal')
+    }
+  },
+
+  'change #has_student_id': function (e, template) {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      uploadID(e.currentTarget.files[0], template, 'student')
+    }
+  },
 })
 ;
 
@@ -1019,3 +1043,78 @@ Template.UserModalSettings.onDestroyed(function () {
   // Clear form
   document.getElementById('settings-form').reset();
 });
+
+function uploadID(file, template, idType) {
+  if (_.isUndefined(Session.get('_id'))) {
+    swal('Error', 'A server side error occurred. Please contact rbellon@unibz.it', 'error');
+    throw new Meteor.Error('uploadID', 'Session.get(_id) is not defined');
+  }
+
+  let p = {_id: Session.get('_id')};
+  let key = (_.isEqual(idType, 'personal') ? 'hasPersonalID' : 'hasStudentID');
+  p[key] = true;
+
+  // We upload only one file, in case
+  // multiple files were selected
+  const upload = IDs.insert({
+    file: file,
+    streams: 'dynamic',
+    chunkSize: 'dynamic',
+    // transport: 'http',
+    meta: {
+      type: idType,
+      userId: p._id
+    }
+  }, false);
+
+  upload.on('start', function () {
+    $('#has_' + idType + '_id').removeClass('fadeOut').addClass('animated fadeIn');
+    $('#loader-label').removeClass('fadeOut').addClass('animated fadeIn');
+    toggleLoading(idType, template)
+  });
+
+  upload.on('error', function (error, fileData) {
+    if (error) {
+      $('#has_' + idType + '_id').removeClass('fadeOut').addClass('animated fadeIn');
+      $('#loader-label').removeClass('fadeIn').addClass('animated fadeOut');
+      toggleLoading(idType, template);
+      swal('Error', error.message, 'error')
+    }
+  });
+
+  upload.on('end', function (error, fileObj) {
+    if (error) {
+      swal('Error', 'Error during upload: ' + error, 'error');
+    } else {
+      if (fileObj) {
+        swal('Uploaded', 'Your ' + idType + ' ID has been uploaded!', 'success');
+
+        // check security section on Meteor's documentation
+        Meteor.call('participants.update', p, function (error, result) {
+          if (error) swal('Error', error.message, 'error');
+        })
+      } else {
+        swal('Error', 'An error occurred, please try again.', 'error');
+      }
+    }
+    $('#loader-label').removeClass('fadeIn').addClass('animated fadeOut');
+    toggleLoading(idType, template)
+  });
+
+  upload.start();
+}
+
+function toggleLoading(type, template) {
+  switch (type) {
+    case 'personal':
+      let p_value = template.uploadingPID.get();
+      template.uploadingPID.set(!p_value);
+      break;
+    case 'student':
+      let s_value = template.uploadingSID.get();
+      template.uploadingSID.set(!s_value);
+      break;
+    default:
+      throw new Meteor.Error('toggleLoading', 'Unknown type');
+  }
+}

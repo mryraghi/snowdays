@@ -3,17 +3,85 @@
     <div class="col-12">
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item ">
-          <a class="nav-link active" data-toggle="tab" href="#settings-events" role="tab">
+          <a class="nav-link active" data-toggle="tab" href="#settings-checkin" role="tab">
+            <i class="mr-2 fa fa-calendar-check-o" aria-hidden="true"></i> Check-in</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" data-toggle="tab" href="#settings-reports" role="tab">
+            <i class="fa fa-bug" aria-hidden="true"></i> Reports</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" data-toggle="tab" href="#settings-schedule-events" role="tab">
             <i class="mr-2 fa fa-calendar" aria-hidden="true"></i> Schedule events</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" data-toggle="tab" href="#settings-mobile-events" role="tab">
+            <i class="mr-2 fa fa-mobile" aria-hidden="true"></i> App events</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#settings-conflicts" role="tab">
-            <i class="mr-2 fa fa-exclamation-triangle" aria-hidden="true"></i>Conflicts</a>
+            <i class="mr-2 fa fa-exclamation-triangle" aria-hidden="true"></i> Conflicts</a>
         </li>
       </ul>
 
       <div class="tab-content mt-4">
-        <div class="tab-pane active" id="settings-events" role="tabpanel">
+        <div class="tab-pane active" id="settings-checkin" role="tabpanel">
+          <div class="row mb-5">
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
+                <tr>
+                  <th>Last update</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Status</th>
+                  <th>Checked in</th>
+                  <th>PID</th>
+                  <th>SID</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each p in lastUpdates}}
+                  <tr>
+                    <td>{{moment p.updatedAt 'HH:mm'}}</td>
+                    <td>{{p.firstName}}</td>
+                    <td>{{p.lastName}}</td>
+                    <td class="{{boolToColor p.statusComplete}}"></td>
+                    <td class="{{boolToColor p.checkedIn}}"></td>
+                    <td class="{{boolToColor p.hasPersonalID}}"></td>
+                    <td class="{{boolToColor p.hasStudentID}}"></td>
+                  </tr>
+                {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="settings-reports" role="tabpanel">
+          <div class="row mb-5">
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
+                <tr>
+                  <th>Created at</th>
+                  <!--<th>Sender</th>-->
+                  <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each r in reports}}
+                  <tr>
+                    <td>{{moment r.createdAt 'DD/MM/YY HH:mm'}}</td>
+                    <!--<td>{{idToName r.userId}}</td>-->
+                    <td>{{r.message}}</td>
+                  </tr>
+                {{/each}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="settings-schedule-events" role="tabpanel">
           <div class="row">
             <div class="col-4">
               <div class="card">
@@ -68,6 +136,34 @@
                   </a>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="settings-mobile-events" role="tabpanel">
+          <div class="row mb-5">
+            <div class="col-12">
+              <table class="table table-sm">
+                <thead>
+                <tr>
+                  <th>Time slot</th>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Subtitle</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each event in mobileEvents}}
+                  <tr>
+                    <td>{{moment event.startDate 'DD/MM HH:mm'}} - {{moment event.endDate 'DD/MM HH:mm'}}</td>
+                    <td>{{event.type}}</td>
+                    <td>{{event.name}}</td>
+                    <td>{{event.subtitle}}</td>
+                    <td>{{event.checkAction}}</td>
+                  </tr>
+                {{/each}}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -162,7 +258,7 @@
                     <div class="sn-field-group">
                       <input type="text" class="sn-field-input" name="subtitle" id="subtitle"
                              value="{{event.subtitle}}">
-                      <label for="subtitle" class="sn-field-label sn-upper-label">Subtitle</label>
+                      <label for="subtitle" class="sn-field-label">Subtitle</label>
                     </div>
                   </div>
                   <div class="col-4">
@@ -170,8 +266,10 @@
                       <select class="sn-field-input sn-a-0" id="type" name="type" required>
                         <option disabled>Choose</option>
                         <option value="meal" {{selectedIf event.type 'meal'}}>Meal</option>
+                        <option value="party" {{selectedIf event.type 'party'}}>Party</option>
                         <option value="transportation" {{selectedIf event.type 'transportation'}}>Transportation
                         </option>
+                        <option value="allday" {{selectedIf event.type 'allday'}}>All day</option>
                         <option value="other" {{selectedIf event.type 'other'}}>Other</option>
                       </select>
                       <label for="type" class="sn-field-label sn-upper-label">Type</label>
@@ -211,32 +309,72 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <label class="custom-control custom-checkbox">
-                    {{#if event}}
-                      <input type="checkbox" class="custom-control-input" name="all_day" checked>
-                    {{else}}
-                      <input type="checkbox" class="custom-control-input" name="all_day">
-                    {{/if}}
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">All day event</span>
-                  </label>
+              <div class="col-3">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="height" id="height" placeholder="%"
+                         value="{{event.css.height}}">
+                  <label for="height" class="sn-field-label sn-upper-label">Height</label>
                 </div>
               </div>
+              <div class="col-3">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="width" id="width" placeholder="%"
+                         value="{{event.css.width}}">
+                  <label for="width" class="sn-field-label sn-upper-label">Width</label>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="top" id="top" placeholder="%"
+                         value="{{event.css.top}}">
+                  <label for="top" class="sn-field-label sn-upper-label">Top</label>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="left" id="left" placeholder="%"
+                         value="{{event.css.left}}">
+                  <label for="left" class="sn-field-label sn-upper-label">Left</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-6">
                 <div class="form-group">
                   <label class="custom-control custom-checkbox">
-                    {{#if event}}
-                      <input type="checkbox" class="custom-control-input" name="nfc_check" checked>
+                    {{#if event.checkRequired}}
+                      <input type="checkbox" class="custom-control-input" name="check_required" id="check_required"
+                             checked>
                     {{else}}
-                      <input type="checkbox" class="custom-control-input" name="nfc_check">
+                      <input type="checkbox" class="custom-control-input" name="check_required" id="check_required">
                     {{/if}}
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">NFC check during the event</span>
                   </label>
                 </div>
+                <div class="form-group">
+                  <label class="custom-control custom-checkbox">
+                    {{#if event.showInSchedule}}
+                      <input type="checkbox" class="custom-control-input" name="show_in_schedule" id="show_in_schedule"
+                             checked>
+                    {{else}}
+                      <input type="checkbox" class="custom-control-input" name="show_in_schedule" id="show_in_schedule">
+                    {{/if}}
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Show in schedule page</span>
+                  </label>
+                </div>
               </div>
+              {{#if checkRequired}}
+                <div class="col-6">
+                  <div class="sn-field-group">
+                    <input type="text" class="sn-field-input" name="check_action" id="check_action"
+                           value="{{event.checkAction}}">
+                    <label for="subtitle" class="sn-field-label">Check action</label>
+                    <small class="form-text text-muted">Check Events collection</small>
+                  </div>
+                </div>
+              {{/if}}
             </div>
             <div class="row">
               <div class="col-12 pb-1">

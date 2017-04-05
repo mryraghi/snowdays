@@ -38,7 +38,7 @@ Template.Home.onRendered(function () {
     'Now!');
 
   countdown(
-    new Date(2017, 2, 9),
+    new Date(2017, 2, 9, 9),
     function (ts) {
       let unitArray = ts.toString().split(', ');
       let result = [];

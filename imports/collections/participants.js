@@ -46,6 +46,14 @@ Schemas.Day1 = new SimpleSchema({
     optional: true
     // todo: return if external or not
     // only for externals in UniMensa
+  },
+  meal2: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) Meal 1",
+    optional: true
+    // todo: return if external or not
+    // only for externals in UniMensa
   }
 });
 
@@ -94,6 +102,13 @@ Schemas.Day2 = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
     label: "(Day 2) Meal 2",
+    optional: true
+  },
+
+  hasSkipass: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Has ski pass",
     optional: true
   },
 
@@ -425,7 +440,16 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
 
   // check if property values are equal in the doc, if yes remove
   _.forEach($set, function (value, key) {
-    if (_.isEqual(value, doc[key])) delete $set[key]
+    if (_.isEqual(value, doc[key])) delete $set[key];
+
+    // MongoDB does not accept dots in keys so substitute all dots
+    if (_.includes(key, '.')) {
+      // delete old key value
+      delete $set[key];
+      // replace dots with underscores
+      let newKey = _.replace(key, '.', '_');
+      $set[newKey] = value
+    }
   });
 
   if (_.isEmpty($set)) {
