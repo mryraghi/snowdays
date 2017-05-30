@@ -39,7 +39,6 @@ aldeed:schema-deny
 ostrio:cookies
 aldeed:schema-index
 reactive-dict@1.1.8
-meteorhacks:kadira
 accounts-password@1.3.4
 nimble:restivus
 nolimits4web:swiper

@@ -62,8 +62,6 @@ matb33:collection-hooks@0.8.4
 mdg:validation-error@0.5.1
 meteor@1.6.1
 meteor-base@1.0.4
-meteorhacks:kadira@2.30.3
-meteorhacks:meteorx@1.4.1
 meteorspark:util@0.2.0
 minifier-css@1.2.16
 minifier-js@1.2.18
@@ -74,7 +72,6 @@ modules@0.7.9
 modules-runtime@0.7.9
 mongo@1.1.15
 mongo-id@1.0.6
-mongo-livedata@1.0.12
 natestrauser:animate-css@3.5.1
 nimble:restivus@0.8.12
 nolimits4web:swiper@3.4.1
