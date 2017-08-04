@@ -1,4 +1,5 @@
 @import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../lib/stylesheets/paver";
 
 @font-face {
   font-family: 'CircularBold';
@@ -32,6 +33,18 @@
   url('/fonts/circular/Circular-Book.woff') format('woff'),
   url('/fonts/circular/Circular-Book.ttf') format('truetype'),
   url('/fonts/circular/Circular-Book.svg#Circular-Book') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Jaapokki';
+  src: url('/fonts/jaapokki/jaapokki-regular-webfont.eot');
+  src: url('/fonts/jaapokki/jaapokki-regular-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/fonts/jaapokki/jaapokki-regular-webfont.woff2') format('woff2'),
+  url('/fonts/jaapokki/jaapokki-regular-webfont.woff') format('woff'),
+  url('/fonts/jaapokki/jaapokki-regular-webfont.ttf') format('truetype'),
+  url('/fonts/jaapokki/jaapokki-regular-webfont.svg#jaapokkiregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -751,6 +764,12 @@ div[class*=col-] > .sn-nav {
 
 // HOME
 
+#home {
+  .no-margin {
+    margin: 0;
+  }
+}
+
 #section-1 {
   width: 100%;
   height: 100%;
@@ -759,9 +778,40 @@ div[class*=col-] > .sn-nav {
   text-align: center;
   padding: 0;
 
+  //#description {
+  //  background: url('images/panorama.jpg') no-repeat left center;
+  //  background-size: cover;
+  //}
+}
+
+#panorama {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: absolute;
+  //z-index: 0;
+
+  #panorama-img {
+    height: 100%;
+  }
+
+  .paver--ready div.paver__pano {
+    position: absolute;
+    top: 0;
+    height: 100%;
+  }
+}
+
+#description {
+  position: relative;
+}
+
+@media (max-width: 767px) {
   #description {
-    background: url('images/background.jpg') no-repeat left center;
-    background-size: cover;
+    //position: absolute;
+    top: 0;
+    height: 100%;
   }
 }
 
@@ -812,6 +862,7 @@ div[class*=col-] > .sn-nav {
 
 .section {
   text-align: center;
+  padding: 0;
 
   h1 {
     color: #e6e6e6;
@@ -904,9 +955,8 @@ div[class*=col-] > .sn-nav {
 #s-title {
   text-transform: uppercase;
   color: #ffffff;
-  font-family: "CircularBold", sans-serif;
-  height: 7em;
-  margin-bottom: 2em;
+  font-size: 7em;
+  font-family: "Jaapokki", sans-serif;
   text-shadow: 0 0 15px rgba(0, 0, 0, .5);
 }
 
@@ -934,6 +984,12 @@ div[class*=col-] > .sn-nav {
 
 .s-icon:hover {
   transform: scale(2.0);
+}
+
+@media screen and (max-width: 767px) {
+  #aftermovie {
+    width: 100%;
+  }
 }
 
 #s-divider {
@@ -999,7 +1055,7 @@ div[class*=col-] > .sn-nav {
 
 @media (min-width: 768px) and (max-width: 991px) {
   #s-title {
-    height: 5em;
+    //font-size: 5em;
   }
 }
 
@@ -1016,7 +1072,7 @@ div[class*=col-] > .sn-nav {
   }
 
   #s-title {
-    height: 4.2em;
+    font-size: 4em;
   }
 
   #s-subtitle {
@@ -1028,7 +1084,21 @@ div[class*=col-] > .sn-nav {
   }
 }
 
-@media screen and (max-width: 543px) {
+@media screen and (max-width: 320px) {
+  #s-title {
+    font-size: 3.2em;
+  }
+
+  #s-logo {
+    top: 1em;
+    left: 50%;
+    margin-left: -1.5em;
+    width: 3em;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 543px) {
   #section-1 {
     background-position: left top;
   }
@@ -1039,14 +1109,13 @@ div[class*=col-] > .sn-nav {
   }
 
   #s-title {
-    height: auto;
-    width: 100%;
+    font-size: 4em;
   }
 
   #s-subtitle {
-    font-size: 1.2em;
-    margin-left: 3em;
-    margin-right: 3em;
+    font-size: 1.4em;
+    margin-left: 2.5em;
+    margin-right: 2.5em;
   }
 
   #s-date {
