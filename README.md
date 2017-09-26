@@ -78,10 +78,9 @@ Furthermore, it is also possible to have a complete list of those participants w
 
 Finally, we also implemented a detailed view of the participant including all the necessary information like name, phone number, address and activities he attended. 
 
-![App login](https://www.snowdays.it/public/screenshots/app-list.png?static=true)
-![App cards](https://www.snowdays.it/public/screenshots/app-cards.png?static=true)
-![App nfc](https://www.snowdays.it/public/screenshots/app-nfc.png?static=true)
-![App list](https://www.snowdays.it/public/screenshots/app-list.png?static=true)
+![App login](https://www.snowdays.it/public/screenshots/app-login.png?static=true) | ![App cards](https://www.snowdays.it/public/screenshots/app-cards.png?static=true) | ![App nfc](https://www.snowdays.it/public/screenshots/app-nfc.png?static=true) | ![App list](https://www.snowdays.it/public/screenshots/app-list.png?static=true) |
+|:---:|:---:|:---:|:---:|
+| Login | Cards | NFC | Participants list |
 
 
 # Credits
