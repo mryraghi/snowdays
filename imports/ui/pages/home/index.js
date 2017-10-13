@@ -155,7 +155,6 @@ function initSponsorsCarousel() {
         loop: true,
         autoplay: 2000,
 
-
         slidesPerView: 'auto',
         watchSlidesVisibility: true,
 

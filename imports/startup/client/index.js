@@ -1,8 +1,7 @@
-import './routes.js';
-import './helpers'
-import _ from 'lodash'
+import './routes';
+import './helpers';
+
 // import {wrapMeteorDebug} from './logging'
 
 Meteor.startup(function () {
-
 });
