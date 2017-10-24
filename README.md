@@ -87,3 +87,13 @@ Finally, we also implemented a detailed view of the participant including all th
 - Romeo Bellon ([GitHub](https://github.com/mryraghi), [LinkedIn](https://www.linkedin.com/in/romeobellon/))
 - Daniel Morandini ([GitHub](https://github.com/danielmorandini), [LinkedIn](https://www.linkedin.com/in/daniel-morandini-224a3586/))
 - Alessandro Piccoli ([GitHub](https://github.com/alpicco))
+
+# Getting Setup
+
+clone repo and install meteor  ([Meteor](https://www.meteor.com/install))
+
+`cd snowdays && meteor npm install`
+
+navigate to localhost:3000
+
+# Getting users
