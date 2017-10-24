@@ -1,4 +1,4 @@
-if (Meteor.users.find().count() == 0) {
+if (Meteor.isDevelopment && Meteor.users.find().count() == 0) {
 
     console.log("seeding the database");
     let user = {
