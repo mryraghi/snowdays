@@ -2,7 +2,7 @@
   {{#if Template.subscriptionsReady}}
     <!-- UNIVERSITIES LIST -->
     <div class="row mb-5">
-      <div class="col-12 col-lg-8">
+      <div class="col-8">
         <h4>
           <i class="fa fa-list-ol" aria-hidden="true"></i>
           <i class="fa fa-arrows-v" aria-hidden="true"></i>
@@ -12,69 +12,61 @@
           </select>
         </h4>
 
-        <h5 class="text-muted">{{countText 'results'}}</h5>
+        <h5 class="text-muted">{{count 'results'}}</h5>
         <hr>
 
         <div class="row">
           <div class="col-12 col-sm-8">
-            <div class="sn-field-group mb-2">
+            <div class="sn-field-group mb-0">
               <input type="text" class="sn-field-input" name="search" id="search" required>
               <label for="search" class="sn-field-label">
                 <i class="fa fa-search" aria-hidden="true"></i>{{query}}
               </label>
             </div>
           </div>
-          <div class="col-6 col-sm-2">
-            <div class="sn-field-group mb-0">
-              <select class="sn-field-input sn-a-0" id="limit_field" name="limit_field">
-                <option selected value="5">5</option>
-                <option value="10">10</option>
+          <div class="col">
+            <div class="sn-field-group">
+              <select class="sn-field-input sn-a-0" id="operation" name="operation">
+                <option selected value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
               </select>
-              <label for="limit_field" class="sn-field-label"><i class="fa fa-bars" aria-hidden="true"></i>
+              <label for="d1_rental" class="sn-field-label"><i class="fa fa-bars" aria-hidden="true"></i>
                 Entries</label>
             </div>
           </div>
-          <div class="col-6 col-sm-2">
+          <div class="col">
             <button type="button" class="sn-btn-outline-green sn-full-width" id="download_csv">
               <i class="fa fa-cloud-download" aria-hidden="true"></i> CSV
             </button>
           </div>
         </div>
 
-        <table class="table table-sm table-hover animated" id="participants_table" style="margin-top: 1em;">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
+        {{#if listIsEmpty}}
+          <hr>
+          <p>List is empty</p>
+        {{else}}
+          <table class="table table-sm table-hover animated" id="participants_table" style="margin-top: 1em">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
 
-        <div class="row animated fadeIn">
-          <div class="col-md-12">
-            <ul class="pagination pagination-sm justify-content-center mb-0" id="participants_pagination">
-            </ul>
+          <div class="row animated fadeIn">
+            <div class="col-md-12 text-sm-center">
+              <small class="text-muted">
+                <span class="sn-status complete"></span> = complete, <span class="sn-status incomplete"></span> =
+                incomplete
+              </small>
+            </div>
           </div>
-        </div>
-
-        <div class="row animated fadeIn">
-          <div class="col-md-12 text-center">
-            <small class="text-muted">
-              <span class="sn-status complete"></span> = complete, <span class="sn-status incomplete"></span> =
-              incomplete
-            </small>
-          </div>
-        </div>
-
-        {{> UserModal}}
-
-        <hr class="hidden-lg-up">
+        {{/if}}
+        <hr class="hidden-xl-up">
       </div>
-
-      <div class="col-12 col-lg-4">
-
+      <div class="col-4">
 
         <!-- FILTERS -->
         <h4><i class="fa fa-filter" aria-hidden="true"></i> Filters</h4>
-        <h5 class="text-muted">{{countText 'filters'}} active</h5>
+        <h5 class="text-muted">{{count 'filters'}} active</h5>
 
         <form id="add_filter_form">
           <table class="table table-sm" style="margin-top: 1em">
@@ -89,9 +81,9 @@
                     <code>≠</code>
                   {{/if}}
                 </td>
-                <td><code>{{toStr f.value}}</code></td>
+                <td><code>{{f.value}}</code></td>
                 <td class="text-sm-center">
-                  <a class="sn-icon-button" name="{{@index}}" title="Remove"
+                  <a class="sn-icon-button" value="{{@index}}" title="Remove"
                      id="sn-delete-filter">
                     <img src="/images/icons/remove.svg" class="sn-icon-1">
                   </a>
@@ -100,7 +92,7 @@
             {{/each}}
             <tr>
               <td>
-                <select class="sn-n-field-input" id="select_field" name="select_field">
+                <select class="form-control sn-n-field-input" id="select_field" name="select_field">
                   <option selected disabled>Field</option>
                   {{#if isCollection 'participants'}}
                     {{> ParticipantsOptions}}
@@ -110,13 +102,13 @@
                 </select>
               </td>
               <td>
-                <select class="sn-n-field-input" id="operation" name="operation">
+                <select class="form-control sn-n-field-input" id="operation" name="operation">
                   <option selected value="e">=</option>
                   <option value="ne">≠</option>
                 </select>
               </td>
               <td>
-                <select class="sn-n-field-input" id="select_value" name="select_value"
+                <select class="form-control sn-n-field-input" id="select_value" name="select_value"
                         style="min-width: 4.5em;">
                   <option selected disabled>Value</option>
                 </select>
@@ -132,13 +124,16 @@
         </form>
         <hr class="hidden-lg-up">
       </div>
+    </div>
 
+    <div class="row">
       <div class="col-12">
         <!-- Fields -->
+
         <h4><i class="fa fa-list-ul" aria-hidden="true"></i> Fields</h4>
         <form id="fields_form">
           <div>
-            <h5 class="text-muted d-inline">{{countText 'fields'}} selected</h5>
+            <h5 class="text-muted d-inline">{{count 'fields'}} selected</h5>
             <button type="submit" class="sn-btn-empty-green d-inline">Update</button>
           </div>
           <hr>
@@ -184,22 +179,22 @@
         </li>
         <li>
           <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="profile_gender">
+            <input type="checkbox" class="custom-control-input" id="profile_university">
             <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Gender</span>
+            <span class="custom-control-description">University</span>
+          </label>
+        </li>
+        <li>
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="emails[0]_address">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Email</span>
           </label>
         </li>
       </ul>
     </div>
     <div class="col-md-2">
       <ul>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="profile_university">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">University</span>
-          </label>
-        </li>
         <li>
           <label class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="profile_allowedParticipants">
@@ -234,37 +229,34 @@
 </template>
 
 <template name="UsersOptions">
-  <option value="roles">Role</option>
+  <option value="roles.0">Role</option>
   <option value="survey">Survey</option>
   <option value="profile.university">University</option>
-  <option value="profile.gender">Gender</option>
 </template>
 
 <template name="ParticipantsOptions">
   <option value="university">University</option>
   <option value="gender">Gender</option>
   <option disabled>Host</option>
-  <option value="host.info.accommodation" disabled>– Accommodation</option>
+  <option value="host.info.accommodation">– Accommodation</option>
   <option disabled>Day 1</option>
   <option value="day1.activity">– Activity</option>
   <option value="day1.rental">– Rental</option>
   <option disabled>Day 2</option>
   <option value="day2.activity">– Activity</option>
-  <option value="day2.rental">– Rental</option>
-  <option value="day2.course">– Ski course</option>
+  <option value="day1.rental">– Rental</option>
   <option disabled>––––––––––––––––––</option>
-  <option value="foodAllergies">Food allergies</option>
   <option value="isVolleyPlayer">isVolleyPlayer</option>
   <option value="isFootballPlayer">isFootballPlayer</option>
   <option value="hasPersonalID">hasPersonalID</option>
   <option value="hasStudentID">hasStudentID</option>
   <option value="statusComplete">statusComplete</option>
-  <option value="checkedIn">checkedIn</option>
+  <option value="foodAllergies">Food allergies</option>
 </template>
 
 <template name="ParticipantsFields">
   <div class="row animated fadeIn">
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+    <div class="col-md-2">
       <h6>Participant</h6>
       <ul class="list-unstyled">
         <li>
@@ -310,9 +302,26 @@
           </label>
         </li>
       </ul>
+      <h6>Birth</h6>
+      <ul class="list-unstyled">
+        <li>
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="birth_date">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Date</span>
+          </label>
+        </li>
+        <li>
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="birth_country">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Country</span>
+          </label>
+        </li>
+      </ul>
     </div>
 
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+    <div class="col-md-2">
       <h6>Address</h6>
       <ul class="list-unstyled">
         <li>
@@ -360,24 +369,7 @@
       </ul>
     </div>
 
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-      <h6>Birth</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="birth_date">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Date</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="birth_country">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Country</span>
-          </label>
-        </li>
-      </ul>
+    <div class="col-md-2">
       <h6>Settings</h6>
       <ul class="list-unstyled">
         <li>
@@ -429,31 +421,10 @@
             <span class="custom-control-description">T-shirt</span>
           </label>
         </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="shoeSize">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Shoe size</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="height">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Height</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="weight">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Weight</span>
-          </label>
-        </li>
       </ul>
     </div>
 
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+    <div class="col-md-2">
       <h6>Host</h6>
       <ul class="list-unstyled">
         <li>
@@ -529,7 +500,7 @@
       </ul>
     </div>
 
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+    <div class="col-md-2">
       <h6>Day 1</h6>
       <ul class="list-unstyled">
         <li>
@@ -571,796 +542,6 @@
           </label>
         </li>
       </ul>
-    </div>
-  </div>
-</template>
-
-<template name="UserModal">
-  <div class="modal fade" id="user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel">{{user.firstName}} {{user.lastName}}</h4>
-        </div>
-        <div class="modal-header">
-          <ul class="nav flex-row justify-content-center text-center">
-            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalParticipant'}}" data-tab-id="participant">
-              <a class="nav-link" href><i class="fa fa-ticket" aria-hidden="true"></i> Participant</a>
-            </li>
-            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalUser'}}" data-tab-id="user">
-              <a class="nav-link" href><i class="fa fa-user-circle-o" aria-hidden="true"></i> User</a>
-            </li>
-            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalHost'}}" data-tab-id="host">
-              <a class="nav-link" href><i class="fa fa-h-square" aria-hidden="true"></i> Host</a>
-            </li>
-            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalSettings'}}" data-tab-id="settings">
-              <a class="nav-link" href><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
-            </li>
-            <li class="sn-modal-menu-item nav-item {{isActive 'UserModalHistory'}}" data-tab-id="history">
-              <a class="nav-link" href><i class="fa fa-history" aria-hidden="true"></i> History</a>
-            </li>
-          </ul>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-12">
-              <!-- Sections -->
-              {{> Template.dynamic template=userModalTab data=user}}
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="sn-btn-empty-blue" data-dismiss="modal">Close</button>
-          <!--<button type="button" class="sn-btn-green">Save changes</button>-->
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<template name="UserModalParticipant">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h5>Participant<br>
-        {{#if user.updatedAt}}
-          <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
-        {{/if}}
-      </h5>
-    </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-6 text-center">
-      <h6 class="mb-2">Personal ID</h6>
-      {{#if hasID 'personal' user.hasPersonalID user._id}}
-        <img src="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}?auto=compress&fit=crop&h=300&w=300"
-             alt="Personal ID" class="img-thumbnail img-fluid" height="250" width="250">
-        <div class="d-flex flex-row justify-content-around mt-2">
-          <a title="Open" class="sn-alert-link" href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal' user._id}}"
-             target="_blank">
-            Open
-          </a>
-          <a title="Download" class="sn-alert-link"
-             href="https://snowdays-bolzano.imgix.net/ids/{{id 'personal'
-                                                               user._id}}?dl={{user.firstName}}_{{user.lastName}}_personal.jpg">
-            Download
-          </a>
-          <a title="Remove" href class="sn-alert-link sn-remove-id" data-id="{{user._id}}" data-type="personal">
-            Remove
-          </a>
-        </div>
-      {{else}}
-        {{#if IDcontraddiction 'personal' user.hasPersonalID user._id}}
-          <div class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br>Has <strong>personal ID</strong> but
-            <strong>no image has been found</strong>
-          </div>
-        {{else}}
-          <p>Missing personal ID</p><br>
-          {{#with uploadingPID}}
-            <p class="sn-loader mt-1">Uploading...</p>
-          {{else}}
-            <input type="file" name="has_personal_id" id="has_personal_id"
-                   class="sn-input-file sn-btn-rounded mt-2"/>
-            <label for="has_personal_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
-                                                         aria-hidden="true"></i><b>Personal
-              ID</b></label>
-          {{/with}}
-        {{/if}}
-      {{/if}}
-    </div>
-    <div class="col-6 text-center">
-      <h6 class="mb-2">Student ID</h6>
-      {{#if hasID 'student' user.hasStudentID user._id}}
-        <img src="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}?auto=compress&fit=crop&h=300&w=300"
-             alt="Student ID" class="img-thumbnail img-fluid" height="250" width="250">
-        <div class="d-flex flex-row justify-content-around mt-2">
-          <a title="Open" class="sn-alert-link" href="https://snowdays-bolzano.imgix.net/ids/{{id 'student' user._id}}"
-             target="_blank">
-            Open
-          </a>
-          <a title="Download" class="sn-alert-link"
-             href="https://snowdays-bolzano.imgix.net/ids/{{id 'student'
-                                                               user._id}}?dl={{user.firstName}}_{{user.lastName}}_student.jpg">
-            Download
-          </a>
-          <a title="Remove" href class="sn-alert-link sn-remove-id" data-id="{{user._id}}" data-type="student">
-            Remove
-          </a>
-        </div>
-      {{else}}
-        {{#if IDcontraddiction 'student' user.hasStudentID user._id}}
-          <div class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br>Has <strong>student ID</strong> but
-            <strong>no image has been found</strong>
-          </div>
-        {{else}}
-          <p>Missing student ID</p><br>
-          {{#with uploadingSID}}
-            <p class="sn-loader mt-1">Uploading...</p>
-          {{else}}
-            <input type="file" name="has_student_id" id="has_student_id"
-                   class="sn-input-file sn-btn-rounded mt-2"/>
-            <label for="has_student_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
-                                                        aria-hidden="true"></i><b>Student
-              ID</b></label>
-          {{/with}}
-        {{/if}}
-      {{/if}}
-    </div>
-  </div>
-  <hr>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">_id</dt>
-    <dd class="col-6 col-sm-7">{{user._id}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="_id" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Owner</dt>
-    <dd class="col-6 col-sm-7">{{user.owner}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="owner" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-  </dl>
-  <hr>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">First name</dt>
-    <dd class="col-6 col-sm-7">{{user.firstName}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="firstName" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Last name</dt>
-    <dd class="col-6 col-sm-7">{{user.lastName}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="lastName" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Gender</dt>
-    <dd class="col-6 col-sm-7">{{user.gender}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="gender" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Email</dt>
-    <dd class="col-6 col-sm-7">{{user.email}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="email" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Phone</dt>
-    <dd class="col-6 col-sm-7">{{user.phone}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="phone" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">University</dt>
-    <dd class="col-6 col-sm-7">{{user.university}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="university" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-  </dl>
-  <hr>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">Date</dt>
-    <dd class="col-6 col-sm-7">{{user.birth.date}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="birth.date" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Country</dt>
-    <dd class="col-6 col-sm-7">{{user.birth.country}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="birth.country" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-  </dl>
-  <hr>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">Accommod.</dt>
-    <dd class="col-6 col-sm-7">{{user.info.accommodation}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.accommodation" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Room</dt>
-    <dd class="col-6 col-sm-7">{{user.info.room}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.room" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Street</dt>
-    <dd class="col-6 col-sm-7">{{user.info.street}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.street" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Number</dt>
-    <dd class="col-6 col-sm-7">{{user.info.number}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.number" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">City</dt>
-    <dd class="col-6 col-sm-7">{{user.info.city}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.city" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">ZIP</dt>
-    <dd class="col-6 col-sm-7">{{user.info.zip}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.zip" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Province</dt>
-    <dd class="col-6 col-sm-7">{{user.info.province}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.province" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Country</dt>
-    <dd class="col-6 col-sm-7">{{user.info.country}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="info.country" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-  </dl>
-  <hr>
-  <h5>Day 1</h5>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">Bus 1</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day1.bus1" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day1.bus1}}" checked="{{user.day1.bus1}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Bus 2</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day1.bus2" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day1.bus2}}" checked="{{user.day1.bus2}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Activity</dt>
-    <dd class="col-6 col-sm-7">{{user.day1.activity}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day1.activity" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Rental</dt>
-    <dd class="col-6 col-sm-7">{{user.day1.rental}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day1.rental" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-  </dl>
-  <hr>
-  <h5>Day 2</h5>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">Bus 1</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day2.bus1" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day2.bus1}}" checked="{{user.day2.bus1}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Bus 2</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day2.bus2" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day2.bus2}}" checked="{{user.day2.bus2}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Activity</dt>
-    <dd class="col-6 col-sm-7">{{user.day2.activity}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day2.activity" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Rental</dt>
-    <dd class="col-6 col-sm-7">{{user.day2.rental}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day2.rental" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Course</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day2.course" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day2.course}}" checked="{{user.day2.course}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Meal 1</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day2.meal1" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day2.meal1}}" checked="{{user.day2.meal1}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-  </dl>
-  <hr>
-  <h5>Day 3</h5>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">Bus 1</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day3.bus1" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day3.bus1}}" checked="{{user.day3.bus1}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Bus 2</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day3.bus2" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day3.bus2}}" checked="{{user.day3.bus2}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Meal 1</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day3.meal1" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day3.meal1}}" checked="{{user.day3.meal1}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Meal 2</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day3.meal2" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day3.meal2}}" checked="{{user.day3.meal2}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-  </dl>
-  <hr>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">Checked in</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="checkedIn" data-field-type="checkbox"
-               data-collection="participant" value="{{user.checkedIn}}" checked="{{user.checkedIn}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Volley pl.</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="isVolleyPlayer" data-field-type="checkbox"
-               data-collection="participant" value="{{user.isVolleyPlayer}}" checked="{{user.isVolleyPlayer}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Football pl.</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="isFootballPlayer" data-field-type="checkbox"
-               data-collection="participant" value="{{user.isFootballPlayer}}" checked="{{user.isFootballPlayer}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Personal ID</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="hasPersonalID" data-field-type="checkbox"
-               data-collection="participant" value="{{user.hasPersonalID}}" checked="{{user.hasPersonalID}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Student ID</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="hasStudentID" data-field-type="checkbox"
-               data-collection="participant" value="{{user.hasStudentID}}" checked="{{user.hasStudentID}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Food all.</dt>
-    <dd class="col-6 col-sm-7">{{user.foodAllergies}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="foodAllergies" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">T-shirt</dt>
-    <dd class="col-6 col-sm-7">{{user.tshirt}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="tshirt" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Shoe size</dt>
-    <dd class="col-6 col-sm-7">{{user.shoeSize}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="shoeSize" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Height</dt>
-    <dd class="col-6 col-sm-7">{{user.height}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="height" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Weight</dt>
-    <dd class="col-6 col-sm-7">{{user.weight}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="weight" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Token</dt>
-    <dd class="col-6 col-sm-7">{{user.token}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="token" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">T&C</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="hasAcceptedTandC" data-field-type="checkbox"
-               data-collection="participant" value="{{user.hasAcceptedTandC}}" checked="{{user.hasAcceptedTandC}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Created at</dt>
-    <dd class="col-8 col-sm-9">{{moment user.createdAt 'DD/MM/YY kk:mm'}}</dd>
-
-    <dt class="col-4 col-sm-3">Updated at</dt>
-    <dd class="col-8 col-sm-9">{{moment user.updatedAt 'DD/MM/YY kk:mm'}}</dd>
-
-    <dt class="col-4 col-sm-3">Completed</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="statusComplete" data-field-type="checkbox"
-               data-collection="participant" value="{{user.statusComplete}}" checked="{{user.statusComplete}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-  </dl>
-</template>
-
-<template name="UserModalUser">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h5>User<br>
-        {{#if user.updatedAt}}
-          <small class="text-muted">Created: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
-        {{/if}}
-        {{#if isCP}}
-          <small class="text-info">Contact Person</small>
-        {{/if}}
-      </h5>
-      <hr>
-    </div>
-  </div>
-  {{#if user}}
-    <dl class="row">
-      <dt class="col-4 col-sm-3">_id</dt>
-      <dd class="col-6 col-sm-7">{{user._id}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="_id" data-field-type="text" data-collection="user" href>Edit</a>
-      </dd>
-
-      <dt class="col-4 col-sm-3">Username</dt>
-      <dd class="col-6 col-sm-7">{{user.username}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="username" data-field-type="text" data-collection="user" href>Edit</a>
-      </dd>
-
-      <dt class="col-4 col-sm-3">Role</dt>
-      <dd class="col-6 col-sm-7">{{user.roles.[0]}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="roles[0]" data-field-type="text" data-collection="user" href>Edit</a>
-      </dd>
-
-      {{#if isNotInternal}}
-        <dt class="col-4 col-sm-3">Token</dt>
-        <dd class="col-6 col-sm-7">{{user.profile.token}}</dd>
-        <dd class="col-2">
-          <a class="sn-modal-edit" data-field="profile.token" data-field-type="text" data-collection="user"
-             href>Edit</a>
-        </dd>
-        {{#if isCP}}
-          <dt class="col-4 col-sm-3"># sub partic.</dt>
-          <dd class="col-6 col-sm-7">{{user.profile.allowedParticipants}}
-            <small class="text-muted">(total - 1)</small>
-          </dd>
-          <dd class="col-2">
-            <a class="sn-modal-edit" data-field="profile.allowedParticipants" data-field-type="number"
-               data-collection="user" href>Edit</a>
-          </dd>
-        {{/if}}
-      {{/if}}
-
-      <dt class="col-4 col-sm-3">Survey</dt>
-      <dd class="col-8 col-sm-9">
-        <label class="sn-checkbox-control sn-checkbox">
-          <input type="checkbox" class="sn-checkbox-input" data-field="profile.survey" data-field-type="checkbox"
-                 data-collection="user" value="{{user.profile.survey}}" checked="{{user.profile.survey}}">
-          <span class="sn-checkbox-indicator"></span>
-        </label>
-      </dd>
-    </dl>
-    <hr>
-    <dl class="row">
-      <dt class="col-4 col-sm-3">First name</dt>
-      <dd class="col-6 col-sm-7">{{user.profile.firstName}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="profile.firstName" data-field-type="text" data-collection="user"
-           href>Edit</a>
-      </dd>
-
-      <dt class="col-4 col-sm-3">Last name</dt>
-      <dd class="col-6 col-sm-7">{{user.profile.lastName}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="profile.lastName" data-field-type="text" data-collection="user"
-           href>Edit</a>
-      </dd>
-
-      <dt class="col-4 col-sm-3">Gender</dt>
-      <dd class="col-6 col-sm-7">{{user.profile.gender}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="profile.gender" data-field-type="text" data-collection="user" href>Edit</a>
-      </dd>
-
-      <dt class="col-4 col-sm-3">University</dt>
-      <dd class="col-6 col-sm-7">{{user.profile.university}}</dd>
-      <dd class="col-2">
-        <a class="sn-modal-edit" data-field="profile.university" data-field-type="text" data-collection="user"
-           href>Edit</a>
-      </dd>
-    </dl>
-  {{else}}
-    <p>No related user</p>
-  {{/if}}
-  {{#if isNotInternal}}
-    {{#if isNotCP}}
-      <hr>
-      <div class="row">
-        <div class="col-12 text-center">
-          <h5>Contact person</h5>
-          <hr>
-        </div>
-      </div>
-      <dl class="row">
-        <dt class="col-4 col-sm-3">_id</dt>
-        <dd class="col-8 col-sm-9">{{cp._id}}</dd>
-
-        <dt class="col-4 col-sm-3">Username</dt>
-        <dd class="col-8 col-sm-9">{{cp.username}}</dd>
-
-        <dt class="col-4 col-sm-3">First name</dt>
-        <dd class="col-8 col-sm-9">{{cp.profile.firstName}}</dd>
-
-        <dt class="col-4 col-sm-3">Last name</dt>
-        <dd class="col-8 col-sm-9">{{cp.profile.lastName}}</dd>
-
-        <dt class="col-4 col-sm-3">Max sub participants</dt>
-        <dd class="col-8 col-sm-9">{{cp.profile.allowedParticipants}}</dd>
-      </dl>
-    {{/if}}
-    {{#if relatedP}}
-      <hr>
-      <div class="row">
-        <div class="col-12 text-center">
-          <h5>Related participants</h5>
-          <hr>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <ul class="list-unstyled">
-            {{#each r in relatedP}}
-              <li>{{r.firstName}} {{r.lastName}} (<code>{{r._id}}</code>)</li>
-            {{/each}}
-          </ul>
-        </div>
-      </div>
-    {{else}}
-      <p>No related participants</p>
-    {{/if}}
-  {{/if}}
-</template>
-
-<template name="UserModalHost">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h5>Host</h5>
-      <hr>
-    </div>
-  </div>
-  <dl class="row">
-    <dt class="col-4 col-sm-3">_id</dt>
-    <dd class="col-6 col-sm-7">{{host._id}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host._id" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">First name</dt>
-    <dd class="col-6 col-sm-7">{{host.firstName}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.firstName" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Last name</dt>
-    <dd class="col-6 col-sm-7">{{host.lastName}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.lastName" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Accommodation</dt>
-    <dd class="col-6 col-sm-7">{{host.info.accommodation}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.accommodation" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Room</dt>
-    <dd class="col-6 col-sm-7">{{host.info.room}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.room" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Street</dt>
-    <dd class="col-6 col-sm-7">{{host.info.street}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.street" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Number</dt>
-    <dd class="col-6 col-sm-7">{{host.info.number}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.number" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">City</dt>
-    <dd class="col-6 col-sm-7">{{host.info.city}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.city" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">ZIP</dt>
-    <dd class="col-6 col-sm-7">{{host.info.zip}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.zip" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Province</dt>
-    <dd class="col-6 col-sm-7">{{host.info.province}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.province" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Country</dt>
-    <dd class="col-6 col-sm-7">{{host.info.country}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="host.info.country" data-field-type="text" data-collection="participant" href>Edit</a>
-    </dd>
-  </dl>
-</template>
-
-<template name="UserModalSettings">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h5>Settings</h5>
-      <hr>
-    </div>
-  </div>
-  <form id="settings-form">
-    <div class="row">
-      <div class="col-12">
-        <ul>
-          <li>
-            <label class="sn-checkbox-control sn-checkbox">
-              <input type="checkbox" class="sn-checkbox-input" name="ask_student_id" id="ask_student_id">
-              <span class="sn-checkbox-indicator"></span>
-              <span class="sn-checkbox-description">Do not ask for student ID</span>
-            </label>
-          </li>
-          <li>
-            <label class="sn-checkbox-control sn-checkbox">
-              <input type="checkbox" class="sn-checkbox-input" name="ask_personal_id" id="ask_personal_id">
-              <span class="sn-checkbox-indicator"></span>
-              <span class="sn-checkbox-description">Do not ask for personal ID</span>
-            </label>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 text-right">
-        <button class="sn-btn-empty-green" type="submit" name="save">Save</button>
-      </div>
-    </div>
-  </form>
-</template>
-
-<template name="UserModalHistory">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h5>History<br>
-        {{#if user.updatedAt}}
-          <small class="text-muted">Last update: {{moment user.updatedAt 'DD/MM/YY kk:mm'}}</small>
-        {{/if}}
-      </h5>
-      <hr>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      {{#if user.history}}
-        {{#each entry in user.history}}
-          <dl class="row">
-            <dt class="col-3 text-center">{{moment entry.date 'DD/MM/YY kk:mm'}}</dt>
-            <dd class="col-9">
-              <dl class="row">
-                {{#each update in (objectToArray entry.updates)}}
-                  <dt class="col-6">{{getKey update}}</dt>
-                  <dd class="col-6">{{getValue update}}</dd>
-                {{/each}}
-              </dl>
-            </dd>
-          </dl>
-        {{/each}}
-      {{else}}
-        <p>No history available</p>
-      {{/if}}
     </div>
   </div>
 </template>
