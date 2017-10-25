@@ -1,6 +1,6 @@
 import "../../ui/pages/home";
 import "../../ui/pages/login";
-// import "../../ui/pages/admin";
+import "../../ui/pages/admin";
 import "../../ui/pages/externals";
 import "../../ui/pages/participant";
 import "../../ui/pages/event";

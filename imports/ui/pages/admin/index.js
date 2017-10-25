@@ -1,5 +1,5 @@
 import './admin.html'
-import './admin.list'
+// import './admin.list'
 import './admin.add_new'
 import './admin.settings'
 import './admin.stats'
