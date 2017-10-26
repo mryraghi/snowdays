@@ -96,4 +96,9 @@ clone repo and install meteor  ([Meteor](https://www.meteor.com/install))
 
 navigate to localhost:3000
 
-# Getting users
+# Seeing pages
+
+`mongoimport --db meteor --collection users --file imports/data_seeds/users.json --jsonArray --port 3001`
+`mongoimport --db meteor --collection participants --file imports/data_seeds/participants.json --jsonArray --port 3001`
+`mongoimport --db meteor --collection accommodations --file imports/data_seeds/accommodations.json --jsonArray --port 3001`
+
