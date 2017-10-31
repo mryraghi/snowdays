@@ -1,5 +1,6 @@
 import './admin.list.html'
 import Participants from '/imports/collections/participants'
+import Accommodations from '/imports/collections/accommodations'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
 import {deepFlatten, deepPick, deepFind} from '/lib/js/utilities'
@@ -7,6 +8,7 @@ import {deepFlatten, deepPick, deepFind} from '/lib/js/utilities'
 let fields = require('/imports/collections/db_allowed_values.json');
 
 const participantsIndices = {'firstName': 1, 'lastName': 1};
+const accomIndices = {'name': 1, 'address':1, 'busZone':1};
 
 const usersIndices = {'username': 1, 'profile.firstName': 1, 'profile.lastName': 1, 'roles': 1};
 
@@ -53,7 +55,6 @@ Template.AdminListSection.onCreated(function () {
     // this.subscribe("users.current");
     this.autorun(() => {
         let collection = template.collection.get();
-
         $.when(setSubscription(collection.filters, collection.searchQuery, collection.flattened)).done(function (options) {
             Meteor.subscribe(collection.name + ".all", options, () => {
                 console.log(Participants.find().fetch());
@@ -84,8 +85,18 @@ Template.AdminListSection.events({
                 flattened: usersIndices,
                 searchQuery: '',
                 filters: []
-            });
-        } else {
+            })
+        }
+        if (_.isEqual(collectionName, 'accommodations')) {
+            template.collection.set({
+                name: collectionName,
+                instance: Accommodations,
+                flattened: accomIndices,
+                searchQuery: '',
+                filters: []
+            })
+        }
+        if (_.isEqual(collectionName, 'participants')) {
             template.collection.set({
                 name: collectionName,
                 instance: Participants,
@@ -94,7 +105,6 @@ Template.AdminListSection.events({
                 filters: []
             })
         }
-
         // reset search input
         $('#search').val('')
     },
