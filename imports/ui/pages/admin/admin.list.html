@@ -1,547 +1,547 @@
 <template name="AdminListSection">
-  {{#if Template.subscriptionsReady}}
-    <!-- UNIVERSITIES LIST -->
-    <div class="row mb-5">
-      <div class="col-8">
-        <h4>
-          <i class="fa fa-list-ol" aria-hidden="true"></i>
-          <i class="fa fa-arrows-v" aria-hidden="true"></i>
-          <select class="sn-b-field-input sn-a-0 animated fadeIn" id="collection_select" name="collection_select">
-            <option value="users">Users</option>
-            <option value="participants">Participants</option>
-          </select>
-        </h4>
+    {{#if Template.subscriptionsReady}}
+        <!-- UNIVERSITIES LIST -->
+        <div class="row mb-5">
+            <div class="col-8">
+                <h4>
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                    <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                    <select class="sn-b-field-input sn-a-0 animated fadeIn" id="collection_select" name="collection_select">
+                        <option value="users">Users</option>
+                        <option value="participants">Participants</option>
+                        <option value="accommodations">Accommodations</option>
+                    </select>
+                </h4>
+                <h5 class="text-muted">{{count 'results'}}</h5>
+                <hr>
 
-        <h5 class="text-muted">{{count 'results'}}</h5>
-        <hr>
+                <div class="row">
+                    <div class="col-12 col-sm-8">
+                        <div class="sn-field-group mb-0">
+                            <input type="text" class="sn-field-input" name="search" id="search" required>
+                            <label for="search" class="sn-field-label">
+                                <i class="fa fa-search" aria-hidden="true"></i>{{query}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="sn-field-group">
+                            <select class="sn-field-input sn-a-0" id="operation" name="operation">
+                                <option selected value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                            <label for="d1_rental" class="sn-field-label"><i class="fa fa-bars" aria-hidden="true"></i>
+                                Entries</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="sn-btn-outline-green sn-full-width" id="download_csv">
+                            <i class="fa fa-cloud-download" aria-hidden="true"></i> CSV
+                        </button>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-12 col-sm-8">
-            <div class="sn-field-group mb-0">
-              <input type="text" class="sn-field-input" name="search" id="search" required>
-              <label for="search" class="sn-field-label">
-                <i class="fa fa-search" aria-hidden="true"></i>{{query}}
-              </label>
+                {{#if listIsEmpty}}
+                    <hr>
+                    <p>List is empty</p>
+                {{else}}
+                    <table class="table table-sm table-hover animated" id="participants_table" style="margin-top: 1em">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div class="row animated fadeIn">
+                        <div class="col-md-12 text-sm-center">
+                            <small class="text-muted">
+                                <span class="sn-status complete"></span> = complete, <span class="sn-status incomplete"></span> =
+                                incomplete
+                            </small>
+                        </div>
+                    </div>
+                {{/if}}
+                <hr class="hidden-xl-up">
             </div>
-          </div>
-          <div class="col">
-            <div class="sn-field-group">
-              <select class="sn-field-input sn-a-0" id="operation" name="operation">
-                <option selected value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-              </select>
-              <label for="d1_rental" class="sn-field-label"><i class="fa fa-bars" aria-hidden="true"></i>
-                Entries</label>
+            <div class="col-4">
+
+                <!-- FILTERS -->
+                <h4><i class="fa fa-filter" aria-hidden="true"></i> Filters</h4>
+                <h5 class="text-muted">{{count 'filters'}} active</h5>
+
+                <form id="add_filter_form">
+                    <table class="table table-sm" style="margin-top: 1em">
+                        <tbody>
+                        {{#each f in (objectToPairs filtersList)}}
+                            <tr>
+                                <td class=""><code>{{f.field}}</code></td>
+                                <td class="text-sm-center">
+                                    {{#if equals f.operation '$eq'}}
+                                        <code>=</code>
+                                    {{else}}
+                                        <code>≠</code>
+                                    {{/if}}
+                                </td>
+                                <td><code>{{f.value}}</code></td>
+                                <td class="text-sm-center">
+                                    <a class="sn-icon-button" value="{{@index}}" title="Remove"
+                                       id="sn-delete-filter">
+                                        <img src="/images/icons/remove.svg" class="sn-icon-1">
+                                    </a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                        <tr>
+                            <td>
+                                <select class="form-control sn-n-field-input" id="select_field" name="select_field">
+                                    <option selected disabled>Field</option>
+                                    {{#if isCollection 'participants'}}
+                                        {{> ParticipantsOptions}}
+                                    {{else}}
+                                        {{> UsersOptions}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control sn-n-field-input" id="operation" name="operation">
+                                    <option selected value="e">=</option>
+                                    <option value="ne">≠</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control sn-n-field-input" id="select_value" name="select_value"
+                                        style="min-width: 4.5em;">
+                                    <option selected disabled>Value</option>
+                                </select>
+                            </td>
+                            <td class="text-sm-center">
+                                <button type="submit" class="sn-icon-button" title="Add">
+                                    <img src="/images/icons/add.svg" class="sn-icon-1">
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <hr class="hidden-lg-up">
             </div>
-          </div>
-          <div class="col">
-            <button type="button" class="sn-btn-outline-green sn-full-width" id="download_csv">
-              <i class="fa fa-cloud-download" aria-hidden="true"></i> CSV
-            </button>
-          </div>
         </div>
 
-        {{#if listIsEmpty}}
-          <hr>
-          <p>List is empty</p>
-        {{else}}
-          <table class="table table-sm table-hover animated" id="participants_table" style="margin-top: 1em">
-            <thead></thead>
-            <tbody></tbody>
-          </table>
+        <div class="row">
+            <div class="col-12">
+                <!-- Fields -->
 
-          <div class="row animated fadeIn">
-            <div class="col-md-12 text-sm-center">
-              <small class="text-muted">
-                <span class="sn-status complete"></span> = complete, <span class="sn-status incomplete"></span> =
-                incomplete
-              </small>
+                <h4><i class="fa fa-list-ul" aria-hidden="true"></i> Fields</h4>
+                <form id="fields_form">
+                    <div>
+                        <h5 class="text-muted d-inline">{{count 'fields'}} selected</h5>
+                        <button type="submit" class="sn-btn-empty-green d-inline">Update</button>
+                    </div>
+                    <hr>
+                    {{#if isCollection 'participants'}}
+                        {{> ParticipantsFields}}
+                    {{else}}
+                        {{> UsersFields}}
+                    {{/if}}
+                </form>
             </div>
-          </div>
-        {{/if}}
-        <hr class="hidden-xl-up">
-      </div>
-      <div class="col-4">
+        </div>
 
-        <!-- FILTERS -->
-        <h4><i class="fa fa-filter" aria-hidden="true"></i> Filters</h4>
-        <h5 class="text-muted">{{count 'filters'}} active</h5>
-
-        <form id="add_filter_form">
-          <table class="table table-sm" style="margin-top: 1em">
-            <tbody>
-            {{#each f in (objectToPairs filtersList)}}
-              <tr>
-                <td class=""><code>{{f.field}}</code></td>
-                <td class="text-sm-center">
-                  {{#if equals f.operation '$eq'}}
-                    <code>=</code>
-                  {{else}}
-                    <code>≠</code>
-                  {{/if}}
-                </td>
-                <td><code>{{f.value}}</code></td>
-                <td class="text-sm-center">
-                  <a class="sn-icon-button" value="{{@index}}" title="Remove"
-                     id="sn-delete-filter">
-                    <img src="/images/icons/remove.svg" class="sn-icon-1">
-                  </a>
-                </td>
-              </tr>
-            {{/each}}
-            <tr>
-              <td>
-                <select class="form-control sn-n-field-input" id="select_field" name="select_field">
-                  <option selected disabled>Field</option>
-                  {{#if isCollection 'participants'}}
-                    {{> ParticipantsOptions}}
-                  {{else}}
-                    {{> UsersOptions}}
-                  {{/if}}
-                </select>
-              </td>
-              <td>
-                <select class="form-control sn-n-field-input" id="operation" name="operation">
-                  <option selected value="e">=</option>
-                  <option value="ne">≠</option>
-                </select>
-              </td>
-              <td>
-                <select class="form-control sn-n-field-input" id="select_value" name="select_value"
-                        style="min-width: 4.5em;">
-                  <option selected disabled>Value</option>
-                </select>
-              </td>
-              <td class="text-sm-center">
-                <button type="submit" class="sn-icon-button" title="Add">
-                  <img src="/images/icons/add.svg" class="sn-icon-1">
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </form>
-        <hr class="hidden-lg-up">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <!-- Fields -->
-
-        <h4><i class="fa fa-list-ul" aria-hidden="true"></i> Fields</h4>
-        <form id="fields_form">
-          <div>
-            <h5 class="text-muted d-inline">{{count 'fields'}} selected</h5>
-            <button type="submit" class="sn-btn-empty-green d-inline">Update</button>
-          </div>
-          <hr>
-          {{#if isCollection 'participants'}}
-            {{> ParticipantsFields}}
-          {{else}}
-            {{> UsersFields}}
-          {{/if}}
-        </form>
-      </div>
-    </div>
-
-  {{else}}
-    {{> Loader}}
-  {{/if}}
+    {{else}}
+        {{> Loader}}
+    {{/if}}
 </template>
 
 <template name="UsersFields">
-  <div class="row animated fadeIn">
-    <div class="col-md-2">
-      <h6>User</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="username" disabled>
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Username</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="profile_firstName" disabled>
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">First name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="profile_lastName" disabled>
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Last name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="profile_university">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">University</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="emails[0]_address">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Email</span>
-          </label>
-        </li>
-      </ul>
+    <div class="row animated fadeIn">
+        <div class="col-md-2">
+            <h6>User</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="username" disabled>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Username</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="profile_firstName" disabled>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">First name</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="profile_lastName" disabled>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Last name</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="profile_university">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">University</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="emails[0]_address">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Email</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <ul>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="profile_allowedParticipants">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description"># participants</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="roles">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Role</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="survey">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Survey</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="createdAt">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Created at</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-2">
-      <ul>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="profile_allowedParticipants">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description"># participants</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="roles">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Role</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="survey">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Survey</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="createdAt">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Created at</span>
-          </label>
-        </li>
-      </ul>
-    </div>
-  </div>
 </template>
 
 <template name="UsersOptions">
-  <option value="roles.0">Role</option>
-  <option value="survey">Survey</option>
-  <option value="profile.university">University</option>
+    <option value="roles.0">Role</option>
+    <option value="survey">Survey</option>
+    <option value="profile.university">University</option>
 </template>
 
 <template name="ParticipantsOptions">
-  <option value="university">University</option>
-  <option value="gender">Gender</option>
-  <option disabled>Host</option>
-  <option value="host.info.accommodation">– Accommodation</option>
-  <option disabled>Day 1</option>
-  <option value="day1.activity">– Activity</option>
-  <option value="day1.rental">– Rental</option>
-  <option disabled>Day 2</option>
-  <option value="day2.activity">– Activity</option>
-  <option value="day1.rental">– Rental</option>
-  <option disabled>––––––––––––––––––</option>
-  <option value="isVolleyPlayer">isVolleyPlayer</option>
-  <option value="isFootballPlayer">isFootballPlayer</option>
-  <option value="hasPersonalID">hasPersonalID</option>
-  <option value="hasStudentID">hasStudentID</option>
-  <option value="statusComplete">statusComplete</option>
-  <option value="foodAllergies">Food allergies</option>
+    <option value="university">University</option>
+    <option value="gender">Gender</option>
+    <option disabled>Host</option>
+    <option value="host.info.accommodation">– Accommodation</option>
+    <option disabled>Day 1</option>
+    <option value="day1.activity">– Activity</option>
+    <option value="day1.rental">– Rental</option>
+    <option disabled>Day 2</option>
+    <option value="day2.activity">– Activity</option>
+    <option value="day1.rental">– Rental</option>
+    <option disabled>––––––––––––––––––</option>
+    <option value="isVolleyPlayer">isVolleyPlayer</option>
+    <option value="isFootballPlayer">isFootballPlayer</option>
+    <option value="hasPersonalID">hasPersonalID</option>
+    <option value="hasStudentID">hasStudentID</option>
+    <option value="statusComplete">statusComplete</option>
+    <option value="foodAllergies">Food allergies</option>
 </template>
 
 <template name="ParticipantsFields">
-  <div class="row animated fadeIn">
-    <div class="col-md-2">
-      <h6>Participant</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" checked disabled id="firstName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">First name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" checked disabled id="lastName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Last name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="gender">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Gender</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="email">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Email</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="phone">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Phone</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="university">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">University</span>
-          </label>
-        </li>
-      </ul>
-      <h6>Birth</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="birth_date">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Date</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="birth_country">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Country</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+    <div class="row animated fadeIn">
+        <div class="col-md-2">
+            <h6>Participant</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" checked disabled id="firstName">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">First name</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" checked disabled id="lastName">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Last name</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="gender">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Gender</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="email">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Email</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="phone">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Phone</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="university">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">University</span>
+                    </label>
+                </li>
+            </ul>
+            <h6>Birth</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="birth_date">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Date</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="birth_country">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Country</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
 
-    <div class="col-md-2">
-      <h6>Address</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="info_street">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Street</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="info_number">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Number</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="info_city">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">City</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="info_zip">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">ZIP</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="info_province">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Province</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="info_country">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Country</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+        <div class="col-md-2">
+            <h6>Address</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="info_street">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Street</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="info_number">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Number</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="info_city">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">City</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="info_zip">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">ZIP</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="info_province">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Province</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="info_country">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Country</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
 
-    <div class="col-md-2">
-      <h6>Settings</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="statusComplete">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">statusComplete</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="isVolleyPlayer">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">isVolleyPlayer</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="isFootballPlayer">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">isFootballPlayer</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="hasPersonalID">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">hasPersonalID</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="hasStudentID">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">hasStudentID</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="foodAllergies">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Food allergies</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="tshirt">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">T-shirt</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+        <div class="col-md-2">
+            <h6>Settings</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="statusComplete">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">statusComplete</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isVolleyPlayer">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">isVolleyPlayer</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isFootballPlayer">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">isFootballPlayer</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="hasPersonalID">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">hasPersonalID</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="hasStudentID">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">hasStudentID</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="foodAllergies">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Food allergies</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="tshirt">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">T-shirt</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
 
-    <div class="col-md-2">
-      <h6>Host</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_firstName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">First name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_lastName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Last name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_accommodation">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Accomm.</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_room">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Room</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_street">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Street</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_number">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Number</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_city">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">City</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_zip">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">ZIP</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_province">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Province</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_country">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Country</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+        <div class="col-md-2">
+            <h6>Host</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_firstName">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">First name</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_lastName">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Last name</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_accommodation">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Accomm.</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_room">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Room</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_street">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Street</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_number">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Number</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_city">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">City</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_zip">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">ZIP</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_province">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Province</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="host_info_country">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Country</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
 
-    <div class="col-md-2">
-      <h6>Day 1</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day1_activity">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Activity</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day1_rental">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Rental</span>
-          </label>
-        </li>
-      </ul>
-      <h6>Day 2</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day2_activity">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Activity</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day2_rental">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Rental</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day2_course">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Course</span>
-          </label>
-        </li>
-      </ul>
+        <div class="col-md-2">
+            <h6>Day 1</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="day1_activity">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Activity</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="day1_rental">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Rental</span>
+                    </label>
+                </li>
+            </ul>
+            <h6>Day 2</h6>
+            <ul class="list-unstyled">
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="day2_activity">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Activity</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="day2_rental">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Rental</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="day2_course">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Course</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </template>
