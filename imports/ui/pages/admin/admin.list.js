@@ -487,20 +487,4 @@ function setSubscription(filters, search, flattened) {
         "query": query,
         "fields": flattened || {}
     }
-<<<<<<< .merge_file_uTeqSt
 }
-=======
-}
-© 2017 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
->>>>>>> .merge_file_6SFZsf
