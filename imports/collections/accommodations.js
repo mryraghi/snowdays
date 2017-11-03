@@ -27,7 +27,7 @@ coordinates: {
 },
 busZone: {
     type: String,
-        allowedValues: [1, 2, 3],
+        allowedValues: ['1', '2', '3'],
         optional: true
 },
 capacity: {
