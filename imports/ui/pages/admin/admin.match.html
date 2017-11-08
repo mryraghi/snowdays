@@ -1,7 +1,48 @@
+
 <template name="AdminMatchSection">
-    <button type="submit" class="sn-btn-blue mb-2"><i class="fa fa-share-alt" aria-hidden="true"></i> Matching
+
+        <style>
+                #myProgress {
+                width: 100%;
+                background-color: rgb(119, 117, 121);
+                }
+                
+                #myBar {
+                width: 0%;
+                height: 30px;
+                background-color: rgb(13, 207, 20);
+                text-align: center;
+                line-height: 30px;
+                color: white;
+                border-color: rgb(5, 0, 10)
+            }
+            </style>
+
+            <script>
+              /*function move() {
+                var elem = document.getElementById("myBar");   
+                var width = 10;
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if (width >= 100) {
+                    clearInterval(id);
+                    alert("Hi I'm an alert!")
+                    } else {
+                    width++; 
+                    elem.style.width = width + '%'; 
+                    elem.innerHTML = width * 1  + '%';
+                    }
+                }
+            }*/
+            
+            </script>
+    <h2>1. Matching Accomodation to Bus Station</h2> 
+    <button type="submit" class="sn-btn-blue mb-2"  id="matchingBus"
+    onclick="move()"><i class="fa fa-share-alt" aria-hidden="true"></i> Matching
     </button>
-    <table class="table table-sm">
+
+
+    <!-- <table class="table table-sm">
         <thead>
             <tr>
                 <th>Host</th>
@@ -28,5 +69,21 @@
                 <td>Rainerum</td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
+
+    <div id="myProgress">
+        <div id="myBar">0%</div>
+    </div>
+
+    <div>
+            {{#if showTheMapHelper}}
+           <!-- Here if the Session returns its == true this part of the template will be rendered -->
+           <div>
+                   <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1rOo3DbdRAGIlkKHYoBXqXnXC4bU" width="640" height="480"></iframe>
+           </div>
+          {{else}}
+           
+         {{/if}}
+
+   </div>
 </template>
