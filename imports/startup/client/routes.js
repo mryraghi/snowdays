@@ -1,8 +1,8 @@
 import "../../ui/pages/home";
 import "../../ui/pages/login";
-// import "../../ui/pages/admin";
-// import "../../ui/pages/externals/index";
-// import "../../ui/pages/participant/index";
+import "../../ui/pages/admin";
+import "../../ui/pages/externals";
+import "../../ui/pages/participant";
 import "../../ui/pages/event";
 import "../../ui/pages/errors/404/not_found";
 import _ from "lodash";

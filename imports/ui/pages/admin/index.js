@@ -3,6 +3,8 @@ import './admin.list'
 import './admin.add_new'
 import './admin.settings'
 import './admin.stats'
+import './admin.match'
+import './admin.accommodation'
 // TODO: controllare eliminazione participanti
 
 import _ from 'lodash'
@@ -24,11 +26,17 @@ Template.AdminPage.events({
       case 'add_new':
         Session.set('tab', 'AdminAddNewSection');
         break;
+      case 'accommodation':
+        Session.set('tab', 'AdminAccommodationSection');
+        break;
       case 'settings':
         Session.set('tab', 'AdminSettingsSection');
         break;
       case 'stats':
         Session.set('tab', 'AdminStatsSection');
+        break;
+      case 'match':
+        Session.set('tab', 'AdminMatchSection');
         break;
     }
   },

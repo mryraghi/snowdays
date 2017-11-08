@@ -87,3 +87,21 @@ Finally, we also implemented a detailed view of the participant including all th
 - Romeo Bellon ([GitHub](https://github.com/mryraghi), [LinkedIn](https://www.linkedin.com/in/romeobellon/))
 - Daniel Morandini ([GitHub](https://github.com/danielmorandini), [LinkedIn](https://www.linkedin.com/in/daniel-morandini-224a3586/))
 - Alessandro Piccoli ([GitHub](https://github.com/alpicco))
+
+# Getting Setup
+
+clone repo and install meteor  ([Meteor](https://www.meteor.com/install))
+
+`cd snowdays && meteor npm install`
+
+navigate to localhost:3000
+
+# Seeing pages
+
+`mongoimport --db meteor --collection users --file imports/data_seeds/users.json --jsonArray --port 3001`
+
+`mongoimport --db meteor --collection participants --file imports/data_seeds/participants.json --jsonArray --port 3001`
+
+`mongoimport --db meteor --collection accommodations --file imports/data_seeds/accommodations.json --jsonArray --port 3001`
+
+
