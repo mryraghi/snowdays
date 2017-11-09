@@ -2,7 +2,8 @@ import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
 import Events from "/imports/collections/events";
 import Reports from "/imports/collections/reports";
-import Accommodations from '/imports/collections/accommodations'
+import Accommodations from '/imports/collections/accommodations';
+import MatchingParticipants from '/imports/collections/matchingresults';
 import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
@@ -153,6 +154,10 @@ Meteor.publish('events.one', function (_id) {
 
 Meteor.publish('accommodations.all', function () {
     return Accommodations.find()
+});
+
+Meteor.publish('MatchingParticipants.all', function () {
+  return MatchingParticipants.find();
 });
 
 

@@ -5,6 +5,7 @@ import IDs from "/imports/collections/ids";
 import Surveys from "/imports/collections/surveys";
 import Events from "/imports/collections/events";
 import Reports from "/imports/collections/reports";
+import MatchingResults from "/imports/collections/matchingresults"; 
 
 Meteor.users.allow({
   insert: function (userId, doc) {
@@ -104,6 +105,18 @@ Events.allow({
     return true
   },
   remove: function (userId, doc) {
+    return true
+  }
+});
+
+MatchingResults.allow({
+  insert: function ( doc) {
+    return true
+  },
+  update: function ( doc, fieldNames, modifier) {
+    return true
+  },
+  remove: function ( doc) {
     return true
   }
 });

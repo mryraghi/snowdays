@@ -332,7 +332,7 @@ Template.AdminListSection.helpers({
         switch (selector) {
             case 'results':
                 let query = collection.instance.find(options.query, options.query).count();
-                return query + (query > 1 ? ' participants' : ' participant');
+                return query + (query > 1 ? ' '+collection.name : ' '+ collection.name.substr(0, collection.name.length -1 ));
                 break;
             case 'filters':
                 return _.size(collection.filters) || '0';
@@ -422,7 +422,6 @@ function generateTable(template, options) {
 
     tableHead.append("<th class='animated fadeIn'>Actions</th>");
     tableHead.append("</tr>");
-
     // BODY
     _.forEach(list, function (row) {
         tableBody.append("<tr class='animated fadeIn'>");

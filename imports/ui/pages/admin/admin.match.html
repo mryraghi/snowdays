@@ -37,39 +37,9 @@
             
             </script>
     <h2>1. Matching Accomodation to Bus Station</h2> 
-    <button type="submit" class="sn-btn-blue mb-2"  id="matchingBus"
-    onclick="move()"><i class="fa fa-share-alt" aria-hidden="true"></i> Matching
+    <button type="submit" class="sn-btn-blue mb-2"  id="matchingBus">
+        <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
     </button>
-
-
-    <!-- <table class="table table-sm">
-        <thead>
-            <tr>
-                <th>Host</th>
-                <th>HOST Phone Number</th>
-                <th># Room</th>
-                <th>Guest First Name</th>
-                <th>Guest Last Name</th>
-                <th>Guest Phone number</th>
-                <th>Guest Email</th>
-                <th>Universit</th>
-                <th>Accommodation</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>AAA</td>
-                <td>(+39)00000000</td>
-                <td>001</td>
-                <td>AAA</td>
-                <td>BBB</td>
-                <td>(+39)00000000</td>
-                <td>AAA@email.com</td>
-                <td>UNIBZ</td>
-                <td>Rainerum</td>
-            </tr>
-        </tbody>
-    </table> -->
 
     <div id="myProgress">
         <div id="myBar">0%</div>
@@ -85,5 +55,21 @@
            
          {{/if}}
 
+   </div>
+   <div>
+    <h2>2. Matching Participants with Accommodation</h2>
+        <button type="submit" class="sn-btn-blue mb-2"  id="matchingParticipants">
+            <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
+        </button>
+       <div>
+            <table class="table table-sm table-hover animated" id="MatchingParticipants_table" style="margin-top: 1em">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+       </div>
+     {{#if isLoadingHelper}}
+        {{> Loader}}
+    {{else}}
+    {{/if}}
    </div>
 </template>
