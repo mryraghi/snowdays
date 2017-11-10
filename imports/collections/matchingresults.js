@@ -2,38 +2,61 @@ import "babel-polyfill";
 import SimpleSchema from "simpl-schema";
 import _ from "lodash";
 
-const Accommodations = new Mongo.Collection("accommodations");
+const Matchingresults = new Mongo.Collection("matchingresults");
 
 const Schemas = {};
 
-Schemas.Accommodation = new SimpleSchema({
+Schemas.Matchingresults = new SimpleSchema({
 _id: {
-    type: String,
-        regEx: SimpleSchema.RegEx.Id
+    type: String
 },
-name: {
+host: {
     type: String,
         optional: true
 },
-address: {
+hostPhoneNumber: {
     type: String,
         max: 30,
 },
-coordinates: {
+Room: {
+    type: String,
+    max: 30,
+},
+GuestFirstName: {
     type: String,
         max: 30,
         index: 1,
         optional: true
 },
-busZone: {
+GuestLastName: {
     type: String,
-        allowedValues: ['1', '2', '3'],
-        optional: true
-},
-capacity: {
+    max: 30,
+    index: 1,
+    optional: true
+}, 
+GuestPhoneNumber: {
     type: String,
-        max: 10,
-        optional: false
+    max: 30,
+    index: 1,
+    optional: true
+}, 
+GuestEmail: {
+    type: String,
+    max: 30,
+    index: 1,
+    optional: true
+}, 
+University: {
+    type: String,
+    max: 30,
+    index: 1,
+    optional: true
+}, 
+Accommodation: {
+    type: String,
+    max: 30,
+    index: 1,
+    optional: true
 }, history: {
         type: Array,
         optional: true,
@@ -110,5 +133,5 @@ capacity: {
         removeNullsFromArrays: true,
     }
 });
-Accommodations.attachSchema(Schemas.Accommodation);
-export default Accommodations;
+Matchingresults.attachSchema(Schemas.Matchingresults);
+export default Matchingresults;

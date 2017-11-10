@@ -89,5 +89,43 @@ Template.AdminAddNewSection.events({
         template.find("#admin_add_new_cp_form").reset();
       }
     });
-  }
+  },
+  'submit #admin_add_new_accommodation': function (event, template) {
+    event.preventDefault();
+
+    // get form values
+    let target = event.target;
+    let accommodationName = target.accommodation_name.value;
+    let accommodationAddress = target.accommodation_address.value;
+    let busZone = target.bus_zone.value;
+    let capacity = target.capacity.value;
+    
+    let accommodation = {
+      name: accommodationName,
+      address: accommodationAddress,
+      coordinates: '',
+      busZone: busZone,
+      capacity: capacity
+    };
+
+    // create user
+    Meteor.call('accommodation.create', accommodation, role, function (error) {
+      if (error) swal('Error', error.message, 'error');
+      else {
+        
+        swal({
+          title: 'Accommodation created',
+          type: 'success',
+          html: '<strong>Accommodation Name:</strong> <code>' + accommodation.name + '</code>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#008eff'
+        });
+
+        // Clear form
+        template.find("#admin_add_new_accommodation").reset();
+      }
+    });
+  },
+
+
 });
