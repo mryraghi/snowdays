@@ -1,10 +1,14 @@
 
 import "./admin.match.html";
 import MatchingParticipants from '/imports/collections/matchingresults';
+import Accommodations from '/imports/collections/accommodations';
 import "/imports/ui/components/loader/loader";
 import jwt from 'jsonwebtoken';
-import _ from 'lodash';
+import _ from "lodash";
+import moment from "moment";
 import {deepFlatten, deepPick, deepFind} from '/lib/js/utilities'
+
+//AccomodationT = new Mongo.Collection('accommodations');
 
 const matchingParticipantsIndices = {
       'host': 1,
@@ -29,17 +33,21 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
 raven.patchGlobal(client);
 
 Template.AdminMatchSection.onCreated(function () {
-
+  
+  
+  //alert(AccomodationT.find().count());
   // generate dummy content
   Meteor.startup(function () {
+    //this.subscribe('MatchingParticipants.all');
+    //alert(MatchingParticipants.find().count());
     if (MatchingParticipants.find().count() === 0) {
         MatchingParticipants.insert({
-          _id: '500',
-          host: 'Anna',
-          hostPhoneNumber: '+3912737475',
-          Room: '003',
-          GuestFirstName: 'John',
-          GuestLastName: 'John',
+          _id: '501',
+          host: 'Anna2',
+          hostPhoneNumber: '+3912737472',
+          Room: '002',
+          GuestFirstName: 'John2',
+          GuestLastName: 'John2',
           GuestPhoneNumber: '+3927356562',
           GuestEmail: 'John@gmail.com',
           University: 'UNIBZ',
@@ -97,7 +105,10 @@ Template.AdminMatchSection.events({
           } else {
           width++; 
           elem.style.width = width + '%'; 
-          elem.innerHTML = width * 1  + '%';
+          
+          Meteor.subscribe('accommodations.all');
+          elem.innerHTML = 
+          Accommodations.find().count()+" accommodations: " +(width * 1  + '%') ;
           }
       }
     },
