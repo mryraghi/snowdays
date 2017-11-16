@@ -104,4 +104,5 @@ navigate to localhost:3000
 
 `mongoimport --db meteor --collection accommodations --file imports/data_seeds/accommodations.json --jsonArray --port 3001`
 
+`mongoimport --db meteor --collection buszones --file imports/data_seeds/buszone.json --jsonArray --port 3001`
 
