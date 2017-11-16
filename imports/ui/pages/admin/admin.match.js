@@ -94,23 +94,10 @@ Template.AdminMatchSection.events({
 
     'click #matchingBus': function (event, template) {
       debugger;
-      var elem = document.getElementById("myBar");   
-      var width = 10;
-      var id = setInterval(frame, 10);
-      function frame() {
-          if (width >= 100) {
-          clearInterval(id);
-          //alert("Hi I'm an alert!")
-          Session.set('showMap',true);
-          } else {
-          width++; 
-          elem.style.width = width + '%'; 
-          
-          Meteor.subscribe('accommodations.all');
-          elem.innerHTML = 
-          Accommodations.find().count()+" accommodations: " +(width * 1  + '%') ;
-          }
-      }
+      let st = (100/Math.floor((Math.random() * 100) + 50));
+      alert(st);
+      move(st);
+      
     },
     
     'click #matchingParticipants': function(event,template) {
@@ -184,4 +171,27 @@ function generateTable(template) {
       });
       tableBody.append("</tr>");
   });
+}
+function move(num){
+  var elem = document.getElementById("myBar");   
+  var width = 10;
+  var id = setInterval(frame, 100);
+  function frame() {
+      if (width >= 100) {
+      clearInterval(id);
+      //alert("Hi I'm an alert!")
+      Session.set('showMap',true);
+      } else {
+      width+=num; 
+      if(width>100){
+        width = 100;
+
+      }
+      elem.style.width = width + '%'; 
+      
+      Meteor.subscribe('accommodations.all');
+      elem.innerHTML = 
+      Accommodations.find().count()+" accommodations: " +(width.toPrecision(3) * 1  + '%') ;
+      }
+    }
 }
