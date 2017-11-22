@@ -7,7 +7,7 @@ const Accommodations = new Mongo.Collection("accommodations");
 const Schemas = {};
 
 Schemas.Accommodation = new SimpleSchema({
-_id: {
+_ID:  {
     type: String,
         regEx: SimpleSchema.RegEx.Id
 },

@@ -1,8 +1,9 @@
 
 import "./admin.match.html";
 import MatchingParticipants from '/imports/collections/matchingresults';
-import Accommodations from '/imports/collections/accommodations';
+import AccommodationsT from '/imports/collections/accommodations';
 import "/imports/ui/components/loader/loader";
+import "/server/mapping.js";
 import jwt from 'jsonwebtoken';
 import _ from "lodash";
 import moment from "moment";
@@ -97,6 +98,21 @@ Template.AdminMatchSection.events({
       let st = (100/Math.floor((Math.random() * 100) + 50));
       alert(st);
       move(st);
+
+      
+      Meteor.subscribe("accommodations.all");
+      //console.log(AccommodationsT.find({}, {fields: {'_id':1}}).count());
+      var arrComodations=AccommodationsT.find({}, {fields: {'_id':1}}).fetch();
+      //Evaluating First Accomodation on server, needed to do for each
+      var clientResult = Meteor.apply('evaluateAccomodation',
+          [arrComodations[0]._id]
+        , {returnStubValue: true},
+
+          function(err, evalResult) {
+            //console.log("result");
+            //Here have to update the progress of the bar
+        }
+      );
       
     },
     
