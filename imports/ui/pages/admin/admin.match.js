@@ -32,20 +32,20 @@ Template.AdminMatchSection.onCreated(function () {
 
   // generate dummy content
   Meteor.startup(function () {
-    if (MatchingParticipants.find().count() === 0) {
-        MatchingParticipants.insert({
-          _id: '500',
-          host: 'Anna',
-          hostPhoneNumber: '+3912737475',
-          Room: '003',
-          GuestFirstName: 'John',
-          GuestLastName: 'John',
-          GuestPhoneNumber: '+3927356562',
-          GuestEmail: 'John@gmail.com',
-          University: 'UNIBZ',
-          Accommodation: 'Rigler'
-        });
-    }
+    // if (MatchingParticipants.find().count() === 0) {
+    //     MatchingParticipants.insert({
+    //       _id: '500',
+    //       host: 'Anna',
+    //       hostPhoneNumber: '+3912737475',
+    //       Room: '003',
+    //       GuestFirstName: 'John',
+    //       GuestLastName: 'John',
+    //       GuestPhoneNumber: '+3927356562',
+    //       GuestEmail: 'John@gmail.com',
+    //       University: 'UNIBZ',
+    //       Accommodation: 'Rigler'
+    //     });
+    // }
   });
     Session.set('showMap',false);
     Session.set('displayMatchingList',false);
@@ -83,9 +83,7 @@ Template.AdminMatchSection.helpers({
 })
 
 Template.AdminMatchSection.events({
-
     'click #matchingBus': function (event, template) {
-      debugger;
       var elem = document.getElementById("myBar");   
       var width = 10;
       var id = setInterval(frame, 10);
@@ -103,16 +101,20 @@ Template.AdminMatchSection.events({
     },
     
     'click #matchingParticipants': function(event,template) {
-      debugger;
+      // debugger;
       var width = 10;
       var id = setInterval(frame, 10);
       let collection = template.collection.get();
-      Meteor.subscribe("MatchingParticipants.all", () => {
-           console.log('load data', MatchingParticipants.find().fetch());
-          setTimeout(() => {
-              generateTable(template);
-          }, 300);
+      Meteor.call('matching_algorithm',  function (error) {
+        console.log('this should work');
       });
+      // to call our api **
+      // Meteor.subscribe("MatchingParticipants.all", () => {
+      //      console.log('load data', MatchingParticipants.find().fetch());
+      //     setTimeout(() => {
+      //         generateTable(template);
+      //     }, 300);
+      // });
       function frame() {
           if (width >= 100) {
             clearInterval(id);

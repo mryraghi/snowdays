@@ -9,6 +9,7 @@ import Participants from "/imports/collections/participants";
 import Accommodations from "/imports/collections/accommodations";
 import IDs from "/imports/collections/ids";
 import Settings from "/imports/collections/settings";
+import BusZones from "/imports/collections/buszone";
 
 Meteor.methods({
 
@@ -328,9 +329,26 @@ Meteor.methods({
   'event.insert': function (event) {
     return Events.insert(event)
   },
+    'matching_algorithm': function () {
+
+        let buz_zones = BusZones.find().fetch();
+        //let participants = Participants.find().fetch();
+        let participants = Participants.find({}, {sort: {'info': 'request_number'}});
+        _.forEach(participants, function (p) {
+          console.log(p.info);
+        });
+        _.forEach(buz_zones, function (bz) {
+            console.log(bz.initial_capacity);
+        });
+        // console.log(buz_zones);
+        // console.log(participants);
+
+
+    },
 });
 
 function existsSync(filename) {
   let fullPath = path.join(process.cwd(), '../server/images/uploads/ids/', filename);
   return fs.existsSync(fullPath)
 }
+

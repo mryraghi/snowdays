@@ -1,7 +1,7 @@
 import "babel-polyfill";
 import SimpleSchema from "simpl-schema";
 
-const BusZones =  new Mongo.Collection("buszone");
+const BusZones =  new Mongo.Collection("buszones");
 
 const Schemas = {};
 
