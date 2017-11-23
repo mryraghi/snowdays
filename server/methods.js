@@ -6,6 +6,7 @@ import _ from "lodash";
 import base64url from "base64url";
 import {checkMasterPassword, unflatten} from "./utilities";
 import Participants from "/imports/collections/participants";
+import Accommodations from "/imports/collections/accommodations";
 import IDs from "/imports/collections/ids";
 import Settings from "/imports/collections/settings";
 
@@ -123,6 +124,27 @@ Meteor.methods({
     return Meteor.users.update(user._id || this.userId, {
       $set: user
     })
+  },
+
+  //Accommodation
+  'accommodation.create': function(accommodation, role) {
+    if(_.isEqual(role, 'admin')) {
+      // generate _id
+      let _id = Random.id();
+      
+      // get token from contact person
+      let token = user.profile.token;
+      
+      // encrypt _id with token
+      let encrypted = CryptoJS.AES.encrypt(_id, token);
+      
+      accommodation._id = _id;
+      accommodation['token'] = base64url.encode(encrypted.toString());
+      console.log(accommodation);
+      Accommodation.insert(accommodation);
+    } else {
+      Accommodations.insert(accommodation);
+    }
   },
 
   'admin.users.update': function (user) {

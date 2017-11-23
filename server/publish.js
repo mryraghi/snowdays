@@ -2,6 +2,9 @@ import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
 import Events from "/imports/collections/events";
 import Reports from "/imports/collections/reports";
+import Accommodations from '/imports/collections/accommodations';
+import MatchingParticipants from '/imports/collections/matchingresults';
+import BusZones from '/imports/collections/buszone';
 import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
@@ -150,6 +153,16 @@ Meteor.publish('events.one', function (_id) {
   return Events.find(_id)
 });
 
-// Meteor.publish('files.ids.all', function () {
-//   return IDs.find().cursor;
-// });
+Meteor.publish('accommodations.all', function () {
+    return Accommodations.find()
+});
+
+Meteor.publish('MatchingParticipants.all', function () {
+  return MatchingParticipants.find();
+});
+
+// access to the bus-zones
+Meteor.publish('buszones.all', function () {
+    return BusZones.find();
+});
+

@@ -32,8 +32,6 @@
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.18.1",
     "papaparse": "^4.3.6",
-    "pg": "^6.4.2",
-    "pg-native": "^1.10.1",
     "popper.js": "^1.12.5",
     "prerender-node": "^2.7.4",
     "randomcolor": "^0.4.4",
