@@ -3,7 +3,7 @@ import "./admin.match.html";
 import MatchingParticipants from '/imports/collections/matchingresults';
 import AccommodationsT from '/imports/collections/accommodations';
 import "/imports/ui/components/loader/loader";
-import "/server/mapping.js";
+
 import jwt from 'jsonwebtoken';
 import _ from "lodash";
 import moment from "moment";
