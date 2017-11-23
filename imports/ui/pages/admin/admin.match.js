@@ -39,7 +39,8 @@ Template.AdminMatchSection.onCreated(function () {
   //alert(AccomodationT.find().count());
   // generate dummy content
   Meteor.startup(function () {
-    //this.subscribe('MatchingParticipants.all');
+    Meteor.subscribe('MatchingParticipants.all');
+    Meteor.subscribe("accommodations.all");
     //alert(MatchingParticipants.find().count());
     if (MatchingParticipants.find().count() === 0) {
         MatchingParticipants.insert({
@@ -94,15 +95,13 @@ Template.AdminMatchSection.helpers({
 Template.AdminMatchSection.events({
 
     'click #matchingBus': function (event, template) {
-      debugger;
-      let st = (100/Math.floor((Math.random() * 100) + 50));
-      alert(st);
-      move(st);
-
       
       Meteor.subscribe("accommodations.all");
       //console.log(AccommodationsT.find({}, {fields: {'_id':1}}).count());
+
       var arrComodations=AccommodationsT.find({}, {fields: {'_id':1}}).fetch();
+
+      //console.log(arrComodations[0]._id);
       //Evaluating First Accomodation on server, needed to do for each
       var clientResult = Meteor.apply('evaluateAccomodation',
           [arrComodations[0]._id]
@@ -113,6 +112,13 @@ Template.AdminMatchSection.events({
             //Here have to update the progress of the bar
         }
       );
+      
+      let st = (100/Math.floor((Math.random() * 100) + 50));
+      //alert(st);
+      move(st);
+
+      
+      
       
     },
     

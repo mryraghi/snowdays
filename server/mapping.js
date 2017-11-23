@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import Accommodations from '/imports/collections/accommodations';
+import BusZones from '/imports/collections/buszone';
 class mapResult {
   origin; 
   destination;
@@ -16,28 +17,32 @@ class geocodingResult{
 }
 Meteor.methods({
     evaluateAccomodation(Id){
-        console.log('Eval: '+Id);
-        var arrBusestops= ['46.49785, 11.3517','46.50305, 11.33438','46.49253, 11.32153'];
-        var arrComo=Accommodations.findOne({ _id:Id });
-        var coordinates;
-        if(arrComo.coordinates=="")
+        //console.log('Eval: '+Id);
+        var arrAccomodations=Accommodations.findOne({ _id:Id });
+        //console.log(arrComo);
+        var arrBusestops= BusZones.find().fetch();
+        var AccomoCoordinates;
+      
+        
+        if(arrAccomodations.coordinates=="")
         {
-          var geoResult=geocoding(arrComo.address);
+          var geoResult=geocoding(arrAccomodations.address);
           Accommodations.update({_id:Id}, { $set: { coordinates: geoResult.lat+","+geoResult.lng }});
-          coordinates= geoResult.lat+","+geoResult.lng;
+          AccomoCoordinates= geoResult.lat+","+geoResult.lng;
         }
         else
         {
-            coordinates=arrComo.coordinates;
+            AccomoCoordinates=arrAccomodations.coordinates;
         }
 
-        console.log('Coord: '+coordinates);
+        //console.log('Coord: '+coordinates);
+        
         var minTime=99999999;
         var indBus=-1;
         for (var index = 0; index < arrBusestops.length; index++) {
-            var busCoordinates = arrBusestops[index];
+            var busCoordinates = arrBusestops[index].lat+","+arrBusestops[index].lng;
             
-            var mapResult=evalWalkDistance(coordinates, busCoordinates);
+            var mapResult=evalWalkDistance(AccomoCoordinates, busCoordinates);
             if(mapResult.duration<minTime)
             {
                 minTime=mapResult.duration;
@@ -48,7 +53,7 @@ Meteor.methods({
             
         }
         Accommodations.update({_id:Id}, { $set: { busZone: indBus+1 }});
-        console.log('updated: '+Id+' - BZ:'+(index+1));
+        console.log('updated Accomodation: '+Id+' - BZ:'+(indBus+1));
 
         return true;
     }
