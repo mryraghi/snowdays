@@ -332,9 +332,9 @@ Meteor.methods({
     'matching_algorithm': function () {
 
         let buz_zones = BusZones.find().fetch();
-        //let participants = Participants.find().fetch();
-        let participants = Participants.find({}, {sort: {'info': 'request_number'}});
+        let participants = Participants.find().fetch();
         _.forEach(participants, function (p) {
+          console.log(p.university);
           console.log(p.info);
         });
         _.forEach(buz_zones, function (bz) {
