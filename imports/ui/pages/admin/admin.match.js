@@ -1,10 +1,15 @@
 
 import "./admin.match.html";
 import MatchingParticipants from '/imports/collections/matchingresults';
+import AccommodationsT from '/imports/collections/accommodations';
 import "/imports/ui/components/loader/loader";
+
 import jwt from 'jsonwebtoken';
-import _ from 'lodash';
+import _ from "lodash";
+import moment from "moment";
 import {deepFlatten, deepPick, deepFind} from '/lib/js/utilities'
+
+//AccomodationT = new Mongo.Collection('accommodations');
 
 const matchingParticipantsIndices = {
       'host': 1,
@@ -30,7 +35,9 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
 raven.patchGlobal(client);
 
 Template.AdminMatchSection.onCreated(function () {
-
+  
+  
+  //alert(AccomodationT.find().count());
   // generate dummy content
   Meteor.startup(function () {
     // if (MatchingParticipants.find().count() === 0) {
@@ -47,6 +54,7 @@ Template.AdminMatchSection.onCreated(function () {
     //       Accommodation: 'Rigler'
     //     });
     // }
+
   });
     Session.set('showMap',false);
     Session.set('displayMatchingList',false);
@@ -88,20 +96,28 @@ Template.AdminMatchSection.helpers({
 
 Template.AdminMatchSection.events({
     'click #matchingBus': function (event, template) {
-      var elem = document.getElementById("myBar");   
-      var width = 10;
-      var id = setInterval(frame, 10);
-      function frame() {
-          if (width >= 100) {
-          clearInterval(id);
-          //alert("Hi I'm an alert!")
-          Session.set('showMap',true);
-          } else {
-          width++; 
-          elem.style.width = width + '%'; 
-          elem.innerHTML = width * 1  + '%';
-          }
-      }
+      
+      Meteor.subscribe("accommodations.all");
+      //console.log(AccommodationsT.find({}, {fields: {'_id':1}}).count());
+
+      var arrComodations=AccommodationsT.find({}, {fields: {'_id':1}}).fetch();
+
+      //console.log(arrComodations[0]._id);
+      //Evaluating First Accomodation on server, needed to do for each
+      var clientResult = Meteor.apply('evaluateAccomodation',
+          [arrComodations[0]._id]
+        , {returnStubValue: true},
+
+          function(err, evalResult) {
+            //console.log("result");
+            //Here have to update the progress of the bar
+        }
+      );
+      
+      let st = (100/Math.floor((Math.random() * 100) + 50));
+      //alert(st);
+      move(st);
+
     },
     
     'click #matchingParticipants': function(event,template) {
@@ -171,4 +187,27 @@ function generateTable(template) {
       });
       tableBody.append("</tr>");
   });
+}
+function move(num){
+  var elem = document.getElementById("myBar");   
+  var width = 10;
+  var id = setInterval(frame, 100);
+  function frame() {
+      if (width >= 100) {
+      clearInterval(id);
+      //alert("Hi I'm an alert!")
+      Session.set('showMap',true);
+      } else {
+      width+=num; 
+      if(width>100){
+        width = 100;
+
+      }
+      elem.style.width = width + '%'; 
+      
+      Meteor.subscribe('accommodations.all');
+      elem.innerHTML = 
+      Accommodations.find().count()+" accommodations: " +(width.toPrecision(3) * 1  + '%') ;
+      }
+    }
 }
