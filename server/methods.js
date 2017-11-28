@@ -9,7 +9,6 @@ import Participants from "/imports/collections/participants";
 import Accommodations from "/imports/collections/accommodations";
 import IDs from "/imports/collections/ids";
 import Settings from "/imports/collections/settings";
-import BusZones from "/imports/collections/buszone";
 
 Meteor.methods({
 
@@ -331,19 +330,20 @@ Meteor.methods({
   },
     'matching_algorithm': function () {
 
-        let buz_zones = BusZones.find().fetch();
+        let accommodations = Accommodations.find().fetch();
         let participants = Participants.find().fetch();
+        let build_dict = {"accommodations":[], "participants":[]};
         _.forEach(participants, function (p) {
-          console.log(p.university);
-          console.log(p.info);
+            let uni = {"university":p.university, "capacity":p.info.requesting_number};
+            build_dict["participants"].push(uni);
         });
-        _.forEach(buz_zones, function (bz) {
-            console.log(bz.initial_capacity);
+        _.forEach(accommodations, function (acc) {
+            let accom = {"name":acc.name, "capacity":acc.capacity, buz_zone:acc.busZone};
+            build_dict["accommodations"].push(accom);
         });
-        // console.log(buz_zones);
-        // console.log(participants);
 
-
+        this.unblock();
+        return Meteor.http.call("POST", "http://floating-everglades-30881.herokuapp.com/", {data:{"data":build_dict}});
     },
 });
 

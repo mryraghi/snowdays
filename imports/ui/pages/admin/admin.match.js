@@ -25,6 +25,7 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
   tags: {section: 'API'}
 });
 
+
 // catches all exceptions on the server
 raven.patchGlobal(client);
 
@@ -50,6 +51,7 @@ Template.AdminMatchSection.onCreated(function () {
     Session.set('showMap',false);
     Session.set('displayMatchingList',false);
     Session.set('isLoading', false);
+    Session.set('matchingResults', '');
 
     let template = Template.instance();
     
@@ -72,7 +74,9 @@ Template.AdminMatchSection.helpers({
     showTheMapHelper:function(){
         return Session.get('showMap');
     },
-
+    displayMatchingResults:function () {
+        return Session.get('matchingResults')
+    },
     displayMatchingListHelper: function() {
       return Session.get('displayMatchingList');
     },
@@ -101,20 +105,12 @@ Template.AdminMatchSection.events({
     },
     
     'click #matchingParticipants': function(event,template) {
-      // debugger;
       var width = 10;
       var id = setInterval(frame, 10);
       let collection = template.collection.get();
-      Meteor.call('matching_algorithm',  function (error) {
-        console.log('this should work');
+      Meteor.call('matching_algorithm',  function (error, results) {
+             Session.set('matchingResults', results.content);
       });
-      // to call our api **
-      // Meteor.subscribe("MatchingParticipants.all", () => {
-      //      console.log('load data', MatchingParticipants.find().fetch());
-      //     setTimeout(() => {
-      //         generateTable(template);
-      //     }, 300);
-      // });
       function frame() {
           if (width >= 100) {
             clearInterval(id);
