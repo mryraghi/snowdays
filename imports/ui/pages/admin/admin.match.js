@@ -7,6 +7,7 @@ import "/imports/ui/components/loader/loader";
 import jwt from 'jsonwebtoken';
 import _ from "lodash";
 import moment from "moment";
+import { flatten }from 'flat';
 import {deepFlatten, deepPick, deepFind} from '/lib/js/utilities'
 
 //AccomodationT = new Mongo.Collection('accommodations');
@@ -59,7 +60,7 @@ Template.AdminMatchSection.onCreated(function () {
     Session.set('showMap',false);
     Session.set('displayMatchingList',false);
     Session.set('isLoading', false);
-    Session.set('matchingResults', '');
+    Session.set('matchingResults', []);
 
     let template = Template.instance();
     
@@ -126,6 +127,7 @@ Template.AdminMatchSection.events({
       let collection = template.collection.get();
       Meteor.call('matching_algorithm',  function (error, results) {
              Session.set('matchingResults', results.content);
+             generateTable(results.content);
       });
       function frame() {
           if (width >= 100) {
@@ -142,10 +144,8 @@ Template.AdminMatchSection.events({
 })
 
 //Function
-function generateTable(template) {
-  let collection = template.collection.get();
-  let list = collection.instance.find().fetch();
-  let schema = collection.instance.simpleSchema();
+function generateTable(collection) {
+  var results = JSON.parse(collection);
 
   let table = $('#MatchingParticipants_table');
   let tableHead = table.find('thead');
@@ -157,7 +157,7 @@ function generateTable(template) {
   $('#collection_select').val('MatchingParticipants');
 
   // get flattened object
-  flattened = collection.flattened;
+  flattenedResult = flatten(results.data[0]);
 
   // remove all
   tableHead.children().remove();
@@ -167,21 +167,20 @@ function generateTable(template) {
   tableHead.append("<tr>");
   tableHead.append("<th class='animated fadeIn'>#</th>");
 
-  _.forEach(flattened, function (value, key) {
+  _.forEach(flattenedResult, function (value, key) {
       // get labels from schema schema
-      tableHead.append("<th class='animated fadeIn'>" + (_.isNull(schema) ? key : schema.label(key)) + "</th>");
+      tableHead.append("<th class='animated fadeIn'>" + key + "</th>");
   });
-  debugger;
   tableHead.append("</tr>");
 
   // BODY
-  _.forEach(list, function (row) {
+  _.forEach(results.data, function (row) {
       tableBody.append("<tr class='animated fadeIn'>");
 
       // count column
       tableBody.append("<th class='animated fadeIn' scope=\"row\">" + ++count + "</th>");
 
-      _.forEach(flattened, function (value, key) {
+      _.forEach(flattenedResult, function (value, key) {
           let cell = deepFind(row, key);
           tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
       });
