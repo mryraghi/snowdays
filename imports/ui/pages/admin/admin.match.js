@@ -30,6 +30,7 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
   tags: {section: 'API'}
 });
 
+
 // catches all exceptions on the server
 raven.patchGlobal(client);
 
@@ -39,27 +40,26 @@ Template.AdminMatchSection.onCreated(function () {
   //alert(AccomodationT.find().count());
   // generate dummy content
   Meteor.startup(function () {
-    Meteor.subscribe('MatchingParticipants.all');
-    Meteor.subscribe("accommodations.all");
-    //alert(MatchingParticipants.find().count());
-    if (MatchingParticipants.find().count() === 0) {
-        MatchingParticipants.insert({
-          _id: '501',
-          host: 'Anna2',
-          hostPhoneNumber: '+3912737472',
-          Room: '002',
-          GuestFirstName: 'John2',
-          GuestLastName: 'John2',
-          GuestPhoneNumber: '+3927356562',
-          GuestEmail: 'John@gmail.com',
-          University: 'UNIBZ',
-          Accommodation: 'Rigler'
-        });
-    }
+    // if (MatchingParticipants.find().count() === 0) {
+    //     MatchingParticipants.insert({
+    //       _id: '500',
+    //       host: 'Anna',
+    //       hostPhoneNumber: '+3912737475',
+    //       Room: '003',
+    //       GuestFirstName: 'John',
+    //       GuestLastName: 'John',
+    //       GuestPhoneNumber: '+3927356562',
+    //       GuestEmail: 'John@gmail.com',
+    //       University: 'UNIBZ',
+    //       Accommodation: 'Rigler'
+    //     });
+    // }
+
   });
     Session.set('showMap',false);
     Session.set('displayMatchingList',false);
     Session.set('isLoading', false);
+    Session.set('matchingResults', '');
 
     let template = Template.instance();
     
@@ -82,7 +82,9 @@ Template.AdminMatchSection.helpers({
     showTheMapHelper:function(){
         return Session.get('showMap');
     },
-
+    displayMatchingResults:function () {
+        return Session.get('matchingResults')
+    },
     displayMatchingListHelper: function() {
       return Session.get('displayMatchingList');
     },
@@ -93,7 +95,6 @@ Template.AdminMatchSection.helpers({
 })
 
 Template.AdminMatchSection.events({
-
     'click #matchingBus': function (event, template) {
       
       Meteor.subscribe("accommodations.all");
@@ -117,21 +118,14 @@ Template.AdminMatchSection.events({
       //alert(st);
       move(st);
 
-      
-      
-      
     },
     
     'click #matchingParticipants': function(event,template) {
-      debugger;
       var width = 10;
       var id = setInterval(frame, 10);
       let collection = template.collection.get();
-      Meteor.subscribe("MatchingParticipants.all", () => {
-           console.log('load data', MatchingParticipants.find().fetch());
-          setTimeout(() => {
-              generateTable(template);
-          }, 300);
+      Meteor.call('matching_algorithm',  function (error, results) {
+             Session.set('matchingResults', results.content);
       });
       function frame() {
           if (width >= 100) {

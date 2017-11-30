@@ -36,6 +36,7 @@
             }*/
             
             </script>
+
     <h2>1. Matching Accomodation to Bus Station</h2> 
     <button type="submit" class="sn-btn-blue mb-2"  id="matchingBus">
         <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
@@ -68,9 +69,13 @@
                 <tbody></tbody>
             </table>
        </div>
+
      {{#if isLoadingHelper}}
         {{> Loader}}
+
     {{else}}
     {{/if}}
+      {{displayMatchingResults}}
+
    </div>
 </template>

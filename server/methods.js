@@ -328,9 +328,27 @@ Meteor.methods({
   'event.insert': function (event) {
     return Events.insert(event)
   },
+    'matching_algorithm': function () {
+
+        let accommodations = Accommodations.find().fetch();
+        let participants = Participants.find().fetch();
+        let build_dict = {"accommodations":[], "participants":[]};
+        _.forEach(participants, function (p) {
+            let uni = {"university":p.university, "capacity":p.info.requesting_number};
+            build_dict["participants"].push(uni);
+        });
+        _.forEach(accommodations, function (acc) {
+            let accom = {"name":acc.name, "capacity":acc.capacity, buz_zone:acc.busZone};
+            build_dict["accommodations"].push(accom);
+        });
+
+        this.unblock();
+        return Meteor.http.call("POST", "http://floating-everglades-30881.herokuapp.com/", {data:{"data":build_dict}});
+    },
 });
 
 function existsSync(filename) {
   let fullPath = path.join(process.cwd(), '../server/images/uploads/ids/', filename);
   return fs.existsSync(fullPath)
 }
+
