@@ -1,6 +1,25 @@
 
 <template name="AdminMatchSection">
+    <div class="row mb-5">
+        <div class="col-12">
+            <ul class="sn-nav flex-row justify-content-center">
+                <li class="sn-menu-item nav-item {{isActive 'BusSection'}}" id="bus">
+                    <a class="sn-nav-link" href><i class="fa fa-bus" aria-hidden="true"></i> Bus</a>
+                </li>
+                <li class="sn-menu-item nav-item {{isActive 'AccommodationSection'}}" id="accommodation">
+                    <a class="sn-nav-link" href><i class="fa fa-home" aria-hidden="true"></i> Accommodation</a>
+                </li>
+                <li class="sn-menu-item nav-item {{isActive 'WGSection'}}" id="wg">
+                    <a class="sn-nav-link" href> WG</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
+    <!-- Sections -->
+    {{> Template.dynamic template=subtab}}
+</template>
+<template name="BusSection">
         <style>
                 #myProgress {
                 width: 100%;
@@ -58,6 +77,8 @@
          {{/if}}
 
    </div>
+</template>
+<template name="AccommodationSection" >
    <div>
     <h2>2. Matching Participants with Accommodation</h2>
         <button type="submit" class="sn-btn-blue mb-2"  id="matchingParticipants">
@@ -77,4 +98,22 @@
     {{/if}}
 
    </div>
+</template>
+<template name="WGSection">
+    <div>
+        <h2>3. Matching WG with Accommodation</h2>
+        {{#if isWGMatchingReady}}
+            <button type="submit" class="sn-btn-blue mb-2"  id="matchingWG">
+                <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
+            </button>
+            <div>
+                <table class="table table-sm table-hover animated" id="MatchingWG_table" style="margin-top: 1em">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        {{else}}
+            <div>Hello</div>
+        {{/if}}
+    </div>
 </template>

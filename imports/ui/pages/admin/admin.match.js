@@ -36,7 +36,12 @@ let client = new raven.Client('https://7b01834070004a4a91b5a7ed14c0b411:79de4d1b
 raven.patchGlobal(client);
 
 Template.AdminMatchSection.onCreated(function () {
-  
+  Session.set('subtab', 'BusSection');
+  Session.set('isWGReady', true);
+  Session.set('showMap',false);
+  Session.set('displayMatchingList',false);
+  Session.set('isLoading', false);
+  Session.set('matchingResults', []);
   
   //alert(AccomodationT.find().count());
   // generate dummy content
@@ -55,12 +60,10 @@ Template.AdminMatchSection.onCreated(function () {
     //       Accommodation: 'Rigler'
     //     });
     // }
-
+    
   });
-    Session.set('showMap',false);
-    Session.set('displayMatchingList',false);
-    Session.set('isLoading', false);
-    Session.set('matchingResults', []);
+    
+    
 
     let template = Template.instance();
     
@@ -76,7 +79,6 @@ Template.AdminMatchSection.onCreated(function () {
   });
 
 Template.AdminMatchSection.onRendered(function () {
-
 });
 
 Template.AdminMatchSection.helpers({
@@ -89,13 +91,42 @@ Template.AdminMatchSection.helpers({
     displayMatchingListHelper: function() {
       return Session.get('displayMatchingList');
     },
-
     isLoadingHelper: function(){
       return Session.get('isLoading');
     },
+    subtab: function () {
+      return Session.get('subtab');
+    },
+    isActive: function (section) {
+      let subtab = Session.get('subtab');
+      if (_.isEqual(subtab, section)) return 'sn-menu-item-active'
+    },
+    isWGMatchingReady: function() {
+      return true;
+    }
 })
 
+Template.WGSection.helpers({
+  isWGMatchingReady: function() {
+    return Session.get('isWGReady');
+  }
+});
+
 Template.AdminMatchSection.events({
+
+    'click .sn-menu-item': (event, template) => {
+      switch (event.currentTarget.id) {
+        case 'bus':
+         Session.set('subtab', 'BusSection');
+        break;
+        case 'accommodation':
+          Session.set('subtab', 'AccommodationSection');
+        break;
+        case 'wg':
+          Session.set('subtab', 'WGSection');
+        break;
+      }
+    },
     'click #matchingBus': function (event, template) {
       
       Meteor.subscribe("accommodations.all");
@@ -122,32 +153,24 @@ Template.AdminMatchSection.events({
     },
     
     'click #matchingParticipants': function(event,template) {
-      var width = 10;
-      var id = setInterval(frame, 10);
       let collection = template.collection.get();
+      const tableName = '#MatchingParticipants_table';
+      Session.set('isLoading',true);
       Meteor.call('matching_algorithm',  function (error, results) {
              Session.set('matchingResults', results.content);
-             generateTable(results.content);
+             generateTable(results.content, tableName);
+             Session.set('isLoading',false);
+             Session.set('isWGReady', true);
       });
-      function frame() {
-          if (width >= 100) {
-            clearInterval(id);
-            Session.set('isLoading',false);
-            Session.set('displayMatchingList',true);
-          } else {
-            Session.set('isLoading',true);
-            width++; 
-          }
-      }
     },
 
 })
 
 //Function
-function generateTable(collection) {
+function generateTable(collection,tableName) {
   var results = JSON.parse(collection);
 
-  let table = $('#MatchingParticipants_table');
+  let table = $(tableName);
   let tableHead = table.find('thead');
   let tableBody = table.find('tbody');
   let flattened = {};
