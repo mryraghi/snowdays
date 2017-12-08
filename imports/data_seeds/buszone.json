@@ -1,0 +1,23 @@
+[
+  {"_id": 1,
+    "name": "Dominikanerplatz",
+    "initial_capacity": 150,
+    "current_capacity": 0,
+    "lat": 46.49785,
+    "lng": 11.3517
+  },
+  {"_id": 2,
+    "name": "Piazza Gries",
+    "initial_capacity": 30,
+    "current_capacity": 0,
+    "lat": 46.50305,
+    "lng": 11.33438
+  },
+  {"_id": 3,
+    "name": "UniverCity",
+    "initial_capacity": 20,
+    "current_capacity": 0,
+    "lat": 46.49253,
+    "lng": 11.32153
+  }
+]
