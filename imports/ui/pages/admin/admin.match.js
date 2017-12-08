@@ -60,12 +60,11 @@ Template.AdminMatchSection.onCreated(function () {
     Session.set('showMap',false);
     Session.set('displayMatchingList',false);
     Session.set('isLoading', false);
-    Session.set('matchingResults', []);
+    Session.set('unMatchedResults', []);
 
     let template = Template.instance();
     
     template.flattenedFields = new ReactiveVar(matchingParticipantsIndices);
-    
     template.collection = new ReactiveVar({
         name: 'MatchingParticipants',
         instance: MatchingParticipants,
@@ -84,7 +83,7 @@ Template.AdminMatchSection.helpers({
         return Session.get('showMap');
     },
     displayMatchingResults:function () {
-        return Session.get('matchingResults')
+        return Session.get('unMatchedResults')
     },
     displayMatchingListHelper: function() {
       return Session.get('displayMatchingList');
@@ -126,8 +125,8 @@ Template.AdminMatchSection.events({
       var id = setInterval(frame, 10);
       let collection = template.collection.get();
       Meteor.call('matching_algorithm',  function (error, results) {
-             Session.set('matchingResults', results.content);
-             generateTable(results.content);
+          generateTable(results.initial.content);
+          generateSecondTable(results.second.content);
       });
       function frame() {
           if (width >= 100) {
@@ -146,6 +145,7 @@ Template.AdminMatchSection.events({
 //Function
 function generateTable(collection) {
   var results = JSON.parse(collection);
+  Session.set('unMatchedResults', results.unassigned_data);
 
   let table = $('#MatchingParticipants_table');
   let tableHead = table.find('thead');
@@ -186,6 +186,49 @@ function generateTable(collection) {
       });
       tableBody.append("</tr>");
   });
+}
+function generateSecondTable(collection) {
+    var results = JSON.parse(collection);
+
+    let table = $('#SecondMatchingParticipants_table');
+    let tableHead = table.find('thead');
+    let tableBody = table.find('tbody');
+    let flattened = {};
+    let count = 0;
+
+    // set select value
+    $('#collection_select').val('SecondMatchingParticipants_table');
+
+    // get flattened object
+    flattenedResult = flatten(results.data[0]);
+
+    // remove all
+    tableHead.children().remove();
+    tableBody.children().remove();
+
+    // HEADER
+    tableHead.append("<tr>");
+    tableHead.append("<th class='animated fadeIn'>#</th>");
+
+    _.forEach(flattenedResult, function (value, key) {
+        // get labels from schema schema
+        tableHead.append("<th class='animated fadeIn'>" + key + "</th>");
+    });
+    tableHead.append("</tr>");
+
+    // BODY
+    _.forEach(results.data, function (row) {
+        tableBody.append("<tr class='animated fadeIn'>");
+
+        // count column
+        tableBody.append("<th class='animated fadeIn' scope=\"row\">" + ++count + "</th>");
+
+        _.forEach(flattenedResult, function (value, key) {
+            let cell = deepFind(row, key);
+            tableBody.append("<td class='animated fadeIn'>" + (_.isUndefined(cell) ? '–' : cell) + "</td>");
+        });
+        tableBody.append("</tr>");
+    });
 }
 function move(num){
   var elem = document.getElementById("myBar");   

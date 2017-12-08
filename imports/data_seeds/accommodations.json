@@ -1,1 +1,560 @@
-[{"_id:": 500, "name": "RIGLER", "address": "Bolzano", "coordinates": "", "busZone": 1, "capacity": 20}, {"_id:": 501, "name": "UNICITY", "address": "Bolzano", "coordinates": "", "busZone": 1, "capacity": 27}, {"_id:": 502, "name": "SALETTA", "address": "Bolzano", "coordinates": "", "busZone": 2, "capacity": 33}, {"_id:": 503, "name": "HSB", "address": "Bolzano", "coordinates": "", "busZone": 3, "capacity": 24}, {"_id:": 504, "name": "HAUSSB", "address": "Bolzano", "coordinates": "", "busZone": 3, "capacity": 24}, {"_id:": 505, "name": "SALEETA_HSB", "address": "Bolzano", "coordinates": "", "busZone": 2, "capacity": 18}, {"_id:": 506, "name": "RAINERUM", "address": "Bolzano", "coordinates": "", "busZone": 1, "capacity": 6}, {"_id:": 507, "name": "GALILEI", "address": "Bolzano", "coordinates": "", "busZone": 1, "capacity": 78}, {"_id:": 508, "name": "CARDUCCI", "address": "Bolzano", "coordinates": "", "busZone": 1, "capacity": 60}]
+[
+  {
+    "_id:":500,
+    "name":"RIGLER",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":20,
+    "isWG":false
+  },
+  {
+    "_id:":501,
+    "name":"UNICITY",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":27,
+    "isWG":false
+  },
+  {
+    "_id:":502,
+    "name":"SALETTA",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":33,
+    "isWG":false
+  },
+  {
+    "_id:":503,
+    "name":"HSB",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":24,
+    "isWG":false
+  },
+  {
+    "_id:":504,
+    "name":"HAUSSB",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":24,
+    "isWG":false
+  },
+  {
+    "_id:":505,
+    "name":"SALEETA_HSB",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":18,
+    "isWG":false
+  },
+  {
+    "_id:":506,
+    "name":"RAINERUM",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":6,
+    "isWG":false
+  },
+  {
+    "_id:":507,
+    "name":"GALILEI",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":78,
+    "isWG":false
+  },
+  {
+    "_id:":508,
+    "name":"CARDUCCI",
+    "address":"Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":60,
+    "isWG":false
+  },
+  {
+    "_id":520,
+    "name":"via Rosmini 67 Bolzano",
+    "address":"via Rosmini 67 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":521,
+    "name":"via Rosmini 67 Bolzano",
+    "address":"via Rosmini 67 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":522,
+    "name":"Via Rosmini 67 Bolzano",
+    "address":"Via Rosmini 67 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":523,
+    "name":"Via Rosmini 67 Bolzano",
+    "address":"Via Rosmini 67 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":524,
+    "name":"via Castelweinegg 21 Bolzano",
+    "address":"via Castelweinegg 21 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":525,
+    "name":"via della Visitazione 4d Bolzano",
+    "address":"via della Visitazione 4d Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":526,
+    "name":"via della Visitazione 4d Bolzano",
+    "address":"via della Visitazione 4d Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":527,
+    "name":"via Carducci 2d Bolzano",
+    "address":"via Carducci 2d Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":528,
+    "name":"via Carducci 2d Bolzano",
+    "address":"via Carducci 2d Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":529,
+    "name":"via Carducci 2d Bolzano",
+    "address":"via Carducci 2d Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":530,
+    "name":"Via Penegal 2 Bolzano",
+    "address":"Via Penegal 2 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":531,
+    "name":"Via Leonardo da vinci 20 Bolzano",
+    "address":"Via Leonardo da vinci 20 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":532,
+    "name":"Via Leonardo da vinci 2/a Bolzano",
+    "address":"Via Leonardo da vinci 2/a Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":533,
+    "name":"Via Vintler 5 Bolzano",
+    "address":"Via Vintler 5 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":534,
+    "name":"Via Resia 103 A Bolzano",
+    "address":"Via Resia 103 A Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":535,
+    "name":"via san Osvaldo 53 Bolzano",
+    "address":"via san Osvaldo 53 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":536,
+    "name":"via montello 26 Bolzano",
+    "address":"via montello 26 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":537,
+    "name":" Prato Isarco 16 Bolzano",
+    "address":" Prato Isarco 16 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":538,
+    "name":"Batzenhaeuselgasse 5 appartement 14 Bolzano",
+    "address":"Batzenhaeuselgasse 5 appartement 14 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":539,
+    "name":"via dei Portici  44 Bolzano",
+    "address":"via dei Portici  44 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":540,
+    "name":"via della Torre 18 Bolzano",
+    "address":"via della Torre 18 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":541,
+    "name":"vicolo Sabbia 5 Bolzano",
+    "address":"vicolo Sabbia 5 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":542,
+    "name":"via Diaz 13 Bolzano",
+    "address":"via Diaz 13 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":543,
+    "name":"via Ortles 23 Bolzano",
+    "address":"via Ortles 23 Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":544,
+    "name":"viale Druso 137 Bolzano",
+    "address":"viale Druso 137 Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":545,
+    "name":"via Guttenberg 2 Bolzano",
+    "address":"via Guttenberg 2 Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":546,
+    "name":"Annette von Menz Passage 6  Bolzano",
+    "address":"Annette von Menz Passage 6  Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":547,
+    "name":"Viale Trieste 22/a Bolzano",
+    "address":"Viale Trieste 22/a Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":548,
+    "name":"Viale Trieste 22/a Bolzano",
+    "address":"Viale Trieste 22/a Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":549,
+    "name":"Via San Quirino 16 Bolzano",
+    "address":"Via San Quirino 16 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":550,
+    "name":"Via San Quirino 16 Bolzano",
+    "address":"Via San Quirino 16 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":551,
+    "name":"Via San Pietro 5/2 Bolzano",
+    "address":"Via San Pietro 5/2 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":552,
+    "name":"Vicolo Sabbia 7 Bolzano",
+    "address":"Vicolo Sabbia 7 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":553,
+    "name":"Via Gutemberg 2 Bolzano",
+    "address":"Via Gutemberg 2 Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":554,
+    "name":"Via Rosmini 55 Bolzano",
+    "address":"Via Rosmini 55 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":555,
+    "name":"Via Isarco 11/a Bolzano",
+    "address":"Via Isarco 11/a Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":556,
+    "name":"Via Isarco 11/a Bolzano",
+    "address":"Via Isarco 11/a Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":557,
+    "name":"Via rentsch 22b Bolzano",
+    "address":"Via rentsch 22b Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":558,
+    "name":"viale druso 114d Bolzano",
+    "address":"viale druso 114d Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":559,
+    "name":"corso italia 12 Bolzano",
+    "address":"corso italia 12 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":560,
+    "name":"via Carducci 12 Bolzano",
+    "address":"via Carducci 12 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":561,
+    "name":"via Carducci 12 Bolzano",
+    "address":"via Carducci 12 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":562,
+    "name":"corso italia 12 Bolzano",
+    "address":"corso italia 12 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":563,
+    "name":"via della zecca 9b Bolzano",
+    "address":"via della zecca 9b Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":564,
+    "name":"Via della Torre 18 Bolzano",
+    "address":"Via della Torre 18 Bolzano",
+    "coordinates":"",
+    "busZone":1,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":565,
+    "name":"Via Raffaello Sernesi 19 Bolzano",
+    "address":"Via Raffaello Sernesi 19 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":566,
+    "name":"Via Raffaello Sernesi 19 Bolzano",
+    "address":"Via Raffaello Sernesi 19 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":567,
+    "name":"Via Bassano del Grappa 14 Bolzano",
+    "address":"Via Bassano del Grappa 14 Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":568,
+    "name":"Via Parma 1D Bolzano",
+    "address":"Via Parma 1D Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":569,
+    "name":"Via della Vigna 52 Bolzano",
+    "address":"Via della Vigna 52 Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":570,
+    "name":"Via Carducci 2c Bolzano",
+    "address":"Via Carducci 2c Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":571,
+    "name":"Via Parma 1D Bolzano",
+    "address":"Via Parma 1D Bolzano",
+    "coordinates":"",
+    "busZone":2,
+    "capacity":1,
+    "isWG":true
+  },
+  {
+    "_id":572,
+    "name":"via Carducci 12 Bolzano",
+    "address":"via Carducci 12 Bolzano",
+    "coordinates":"",
+    "busZone":3,
+    "capacity":1,
+    "isWG":true
+  }
+]

@@ -64,10 +64,20 @@
             <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
         </button>
        <div>
+           Unassigned data:
+           <p> Unassigned bus places: {{displayMatchingResults.count_un_busses}}</p>
+           <p> total unassigned participants: {{displayMatchingResults.count_unassigned_people}}</p>
+
             <table class="table table-sm table-hover animated" id="MatchingParticipants_table" style="margin-top: 1em">
                 <thead></thead>
                 <tbody></tbody>
             </table>
+           <h1> Second match </h1>
+           <table class="table table-sm table-hover animated" id="SecondMatchingParticipants_table" style="margin-top: 1em">
+               <thead></thead>
+               <tbody></tbody>
+           </table>
+
        </div>
 
      {{#if isLoadingHelper}}
