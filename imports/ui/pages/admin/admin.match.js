@@ -270,32 +270,6 @@ function generateTable(collection,tableName) {
   });
 }
 
-function setSubscription(flattened) {
-  let query = {};
-
-  _.forEach(filters, function (filter) {
-      _.assign(query, filter)
-  });
-
-  if (search) {
-      query['$or'] = [];
-
-      _.forEach(flattened, function (value, key) {
-          // let field = {};
-          // field[key] = search;
-          // return query['$or'].push(field)
-          let field = {};
-          field[key] = {$regex: search, $options: "i"};
-          return query['$or'].push(field)
-      });
-  }
-
-  return {
-      "query": query,
-      "fields": flattened || {}
-  }
-}
-
 function move(num){
   var elem = document.getElementById("myBar");   
   var width = 10;
