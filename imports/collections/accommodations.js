@@ -1,9 +1,6 @@
 import "babel-polyfill";
 import SimpleSchema from "simpl-schema";
-import _ from "lodash";
-
 const Accommodations = new Mongo.Collection("accommodations");
-
 const Schemas = {};
 
 Schemas.Accommodation = new SimpleSchema({
@@ -34,7 +31,12 @@ capacity: {
     type: String,
         max: 10,
         optional: false
-}, history: {
+},
+    isWG: {
+        type: Boolean,
+        optional: true
+    },
+    history: {
         type: Array,
         optional: true,
         autoValue: function () {
