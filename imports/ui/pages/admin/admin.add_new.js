@@ -1,6 +1,10 @@
 import "./admin.add_new.html";
 import _ from "lodash";
 
+Template.AdminAddNewSection.onCreated(function () {
+  Session.set('manually', true);
+});
+
 Template.AdminAddNewSection.events({
   'submit #admin_add_new_unibz_form': function (event, template) {
     event.preventDefault();
@@ -90,6 +94,12 @@ Template.AdminAddNewSection.events({
       }
     });
   },
+  'change #automatic': function (event, template) {
+    Session.set('manually', false);
+  },
+  'change #isManually': function (event, template) {
+    Session.set('manually', true);
+  },
   'submit #admin_add_new_accommodation': function (event, template) {
     event.preventDefault();
 
@@ -97,7 +107,7 @@ Template.AdminAddNewSection.events({
     let target = event.target;
     let accommodationName = target.accommodation_name.value;
     let accommodationAddress = target.accommodation_address.value;
-    let busZone = target.bus_zone.value;
+    let busZone = target.bus_zone ?  target.bus_zone.value : '';
     let capacity = target.capacity.value;
     
     let accommodation = {
@@ -105,9 +115,9 @@ Template.AdminAddNewSection.events({
       address: accommodationAddress,
       coordinates: '',
       busZone: busZone,
-      capacity: capacity
+      capacity: capacity,
+      isManuallyAssign: Session.get('manually')
     };
-
     // create user
     Meteor.call('accommodation.create', accommodation, role, function (error) {
       if (error) swal('Error', error.message, 'error');
@@ -128,4 +138,10 @@ Template.AdminAddNewSection.events({
   },
 
 
+});
+
+Template.AdminAddNewSection.helpers({
+  isManually: function() {
+    return Session.get('manually');
+  }
 });

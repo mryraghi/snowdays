@@ -178,16 +178,32 @@
         <div class="row">
           <div class="col-12 col-sm-6">
             <div class="sn-field-group">
-              <input type="text" class="sn-field-input" name="bus_zone" id="bus_zone" required>
-              <label for="bus_zone" class="sn-field-label"><i class="fa fa-bus" aria-hidden="true"></i>Bus Zone</label>
-            </div>
-          </div>
-          <div class="col-12 col-sm-6">
-            <div class="sn-field-group">
               <input type="text" class="sn-field-input" name="capacity" id="capacity" required>
               <label for="capacity" class="sn-field-label">Available Room</label>
             </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="sn-field-group">
+              <div class="col-12 col-sm-3">
+                <input type="radio" class="sn-radio-input" name="bus_manual" id="isManually" value="isManually">
+                <label for="bus_zone_manual" class="sn-field-label">manual</label>
+              </div>
+              <div class="col-12 col-sm-3">
+                  <input type="radio" class="sn-radio-input" name="bus_manual" id="automatic" value="automatic">
+                  <label for="bus_zone_automatic" class="sn-field-label">automatic</label>
+              </div>
+            </div>
+          </div>
+          {{#if isManually}}
+          <div class="col-12 col-sm-6">
+              <div class="sn-field-group">
+                <input type="text" class="sn-field-input" name="bus_zone" id="bus_zone" required>
+                <label for="bus_zone" class="sn-field-label"><i class="fa fa-bus" aria-hidden="true"></i>Bus Zone</label>
+              </div>
+          </div>
+          {{/if}}
         </div>
         
         <button type="submit" class="sn-btn-blue mb-5"><i class="fa fa-plus" aria-hidden="true"></i> Create Accommodation
