@@ -1,6 +1,25 @@
 
 <template name="AdminMatchSection">
+    <div class="row mb-5">
+        <div class="col-12">
+            <ul class="sn-nav flex-row justify-content-center">
+                <li class="sn-menu-item nav-item {{isActive 'BusSection'}}" id="bus">
+                    <a class="sn-nav-link" href><i class="fa fa-bus" aria-hidden="true"></i> Bus</a>
+                </li>
+                <li class="sn-menu-item nav-item {{isActive 'AccommodationSection'}}" id="accommodation">
+                    <a class="sn-nav-link" href><i class="fa fa-home" aria-hidden="true"></i> Accommodation</a>
+                </li>
+                <li class="sn-menu-item nav-item {{isActive 'WGSection'}}" id="wg">
+                    <a class="sn-nav-link" href> WG</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
+    <!-- Sections -->
+    {{> Template.dynamic template=subtab}}
+</template>
+<template name="BusSection">
         <style>
                 #myProgress {
                 width: 100%;
@@ -58,22 +77,41 @@
          {{/if}}
 
    </div>
+</template>
+<template name="AccommodationSection" >
    <div>
     <h2>2. Matching Participants with Accommodation</h2>
-        <button type="submit" class="sn-btn-blue mb-2"  id="matchingParticipants">
-            <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
-        </button>
-       <div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="sn-btn-blue mb-2"  id="matchingParticipants">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
+                </button>
+            </div>
+            {{#if isCSVReady}}
+            <div>
+                <button type="button" class="sn-btn-outline-green sn-full-width" id="download_csv_initial">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i> 1st to CSV 
+                </button>
+            </div>
+            <div>
+                <button type="button" class="sn-btn-outline-green sn-full-width" id="download_csv_second">
+                        <i class="fa fa-cloud-download" aria-hidden="true"></i> 2nd to CSV 
+                </button>
+            </div>
+            {{/if}}
+        </div>
+        <div class="row">
+        <div>
            Unassigned data:
            <p> Unassigned bus places: {{displayMatchingResults.count_un_busses}}</p>
            <p> total unassigned participants: {{displayMatchingResults.count_unassigned_people}}</p>
-
+        </div>
             <table class="table table-sm table-hover animated" id="MatchingParticipants_table" style="margin-top: 1em">
                 <thead></thead>
                 <tbody></tbody>
             </table>
            <h1> Second match </h1>
-           <table class="table table-sm table-hover animated" id="SecondMatchingParticipants_table" style="margin-top: 1em">
+           <table class="table table-sm table-hover animated" id="MatchingWG_table" style="margin-top: 1em">
                <thead></thead>
                <tbody></tbody>
            </table>
@@ -87,4 +125,22 @@
     {{/if}}
 
    </div>
+</template>
+<template name="WGSection">
+    <div>
+        <h2>3. Matching WG with Accommodation</h2>
+        {{#if isWGMatchingReady}}
+            <button type="submit" class="sn-btn-blue mb-2"  id="matchingWG">
+                <i class="fa fa-share-alt" aria-hidden="true"></i> Matching
+            </button>
+            <div>
+                <!-- <table class="table table-sm table-hover animated" id="MatchingWG_table" style="margin-top: 1em">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table> -->
+            </div>
+        {{else}}
+            <div>Hello</div>
+        {{/if}}
+    </div>
 </template>

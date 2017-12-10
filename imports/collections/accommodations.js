@@ -27,6 +27,11 @@ busZone: {
         allowedValues: ['1', '2', '3'],
         optional: true
 },
+isManuallyAssign: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+},
 capacity: {
     type: String,
         max: 10,
