@@ -331,31 +331,35 @@ Meteor.methods({
     'matching_algorithm': function () {
 
         let accommodations = Accommodations.find().fetch();
-        let participants = Participants.find().fetch();
+        let users = Meteor.users.find().fetch();
+
         let build_dict = {"accommodations":[], "participants":[]};
         let build_dict_WG = {"accommodations":[], "participants":[]};
-        _.forEach(participants, function (p) {
-            let uni = {"university":p.university, "capacity":p.info.requesting_number};
-            build_dict["participants"].push(uni);
+
+        _.forEach(users, function (p) {
+           if (p.roles[0] == 'external') {
+               let uni = {"university": p.profile.university, "capacity": p.profile.allowed_participants, "id": p._id};
+               build_dict["participants"].push(uni);
+           }
         });
         _.forEach(accommodations, function (acc) {
             if (acc.isWG == false) {
-                let accom = {"name": acc.name, "capacity": acc.capacity, buz_zone: acc.busZone};
+                let accom = {"name": acc.name, "capacity": acc.capacity, buz_zone: acc.busZone, "id": acc._id._str};
                 build_dict["accommodations"].push(accom);
             }
             if (acc.isWG != false) {
-                let accom = {"name": acc.name, "capacity": acc.capacity, buz_zone: acc.busZone};
+                let accom = {"name": acc.name, "capacity": acc.capacity, buz_zone: acc.busZone, 'id': acc._id._str};
                 build_dict_WG["accommodations"].push(accom);
             }
         });
-
         this.unblock();
-
-        let intial_response = Meteor.http.call("POST", "http://floating-everglades-30881.herokuapp.com/", {data:{"data":build_dict}});
+        //let url = 'http://floating-everglades-30881.herokuapp.com/';
+        let url = 'http://localhost:5000/'
+        let intial_response = Meteor.http.call("POST", url, {data:{"data":build_dict}});
         let json_response = JSON.parse(intial_response.content);
         build_dict_WG.participants = json_response.unassigned_data.unassigned_unis;
         build_dict_WG.accommodations.concat(json_response.unassigned_data.unassigned_accommodations);
-        let meteor_response = Meteor.http.call("POST", "http://floating-everglades-30881.herokuapp.com/", {data:{"data":build_dict_WG}});
+        let meteor_response = Meteor.http.call("POST", url + 'with_wg', {data:{"data":build_dict_WG}});
         return {'initial': intial_response, 'second': meteor_response};
         },
 });
