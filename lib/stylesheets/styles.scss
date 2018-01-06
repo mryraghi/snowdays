@@ -643,6 +643,14 @@ input[type="date"].sn-field-input {
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
+  display: flex;
+  align-items: center;
+
+  img.sn-icon {
+    height: 20px;
+    color: #ddd;
+    margin-right: .5rem;
+  }
 
   & > i {
     margin-right: .4em;
@@ -1247,9 +1255,9 @@ div[class*=col-] > .sn-nav {
 }
 
 .sn-checkbox-indicator {
-  @extend .custom-control-indicator
+  @extend .custom-control-indicator !optional;
 }
 
 .sn-checkbox-description {
-  @extend .custom-control-description
+  @extend .custom-control-description !optional;
 }

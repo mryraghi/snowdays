@@ -1,128 +1,128 @@
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
-  <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
+    <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
 </head>
 
 <template name="LoginPage">
-  <div class="container">
-    <div class="row pt-3 pt-sm-5">
-      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center">
-        {{> Template.dynamic template=tab}}
-      </div>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto animated fadeIn text-center">
+                {{> Template.dynamic template=tab}}
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <template name="LoginSection">
-  <div class="animated fadeIn">
     <div id="admin-login" style="display:flex; flex-direction: column;">
-      <img src="/images/login.svg" class="sn-section-title">
+        <img src="/images/login.svg" class="sn-section-title">
     </div>
     <form id="login-form">
-      <div class="row">
-        <div class="col-12">
-          <div class="sn-field-group">
-            <input type="text" class="form-control sn-field-input" name="username" id="username" required>
-            <label for="username" class="sn-field-label"><i class="fa fa-id-card-o" aria-hidden="true"></i> Student
-              ID or username</label>
-          </div>
+        <div class="row">
+            <div class="col-12 col-sm-8 mx-auto">
+                <div class="sn-field-group">
+                    <input type="text" class="form-control sn-field-input" name="username" id="username" required>
+                    <label for="username" class="sn-field-label">
+                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                        Student ID or username</label>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="sn-field-group">
-            <input type="password" class="form-control sn-field-input" name="password" id="password" required>
-            <label for="password" class="sn-field-label"><i class="fa fa-unlock-alt" aria-hidden="true"></i>
-              Password</label>
-          </div>
+        <div class="row">
+            <div class="col-12 col-sm-8 mx-auto">
+                <div class="sn-field-group">
+                    <input type="password" class="form-control sn-field-input" name="password" id="password" required>
+                    <label for="password" class="sn-field-label"><i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                        Password</label>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <button type="submit" class="sn-btn-blue">️Login</button>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="sn-btn-blue">️Login</button>
+            </div>
         </div>
-      </div>
     </form>
-  </div>
 </template>
 
 <template name="CreateAdminSection">
-  <div class="animated fadeIn">
     <div style="display:flex; flex-direction: column;">
-      <img src="/images/login.svg" class="sn-section-title">
-      <p>Admin</p>
+        <img src="/images/login.svg" class="sn-section-title">
+        <p>Admin</p>
     </div>
     <form id="signup-admin-form">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="sn-field-group">
-            <input type="text" class="form-control sn-field-input" name="username" id="username" required>
-            <label for="username" class="sn-field-label">Username</label>
-          </div>
+        <div class="row">
+            <div class="col">
+                <div class="sn-field-group">
+                    <input type="text" class="form-control sn-field-input" name="username" id="username" required>
+                    <label for="username" class="sn-field-label">Username</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="sn-field-group">
+                    <select class="sn-field-input sn-a-0" id="gender" name="gender" required>
+                        <option selected disabled>Choose gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                    <label for="gender" class="sn-field-label">Gender</label>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-          <div class="sn-field-group">
-            <select class="sn-field-input sn-a-0" id="gender" name="gender" required>
-              <option selected disabled>Choose gender</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-            </select>
-            <label for="gender" class="sn-field-label">Gender</label>
-          </div>
+        <div class="row">
+            <div class="col">
+                <div class="sn-field-group">
+                    <input type="text" class="form-control sn-field-input" name="first_name" id="first_name"
+                           required>
+                    <label for="first_name" class="sn-field-label">First name</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="sn-field-group">
+                    <input type="text" class="form-control sn-field-input" name="last_name" id="last_name" required>
+                    <label for="last_name" class="sn-field-label">Last name</label>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="sn-field-group">
-            <input type="text" class="form-control sn-field-input" name="first_name" id="first_name" required>
-            <label for="first_name" class="sn-field-label">First name</label>
-          </div>
+        <div class="row">
+            <div class="col">
+                <div class="sn-field-group">
+                    <input type="password" class="form-control sn-field-input" name="password" id="password"
+                           required>
+                    <label for="password" class="sn-field-label">Password</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="sn-field-group">
+                    <input type="password" class="form-control sn-field-input" name="master_password"
+                           id="master_password"
+                           required>
+                    <label for="master_password" class="sn-field-label">Master Password</label>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-          <div class="sn-field-group">
-            <input type="text" class="form-control sn-field-input" name="last_name" id="last_name" required>
-            <label for="last_name" class="sn-field-label">Last name</label>
-          </div>
+        <div class="row m-t-1">
+            <div class="col-md-12">
+                <button type="submit" class="sn-btn-blue">Create user</button>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="sn-field-group">
-            <input type="password" class="form-control sn-field-input" name="password" id="password" required>
-            <label for="password" class="sn-field-label">Password</label>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="sn-field-group">
-            <input type="password" class="form-control sn-field-input" name="master_password" id="master_password"
-                   required>
-            <label for="master_password" class="sn-field-label">Master Password</label>
-          </div>
-        </div>
-      </div>
-      <div class="row m-t-1">
-        <div class="col-md-12">
-          <button type="submit" class="sn-btn-blue">Create user</button>
-        </div>
-      </div>
     </form>
-  </div>
 </template>
 
 <template name="Loading">
-  <div class="sk-circle">
-    <div class="sk-circle1 sk-child"></div>
-    <div class="sk-circle2 sk-child"></div>
-    <div class="sk-circle3 sk-child"></div>
-    <div class="sk-circle4 sk-child"></div>
-    <div class="sk-circle5 sk-child"></div>
-    <div class="sk-circle6 sk-child"></div>
-    <div class="sk-circle7 sk-child"></div>
-    <div class="sk-circle8 sk-child"></div>
-    <div class="sk-circle9 sk-child"></div>
-    <div class="sk-circle10 sk-child"></div>
-    <div class="sk-circle11 sk-child"></div>
-    <div class="sk-circle12 sk-child"></div>
-  </div>
+    <div class="sk-circle">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+    </div>
 </template>
