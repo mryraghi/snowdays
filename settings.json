@@ -3,5 +3,9 @@
     "mode": "dev",
     "environment": "development"
   },
-  "masterPassword": "dt84s1tw*$ZZKu5M9Uvt"
+  "masterPassword": "dt84s1tw*$ZZKu5M9Uvt",
+  "env": {
+    "MONGO_URL": "mongodb://team:VaWHeALPyMngVVU@snowdays.it:27017/snowdays",
+    "MAIL_URL": "smtp://no-reply%40snowdays.it:XxoxRAuUNjKzznd@mx.snowdays.it:587"
+  }
 }

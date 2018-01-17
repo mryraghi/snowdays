@@ -1,5 +1,6 @@
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import "../../lib/stylesheets/paver";
+@import url('https://fonts.googleapis.com/css?family=Raleway:700,800i');
 
 @font-face {
   font-family: 'CircularBold';
@@ -79,6 +80,34 @@ a, p {
 
 html, body, *, select, button, input, textarea, p, .swal2-content {
   font-family: CircularBook, sans-serif;
+}
+
+.sn-red {
+  color: #ff1c4f !important;
+}
+
+.sn-dark-red {
+  color: #c0392b !important;
+}
+
+.sn-gray {
+  color: #2c3638 !important;
+}
+
+.sn-yellow {
+  color: #f1c40f !important;
+}
+
+.sn-orange {
+  color: #f39c12 !important;
+}
+
+.sn-title {
+  text-transform: uppercase;
+  font-family: 'Raleway', sans-serif;
+  margin: 1.25rem 0;
+
+  @extend .sn-red;
 }
 
 h1, h2, h3, h4, h5, h6 {

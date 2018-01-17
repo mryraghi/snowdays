@@ -1,0 +1,55 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
+</head>
+
+<template name="RegisterPage">
+  <!-- registration for internals starts the 15/01 -->
+  {{#if registrationIsOpen}}
+    {{> Template.dynamic template=tab}}
+  {{else}}
+    <p class="text-center">Registration for internals has come to an end, see you at Snowdays!</p>
+  {{/if}}
+</template>
+
+<!-- WELCOME SECTION -->
+<template name="RegisterWelcomeSection">
+
+  <div class="container d-flex justify-content-center align-items-center flex-column"
+       style="height: 100%; width: 100%;">
+    <h1 class="sn-title text-center mb-1">REGISTER</h1>
+    <p>The registration is open only for UniBz students who host and/or are helpers until the 21st.</p>
+    <button id="welcome-button" class="sn-btn-blue">
+      CONTINUE
+    </button>
+    <br>
+    <hr>
+    <p class="text-center"><strong>Party package</strong>: you don't participate to the event but you host one or two
+      participants and you get one or two free entries at the parties. For info send an email to <a
+        href="mailto:info@snowdays.it">info@snowdays.it</a>
+    </p>
+  </div>
+</template>
+
+<!-- REGISTRATION CLOSED -->
+<template name="RegisterClosedSection">
+  <div class="d-flex justify-content-center align-items-center flex-column" style="height: 100%; width: 100%;">
+    <p>Registration for internals has come to an end, see you at Snowdays!</p>
+  </div>
+</template>
+
+<!-- MAIN FORM -->
+<template name="RegisterFormSection">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col">
+        <h1 class="sn-title text-center mb-1">REGISTER</h1>
+        <h6 class="sn-card-subtitle text-center">For hosting and helping internals only.</h6>
+        <div class="mt-5">
+          {{> UserFormSection}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
