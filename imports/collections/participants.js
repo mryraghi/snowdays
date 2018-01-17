@@ -1,9 +1,25 @@
 import "babel-polyfill";
 import SimpleSchema from "simpl-schema";
 import _ from "lodash";
+import moment from 'moment'
 
 const Participants = new Mongo.Collection("participants");
 const Schemas = {};
+
+// firstName and lastName have index: 1
+// See https://github.com/aldeed/meteor-schema-index
+
+// put # at the end so client will drop what will be appended
+SimpleSchema.setDefaultMessages({
+  messages: {
+    en: {
+      "invalidInternalEmail": "'{{{value}}}' is not a valid email: only @unibz.it and @stud.claudiana.bz.it are allowed #",
+      "mustBeHelperOrHost": "Registrations are allowed only to helpers and hosts until the 21st #",
+      "maxOneHostInDorm": "Since you live in a dorm only 1 guest is allowed #",
+      "maxAllowedHelperReached": "The helper category you've chosen is complete. Please chose another one or host some. #"
+    },
+  },
+});
 
 Schemas.Day1 = new SimpleSchema({
   bus1: {
@@ -96,8 +112,19 @@ Schemas.Day3 = new SimpleSchema({
   }
 });
 
+Schemas.Requestor = new SimpleSchema({
+  university: {
+    type: String,
+    optional: true
+  },
+  request_capacity: {
+    type: String,
+    optional: true
+  }
+});
+
 Schemas.Info = new SimpleSchema({
-  requesting_number:{
+  requesting_number: {
     type: String,
     optional: true
   },
@@ -107,7 +134,24 @@ Schemas.Info = new SimpleSchema({
   },
   room: {
     type: String,
-    optional: true
+    optional: true,
+    custom: function () {
+      let accommodationType = this.field('accommodationType').value;
+
+      if (_.isEqual(accommodationType, 'dorm')) {
+        // inserts
+        if (!this.operator) {
+          if (!this.isSet || this.value === null || this.value === "") return "required";
+        }
+
+        // updates
+        else if (this.isSet) {
+          if (this.operator === "$set" && this.value === null || this.value === "") return "required";
+          if (this.operator === "$unset") return "required";
+          if (this.operator === "$rename") return "required";
+        }
+      }
+    }
   },
   street: {
     type: String,
@@ -216,7 +260,16 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.Email,
     max: 40,
-    optional: true
+    optional: true,
+    custom: function () {
+      if (this.field('isHost').value || this.field('isHelper').value) {
+        let pattern = /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(unibz|stud\.claudiana\.bz)\.it$/g;
+
+        if (!pattern.test(this.value)) {
+          return "invalidInternalEmail"
+        }
+      }
+    }
   },
   phone: {
     type: String,
@@ -291,22 +344,66 @@ Schemas.Participant = new SimpleSchema({
   },
 
   // DOCUMENTS
-  hasPersonalID: {
-    label: 'hasPersonalID',
+  hasPersonalIDFront: {
+    label: 'hasPersonalIDFront',
     type: Boolean,
     defaultValue: false,
     optional: true
   },
-  hasStudentID: {
-    label: 'hasStudentID',
+  hasPersonalIDBack: {
+    label: 'hasPersonalIDBack',
     type: Boolean,
     defaultValue: false,
     optional: true
   },
+  hasValidPersonalID: {
+    label: 'Has valid personal ID',
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
+  hasStudentIDFront: {
+    label: 'hasStudentIDFront',
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
+  hasStudentIDBack: {
+    label: 'hasStudentIDBack',
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
+  hasValidStudentID: {
+    label: 'Has valid student ID',
+    type: Boolean,
+    defaultValue: false,
+    optional: true
+  },
+
+  // PAYMENT
+  paymentID: {
+    label: 'Payment ID',
+    type: String,
+    unique: true,
+    optional: true
+  },
+  hasPaid: {
+    label: 'Has paid',
+    type: Boolean,
+    defaultValue: false
+  },
+  amountToPay: {
+    label: 'Amount to pay',
+    type: Number,
+    optional: true
+  },
+
+  // PREFERENCES
   foodAllergies: {
     type: String,
     max: 30,
-    defaultValue: 'None',
+    defaultValue: '-',
     optional: true
   },
   tshirt: {
@@ -331,12 +428,6 @@ Schemas.Participant = new SimpleSchema({
     label: 'Weight',
     type: Number,
     max: 200,
-    optional: true
-  },
-  hasPaid: {
-    label: 'Has paid',
-    type: Boolean,
-    defaultValue: false,
     optional: true
   },
   history: {
@@ -378,6 +469,200 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     optional: true
   },
+
+  // HOST
+  isHost: {
+    type: Boolean,
+    label: 'isHost',
+    defaultValue: false,
+    optional: true,
+    custom: function () {
+      let shouldBeRequired = moment().isBetween('2018-01-01', '2018-01-21');
+
+      if (shouldBeRequired
+        && !this.field('isHelper').value
+        && !this.value
+        && this.field('hasStudentIDBack').value
+        && this.field('hasStudentIDFront').value
+        && this.field('hasPersonalIDBack').value
+        && this.field('hasPersonalIDFront').value) {
+        return "mustBeHelperOrHost"
+      }
+    }
+  },
+  accommodationType: {
+    type: String,
+    label: 'Accommodation type',
+    allowedValues: ['private', 'dorm'],
+    optional: true,
+    custom: function () {
+      let shouldBeRequired = this.field('isHost').value;
+
+      // check whether he/she is in a dorm
+      // if yes max is 1
+      if (_.isEqual(this.value, 'dorm') && this.field('noOfGuests').value > 1) {
+        return "maxOneHostInDorm"
+      }
+
+      if (shouldBeRequired) {
+        // inserts
+        if (!this.operator) {
+          if (!this.isSet || this.value === null || this.value === "") return "required";
+        }
+
+        // updates
+        else if (this.isSet) {
+          if (this.operator === "$set" && this.value === null || this.value === "") return "required";
+          if (this.operator === "$unset") return "required";
+          if (this.operator === "$rename") return "required";
+        }
+      }
+    }
+  },
+  studentDorm: {
+    type: String,
+    label: 'Accommodation type',
+    allowedValues: ['rigler', 'hsb', 'univercity', 'rainerum', 'dante'],
+    optional: true,
+    custom: function () {
+      let shouldBeRequired = this.field('isHost').value && _.isEqual(this.field('accommodationType'), 'dorm');
+
+      if (shouldBeRequired) {
+        // inserts
+        if (!this.operator) {
+          if (!this.isSet || this.value === null || this.value === "") return "required";
+        }
+
+        // updates
+        else if (this.isSet) {
+          if (this.operator === "$set" && this.value === null || this.value === "") return "required";
+          if (this.operator === "$unset") return "required";
+          if (this.operator === "$rename") return "required";
+        }
+      }
+    }
+  },
+  guestPreference: {
+    type: String,
+    label: 'Guest preference',
+    allowedValues: ['-', 'M', 'F'],
+    optional: true,
+    custom: function () {
+      let shouldBeRequired = this.field('isHost').value;
+
+      if (shouldBeRequired) {
+        // inserts
+        if (!this.operator) {
+          if (!this.isSet || this.value === null || this.value === "") return "required";
+        }
+
+        // updates
+        else if (this.isSet) {
+          if (this.operator === "$set" && this.value === null || this.value === "") return "required";
+          if (this.operator === "$unset") return "required";
+          if (this.operator === "$rename") return "required";
+        }
+      }
+    }
+  },
+  noOfGuests: {
+    type: Number,
+    label: 'Number of guests',
+    min: 0,
+    max: 7,
+    optional: true,
+    custom: function () {
+      let shouldBeRequired = this.field('isHost').value;
+
+      // check whether he/she is in a dorm
+      // if yes max is 1
+      if (_.isEqual(this.field('accommodationType').value, 'dorm') && this.value > 1) {
+        return "maxOneHostInDorm"
+      }
+
+      if (shouldBeRequired) {
+        // inserts
+        if (!this.operator) {
+          if (!this.isSet || this.value === null || this.value === "") return "required";
+        }
+
+        // updates
+        else if (this.isSet) {
+          if (this.operator === "$set" && this.value === null || this.value === "") return "required";
+          if (this.operator === "$unset") return "required";
+          if (this.operator === "$rename") return "required";
+        }
+      }
+    }
+  },
+
+  // HELPER
+  isHelper: {
+    type: Boolean,
+    label: 'isHelper',
+    defaultValue: false,
+    optional: true,
+    custom: function () {
+      let shouldBeRequired = moment().isBetween('2018-01-01', '2018-01-21');
+
+      if (shouldBeRequired
+        && !this.field('isHost').value
+        && !this.value
+        && this.field('hasStudentIDBack').value
+        && this.field('hasStudentIDFront').value
+        && this.field('hasPersonalIDBack').value
+        && this.field('hasPersonalIDFront').value) {
+        return "mustBeHelperOrHost"
+      }
+    }
+  },
+  helperCategory: {
+    type: String,
+    label: 'Helper category',
+    optional: true,
+    allowedValues: ['sport', 'catering', 'party', 'logistics', 'it'],
+    custom: function () {
+      let shouldBeRequired = this.field('isHelper').value;
+
+      // TODO: no hardcoded
+      let max = {
+        sport: 30,
+        catering: 35,
+        party: 30,
+        logistics: 10,
+        it: 0
+      };
+
+      let maxAllowed = max[this.value];
+      let count = Participants.find({
+        $and: [
+          {_id: {$ne: this.field('_id').value}},
+          {helperCategory: this.value}
+        ]
+      }).count() - 1;
+
+      // can't be -1
+      if (count < 0) count = 0;
+
+      // throw error if max has been reached
+      if (count > maxAllowed)
+        return "maxAllowedHelperReached";
+
+      if (shouldBeRequired) {
+        // inserts
+        if (!this.operator) {
+          if (!this.isSet || this.value === null || this.value === "") return "required";
+        }
+
+        // updates
+        else if (this.isSet) {
+          if (this.operator === "$set" && this.value === null || this.value === "") return "required";
+          if (this.operator === "$unset") return "required";
+          if (this.operator === "$rename") return "required";
+        }
+      }
+    }
+  },
   statusComplete: {
     type: Boolean,
     label: '',
@@ -392,7 +677,7 @@ Schemas.Participant = new SimpleSchema({
   createdAt: {
     type: Date,
     defaultValue: new Date(),
-    denyUpdate: true,
+    // denyUpdate: true,
     optional: true
   },
   updatedAt: {
@@ -453,7 +738,9 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
   // list of fields checked
   let fields = ['firstName', 'lastName', 'gender', 'email', 'phone', 'university',
     'info.street', 'info.number', 'info.zip', 'info.city', 'info.country', 'info.province',
-    'birth.date', 'birth.country', 'activity', 'rental', 'course', 'tshirt', 'hasAcceptedTandC'];
+    'birth.date', 'birth.country', 'day1.activity', 'day1.rental', 'day2.activity',
+    'day2.rental', 'tshirt', 'hasAcceptedTandC', 'hasPaid', 'isHost', 'accommodationType', 'studentDorm',
+    'guestPreference', 'noOfGuests', 'helperCategory', 'isHelper'];
 
   // check if every field is set
   _.forEach(fields, function (field) {

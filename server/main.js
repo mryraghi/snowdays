@@ -3,6 +3,8 @@ import "./api";
 import "./publish";
 import "./methods";
 import "./permissions";
+import "./emails";
+import _ from 'lodash';
 import Participants from "/imports/collections/participants";
 
 Meteor.startup(function () {

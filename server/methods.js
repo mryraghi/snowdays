@@ -1,6 +1,7 @@
 let CryptoJS = require("crypto-js");
 let fs = require('fs');
 let path = Npm.require('path');
+import moment from 'moment';
 import Events from "/imports/collections/events";
 import _ from "lodash";
 import base64url from "base64url";
@@ -11,6 +12,17 @@ import Settings from "/imports/collections/settings";
 import Flixbus from "/imports/collections/flixbus";
 
 Meteor.methods({
+  'participants.internals.limit': function () {
+    let maxNotReached = Participants.find({university: 'Free University of Bolzano'}).count() <= 350;
+    let internalEnrolment = moment().isBetween('2018-01-01', '2018-01-21');
+    return maxNotReached && internalEnrolment
+  },
+  'sendVerificationLink': function () {
+    let userId = Meteor.userId();
+    if (userId) {
+      return Accounts.sendVerificationEmail(userId);
+    }
+  },
 
   // participants
   'participants.insert': function (participant) {
@@ -50,7 +62,11 @@ Meteor.methods({
   },
   'participants.update': function (participant) {
     let p = Participants.findOne(participant._id);
-    if (_.isUndefined(p)) throw new Meteor.Error('participants.update', 'No related participant exists');
+
+    // create new one if it doesn't exist
+    if (_.isUndefined(p)) {
+      return Participants.insert(participant);
+    }
 
     return Participants.update(participant._id, {
       $set: participant
@@ -93,6 +109,10 @@ Meteor.methods({
       "owner": {$exists: true},
       $and: [{"owner": owner}, {$and: [{"_id": {$ne: _id}}]}]
     }).fetch()
+  },
+
+  'participants.findOne': function (_id) {
+    return Participants.findOne(_id)
   },
 
   // users
@@ -237,8 +257,10 @@ Meteor.methods({
       };
 
       // get info from IDs collection
-      let PIDonServer, PIDfilename, PID = IDs.findOne({$and: [{$or: [{"meta.userId": p._id}, {"userId": p._id}]}, {'meta.type': 'personal'}]});
-      let SIDonServer, SIDfilename, SID = IDs.findOne({$and: [{$or: [{"meta.userId": p._id}, {"userId": p._id}]}, {'meta.type': 'student'}]});
+      let PIDonServer, PIDfilename,
+        PID = IDs.findOne({$and: [{$or: [{"meta.userId": p._id}, {"userId": p._id}]}, {'meta.type': 'personal'}]});
+      let SIDonServer, SIDfilename,
+        SID = IDs.findOne({$and: [{$or: [{"meta.userId": p._id}, {"userId": p._id}]}, {'meta.type': 'student'}]});
 
       // parse filename
       if (PID && PID.path) PIDfilename = _.last(PID.path.split('/'));

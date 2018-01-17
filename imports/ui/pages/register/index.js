@@ -1,27 +1,28 @@
 import './register.html'
+import moment from 'moment';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 Template.RegisterPage.onCreated(function () {
-  this.currentTab = new ReactiveVar('RegisterFormSection');
-  this.showButtons = new ReactiveVar(true);
+  let loggedIn = !_.isNull(Meteor.user());
+  this.currentTab = new ReactiveVar(loggedIn ? 'RegisterFormSection' : "RegisterWelcomeSection");
 });
 
 Template.RegisterPage.events({
-  'click #host': function (event, template) {
-    template.currentTab.set('RegisterPageHost');
-    template.showButtons.set(false)
-  },
-  'click #normale': function (event, template) {
-    template.currentTab.set('RegisterPageNormal');
-    template.showButtons.set(false)
-
+  // proceed to FORM form WELCOME screen
+  'click #welcome-button': (event, template) => {
+    template.currentTab.set('RegisterFormSection')
   }
 });
 
 Template.RegisterPage.helpers({
-  showButtons: function () {
-    return Template.instance().showButtons.get();
-  },
   tab: function () {
     return Template.instance().currentTab.get();
+  },
+  registrationIsOpen: () => {
+    return moment().isBetween('2018-01-01', '2018-01-21')
   }
+});
+
+Template.RegisterPage.onDestroyed(function () {
+
 });

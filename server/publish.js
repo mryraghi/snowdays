@@ -58,6 +58,71 @@ Meteor.publish('participants.all', function (options) {
   })
 });
 
+/**
+ * INTERNAL: PARTICIPANT
+ */
+Meteor.publish('participant.internal', function (_id) {
+  return Participants.find(_id)
+});
+
+/**
+ * INTERNAL: USER
+ */
+Meteor.publish('user.internal', function (_id) {
+  return Meteor.users.find({"profile.participantId": _id})
+});
+
+/**
+ * INTERNAL: TOKEN
+ */
+Meteor.publish('token.internal', function (token) {
+  return Meteor.users.find({"services.email.verificationTokens[0]": token})
+});
+
+/**
+ * INTERNAL: HELPER STATS
+ */
+Meteor.publish('stats.helpers.internals', function () {
+  return Participants.find({
+    university: 'Free University of Bolzano',
+    isHelper: true,
+    helperCategory: {$exists: true}
+  }, {
+    fields: {
+      helperCategory: 1
+    }
+  })
+});
+
+/**
+ * INTERNAL: DORMS STATS
+ */
+Meteor.publish('stats.dorms.internals', function () {
+  return Participants.find({
+    university: 'Free University of Bolzano',
+    isHost: true,
+    accommodationType: 'dorm'
+  }, {
+    fields: {
+      studentDorm: 1
+    }
+  })
+});
+
+/**
+ * INTERNAL: COUNT
+ */
+Meteor.publish('count.internals', function (_id) {
+  return Participants.find({university: 'Free University of Bolzano'}, {fields: {_id: 1}})
+});
+
+/**
+ * INTERNAL: HELPER STATS
+ */
+Meteor.publish('stats.internals.helpers', function (_id) {
+  return Participants.find(_id)
+});
+
 Meteor.publish('participants', function () {
   return Participants.find()
 });

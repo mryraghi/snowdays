@@ -2,7 +2,7 @@
   "name": "snowdays",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "MONGO_URL=mongodb://team:VaWHeALPyMngVVU@snowdays.it:27017/snowdays MAIL_URL=smtp://no-reply%40snowdays.it:XxoxRAuUNjKzznd@mx.snowdays.it:587 meteor --settings settings.json",
     "api-doc": "apidoc -i /server/api/api.js -o ../snowdays-api"
   },
   "dependencies": {
@@ -44,7 +44,7 @@
     "simpl-schema": "^0.3.2",
     "simple-slider": "^1.0.0",
     "survey-knockout": "^0.10.4",
-    "sweetalert2": "^4.3.3",
+    "sweetalert2": "^7.3.5",
     "vanilla-lazyload": "^3.0.0"
   },
   "devDependencies": {

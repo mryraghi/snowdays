@@ -1,436 +1,680 @@
 <template name="UserFormSection">
   <div class="row animated fadeIn">
-    <div class="col-md-12">
+    <div class="col">
       {{#if Template.subscriptionsReady}}
+        <!-- !T&C -->
         {{#if hasAcceptedTandC}}
-          {{#if complete}}
-            <div class="row mt-5">
-              <div class="col-12 text-center">
-                <h3>Congratulations!</h3>
-                <p><strong>Your information have been <br class="hidden-sm-up"> successfully saved.</strong><br>
-                  Now lean back and enjoy <br class="hidden-sm-up"> the <strong>new</strong> promo video <br
-                    class="hidden-sm-up"> and last year's aftermovie!</p>
-                <p>Take also the time to like our page and share our event on Facebook!</p>
-                <iframe
-                  src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId=216607852080016"
-                  width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-                  allowTransparency="true"></iframe>
-                <p>Otherwise...</p>
-                <button class="sn-btn-outline-blue" type="button" id="edit-profile">
-                  <i class="fa fa-pencil-square-o mr-1" aria-hidden="true"></i> Edit profile
-                </button>
+          <form id="user_form">
+            <!-- email not verified && account created -->
+            {{#if $or emailNotVerified hasToPay}}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Current status</h4>
+                <hr>
+                {{#if emailNotVerified}}
+                  <strong>Missing verification:</strong> you haven't verified your email yet.
+                  This is a fundamental step for you to be successfully enrolled.
+                  <a id="resendEmailVerification" href>Resend</a>
+                {{/if}}
+
+                {{#if $and emailNotVerified hasToPay}}
+                  <hr>
+                {{/if}}
+
+                {{#if hasToPay}}
+                  <strong>Missing payment:</strong> we still haven't received you back transfer with the following
+                  information.
+                  <ul class="mb-0">
+                    <li>
+                      Amount to pay:
+                      <strong>{{lp.amountToPay}}</strong>
+                    </li>
+                    <li>
+                      Reason for payment:
+                      <strong>Snowdays fee - {{lp.paymentID}} - {{lp.lastName}} - {{lp.university}}</strong>
+                    </li>
+                    <li>
+                      IBAN: <strong>IT32Q 08081 11610 000306004547</strong>
+                    </li>
+                    <li>
+                      Directed to: <strong>SPORTS CLUB UNIVERSITY BOLZANO</strong>
+                    </li>
+                    <li>
+                      Bank: <strong>Cassa Rurale Bolzano</strong>
+                    </li>
+                  </ul>
+                {{/if}}
               </div>
-            </div>
-            <div class="row my-5">
-              <div class="col-12 col-md-6 mb-5 mb-md-0">
-                <div class="embed-responsive embed-responsive-16by9">
-                  <iframe src="https://player.vimeo.com/video/163717461?color=008eff&byline=0&portrait=0" width="640"
-                          height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen
-                          allowfullscreen></iframe>
-                </div>
-              </div>
-              <div class="col-12 col-md-6 mb-5 mb-md-0">
-                <div class="embed-responsive embed-responsive-16by9">
-                  <iframe
-                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&width=640&show_text=false&height=360&appId"
-                    width="640" height="360" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-                    allowTransparency="true"></iframe>
-                </div>
-              </div>
-            </div>
-          {{else}}
-            <form id="user_form">
-              <div class="row">
-                <div class="col-12 col-md-4">
-                  <h4>Personal</h4>
-                  <hr>
-                  <div class="row">
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="first_name" id="first_name"
-                               value="{{lp.firstName}}"
-                               required>
-                        <label for="first_name" class="sn-field-label">First name</label>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="last_name" id="last_name"
-                               value="{{lp.lastName}}"
-                               required>
-                        <label for="last_name" class="sn-field-label">Last name</label>
-                      </div>
-                    </div>
-                  </div>
+            {{/if}}
 
-                  <div class="row">
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <select class="sn-field-input sn-a-0" id="gender" name="gender"
-                                required>
-                          <option disabled>Choose</option>
-                          <option value="M" {{selectedIf lp.gender 'M'}}>Male</option>
-                          <option value="F" {{selectedIf lp.gender 'F'}}>Female</option>
-                        </select>
-                        <label for="gender" class="sn-field-label">Gender</label>
+            <div class="row">
+              <!-- COLUMN 1 -->
+              <div class="col-12 col-md-8">
+                <div class="row">
+                  <!-- COLUMN 1 -->
+                  <div class="col-12 col-md-6">
+                    <h4>Personal</h4>
+                    <hr>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="first_name" id="first_name"
+                                 value="{{lp.firstName}}" required>
+                          <label for="first_name" class="sn-field-label">First name</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="last_name" id="last_name"
+                                 value="{{lp.lastName}}" required>
+                          <label for="last_name" class="sn-field-label">Last name</label>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input class="sn-field-input" type="date" name="birth_date" id="birth_date"
-                               value="{{lp.birth.date}}" required placeholder="dd/mm/yyyy">
-                        <label for="birth_date" class="sn-field-label sn-upper-label">Birth date</label>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="sn-field-group">
-                    <input type="text" class="sn-field-input" name="birth_country" id="birth_country"
-                           value="{{lp.birth.country}}"
-                           required>
-                    <label for="birth_country" class="sn-field-label">Birth country</label>
-                  </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                        <div class="sn-field-group">
+                          <select class="sn-field-input sn-a-0" id="gender" name="gender"
+                                  required>
+                            <option disabled>Choose</option>
+                            <option value="M" {{selectedIf lp.gender 'M'}}>Male</option>
+                            <option value="F" {{selectedIf lp.gender 'F'}}>Female</option>
+                          </select>
+                          <label for="gender" class="sn-field-label">Gender</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                        <div class="sn-field-group">
+                          <input class="sn-field-input" type="date" name="birth_date" id="birth_date"
+                                 value="{{lp.birth.date}}" required placeholder="mm/dd/yyyy">
+                          <label for="birth_date" class="sn-field-label sn-upper-label">Birth date</label>
+                        </div>
+                      </div>
+                    </div>
 
-                  <div class="sn-field-group">
-                    <input type="text" class="sn-field-input" name="university" id="university"
-                           value="{{lp.university}}" disabled required>
-                    <label for="university" class="sn-field-label">University</label>
-                  </div>
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="birth_country" id="birth_country"
+                             value="{{lp.birth.country}}"
+                             required>
+                      <label for="birth_country" class="sn-field-label">Birth country</label>
+                    </div>
 
-                  <h4 class="card-title mt-5 mt-md-0">Contact</h4>
-                  <hr>
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="university" id="university"
+                             value="Free University of Bolzano" disabled required>
+                      <label for="university" class="sn-field-label">University</label>
+                    </div>
 
-                  <div class="sn-field-group">
-                    <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}"
-                           required>
-                    <label for="phone" class="sn-field-label">Phone</label>
-                  </div>
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}"
+                             required>
+                      <label for="phone" class="sn-field-label">Phone</label>
+                    </div>
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}"
+                             required>
+                      <label for="email" class="sn-field-label">Email</label>
+                      <small id="emailHelp" class="form-text text-muted">
+                        You'll receive a confirmation email.
+                      </small>
+                      <small id="emailHelp" class="form-text text-muted">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        We won't share it with anyone.
+                      </small>
+                    </div>
 
-                  <div class="sn-field-group">
-                    <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}"
-                           required>
-                    <label for="email" class="sn-field-label">Email</label>
-                    <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock" aria-hidden="true"></i> We
-                      won't share it with anyone.
-                    </small>
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-4">
-                  <h4 class="mt-5 mt-md-0">Address</h4>
-                  <hr>
-                  <div class="row">
-                    <div class="col-12 col-sm-8 col-md-12 col-lg-8">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="street" id="street" required
-                               value="{{lp.info.street}}">
-                        <label for="street" class="sn-field-label">Street</label>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-12 col-lg-4">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="number" id="number" required
-                               value="{{lp.info.number}}">
-                        <label for="number" class="sn-field-label">#</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 col-sm-8 col-md-12 col-lg-8">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="city" id="city" required
-                               value="{{lp.info.city}}">
-                        <label for="city" class="sn-field-label">City</label>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-12 col-lg-4">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="zip" id="zip" required
-                               value="{{lp.info.zip}}">
-                        <label for="zip" class="sn-field-label">ZIP</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="province" id="province" required
-                               value="{{lp.info.province}}">
-                        <label for="province" class="sn-field-label">Province</label>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="text" class="sn-field-input" name="country" id="country" required
-                               value="{{lp.info.country}}">
-                        <label for="country" class="sn-field-label">Country</label>
-                      </div>
-                    </div>
-                  </div>
-                  <h4 class="mt-5 mt-md-0">Preferences</h4>
-                  <hr>
-                  <div class="row">
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
-                          <option disabled>Choose</option>
-                          <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
-                          <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
-                          <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
-                          <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
-                        </select>
-                        <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="number" class="sn-field-input" name="height" id="height"
-                               value="{{lp.height}}">
-                        <label for="height" class="sn-field-label">Height (cm)</label>
-                        <small class="form-text text-muted">
-                          Required if renting.
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="number" class="sn-field-input" name="weight" id="weight"
-                               value="{{lp.weight}}">
-                        <label for="weight" class="sn-field-label">Weight (kg)</label>
-                        <small class="form-text text-muted">
-                          Required if renting.
-                        </small>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                      <div class="sn-field-group">
-                        <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size"
-                               value="{{lp.shoeSize}}">
-                        <label for="shoe_size" class="sn-field-label">Shoe size</label>
-                        <small class="form-text text-muted">
-                          Required if renting.
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="sn-field-group">
-                    <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
-                           value="{{lp.foodAllergies}}" required>
-                    <!-- TODO: datalist -->
-                    <label for="food_allergies" class="sn-field-label">Food allergies</label>
-                    <small class="form-text text-muted">Separate with commas, set 'None' otherwise.</small>
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-4">
-                  <h4 class="mt-5 mt-md-0">Documents
-                    <small class="text-muted">png/jpg</small>
-                  </h4>
-                  <small class="text-muted">Just the front part (inner part for the Italian ID)</small>
-                  <hr>
-                  {{#if lp.hasPersonalID}}
-                    <p class="animated fadeIn mb-0"><i class="fa fa-check" aria-hidden="true"></i> Personal ID</p>
-                  {{else}}
-                    {{#with uploadingPID}}
-                      <p class="sn-loader">Uploading...</p>
-                    {{else}}
-                      <input type="file" name="has_personal_id" id="has_personal_id"
-                             class="sn-input-file sn-btn-rounded"/>
-                      <label for="has_personal_id"><i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i><b>Personal
-                        ID</b></label>
-                    {{/with}}
-                  {{/if}}
-                  {{#if not_equals lp.university 'Alumni Bolzano'}}
-                    {{#if lp.hasStudentID}}
-                      <p class="animated fadeIn"><i class="fa fa-check" aria-hidden="true"></i> Student ID</p>
-                    {{else}}
-                      {{#with uploadingSID}}
-                        <p class="sn-loader mt-1">Uploading...</p>
+                    <!-- PASSWORD -->
+                    <div class="sn-field-group">
+                      {{#if isPasswordRequired}}
+                        <input type="password" class="sn-field-input" name="password" id="password" required>
                       {{else}}
-                        <input type="file" name="has_student_id" id="has_student_id"
-                               class="sn-input-file sn-btn-rounded mt-2"/>
-                        <label for="has_student_id" class="mt-1"><i class="fa fa-cloud-upload mr-2"
-                                                                    aria-hidden="true"></i><b>Student
-                          ID</b></label>
+                        <input type="password" class="sn-field-input" name="password" id="password">
+                      {{/if}}
+                      <label for="password" class="sn-field-label">Password</label>
+                      <small id="passwordHelp" class="form-text text-muted">
+                        You'll be able to login again with email and password in case you'll need to update your
+                        preferences.
+                      </small>
+                    </div>
+                  </div>
+
+                  <!-- COLUMN 2 -->
+                  <div class="col-12 col-md-6">
+                    <!-- ADDRESS -->
+                    <h4 class="mt-5 mt-md-0">Address</h4>
+                    <small class="form-text text-danger">
+                      NOTE: if you are a host please fill in your address here in Bolzano and specify a room number if
+                      you live in a dorm.
+                    </small>
+                    <hr>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="street" id="street" required
+                                 value="{{lp.info.street}}">
+                          <label for="street" class="sn-field-label">Street</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-3 col-md-12 col-lg-3 px-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="number" id="number" required
+                                 value="{{lp.info.number}}">
+                          <label for="number" class="sn-field-label">#</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-3 col-md-12 col-lg-3 pl-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="room_number" id="room_number"
+                                 value="{{lp.info.room}}">
+                          <label for="room_number" class="sn-field-label">Room #</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-8 col-md-12 col-lg-8 pr-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="city" id="city" required
+                                 value="{{lp.info.city}}">
+                          <label for="city" class="sn-field-label">City</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4 col-md-12 col-lg-4 pl-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="zip" id="zip" required
+                                 value="{{lp.info.zip}}">
+                          <label for="zip" class="sn-field-label">ZIP</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="province" id="province" required
+                                 value="{{lp.info.province}}">
+                          <label for="province" class="sn-field-label">Province</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                        <div class="sn-field-group">
+                          <input type="text" class="sn-field-input" name="country" id="country" required
+                                 value="{{lp.info.country}}">
+                          <label for="country" class="sn-field-label">Country</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- ACTIVITIES -->
+                    <h4 class="mt-5 mt-md-0">Activities</h4>
+                    <hr>
+
+                    <div class="sn-field-group">
+                      <div>
+                        <label class="custom-control custom-checkbox">
+                          {{#if lp.activity}}
+                            <input type="checkbox" class="custom-control-input" id="activity" checked>
+                          {{else}}
+                            <input type="checkbox" class="custom-control-input" id="activity">
+                          {{/if}}
+                          <label class="custom-control-label" for="activity">Ski or Snowboard?</label>
+                        </label>
+                      </div>
+                      <div>
+                        <label class="custom-control custom-checkbox">
+                          {{#if lp.course}}
+                            <input type="checkbox" class="custom-control-input" id="course" checked>
+                          {{else}}
+                            <input type="checkbox" class="custom-control-input" id="course">
+                          {{/if}}
+                          <label class="custom-control-label" for="course">Ski course?</label>
+                        </label>
+                      </div>
+                      <div>
+                        <label class="custom-control custom-checkbox">
+                          {{#if lp.rental}}
+                            <input type="checkbox" class="custom-control-input" id="rental" checked>
+                          {{else}}
+                            <input type="checkbox" class="custom-control-input" id="rental">
+                          {{/if}}
+                          <label class="custom-control-label" for="rental">Need rental?</label>
+                        </label>
+                      </div>
+                      <div>
+                        <label class="custom-control custom-checkbox">
+                          {{#if lp.isVolleyPlayer}}
+                            <input type="checkbox" class="custom-control-input" id="isVolleyPlayer" checked>
+                          {{else}}
+                            <input type="checkbox" class="custom-control-input" id="isVolleyPlayer">
+                          {{/if}}
+                          <span class="custom-control-label">Part of SnowVolley team?</span>
+                        </label>
+                      </div>
+                      <div>
+                        <label class="custom-control custom-checkbox">
+                          {{#if lp.isFootballPlayer}}
+                            <input type="checkbox" class="custom-control-input" id="isFootballPlayer" checked>
+                          {{else}}
+                            <input type="checkbox" class="custom-control-input" id="isFootballPlayer">
+                          {{/if}}
+                          <span class="custom-control-label">Part of the Snow Football team?</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- PREFERENCES -->
+                    <h4 class="mt-5 mt-md-0">Preferences</h4>
+                    <hr>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                        <div class="sn-field-group">
+                          <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                            <option disabled>Choose</option>
+                            <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
+                            <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
+                            <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
+                            <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
+                          </select>
+                          <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                        <div class="sn-field-group">
+                          <input type="number" class="sn-field-input" name="height" id="height"
+                                 value="{{lp.height}}">
+                          <label for="height" class="sn-field-label">Height (cm)</label>
+                          <small class="form-text text-muted">
+                            Required if renting.
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                        <div class="sn-field-group">
+                          <input type="number" class="sn-field-input" name="weight" id="weight"
+                                 value="{{lp.weight}}">
+                          <label for="weight" class="sn-field-label">Weight (kg)</label>
+                          <small class="form-text text-muted">
+                            Required if renting.
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                        <div class="sn-field-group">
+                          <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size"
+                                 value="{{lp.shoeSize}}">
+                          <label for="shoe_size" class="sn-field-label">Shoe size</label>
+                          <small class="form-text text-muted">
+                            Required if renting.
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
+                             value="{{lp.foodAllergies}}">
+                      <!-- TODO: datalist -->
+                      <label for="food_allergies" class="sn-field-label">Food allergies</label>
+                      <small class="form-text text-muted">Separate with commas if any.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- COLUMN 3 -->
+              <div class="col-12 col-md-4">
+                <!-- DOCUMENTS -->
+                <h4 class="mt-5 mt-md-0">Documents
+                  <small class="text-muted">png/jpg</small>
+                </h4>
+                <small class="text-muted text-danger">BOTH SIDES</small>
+                <hr>
+                <div class="d-flex justify-content-around align-items-center flex-column">
+                  <!-- FRONT -->
+                  <div class="d-flex justify-content-center">
+                    {{#if hasPersonalIDFront}}
+                      <p class="animated fadeIn mb-0">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Personal ID [FRONT]
+                      </p>
+                    {{else}}
+                      {{#with uploadingPIDFront}}
+                        <p class="sn-loader">Uploading...</p>
+                      {{else}}
+                        <input type="file" name="has_personal_id_front" id="has_personal_id_front"
+                               class="sn-input-file sn-btn-rounded"/>
+                        <label for="has_personal_id_front" class="m-0">
+                          <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                          <b>Personal ID [FRONT]</b>
+                        </label>
                       {{/with}}
                     {{/if}}
-                  {{/if}}
-                  <h4 class="mt-5 mt-md-3">Activities</h4>
-                  <hr>
-                  <div class="sn-field-group">
-                    <div>
-                      <div class="custom-control custom-checkbox">
-                        {{#if lp.activity}}
-                          <input type="checkbox" class="custom-control-input" name="activity" id="activity" checked>
-                        {{else}}
-                          <input type="checkbox" class="custom-control-input" name="activity" id="activity">
-                        {{/if}}
-                        <label class="custom-control-label" for="activity">Ski or snowboard?</label>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="custom-control custom-checkbox">
-                        {{#if lp.course}}
-                          <input type="checkbox" class="custom-control-input" name="course" id="course" checked>
-                        {{else}}
-                          <input type="checkbox" class="custom-control-input" name="course" id="course">
-                        {{/if}}
-                        <label class="custom-control-label" for="course">Free ski or snowboard course?</label>
-                      </div>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                      {{#if lp.rental}}
-                        <input type="checkbox" class="custom-control-input" name="rental" id="rental" checked>
-                      {{else}}
-                        <input type="checkbox" class="custom-control-input" name="rental" id="rental">
-                      {{/if}}
-                      <label class="custom-control-label" for="rental">Need rental?</label>
-                    </div>
-                    <div>
-                      <div class="custom-control custom-checkbox">
-                        {{#if lp.isVolleyPlayer}}
-                          <input type="checkbox" class="custom-control-input" name="is_volley_player" id="is_volley_player" checked>
-                        {{else}}
-                          <input type="checkbox" class="custom-control-input" name="is_volley_player" id="is_volley_player">
-                        {{/if}}
-                        <label class="custom-control-label" for="is_volley_player">Part of Snow Volley's team</label>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="custom-control custom-checkbox">
-                        {{#if lp.isFootballPlayer}}
-                          <input type="checkbox" class="custom-control-input" name="is_football_player" id="is_football_player" checked>
-                        {{else}}
-                          <input type="checkbox" class="custom-control-input" name="is_football_player" id="is_football_player">
-                        {{/if}}
-                        <label class="custom-control-label" for="is_football_player">Part of Human Football Table's
-                          team</label>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              </div>
-              <!-- VIP -->
-              <div class="row">
-                <div class="col">
-                  <div class="card text-white" style="background: #494645">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-12 col-md-6">
-                          <h5 class="card-title">👑 V.I.P. PACKAGE 👑</h5>
-                          <p class="card-text text-white">
-                            This year we offer you the possibility to add some sparkle to your Snowdays experience with
-                            an incredible V.I.P. PACKAGE including:
-                          <ul>
-                            <li>⭐ V.I.P. Lounge Area during our Friday party</li>
-                            <li>⭐ 2 Premium bottles of your choice on Friday night</li>
-                            <li>⭐ Reserved pool on Saturday</li>
-                            <li>⭐ Official Snowdays hoodie for each member</li>
-                          </ul>
-                          ONLY GROUPS FROM 10 TO 15 PEOPLE
-                          Price: Basic Ticket + 70 euro per person
-                          Limited places - First come, first served
-                          Info: <a href="mailto:info@snowdays.it">info@snowdays.it</a>
-                          </p>
-                        </div>
-                        <div class="col-12 col-md-6 mt-3 mt-md-0"
-                             style="min-height: 80px; background: url(/images/vip.png) center center no-repeat;
-                             background-size: contain">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <nav class="col-12 mb-3 flex-column">
-                  <hr>
-                  <div class="row">
-                    <div class="col-6 text-left">
-                      <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
-                      <p>Drop an email to<br>
-                        <a
-                          href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
+
+                  <!-- BACK -->
+                  <div class="mt-1 d-flex justify-content-center">
+                    {{#if hasPersonalIDBack}}
+                      <p class="animated fadeIn mb-0">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Personal ID [BACK]
                       </p>
-                    </div>
-                    <div class="col-6 text-right">
-                      {{#if isInRole 'admin'}}
-                        <button type="submit" class="sn-btn-outline-green" name="save" formnovalidate>
-                          Save
-                        </button>
+                    {{else}}
+                      {{#with uploadingPIDBack}}
+                        <p class="sn-loader">Uploading...</p>
                       {{else}}
-                        <button type="submit" class="sn-btn-outline-green" name="save">
-                          Save
-                        </button>
+                        <input type="file" name="has_personal_id_back" id="has_personal_id_back"
+                               class="sn-input-file sn-btn-rounded"/>
+                        <label for="has_personal_id_back" class="m-0">
+                          <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                          <b>Personal ID [BACK]</b>
+                        </label>
+                      {{/with}}
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="mt-2 d-flex justify-content-around align-items-center flex-column">
+                  {{#if not_equals lp.university 'Alumni Bolzano'}}
+                    <!-- FRONT -->
+                    <div class="d-flex justify-content-center">
+                      {{#if hasStudentIDFront}}
+                        <p class="animated fadeIn mb-0">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                          Student ID [FRONT]
+                        </p>
+                      {{else}}
+                        {{#with uploadingSIDFront}}
+                          <p class="sn-loader mt-1">Uploading...</p>
+                        {{else}}
+                          <input type="file" name="has_student_id_front" id="has_student_id_front"
+                                 class="sn-input-file sn-btn-rounded mt-2"/>
+                          <label for="has_student_id_front" class="m-0">
+                            <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                            <b>Student ID [FRONT]</b>
+                          </label>
+                        {{/with}}
                       {{/if}}
                     </div>
+
+                    <!-- BACK -->
+                    <div class="d-flex mt-1 justify-content-center">
+                      {{#if hasStudentIDBack}}
+                        <p class="animated fadeIn mb-0">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                          Student ID [BACK]
+                        </p>
+                      {{else}}
+                        {{#with uploadingSIDBack}}
+                          <p class="sn-loader mt-1">Uploading...</p>
+                        {{else}}
+                          <input type="file" name="has_student_id_back" id="has_student_id_back"
+                                 class="sn-input-file sn-btn-rounded mt-2"/>
+                          <label for="has_student_id_back" class="m-0">
+                            <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                            <b>Student ID [BACK]</b>
+                          </label>
+                        {{/with}}
+                      {{/if}}
+                    </div>
+                  {{/if}}
+                </div>
+                <hr>
+                <div class="card" style="border: 2px solid #ff1c4f">
+                  <div class="card-body">
+                    <h6 class="card-subtitle mt-0 mb-2 sn-dark-red">Important</h6>
+                    <p class="card-text">Only helpers and hosts can currently register, so please make your choice
+                      below.</p>
+
+                    <!-- HELPER -->
+                    <div>
+                      <label class="custom-control custom-checkbox mb-0">
+                        {{#if lp.isHelper}}
+                          <input type="checkbox" class="custom-control-input" id="isHelper" name="internals" checked>
+                        {{else}}
+                          <input type="checkbox" class="custom-control-input" id="isHelper" name="internals">
+                        {{/if}}
+                        <span class="custom-control-label">Helper</span>
+                      </label>
+                    </div>
+                    {{#if isHelper}}
+                      <div class="sn-field-group mb-0 mt-1">
+                        <select class="sn-field-input sn-a-0" id="helperCategory" name="helperCategory"
+                                required>
+                          <option disabled>Choose</option>
+                          {{#if isHelperCategoryAvailable 'sport' 30}}
+                            <option value="sport" {{selectedIf lp.helperCategory 'sport'}}>
+                              Sport ({{helpersLeft 'sport' 30}} left)
+                            </option>
+                          {{/if}}
+                          {{#if isHelperCategoryAvailable 'catering' 35}}
+                            <option value="catering" {{selectedIf lp.helperCategory 'catering'}}>
+                              Catering ({{helpersLeft 'catering' 35}} left)
+                            </option>
+                          {{/if}}
+                          {{#if isHelperCategoryAvailable 'party' 30}}
+                            <option value="party" {{selectedIf lp.helperCategory 'party'}}>
+                              Party ({{helpersLeft 'party' 30}} left)
+                            </option>
+                          {{/if}}
+                          {{#if isHelperCategoryAvailable 'logistics' 10}}
+                            <option value="logistics" {{selectedIf lp.helperCategory 'logistics'}}>
+                              Logistics ({{helpersLeft 'logistics' 10}} left)
+                            </option>
+                          {{/if}}
+                          {{#if isHelperCategoryAvailable 'it' 2}}
+                            <option value="it" {{selectedIf lp.helperCategory 'it'}}>
+                              IT ({{helpersLeft 'it' 2}} left)
+                            </option>
+                          {{/if}}
+                        </select>
+                        <label for="helperCategory" class="sn-field-label">Category</label>
+                      </div>
+                    {{/if}}
+
+                    <!-- HOST -->
+                    <div>
+                      <label class="custom-control custom-checkbox mb-0 mt-2">
+                        {{#if lp.isHost}}
+                          <input type="checkbox" class="custom-control-input" id="isHost" name="internals" checked>
+                        {{else}}
+                          <input type="checkbox" class="custom-control-input" id="isHost" name="internals">
+                        {{/if}}
+                        <span class="custom-control-label">Host</span>
+                      </label>
+                    </div>
+                    {{#if isHost}}
+                      <!-- ACCOMMODATION TYPE -->
+                      <div class="sn-field-group mb-0 mt-1">
+                        <select class="sn-field-input sn-a-0" id="accommodationType" name="accommodationType"
+                                required>
+                          <option disabled>Choose</option>
+                          <option value="private" {{selectedIf lp.accommodationType 'private'}}>Private</option>
+                          <option value="dorm" {{selectedIf lp.accommodationType 'dorm'}}>Student dorm</option>
+                        </select>
+                        <label for="accommodationType" class="sn-field-label">Accommodation type</label>
+                      </div>
+
+                      {{#if isInDorm}}
+                        <!-- IF STUDENT DORM, CHOOSE ONE -->
+                        <div class="sn-field-group mb-0 mt-1">
+                          <select class="sn-field-input sn-a-0" id="studentDorm" name="studentDorm"
+                                  required>
+                            <option disabled>Choose</option>
+                            {{#if isDormAvailable 'rigler' 35}}
+                              <option value="rigler" {{selectedIf lp.studentDorm 'rigler'}}>
+                                Peter Rigler ({{dormPlacesLeft 'rigler' 35}} left)
+                              </option>
+                            {{/if}}
+                            {{#if isDormAvailable 'hsb' 50}}
+                              <option value="hsb" {{selectedIf lp.studentDorm 'hsb'}}>
+                                Haus St. Benedikt ({{dormPlacesLeft 'hsb' 50}} left)
+                              </option>
+                            {{/if}}
+                            {{#if isDormAvailable 'univercity' 65}}
+                              <option value="univercity" {{selectedIf lp.studentDorm 'univercity'}}>
+                                Univercity ({{dormPlacesLeft 'univercity' 65}} left)
+                              </option>
+                            {{/if}}
+                            {{#if isDormAvailable 'rainerum' 6}}
+                              <option value="rainerum" {{selectedIf lp.studentDorm 'rainerum'}}>
+                                Rainerum ({{dormPlacesLeft 'rainerum' 6}} left)
+                              </option>
+                            {{/if}}
+                            {{#if isDormAvailable 'dante' 24}}
+                              <option value="dante" {{selectedIf lp.studentDorm 'dante'}}>
+                                Apt. Dante ({{dormPlacesLeft 'dante' 24}} left)
+                              </option>
+                            {{/if}}
+                          </select>
+                          <label for="gender" class="sn-field-label">Student dorm</label>
+                        </div>
+                      {{/if}}
+
+                      <!-- GUEST PREFERENCE -->
+                      <div class="sn-field-group mb-0 mt-1">
+                        <select class="sn-field-input sn-a-0" id="guestPreference" name="guestPreference"
+                                required>
+                          <option value="-" {{selectedIf lp.guestPreference '-'}} selected>Whoever</option>
+                          <option value="M" {{selectedIf lp.guestPreference 'M'}}>Male</option>
+                          <option value="F" {{selectedIf lp.guestPreference 'F'}}>Female</option>
+                        </select>
+                        <label for="gender" class="sn-field-label">Guest preference</label>
+                      </div>
+
+                      <!-- # OF GUEST -->
+                      <div class="sn-field-group mb-0 mt-1">
+                        {{#if isInDorm}}
+                          <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+                            <option disabled>Choose</option>
+                            <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+                          </select>
+                        {{else}}
+                          <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+                            <option disabled>Choose</option>
+                            <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+                            <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
+                            <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
+                            <option value="4" {{selectedIf lp.noOfGuests 4}}>4</option>
+                            <option value="5" {{selectedIf lp.noOfGuests 5}}>5</option>
+                            <option value="6" {{selectedIf lp.noOfGuests 6}}>6</option>
+                            <option value="7" {{selectedIf lp.noOfGuests 7}}>7</option>
+                          </select>
+                        {{/if}}
+                        <label for="noOfGuests" class="sn-field-label"># of guests</label>
+                        <small class="form-text text-muted">
+                          Contact us if # of guests > 7, you may be eligible for a free ticket.
+                        </small>
+                      </div>
+                    {{/if}}
                   </div>
-                </nav>
+                </div>
+
+                <!-- PAYMENT SUMMARY -->
+                <div class="card mt-2" style="border: 2px solid #f1c40f">
+                  <div class="card-body">
+                    <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
+                    <ul class="text-muted">
+                      <li>Helper/host: <strong>80€</strong></li>
+                      <li>Helper + host: <strong>65€</strong></li>
+                      <li>Discount for each hosted person: <strong>-15€</strong></li>
+                      <li>Minimum ticket price: <strong>50€</strong></li>
+                    </ul>
+                    <h1 class="font-weight-bold sn-red">{{finalPrice}}</h1>
+                  </div>
+                </div>
               </div>
-            </form>
-          {{/if}}
-        {{else}}
-          <div class="row">
-            <div class="col-12">
-              <h4>Letter of Agreement</h4>
-              <p>
-                The undersigned, participant at “Bolzano Snowdays” from 8th to 10th March 2018, declares to release the
-                organisers from any liability towards the undersigned and from any responsibility regarding potential
-                casualties suffered or a damage inflicted to a third party in the exercise of the activities of the
-                whole sports event.
-              </p>
-              <h5>Legal aspects</h5>
-              <p>
-                During the whole event, if I willingly or grossly negligently damage anything I will be held responsible
-                for the complete amount of the damage inflicted.
-                <br>In case of property damages either to student dorms or
-                to guest houses, I will pay the related amount of the damage inflicted.
-                <br>The Snowdays Team
-                cannot take any responsibility for sport accidents or self-inflicted accidents, thefts or losses of any
-                kind. Please take care and look after your belongings yourself.<br>I authorize the release of pictures
-                of
-                myself taken during the event from 8th to 10th March 2018 on the official website of the event, on other
-                internet channels controlled by the organizational team and on informational material.
-              </p>
-              {{#if isExternal}}
-                <h5>Sleeping</h5>
-                <p>
-                  I accept to follow the house rules of the student dorms and the instructions of my host.<br>I accept
-                  to be excluded from Snowdays in case of violation of house rules, host’s instructions and
-                  common rules of behavior aimed at ensuring a pleasant environment.<br>If I cause any damage to the
-                  student dorm and/or I lose the key, SCUB reserves the right of keeping a deposit of 50€, which
-                  will not be returned to me after the event.
-                </p>
-              {{/if}}
-              <h5>Bus damages</h5>
-              <p>If I cause any damage to the buses, I will pay a fee of 100€ as agreed with the bus company.</p>
             </div>
-          </div>
-          <div class="row">
-            <nav class="col-12 mb-3 flex-column">
-              <hr>
-              <div class="row text-left">
-                <div class="col-6">
-                  <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i>Need help?</h6>
-                  <p>Drop an email to<br>
-                    <a
-                      href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
-                  </p>
+            <div class="row">
+              <nav class="col-12 mb-3 flex-column">
+                <hr>
+                <div class="row">
+                  <div class="col-6 text-left">
+                    <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
+                    <p>Drop an email to<br>
+                      <a
+                        href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
+                    </p>
+                  </div>
+                  <div class="col-6 text-right">
+                    {{#if isInRole 'admin'}}
+                      <button type="submit" class="sn-btn-outline-green" name="save" formnovalidate>
+                        Save
+                      </button>
+                    {{else}}
+                      <button type="submit" class="sn-btn-outline-green" name="save">
+                        {{proceedButton}}
+                      </button>
+                    {{/if}}
+                  </div>
                 </div>
-                <div class="col-6 text-right">
-                  <button type="button" class="sn-btn-outline-blue" id="acceptTandC">
-                    <i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> I agree to the Terms and Conditions
-                  </button>
-                </div>
-              </div>
-            </nav>
-          </div>
+              </nav>
+            </div>
+          </form>
+        {{else}}
+          <!-- T&C-->
+          {{> TCSection}}
         {{/if}}
       {{else}}
         {{> Loader}}
       {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="SuccessSection">
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <h3>Congratulations!</h3>
+      <p><strong>Your email has been verified and your information successfully saved.</strong></p>
+
+      <div class="card">
+        <div class="card-body">
+          Last thing: payment. Please send a bank transfer to Snowdays <strong>before</strong> the 21th.
+          <ul>
+            <li>
+              Amount to pay:
+              <strong>{{lp.amountToPay}}</strong>
+            </li>
+            <li>
+              Reason for payment:
+              <strong>Snowdays fee - {{lp.paymentID}} - {{lp.lastName}} - {{lp.university}}</strong>
+            </li>
+            <li>
+              IBAN: <strong>IT32Q 08081 11610 000306004547</strong>
+            </li>
+            <li>
+              Directed to: <strong>SPORTS CLUB UNIVERSITY BOLZANO</strong>
+            </li>
+            <li>
+              Bank: <strong>Cassa Rurale Bolzano</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p>Now lean back and enjoy <br class="hidden-sm-up"> the <strong>new</strong> promo video <br
+        class="hidden-sm-up"> and last year's aftermovie!</p>
+      <p>Take also the time to like our page and share our event on Facebook!</p>
+      <iframe
+        src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId=216607852080016"
+        width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+        allowTransparency="true"></iframe>
+    </div>
+  </div>
+  <div class="row my-5">
+    <div class="col-12 col-md-6 mb-5 mb-md-0">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe src="https://player.vimeo.com/video/163717461?color=008eff&byline=0&portrait=0" width="640"
+                height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-5 mb-md-0">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe
+          src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&width=640&show_text=false&height=360&appId"
+          width="640" height="360" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+          allowTransparency="true"></iframe>
+      </div>
     </div>
   </div>
 </template>
