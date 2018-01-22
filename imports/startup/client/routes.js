@@ -1,4 +1,5 @@
 import "../../ui/pages/home";
+import "../../ui/pages/thankyou";
 import "../../ui/pages/login";
 import "../../ui/pages/register";
 import "../../ui/pages/admin";
@@ -82,6 +83,11 @@ Router.route('/register', {
       this.render('Loader');
     }
   }
+});
+
+Router.route('/thankyou', {
+  name: 'ThankYou',
+  template: 'ThankYouPage'
 });
 
 Router.route('/verify-email/:token', {
