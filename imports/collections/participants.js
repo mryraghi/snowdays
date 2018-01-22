@@ -481,12 +481,12 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
       let formSettings = settings.form.doNotAsk;
 
       // check if hasPersonalID
-      if (formSettings.indexOf('hasPersonalID') == -1 && !(doc['hasPersonalID'] || $set['hasPersonalID'])) {
+      if (formSettings.indexOf('hasPersonalID') === -1 && !(doc['hasPersonalID'] || $set['hasPersonalID'])) {
         result = false
       }
 
       // check if hasStudentID
-      if (formSettings.indexOf('hasStudentID') == -1 && !(doc['hasStudentID'] || $set['hasStudentID'])) {
+      if (formSettings.indexOf('hasStudentID') === -1 && !(doc['hasStudentID'] || $set['hasStudentID'])) {
         result = false
       }
 

@@ -1247,9 +1247,9 @@ div[class*=col-] > .sn-nav {
 }
 
 .sn-checkbox-indicator {
-  @extend .custom-control-indicator
+  @extend .custom-control-indicator !optional;
 }
 
 .sn-checkbox-description {
-  @extend .custom-control-description
+  @extend .custom-control-description !optional;
 }
