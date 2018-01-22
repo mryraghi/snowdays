@@ -1,4 +1,5 @@
 import "../../ui/pages/home";
+import "../../ui/pages/thankyou";
 import "../../ui/pages/login";
 import "../../ui/pages/admin";
 import "../../ui/pages/externals/index";
@@ -53,10 +54,32 @@ Router.route('/login', {
     }
 });
 
-// Router.route('/register', {
-//   name: 'Register',
-//   template: 'RegisterPage'
-// });
+Router.route('/register', {
+  name: 'Register',
+  template: 'RegisterPage'
+});
+
+Router.route('/thankyou', {
+  name: 'ThankYou',
+  template: 'ThankYouPage'
+});
+
+Router.route('/verify-email/:token', {
+  name: 'VerifyEmail',
+  action: function () {
+    if (!this.params.token)
+      this.render('LoginPage');
+
+    Accounts.verifyEmail(this.params.token, (error) => {
+      if (error) {
+        swal('Error', error.reason, 'error');
+        this.render('LoginPage');
+      } else {
+        this.render('SuccessSection');
+      }
+    });
+  }
+});
 
 // TODO: rename in Schedule
 Router.route('/event', {
