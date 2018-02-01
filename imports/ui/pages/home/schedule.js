@@ -18,19 +18,19 @@ Template.HomeSchedule.onRendered(function () {
     _.forEach(result, function (event) {
       let startDate = moment(event.startDate);
 
-      if (startDate.isBetween('2017-03-09', '2017-03-10 04:30')) {
+      if (startDate.isBetween('2018-03-08', '2018-03-09 04:30')) {
         let current = template.day1.get();
         current.push(event);
         template.day1.set(current);
       }
 
-      if (startDate.isBetween('2017-03-10 04:31', '2017-03-11 04:30')) {
+      if (startDate.isBetween('2018-03-09 04:31', '2018-03-10 04:30')) {
         let current = template.day2.get();
         current.push(event);
         template.day2.set(current);
       }
 
-      if (startDate.isBetween('2017-03-11 04:31', '2017-03-12 04:30')) {
+      if (startDate.isBetween('2018-03-10 04:31', '2018-03-11 04:30')) {
         let current = template.day3.get();
         current.push(event);
         template.day3.set(current);

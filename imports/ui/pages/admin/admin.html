@@ -3,38 +3,41 @@
 </head>
 
 <template name="AdminPage">
-  <div class="container">
-    <div class="row">
+  <div class="row">
+    <div class="container">
       <div class="col-12 mt-5 mb-5 text-center d-flex flex-column">
         <img src="/images/snowdays-logo.svg" class="sn-logo">
         <img src="/images/admin.svg" class="sn-logo-section">
       </div>
     </div>
+  </div>
 
-    <div class="row mb-5">
-      <div class="col-12">
-        <ul class="sn-nav flex-row justify-content-center text-center">
-          <li class="sn-menu-item nav-item {{isActive 'AdminListSection'}}" id="list">
-            <a class="sn-nav-link" href><i class="fa fa-bars" aria-hidden="true"></i> List</a>
-          </li>
-          <li class="sn-menu-item nav-item {{isActive 'AdminAddNewSection'}}" id="add_new">
-            <a class="sn-nav-link" href><i class="fa fa-plus-circle" aria-hidden="true"></i> New</a>
-          </li>
-          <li class="sn-menu-item nav-item {{isActive 'AdminSettingsSection'}}" id="settings">
-            <a class="sn-nav-link" href><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
-          </li>
-          <li class="sn-menu-item nav-item {{isActive 'AdminStatsSection'}}" id="stats">
-            <a class="sn-nav-link" href><i class="fa fa-bar-chart" aria-hidden="true"></i> Stats</a>
-          </li>
-          <li>
-            <a class="sn-nav-link" href id="sn-logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
-          </li>
-        </ul>
-      </div>
+  <div class="row mb-5">
+    <div class="col-12">
+      <ul class="sn-nav flex-row justify-content-center text-center">
+        <li class="sn-menu-item nav-item {{isActive 'AdminListSection'}}" id="list">
+          <a class="sn-nav-link" href><i class="fa fa-bars" aria-hidden="true"></i> List</a>
+        </li>
+        <li class="sn-menu-item nav-item {{isActive 'AdminAddNewSection'}}" id="add_new">
+          <a class="sn-nav-link" href><i class="fa fa-plus-circle" aria-hidden="true"></i> New</a>
+        </li>
+        <li class="sn-menu-item nav-item {{isActive 'AdminSettingsSection'}}" id="settings">
+          <a class="sn-nav-link disabled" href><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
+        </li>
+        <li class="sn-menu-item nav-item {{isActive 'AdminStatsSection'}}" id="stats">
+          <a class="sn-nav-link disabled" href><i class="fa fa-bar-chart" aria-hidden="true"></i> Stats</a>
+        </li>
+        <li>
+          <a class="sn-nav-link" href id="sn-logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+        </li>
+      </ul>
     </div>
 
-    <!-- Sections -->
-    {{> Template.dynamic template=tab}}
+
+    <div class="container mt-5">
+      <!-- Sections -->
+      {{> Template.dynamic template=tab}}
+    </div>
   </div>
 </template>
 

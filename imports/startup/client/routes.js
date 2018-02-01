@@ -4,7 +4,9 @@ import "../../ui/pages/admin";
 import "../../ui/pages/externals/index";
 import "../../ui/pages/participant/index";
 import "../../ui/pages/event";
+import "../../ui/pages/register";
 import "../../ui/pages/errors/404/not_found";
+import "../../ui/pages/thankyou";
 import _ from "lodash";
 
 Router.configure({
@@ -42,6 +44,11 @@ Router.route('/login', {
 
         this.next()
     }
+});
+
+Router.route('/register', {
+  name: 'Register',
+  template: 'RegisterPage'
 });
 
 // TODO: rename in Schedule
@@ -118,4 +125,9 @@ Router.route('/participant', {
             token: this.params.query.token || ''
         };
     }
+});
+
+Router.route('/thankyou', {
+  name: 'ThankYou',
+  template: 'ThankYouPage'
 });

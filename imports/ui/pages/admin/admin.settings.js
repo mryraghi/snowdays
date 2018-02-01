@@ -58,13 +58,13 @@ Template.AdminSettingsSection.helpers({
     let startDate;
     switch (day) {
       case 1:
-        startDate = moment('2017-03-09');
+        startDate = moment('2018-03-08');
         break;
       case 2:
-        startDate = moment('2017-03-10');
+        startDate = moment('2018-03-09');
         break;
       case 3:
-        startDate = moment('2017-03-11');
+        startDate = moment('2018-03-10');
         break;
       default:
         throw new Meteor.Error('AdminSettingsSection helpers', 'wrong day')

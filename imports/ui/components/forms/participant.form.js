@@ -4,6 +4,7 @@ import "./participant.form.html";
 import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
 import "/imports/ui/components/loader/loader";
+
 let CryptoJS = require("crypto-js");
 
 // TODO: offline? save info as cookies
@@ -67,13 +68,14 @@ Template.UserFormSection.onCreated(function () {
 
   this.subscribe("participants.current", _id, function () {
     let p = Participants.findOne();
+    console.log(p);
     if (p) {
       // again, if admin then set true since not needed
-      let acceptTandC = (Roles.userIsInRole(Meteor.userId(), 'admin') ? true : p.hasAcceptedTandC);
-      template.hasAcceptedTandC.set(acceptTandC);
       template.filling.set(!p.statusComplete);
       getSettings(template);
     }
+    let acceptTandC = (Roles.userIsInRole(Meteor.userId(), 'admin') ? true : (p ? p.hasAcceptedTandC : false));
+    template.hasAcceptedTandC.set(acceptTandC);
   });
 });
 
@@ -169,15 +171,9 @@ Template.UserFormSection.events({
         date: parsedDate,
         country: target.birth_country.value
       },
-      day1: {
-        activity: target.d1_activity.value,
-        rental: target.d1_rental.value,
-      },
-      day2: {
-        activity: target.d2_activity.value,
-        rental: target.d2_rental.value,
-        course: target.d2_course.checked
-      },
+      rental: target.rental.checked,
+      activity: target.activity.checked,
+      course: target.course.checked,
       isVolleyPlayer: target.is_volley_player.checked,
       isFootballPlayer: target.is_football_player.checked,
       foodAllergies: target.food_allergies.value,
@@ -257,7 +253,7 @@ function setSessions() {
 
 function uploadID(file, template, idType) {
   if (_.isUndefined(Session.get('_id'))) {
-    swal('Error', 'A server side error occurred. Please contact rbellon@unibz.it', 'error');
+    swal('Error', 'A server side error occurred. Please contact it@snowdays.it', 'error');
     throw new Meteor.Error('uploadID', 'Session.get(_id) is not defined');
   }
 

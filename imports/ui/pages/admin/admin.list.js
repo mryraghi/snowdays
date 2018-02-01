@@ -1046,7 +1046,7 @@ Template.UserModalSettings.onDestroyed(function () {
 
 function uploadID(file, template, idType) {
   if (_.isUndefined(Session.get('_id'))) {
-    swal('Error', 'A server side error occurred. Please contact rbellon@unibz.it', 'error');
+    swal('Error', 'A server side error occurred. Please contact it@snowdays.it', 'error');
     throw new Meteor.Error('uploadID', 'Session.get(_id) is not defined');
   }
 

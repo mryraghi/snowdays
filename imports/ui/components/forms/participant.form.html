@@ -9,11 +9,12 @@
                 <h3>Congratulations!</h3>
                 <p><strong>Your information have been <br class="hidden-sm-up"> successfully saved.</strong><br>
                   Now lean back and enjoy <br class="hidden-sm-up"> the <strong>new</strong> promo video <br
-                          class="hidden-sm-up"> and last year's aftermovie!</p>
+                    class="hidden-sm-up"> and last year's aftermovie!</p>
                 <p>Take also the time to like our page and share our event on Facebook!</p>
-                <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId=216607852080016"
-                        width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-                        allowTransparency="true"></iframe>
+                <iframe
+                  src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId=216607852080016"
+                  width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                  allowTransparency="true"></iframe>
                 <p>Otherwise...</p>
                 <button class="sn-btn-outline-blue" type="button" id="edit-profile">
                   <i class="fa fa-pencil-square-o mr-1" aria-hidden="true"></i> Edit profile
@@ -30,9 +31,10 @@
               </div>
               <div class="col-12 col-md-6 mb-5 mb-md-0">
                 <div class="embed-responsive embed-responsive-16by9">
-                  <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&width=640&show_text=false&height=360&appId"
-                          width="640" height="360" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-                          allowTransparency="true"></iframe>
+                  <iframe
+                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&width=640&show_text=false&height=360&appId"
+                    width="640" height="360" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                    allowTransparency="true"></iframe>
                 </div>
               </div>
             </div>
@@ -220,7 +222,9 @@
                     <label for="food_allergies" class="sn-field-label">Food allergies</label>
                     <small class="form-text text-muted">Separate with commas, set 'None' otherwise.</small>
                   </div>
+                </div>
 
+                <div class="col-12 col-md-4">
                   <h4 class="mt-5 mt-md-0">Documents
                     <small class="text-muted">png/jpg</small>
                   </h4>
@@ -253,130 +257,89 @@
                       {{/with}}
                     {{/if}}
                   {{/if}}
-                </div>
-
-                <div class="col-12 col-md-4">
-                  <h4 class="mt-5 mt-md-0">Activities</h4>
+                  <h4 class="mt-5 mt-md-3">Activities</h4>
                   <hr>
-                  <h4 class="sn-card-subtitle text-muted">
-                    Day 1
-                  </h4>
-                  <div class="sn-field-group">
-                    <select class="sn-field-input sn-a-0" id="d1_activity" name="d1_activity">
-                      <option disabled>Choose</option>
-                      <option value="relax" {{selectedIf lp.day1.activity 'relax'}}>Relax</option>
-                      <option value="ski" {{selectedIf lp.day1.activity 'ski'}}>Ski</option>
-                      <option value="snowboard" {{selectedIf lp.day1.activity 'snowboard'}}>Snowboard</option>
-                      <option value="sledging" {{selectedIf lp.day1.activity 'sledging'}}>Sledging</option>
-                    </select>
-                    <label for="d1_activity" class="sn-field-label sn-upper-label">Activity</label>
-                  </div>
-                  <div class="sn-field-group">
-                    <select class="sn-field-input sn-a-0" id="d1_rental" name="d1_rental">
-                      <option disabled>Choose</option>
-                      <option value="no" {{selectedIf lp.day1.rental 'no'}}>No</option>
-                      <option value="ski" {{selectedIf lp.day1.rental 'ski'}}>Only skis</option>
-                      <option value="ski boots" {{selectedIf lp.day1.rental 'ski boots'}}>Only ski boots</option>
-                      <option value="ski + boots" {{selectedIf lp.day1.rental 'ski + boots'}}>Ski + boots</option>
-                      <option value="snowboard" {{selectedIf lp.day1.rental 'snowboard'}}>Only snowboard</option>
-                      <option value="snowboard boots" {{selectedIf lp.day1.rental 'snowboard boots'}}>Only snowboard
-                        boots
-                      </option>
-                      <option value="snowboard + boots" {{selectedIf lp.day1.rental 'snowboard + boots'}}>Snowboard +
-                        boots
-                      </option>
-                      <option value="sledge" {{selectedIf lp.day1.rental 'sledge'}}>Sledge</option>
-                    </select>
-                    <label for="d1_rental" class="sn-field-label sn-upper-label">Rental</label>
-                    <small id="d1_rental_help" class="form-text text-muted">
-                      Only the sledge rental is included.
-                    </small>
-                  </div>
-
-                  <hr>
-                  <h4 class="sn-card-subtitle text-muted">
-                    Day 2
-                  </h4>
-                  <div class="sn-field-group">
-                    <select class="sn-field-input sn-a-0" id="d2_activity" name="d2_activity">
-                      <option disabled value="">Choose</option>
-                      <option value="relax" {{selectedIf lp.day2.activity 'relax'}}>Relax</option>
-                      <option value="ski" {{selectedIf lp.day2.activity 'ski'}}>Ski</option>
-                      <option value="ski race" {{selectedIf lp.day2.activity 'ski race'}}>Ski race</option>
-                      <option value="snowboard" {{selectedIf lp.day2.activity 'snowboard'}}>Snowboard</option>
-                      <option value="snowboard race" {{selectedIf lp.day2.activity 'snowboard race'}}>Snowboard race
-                      </option>
-                      <option value="snowshoe hiking" {{selectedIf lp.day2.activity 'snowshoe hiking'}}>Snowshoe
-                        hiking
-                      </option>
-                      <option value="cross country" {{selectedIf lp.day2.activity 'cross country'}}>Cross country
-                        skiing
-                      </option>
-                    </select>
-                    <label for="d2_activity" class="sn-field-label sn-upper-label">Activity</label>
-                  </div>
-                  <div class="sn-field-group">
-                    <select class="sn-field-input sn-a-0" id="d2_rental" name="d2_rental">
-                      <option disabled>Choose</option>
-                      <option value="no" {{selectedIf lp.day2.rental 'no'}}>No</option>
-                      <option value="ski" {{selectedIf lp.day2.rental 'ski'}}>Only skis</option>
-                      <option value="ski boots" {{selectedIf lp.day2.rental 'ski boots'}}>Only ski boots</option>
-                      <option value="ski + boots" {{selectedIf lp.day2.rental 'ski + boots'}}>Ski + boots</option>
-                      <option value="snowboard" {{selectedIf lp.day2.rental 'snowboard'}}>Only snowboard</option>
-                      <option value="snowboard boots" {{selectedIf lp.day2.rental 'snowboard boots'}}>Only snowboard
-                        boots
-                      </option>
-                      <option value="snowboard + boots" {{selectedIf lp.day2.rental 'snowboard + boots'}}>Snowboard +
-                        boots
-                      </option>
-                      <option value="snow rackets" {{selectedIf lp.day2.rental 'snow rackets'}}>Snow rackets</option>
-                      <option value="cross country ski" {{selectedIf lp.day2.rental 'cross country ski'}}>Cross country
-                        ski
-                      </option>
-                    </select>
-                    <label for="d2_rental" class="sn-field-label sn-upper-label">Rental</label>
-                    <small id="d2_rental_help" class="form-text text-muted">
-                      Not included.
-                    </small>
-                  </div>
-                  <div class="form-group">
-                    <label class="custom-control custom-checkbox">
-                      {{#if lp.day2.course}}
-                        <input type="checkbox" class="custom-control-input" name="d2_course" checked>
-                      {{else}}
-                        <input type="checkbox" class="custom-control-input" name="d2_course">
-                      {{/if}}
-                      <span class="custom-control-indicator"></span>
-                      <span class="custom-control-description">Free ski course</span>
-                    </label>
-                  </div>
-
-                  <hr>
-                  <h4 class="sn-card-subtitle text-muted">
-                    Day 3
-                  </h4>
                   <div class="sn-field-group">
                     <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if lp.isVolleyPlayer}}
-                          <input type="checkbox" class="custom-control-input" name="is_volley_player" checked>
+                      <div class="custom-control custom-checkbox">
+                        {{#if lp.activity}}
+                          <input type="checkbox" class="custom-control-input" name="activity" id="activity" checked>
                         {{else}}
-                          <input type="checkbox" class="custom-control-input" name="is_volley_player">
+                          <input type="checkbox" class="custom-control-input" name="activity" id="activity">
                         {{/if}}
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Part of Snow Volley's team</span>
-                      </label>
+                        <label class="custom-control-label" for="activity">Ski or snowboard?</label>
+                      </div>
                     </div>
                     <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if lp.isFootballPlayer}}
-                          <input type="checkbox" class="custom-control-input" name="is_football_player" checked>
+                      <div class="custom-control custom-checkbox">
+                        {{#if lp.course}}
+                          <input type="checkbox" class="custom-control-input" name="course" id="course" checked>
                         {{else}}
-                          <input type="checkbox" class="custom-control-input" name="is_football_player">
+                          <input type="checkbox" class="custom-control-input" name="course" id="course">
                         {{/if}}
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Part of Human Football Table's team</span>
-                      </label>
+                        <label class="custom-control-label" for="course">Free ski or snowboard course?</label>
+                      </div>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                      {{#if lp.rental}}
+                        <input type="checkbox" class="custom-control-input" name="rental" id="rental" checked>
+                      {{else}}
+                        <input type="checkbox" class="custom-control-input" name="rental" id="rental">
+                      {{/if}}
+                      <label class="custom-control-label" for="rental">Need rental?</label>
+                    </div>
+                    <div>
+                      <div class="custom-control custom-checkbox">
+                        {{#if lp.isVolleyPlayer}}
+                          <input type="checkbox" class="custom-control-input" name="is_volley_player" id="is_volley_player" checked>
+                        {{else}}
+                          <input type="checkbox" class="custom-control-input" name="is_volley_player" id="is_volley_player">
+                        {{/if}}
+                        <label class="custom-control-label" for="is_volley_player">Part of Snow Volley's team</label>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="custom-control custom-checkbox">
+                        {{#if lp.isFootballPlayer}}
+                          <input type="checkbox" class="custom-control-input" name="is_football_player" id="is_football_player" checked>
+                        {{else}}
+                          <input type="checkbox" class="custom-control-input" name="is_football_player" id="is_football_player">
+                        {{/if}}
+                        <label class="custom-control-label" for="is_football_player">Part of Human Football Table's
+                          team</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- VIP -->
+              <div class="row">
+                <div class="col">
+                  <div class="card text-white" style="background: #494645">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-12 col-md-6">
+                          <h5 class="card-title">👑 V.I.P. PACKAGE 👑</h5>
+                          <p class="card-text text-white">
+                            This year we offer you the possibility to add some sparkle to your Snowdays experience with
+                            an incredible V.I.P. PACKAGE including:
+                          <ul>
+                            <li>⭐ V.I.P. Lounge Area during our Friday party</li>
+                            <li>⭐ 2 Premium bottles of your choice on Friday night</li>
+                            <li>⭐ Reserved pool on Saturday</li>
+                            <li>⭐ Official Snowdays hoodie for each member</li>
+                          </ul>
+                          ONLY GROUPS FROM 10 TO 15 PEOPLE
+                          Price: Basic Ticket + 70 euro per person
+                          Limited places - First come, first served
+                          Info: <a href="mailto:info@snowdays.it">info@snowdays.it</a>
+                          </p>
+                        </div>
+                        <div class="col-12 col-md-6 mt-3 mt-md-0"
+                             style="min-height: 80px; background: url(/images/vip.png) center center no-repeat;
+                             background-size: contain">
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -388,7 +351,8 @@
                     <div class="col-6 text-left">
                       <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
                       <p>Drop an email to<br>
-                        <a href="mailto:rbellon@unibz.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">rbellon@unibz.it</a>
+                        <a
+                          href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
                       </p>
                     </div>
                     <div class="col-6 text-right">
@@ -412,7 +376,7 @@
             <div class="col-12">
               <h4>Letter of Agreement</h4>
               <p>
-                The undersigned, participant at “Bolzano Snowdays” from 9th to 11th March 2017, declares to release the
+                The undersigned, participant at “Bolzano Snowdays” from 8th to 10th March 2018, declares to release the
                 organisers from any liability towards the undersigned and from any responsibility regarding potential
                 casualties suffered or a damage inflicted to a third party in the exercise of the activities of the
                 whole sports event.
@@ -421,14 +385,13 @@
               <p>
                 During the whole event, if I willingly or grossly negligently damage anything I will be held responsible
                 for the complete amount of the damage inflicted.
-                <!--<br>In case of property damages either to student dorms or-->
-                <!--to guest houses, I will pay the related amount of the damage inflicted.-->
-                <br>If I break or lose my sledge
-                during the Moon-Sledge-Riding on Thursday 9th, I will pay a fee of 150€ to SCUB.<br>The Snowdays Team
+                <br>In case of property damages either to student dorms or
+                to guest houses, I will pay the related amount of the damage inflicted.
+                <br>The Snowdays Team
                 cannot take any responsibility for sport accidents or self-inflicted accidents, thefts or losses of any
                 kind. Please take care and look after your belongings yourself.<br>I authorize the release of pictures
                 of
-                myself taken during the event from 9th to 11th March 2017 on the official website of the event, on other
+                myself taken during the event from 8th to 10th March 2018 on the official website of the event, on other
                 internet channels controlled by the organizational team and on informational material.
               </p>
               {{#if isExternal}}
@@ -452,7 +415,8 @@
                 <div class="col-6">
                   <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i>Need help?</h6>
                   <p>Drop an email to<br>
-                    <a href="mailto:rbellon@unibz.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">rbellon@unibz.it</a>
+                    <a
+                      href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
                   </p>
                 </div>
                 <div class="col-6 text-right">

@@ -24,11 +24,11 @@ Meteor.methods({
         throw new Meteor.Error('participants.insert', 'Token not found in user\'s schema');
 
       // double check that limit has not been reached
-      let count = Participants.find({_id: {$ne: this.userId}}).count();
+      let count = Participants.find({owner: this.userId}).count();
 
       // throw error if participants limit has been reached
       if (_.isEqual(count, Meteor.user().profile.allowedParticipants))
-        throw new Meteor.Error('participants.insert', 'Participants limit reached');
+        throw new Meteor.Error('participants.insert', 'Participants limit reached' + Meteor.user().profile.allowedParticipants+count+this.userId);
 
       // generate _id
       let _id = Random.id();

@@ -11,24 +11,24 @@ Meteor.startup(function () {
   //   Events.update(e._id, {$set: {showInSchedule: true}})
   // });
 
-  let participants = Participants.find().fetch();
-  _.forEach(participants, function (p) {
-    if (_.isUndefined(p.day1.bus1)) Participants.update(p._id, {$set: {'day1.bus1': false}});
-    if (_.isUndefined(p.day1.bus2)) Participants.update(p._id, {$set: {'day1.bus2': false}});
-    // if (_.isUndefined(p.day1.meal1)) Participants.update(p._id, {$set: {'day1.meal1': false}});
-    if (_.isUndefined(p.day1.meal2)) Participants.update(p._id, {$set: {'day1.meal2': false}});
-
-    if (_.isUndefined(p.day2.bus1)) Participants.update(p._id, {$set: {'day2.bus1': false}});
-    if (_.isUndefined(p.day2.bus2)) Participants.update(p._id, {$set: {'day2.bus2': false}});
-    if (_.isUndefined(p.day2.meal1)) Participants.update(p._id, {$set: {'day2.meal1': false}});
-    if (_.isUndefined(p.day2.meal2)) Participants.update(p._id, {$set: {'day2.meal2': false}});
-    if (_.isUndefined(p.day2.drink1)) Participants.update(p._id, {$set: {'day2.drink1': false}});
-    if (_.isUndefined(p.day2.hasSkipass)) Participants.update(p._id, {$set: {'day2.hasSkipass': false}});
-
-    if (_.isUndefined(p.day3.bus1)) Participants.update(p._id, {$set: {'day3.bus1': false}});
-    if (_.isUndefined(p.day3.meal1)) Participants.update(p._id, {$set: {'day3.meal1': false}});
-    if (_.isUndefined(p.day3.meal2)) Participants.update(p._id, {$set: {'day3.meal2': false}});
-  });
+  // let participants = Participants.find().fetch();
+  // _.forEach(participants, function (p) {
+  //   if (_.isUndefined(p.day1.bus1)) Participants.update(p._id, {$set: {'day1.bus1': false}});
+  //   if (_.isUndefined(p.day1.bus2)) Participants.update(p._id, {$set: {'day1.bus2': false}});
+  //   // if (_.isUndefined(p.day1.meal1)) Participants.update(p._id, {$set: {'day1.meal1': false}});
+  //   if (_.isUndefined(p.day1.meal2)) Participants.update(p._id, {$set: {'day1.meal2': false}});
+  //
+  //   if (_.isUndefined(p.day2.bus1)) Participants.update(p._id, {$set: {'day2.bus1': false}});
+  //   if (_.isUndefined(p.day2.bus2)) Participants.update(p._id, {$set: {'day2.bus2': false}});
+  //   if (_.isUndefined(p.day2.meal1)) Participants.update(p._id, {$set: {'day2.meal1': false}});
+  //   if (_.isUndefined(p.day2.meal2)) Participants.update(p._id, {$set: {'day2.meal2': false}});
+  //   if (_.isUndefined(p.day2.drink1)) Participants.update(p._id, {$set: {'day2.drink1': false}});
+  //   if (_.isUndefined(p.day2.hasSkipass)) Participants.update(p._id, {$set: {'day2.hasSkipass': false}});
+  //
+  //   if (_.isUndefined(p.day3.bus1)) Participants.update(p._id, {$set: {'day3.bus1': false}});
+  //   if (_.isUndefined(p.day3.meal1)) Participants.update(p._id, {$set: {'day3.meal1': false}});
+  //   if (_.isUndefined(p.day3.meal2)) Participants.update(p._id, {$set: {'day3.meal2': false}});
+  // });
 });
 
 /**
@@ -43,7 +43,6 @@ Accounts.onCreateUser(function (options, user) {
 
   // if flag in login page is checked
   if (createParticipant) {
-
     if (user) {
       const participant = {
         _id: user._id,
@@ -54,6 +53,7 @@ Accounts.onCreateUser(function (options, user) {
       };
 
       Meteor.call('participants.insert', participant, function (error, result) {
+        console.log('createParticipant');
         if (error) {
           console.log(error, participant);
           throw new Meteor.Error('participants.insert', error.message);

@@ -1,0 +1,28 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
+</head>
+
+<template name="RegisterPage">
+  {{#if showButtons}}
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%; width: 100%;">
+      <button class="sn-btn-blue mr-2" id="host">Discounted hosting participant</button>
+      <button class="sn-btn-outline-blue" id="normale">Normal participant</button>
+    </div>
+  {{else}}
+    {{> Template.dynamic template=tab}}
+  {{/if}}
+</template>
+
+<template name="RegisterPageHost">
+  <iframe id="typeform-full" width="100%" height="100%" frameborder="0"
+          src="https://snowdays.typeform.com/to/eH2D98"></iframe>
+  <script type="text/javascript" src="https://embed.typeform.com/embed.js"></script>
+</template>
+
+<template name="RegisterPageNormal">
+  <iframe id="typeform-full" width="100%" height="100%" frameborder="0"
+          src="https://snowdays.typeform.com/to/vLvu7F"></iframe>
+  <script type="text/javascript" src="https://embed.typeform.com/embed.js"></script>
+</template>

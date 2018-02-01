@@ -1,712 +1,708 @@
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
-    <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
-    <title>Snowdays</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="16x16 32x32" href="/favicon.ico">
+  <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
+  <title>Snowdays</title>
+
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2008511006039374');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" rc="https://www.facebook.com/tr?id=2008511006039374&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Facebook Pixel Code -->
 </head>
 
 <template name="Home">
-    <div class="container-fluid" style="height: 100%; padding: 0;" id="home">
-        <div class="row" style="height: 100%; width: 100%">
-            <div class="col-12">
-                <div data-paver id="panorama">
-                    <img src="images/panorama.jpg" alt="" title="" id="panorama-img"/>
+  <div class="container-fluid" style="height: 100%; padding: 0;" id="home">
+    <div class="row" style="height: 100%; width: 100%">
+      <div class="col-12">
+        <div data-paver id="panorama">
+          <img src="images/panorama.jpg" alt="" title="" id="panorama-img"/>
 
-                    <img src="images/unibz.svg" id="s-logo" class="mt-2">
+          <img src="images/unibz.svg" id="s-logo" class="mt-2">
 
-                    <div class="d-flex flex-column justify-content-center align-items-center" id="description"
-                         style="height: 100%;z-index: 999;">
-                        <!--<img src="images/snowdays-white-no_snowflake1.svg" id="s-title" class="px-3 px-md-0">-->
-                        <h1 class="px-3 px-md-0" id="s-title" style="font-family: 'Jaapokki', sans-serif">Snowdays</h1>
-                        <h6 id="s-subtitle" class="mb-2 text-center">Europe's biggest winter sports event organised by
-                            students for
-                            students!</h6>
-                        <!--<h6 id="s-date">9-10-11 March 2017</h6>-->
-                        <!--<img src="images/divider.png" id="s-divider">-->
-                        <div class="d-flex flex-row">
-                            <!--<div class="s-button-flex mt-4 mr-4">-->
-                            <!--<a href="/event"><i class="fa fa-calendar mr-2" aria-hidden="true"></i> Schedule</a>-->
-                            <!--</div>-->
-                            <!--<div class="s-button-flex mt-4">-->
-                            <!--<a href="/login"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i> Login</a>-->
-                            <!--</div>-->
+          <div class="d-flex flex-column justify-content-center align-items-center" id="description"
+               style="height: 100%;z-index: 999;">
+            <!--<img src="images/snowdays-white-no_snowflake1.svg" id="s-title" class="px-3 px-md-0">-->
+            <h1 class="px-3 px-md-0" id="s-title" style="font-family: 'Jaapokki', sans-serif">Snowdays</h1>
+            <h6 id="s-subtitle" class="mb-2 text-center">Europe's biggest winter sports event organised by
+              students for students!</h6>
+            <!--<h6 id="s-date">9-10-11 March 2017</h6>-->
+            <!--<img src="images/divider.png" id="s-divider">-->
+            <div class="d-flex flex-row justify-content-center" style="width: 100%">
+              <!--<div class="s-button-flex mt-4 mr-4">-->
+              <!--<a href="/event"><i class="fa fa-calendar mr-2" aria-hidden="true"></i> Schedule</a>-->
+              <!--</div>-->
+              <!--<div class="s-button-flex mt-4">-->
+              <!--<a href="/register"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i> Enroll for internals</a>-->
+              <!--</div>-->
 
-                            <section class="cd-section">
-                                <div class="mt-4 cd-modal-action">
-                                    <a href="#0" class="btn" data-type="modal-trigger"><i
-                                            class="fa fa-video-camera mr-2"
-                                            aria-hidden="true"></i>
-                                        Aftermovie</a>
-                                    <span class="cd-modal-bg"></span>
-                                </div>
+              <!-- aftermovie button -->
+              <!--<section class="d-flex cd-section justify-content-center" style="width: 100%">-->
+              <!--<div class="mt-4 cd-modal-action">-->
+              <!--<a href="#0" class="btn" data-type="modal-trigger"><i-->
+              <!--class="fa fa-video-camera mr-2"-->
+              <!--aria-hidden="true"></i>-->
+              <!--Aftermovie</a>-->
+              <!--<span class="cd-modal-bg"></span>-->
+              <!--</div>-->
 
-                                <div class="cd-modal">
-                                    <div class="cd-modal-content d-flex align-items-center justify-content-center flex-column">
-                                        <iframe id="aftermovie" src="https://player.vimeo.com/video/221412894"
-                                                width="640" height="360" frameborder="0"
-                                                webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                                        <p style="font-size: 1.2rem;">Edited by <a style="font-size: inherit;"
-                                                                                   href="https://www.youtube.com/c/checcocorda">Francesco
-                                            Corda</a></p>
-                                    </div>
-                                </div>
+              <!--<div class="cd-modal">-->
+              <!--<div class="cd-modal-content d-flex align-items-center justify-content-center flex-column">-->
+              <!--<iframe id="aftermovie" src="https://player.vimeo.com/video/221412894"-->
+              <!--width="640" height="360" frameborder="0"-->
+              <!--webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>-->
+              <!--<p style="font-size: 1.2rem;">Edited by <a style="font-size: inherit;"-->
+              <!--href="https://www.youtube.com/c/checcocorda">Francesco-->
+              <!--Corda</a></p>-->
+              <!--</div>-->
+              <!--</div>-->
 
-                                <a href="#0" class="cd-modal-close">Close</a>
-                            </section>
-                        </div>
-                    </div>
-                    <!--<div class="sn-countdown">-->
-                        <!--{{#each t in countdown}}-->
-                    <!--<div class="sn-countdown-block d-flex flex-column justify-content-center">-->
-                    <!--<h2>{{getValue t}}</h2>-->
-                    <!--<h4>{{getKey t}}</h4>-->
-                    <!--</div>-->
-                        <!--{{/each}}-->
-                    <!--</div>-->
-
-                    <ul class="nav flex-row justify-content-center text-center flex-wrap" id="sn-home-menu">
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#welcome">Welcome</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#events">Events</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#sports">Sports</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#parties">Parties</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#staff">Staff</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#videos">Videos</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#media">Media</a>
-                        </li>
-                        <li class="sn-home-menu-item">
-                            <a class="nav-link" href="#sponsors">Sponsors</a>
-                        </li>
-                        <!--<li class="sn-home-menu-item">-->
-                        <!--<a class="nav-link" href="/login">Login</a>-->
-                        <!--</li>-->
-                    </ul>
-                </div>
+              <!--<a href="#0" class="cd-modal-close">Close</a>-->
+              <!--</section>-->
             </div>
+          </div>
+          <!--<div class="sn-countdown">-->
+          <!--{{#each t in countdown}}-->
+          <!--<div class="sn-countdown-block d-flex flex-column justify-content-center">-->
+          <!--<h2>{{getValue t}}</h2>-->
+          <!--<h4>{{getKey t}}</h4>-->
+          <!--</div>-->
+          <!--{{/each}}-->
+          <!--</div>-->
 
-
-            <!--<div class="col-12 d-flex flex-column justify-content-center align-items-stretch panorama" id="section-1">-->
-
-            <!---->
-
-            <!--</div>-->
+          <ul class="nav flex-row justify-content-center text-center flex-wrap" id="sn-home-menu">
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#welcome">Welcome</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#events">Events</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#sports">Sports</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#parties">Parties</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#staff">Staff</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#videos">Videos</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#media">Media</a>
+            </li>
+            <li class="sn-home-menu-item">
+              <a class="nav-link" href="#sponsors">Sponsors</a>
+            </li>
+            <!--<li class="sn-home-menu-item">-->
+            <!--<a class="nav-link" href="/login">Login</a>-->
+            <!--</li>-->
+          </ul>
         </div>
-        <!--<div class="s-button-flex">-->
-        <!--<a href="/public/Snowdays-Sponsors-EN-WEB.jpg" target="_blank">Discover&nbsp;&nbsp;-->
-        <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_en.svg"></a>-->
-        <!--<a href="/public/Snowdays-Sponsors-IT-WEB.jpg" target="_blank">-->
-        <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_it.svg"></a>-->
-        <!--<a href="/public/Snowdays-Sponsors-DE-WEB.jpg" target="_blank">-->
-        <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_de.svg"></a>-->
-        <!--</div>-->
+      </div>
 
-        <!-- INTRO -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row mt-5 no-margin">
-                    <div class="container">
-                        <div class="col-12">
-                            <div class="row mb-4">
-                                <div class="col-12 text-center">
-                                    <h2 id="welcome">There are no days like Snowdays!</h2>
-                                    <!--<h2 class="cd-headline animated-headline letters scale">-->
-                                    <!--<span>Snowdays means... </span>-->
-                                    <!--<span class="cd-words-wrapper">-->
-                                    <!--<b class="is-visible">fun</b>-->
-                                    <!--<b>sports</b>-->
-                                    <!--<b>parties</b>-->
-                                    <!--</span>-->
-                                    <!--</h2>-->
-                                </div>
-                            </div>
 
-                            <div class="row mb-4">
-                                <div class="col-12 px-3 px-md-5 mb-4 mb-md-0">
-                                    <p>This was the motto for the very first SnowDays in 2004 where approximately 100
-                                        people rode the
-                                        slopes
-                                        of Obereggen. Since then more than 10 years past.
-                                        While the event thrived and progressed from year to year many experiences where
-                                        made on which the
-                                        yearly
-                                        expansion is based on.
-                                        Meanwhile, our event attracts students from all over Europe to come to South
-                                        Tyrol to take part at
-                                        the
-                                        famous Snowdays.</p>
-                                    <p>Even after all those Years the passion of the organisers, to offer the
-                                        participants an
-                                        unforgettable
-                                        weekend in South Tyrol is still vast.
-                                        Enthusiasm and teamwork are the leading traits which are driving the SCUB-Team
-                                        (Sports Club
-                                        University
-                                        Bolzano), which over the last months has already started intensively with the
-                                        organisation of the
-                                        14th
-                                        edition of the Snowdays.</p>
-                                    <p>Our goal is to provide three unforgettable days of sport, joy and entertainment
-                                        for every single
-                                        participant. During the event students from different universities and countries
-                                        get to know each
-                                        other
-                                        and enjoy together lots of different activities while exploring South Tyrol and
-                                        the companies who
-                                        are supporting the event.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="sn-parallax-section-2"></div>
-                        <!--<img data-original="images/home/section-2.jpg" class="img-fluid" width="2000" height="2000">-->
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!--<div class="col-12 d-flex flex-column justify-content-center align-items-stretch panorama" id="section-1">-->
 
-        <!-- EVENTS -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin mt-3">
-                    <div class="col-12">
-                        <h1 id="events">EVENTS</h1>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row py-4">
-                        <div class="col-12 col-md-6 px-3 px-md-5 pr-md-3">
-                            <p class="pb-4 pb-md-0">Snowdays is the biggest winter sports event organised for students
-                                by students in
-                                Europe. From the 9th until the 11th of March SCUB organises sporting competitions,
-                                entertainment and
-                                parties in Bozen and surroundings.</p>
-                        </div>
-                        <div class="col-12 col-md-6 px-3 px-md-5 pl-md-3">
-                            <p>The organising committee consists solely of volunteers, enthusiastic about sports, snow
-                                and mountains.
-                                Involved are students from the varying faculties of the UniBz, which is supporting the
-                                event.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="sn-parallax-section-3"></div>
-                        <!--<img data-original="images/home/section-3.jpg" class="img-fluid" width="2000" height="2000">-->
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!---->
 
-        <!-- SPORTS -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin mt-3">
-                    <div class="col-12">
-                        <h1 id="sports">SPORTS</h1>
-                        <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
-                            <h4>SKI</h4>
-                            <h4>SNOWBOARD</h4>
-                            <h4>SNOWVOLLEY</h4>
-                            <h4>SLEDGING</h4>
-                            <h4>SNOWFOOTBALL</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-6">
-                        <img data-original="images/home/sports-1.jpg" class="img-fluid" width="2000" height="2000">
-                    </div>
-                    <div class="col-6">
-                        <img data-original="images/home/sports-2.jpg" class="img-fluid" width="2000" height="2000">
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row py-4">
-                        <div class="col-12 px-3 px-md-5">
-                            <p>Included in our package: all meals (breakfast, lunch, snacks, dinner), accommodation in
-                                student dorm or
-                                apartment, 2 ski passes, transport to the ski areas, 3 parties, "welcome box” containing
-                                the official
-                                t-shirt and many sponsors gadgets.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="sn-parallax-sport-3"></div>
-                        <!--<img data-original="images/home/sports-3.jpg" class="img-fluid" width="2000" height="2000">-->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PARTIES -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin mt-3">
-                    <div class="col-12">
-                        <h1 id="parties">PARTIES</h1>
-                        <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
-                            <h4>3 PARTIES</h4>
-                            <h4>3 LOCATIONS</h4>
-                            <h4>3 THEMES</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="sn-parallax-parties"></div>
-                        <!--<img data-original="images/home/parties.jpg" class="img-fluid" width="2000" height="2000">-->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- STAFF -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin my-3">
-                    <div class="col-12">
-                        <h1 id="staff">STAFF</h1>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12" style="padding: 0;">
-                        <div class="team-carousel">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Main coordinators<br>
-                                        <small>Marco Martini and Johanna Roth</small>
-                                    </h4>
-                                    <img src="images/team/mainco.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Contacts & Accommodation<br>
-                                        <small>Mara Coneglian and Chiara Fracasso</small>
-                                    </h4>
-                                    <img src="images/team/ca.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Design & Graphics<br>
-                                        <small>Maria Girofletti and Paulina Boehme</small>
-                                    </h4>
-                                    <img src="images/team/graphics.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">IT<br>
-                                        <small>Romeo Bellon</small>
-                                    </h4>
-                                    <img src="images/team/it.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Logistics<br>
-                                        <small>Marius Schada and Giorgia Bontorin</small>
-                                    </h4>
-                                    <img src="images/team/logistics.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Photography<br>
-                                        <small>Giacomo Sandre and Christian Albertin</small>
-                                    </h4>
-                                    <img src="images/team/photo.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Public Relations<br>
-                                        <small>Francesca Rover and Giulia Gori</small>
-                                    </h4>
-                                    <img src="images/team/pr.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Spirit<br>
-                                        <small>Tashina Maier</small>
-                                    </h4>
-                                    <img src="images/team/spirit.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Party<br>
-                                        <small>Stefano Capone, Maximilian Plunger,<br>Elia Piovesan, Matteo
-                                            Olivotto,<br>Maximilian Bernard,
-                                            Riccardo Vantini<br>and Milena Lepidi
-                                        </small>
-                                    </h4>
-                                    <img src="images/team/party.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Sponsors<br>
-                                        <small>Mattias Schweizer, Maximilian Bernard,<br>Giulia Notari and Sophia Adolf
-                                        </small>
-                                    </h4>
-                                    <img src="images/team/sponsors.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Sports<br>
-                                        <small>Caterina Pizzini, Julia Strasser<br>and Carolin Winkler</small>
-                                    </h4>
-                                    <img src="images/team/sports.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <h4 class="team-carousel-text">Catering<br>
-                                        <small>Laura Da Ros, Leonard Wilke<br>and Martina Cantore</small>
-                                    </h4>
-                                    <img src="images/team/catering.jpg">
-                                </div>
-                            </div>
-
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIDEOS -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin mt-3">
-                    <div class="col-12">
-                        <h1 id="videos">VIDEOS</h1>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12 col-md-6 mb-4 mb-md-0">
-                        <h4 class="mb-4">TEASER 2017</h4>
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&show_text=0"
-                                    allowfullscreen class="embed-responsive-item"></iframe>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <h4 class="mb-4">AFTERMOVIE 2016</h4>
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe src="https://player.vimeo.com/video/163717461" class="embed-responsive-item"
-                                    allowfullscreen></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MEDIA -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin mt-3">
-                    <div class="col-12">
-                        <h1 class="mb-4" id="media">MEDIA</h1>
-                        <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
-                            <a href="https://www.facebook.com/Snowdays.Bolzano/">
-                                <img class="s-icon" data-original="images/home/social/facebook.svg" width="400"
-                                     height="400">
-                            </a>
-                            <a href="https://www.instagram.com/snowdays.bolzano/">
-                                <img class="s-icon" data-original="images/home/social/instagram.svg" width="400"
-                                     height="400">
-                            </a>
-                            <a href="https://vimeo.com/bolzanosnowdays">
-                                <img class="s-icon" data-original="images/home/social/vimeo.svg" width="400"
-                                     height="400">
-                            </a>
-                            <img class="s-icon" data-original="images/home/social/snapchat.svg" width="400"
-                                 height="400">
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin mt-4 mb-5">
-                    <div class="col-6">
-                        <img data-original="images/home/media/medias-1.jpg" class="img-fluid" width="2000"
-                             height="2000">
-                    </div>
-                    <div class="col-6">
-                        <img data-original="images/home/media/medias-2.jpg" class="img-fluid" width="2000"
-                             height="2000">
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="container">
-                            <div class="row px-md-5 d-flex align-items-center mb-5">
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/dolomiten.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/altoadige.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/franzmagazine.png" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                            </div>
-                            <div class="row px-md-5 d-flex align-items-center mb-5">
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/orf.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/sdf.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/rai_sudtirol.png" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                            </div>
-                            <div class="row px-md-5 d-flex align-items-center mb-4">
-                                <a class="offset-2 col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/sudtirol1.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-4 px-2 px-md-4">
-                                    <img data-original="images/home/media/vivafm.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SPONSORS -->
-        <div class="row no-margin">
-            <div class="col-12 section">
-                <div class="row no-margin mt-3">
-                    <div class="col-12">
-                        <h1 class="mb-4" id="sponsors" style="font-size: 16vw;">SPONSORS</h1>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12" style="padding: 0;">
-                        <div class="sponsors-carousel">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img data-original="images/home/sponsors-slideshow/sponsor-1.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-2.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-3.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-4.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-5.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-6.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-7.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-8.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-9.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-10.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-11.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-12.jpg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="images/home/sponsors-slideshow/sponsor-13.jpg">
-                                </div>
-                            </div>
-
-                            <div class="swiper-button-prev-2"></div>
-                            <div class="swiper-button-next-2"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin mt-5">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
-                            <h4>OFFICIAL SPONSORS</h4>
-                        </div>
-                        <div class="container">
-                            <div class="row px-md-5 d-flex align-items-center justify-content-center mb-5 px-3 px-md-5">
-                                <a class="col-5 col-md-2 mx-2 mx-md-4">
-                                    <img data-original="images/home/sponsors/capone.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-3 mx-2 mx-md-4" href="http://www.alpenstoff.de/" target="_blank">
-                                    <img data-original="images/home/sponsors/alpenstoff.png" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
-                            <h4>MAIN SPONSORS</h4>
-                        </div>
-                        <div class="container">
-                            <div class="row d-flex align-items-center justify-content-center mb-5 px-3 px-md-5">
-                                <a class="col-5 col-md-2 px-2 px-md-4" href="http://www.fassa.com/index.asp?l=en"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/valdifassa.png" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                                <!--<div class="col-4 col-md-2 px-2 px-md-4"><img data-original="images/home/sponsors/burgerbrau.png"-->
-                                <!--class="img-fluid" width="400" height="400">-->
-                                <!--</div>-->
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.rossignol.com/IT/IT/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/rossignol.jpg" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.lange-boots.com/IT/I"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/lange.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.dynastar.com/it/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/dynastar.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.flixbus.com/" target="_blank">
-                                    <img data-original="images/home/sponsors/flixbus.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.twentybz.it/" target="_blank">
-                                    <img data-original="images/home/sponsors/twenty.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.marlene.it/" target="_blank">
-                                    <img data-original="images/home/sponsors/marlene.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.audiotek-bz.org/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/audiotek.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://getuptitude.com/" target="_blank">
-                                    <img data-original="images/home/sponsors/uptitude.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.whatsbroadcast.com/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/whatsbroadcast.png" class="img-fluid"
-                                         width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.koelln.de/" target="_blank">
-                                    <img data-original="images/home/sponsors/koln.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://shop.trikon.it/it/" target="_blank">
-                                    <img data-original="images/home/sponsors/trikon.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row no-margin">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
-                            <h4>SPONSORS</h4>
-                        </div>
-                        <div class="container">
-                            <div class="row d-flex align-items-center justify-content-center mb-5 px-3 px-md-5">
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.salewa.it/it/" target="_blank">
-                                    <img data-original="images/home/sponsors/salewa.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.burgerking.it/" target="_blank">
-                                    <img data-original="images/home/sponsors/burgerking.png" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.loacker.com/int/en/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/loacker.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.pizzacall.eu/" target="_blank">
-                                    <img data-original="images/home/sponsors/pizzacall.jpg" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.wam-socks.com/en/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/wams.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.lenis.coop/it/index.php"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/lenis.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://andreadezulian.com/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/adgems.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.senfter.it/" target="_blank">
-                                    <img data-original="images/home/sponsors/senfter.jpg" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.iltuomuesli.it/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/iltuomuesli.jpg" class="img-fluid"
-                                         width="400" height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.markas.com/it/home.html"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/markas.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://elferpromotion.it/" target="_blank">
-                                    <img data-original="images/home/sponsors/elfer.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.acquaplose.com/"
-                                   target="_blank">
-                                    <img data-original="images/home/sponsors/plose.png" class="img-fluid" width="400"
-                                         height="400">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="row no-margin mt-4">
-            <div class="col-12 text-center" style="height: 50px;">
-                <p>Developed with <img draggable="false" class="emoji"
-                                       src="https://twemoji.maxcdn.com/2/72x72/1f496.png"> by
-                    <a href="https://it.linkedin.com/in/romeobellon">Romeo Bellon</a>
-                </p>
-            </div>
-        </div>
+      <!--</div>-->
     </div>
+    <!--<div class="s-button-flex">-->
+    <!--<a href="/public/Snowdays-Sponsors-EN-WEB.jpg" target="_blank">Discover&nbsp;&nbsp;-->
+    <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_en.svg"></a>-->
+    <!--<a href="/public/Snowdays-Sponsors-IT-WEB.jpg" target="_blank">-->
+    <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_it.svg"></a>-->
+    <!--<a href="/public/Snowdays-Sponsors-DE-WEB.jpg" target="_blank">-->
+    <!--<img draggable="false" class="s-flag" id="flag-it" src="images/flag_de.svg"></a>-->
+    <!--</div>-->
+
+    <!-- INTRO -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row mt-5 no-margin">
+          <div class="container">
+            <div class="col-12">
+              <div class="row mb-4">
+                <div class="col-12 text-center">
+                  <h2 id="welcome">There are no days like Snowdays!</h2>
+                  <!--<h2 class="cd-headline animated-headline letters scale">-->
+                  <!--<span>Snowdays means... </span>-->
+                  <!--<span class="cd-words-wrapper">-->
+                  <!--<b class="is-visible">fun</b>-->
+                  <!--<b>sports</b>-->
+                  <!--<b>parties</b>-->
+                  <!--</span>-->
+                  <!--</h2>-->
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-12 px-3 px-md-5 mb-4 mb-md-0">
+                  <p>This was the motto for the very first Snowdays in 2003, when approximately 100 people ruled the
+                    slopes of Obereggen. Since then more than 10 years have passed. While the event thrived and
+                    progressed from year to year, many thrilling experiences were made: this led to an incredible
+                    expansion of our event. Snowdays attracts students from all over the world to come to South Tyrol to
+                    take part in our wintersport event, the biggest one organised by students for students in Europe.
+                  </p>
+                  <p>
+                    Even after all these years the passion of the organisers to offer to the participants an
+                    unforgettable weekend in South Tyrol is still strong. Enthusiasm and teamwork are the leading
+                    features that drive the SCUB-Team (Sports Club University Bolzano), which over the last months has
+                    already intensively started the organisation of the 15th edition of the Snowdays.
+                  </p>
+                  <p>
+                    Our goals are to provide three unforgettable days of sport, joy and entertainment. During the event
+                    students from different universities and countries get to know each other and the companies that
+                    support the event, while enjoying together lots of different activities and exploring South
+                    Tyrol.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="sn-parallax-section-2"></div>
+            <!--<img data-original="images/home/section-2.jpg" class="img-fluid" width="2000" height="2000">-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin mt-3">
+          <div class="col-12">
+            <h1 id="events">EVENTS</h1>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row py-4">
+            <div class="col-12 col-md-6 px-3 px-md-5 pr-md-3">
+              <p class="pb-4 pb-md-0">Snowdays is the biggest winter sports event organised for students
+                by students in
+                Europe. From the 8th until the 10th of March SCUB organises sporting competitions,
+                entertainment and
+                parties in Bozen and surroundings.</p>
+            </div>
+            <div class="col-12 col-md-6 px-3 px-md-5 pl-md-3">
+              <p>The organising committee consists solely of volunteers, enthusiastic about sports, snow
+                and mountains.
+                Involved are students from the varying faculties of the UniBz, which is supporting the
+                event.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="sn-parallax-section-3"></div>
+            <!--<img data-original="images/home/section-3.jpg" class="img-fluid" width="2000" height="2000">-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPORTS -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin mt-3">
+          <div class="col-12">
+            <h1 id="sports">SPORTS</h1>
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>SKI</h4>
+              <h4>SNOWBOARD</h4>
+              <h4>SNOWVOLLEY</h4>
+              <h4>SLEDGING</h4>
+              <h4>SNOWFOOTBALL</h4>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-6">
+            <img data-original="images/home/sports-1.jpg" class="img-fluid" width="2000" height="2000">
+          </div>
+          <div class="col-6">
+            <img data-original="images/home/sports-2.jpg" class="img-fluid" width="2000" height="2000">
+          </div>
+        </div>
+        <div class="container">
+          <div class="row py-4">
+            <div class="col-12 px-3 px-md-5">
+              <p>Included in our package: all meals (breakfast, lunch, snacks, dinner), accommodation in
+                student dorm or
+                apartment, 2 ski passes, transport to the ski areas, 3 parties, "welcome box” containing
+                the official
+                t-shirt and many sponsors gadgets.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="sn-parallax-sport-3"></div>
+            <!--<img data-original="images/home/sports-3.jpg" class="img-fluid" width="2000" height="2000">-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIES -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin mt-3">
+          <div class="col-12">
+            <h1 id="parties">PARTIES</h1>
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>3 PARTIES</h4>
+              <h4>3 LOCATIONS</h4>
+              <h4>3 THEMES</h4>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="sn-parallax-parties"></div>
+            <!--<img data-original="images/home/parties.jpg" class="img-fluid" width="2000" height="2000">-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAFF -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin my-3">
+          <div class="col-12">
+            <h1 id="staff">STAFF</h1>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12" style="padding: 0;">
+            <div class="team-carousel">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Main coordinators<br>
+                    <small>Elia Piovesan and Riccardo Vantini</small>
+                  </h4>
+                  <img src="images/team/mainco.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Contacts & Accommodation<br>
+                    <small>Valentina Scannone, Annapaola Spiller and Clara Pollano</small>
+                  </h4>
+                  <img src="images/team/ca.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Design & Graphics<br>
+                    <small>Fjorelo Habibaj and Paulina Boehme</small>
+                  </h4>
+                  <img src="images/team/graphics.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">IT<br>
+                    <small>Davide Giacomelli, Nicolò Molinari and Romeo Bellon</small>
+                  </h4>
+                  <img src="images/team/it.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Logistics<br>
+                    <small>Nicolò Angeli, Riccardo Felluga and Sokaina Chroukate</small>
+                  </h4>
+                  <img src="images/team/logistics.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">PR<br>
+                    <small>Annamaria Luberti, Sonia Sangiorgio and Filiberto Daidola</small>
+                  </h4>
+                  <img src="images/team/pr.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Sponsors<br>
+                    <small>
+                      Marco Martini, Federico Kruk,<br>Max Haag, François Tronche-Macaire<br>
+                      and Sara Maini
+                    </small>
+                  </h4>
+                  <img src="images/team/sponsors.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Sports<br>
+                    <small>Alice Brambilla, Greta Forni,<br>Killian Freitag and Hanna Maria Koloszyc
+                    </small>
+                  </h4>
+                  <img src="images/team/sports.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <h4 class="team-carousel-text">Catering<br>
+                    <small>Teresa Ferigato, Matteo Redaelli<br>and Gioia Vidusso</small>
+                  </h4>
+                  <img src="images/team/catering.jpg">
+                </div>
+              </div>
+
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin mt-3">
+          <div class="col-12">
+            <h1 id="videos">VIDEOS</h1>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12 col-md-6">
+            <h4 class="mb-4">AFTERMOVIE 2017</h4>
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe id="aftermovie" src="https://player.vimeo.com/video/221412894"
+                      width="640" height="360" frameborder="0"
+                      webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <h4 class="mb-4">TEASER 2017</h4>
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe
+                src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&show_text=0"
+                allowfullscreen class="embed-responsive-item"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin mt-3">
+          <div class="col-12">
+            <h1 class="mb-4" id="media">MEDIA</h1>
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <a href="https://www.facebook.com/Snowdays.Bolzano/">
+                <img class="s-icon" data-original="images/home/social/facebook.svg" width="400"
+                     height="400">
+              </a>
+              <a href="https://www.instagram.com/snowdays.bolzano/">
+                <img class="s-icon" data-original="images/home/social/instagram.svg" width="400"
+                     height="400">
+              </a>
+              <a href="https://vimeo.com/bolzanosnowdays">
+                <img class="s-icon" data-original="images/home/social/vimeo.svg" width="400"
+                     height="400">
+              </a>
+              <img class="s-icon" data-original="images/home/social/snapchat.svg" width="400"
+                   height="400">
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin mt-4 mb-5">
+          <div class="col-6">
+            <img data-original="images/home/media/medias-1.jpg" class="img-fluid" width="2000"
+                 height="2000">
+          </div>
+          <div class="col-6">
+            <img data-original="images/home/media/medias-2.jpg" class="img-fluid" width="2000"
+                 height="2000">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="container">
+              <div class="row px-md-5 d-flex align-items-center mb-5">
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/dolomiten.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/altoadige.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/franzmagazine.png" class="img-fluid"
+                       width="400" height="400">
+                </a>
+              </div>
+              <div class="row px-md-5 d-flex align-items-center mb-5">
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/orf.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/sdf.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/rai_sudtirol.png" class="img-fluid"
+                       width="400" height="400">
+                </a>
+              </div>
+              <div class="row px-md-5 d-flex align-items-center mb-4">
+                <a class="offset-2 col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/sudtirol1.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-4 px-2 px-md-4">
+                  <img data-original="images/home/media/vivafm.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPONSORS -->
+    <div class="row no-margin">
+      <div class="col-12 section">
+        <div class="row no-margin mt-3">
+          <div class="col-12">
+            <h1 class="mb-4" id="sponsors" style="font-size: 16vw;">SPONSORS</h1>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12" style="padding: 0;">
+            <div class="sponsors-carousel">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img data-original="images/home/sponsors-slideshow/sponsor-1.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-2.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-3.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-4.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-5.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-6.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-7.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-8.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-9.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-10.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-11.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-12.jpg">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/home/sponsors-slideshow/sponsor-13.jpg">
+                </div>
+              </div>
+
+              <div class="swiper-button-prev-2"></div>
+              <div class="swiper-button-next-2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin mt-5">
+          <div class="col-12">
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>OFFICIAL SPONSORS</h4>
+            </div>
+            <div class="container">
+              <div class="row px-md-5 d-flex align-items-center justify-content-center mb-5 px-3 px-md-5">
+                <a class="col-5 col-md-2 mx-2 mx-md-4">
+                  <img data-original="images/home/sponsors/capone.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-3 mx-2 mx-md-4" href="http://www.alpenstoff.de/" target="_blank">
+                  <img data-original="images/home/sponsors/alpenstoff.png" class="img-fluid"
+                       width="400" height="400">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>MAIN SPONSORS</h4>
+            </div>
+            <div class="container">
+              <div class="row d-flex align-items-center justify-content-center mb-5 px-3 px-md-5">
+                <a class="col-5 col-md-2 px-2 px-md-4" href="http://www.fassa.com/index.asp?l=en"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/valdifassa.png" class="img-fluid"
+                       width="400" height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.rossignol.com/IT/IT/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/rossignol.jpg" class="img-fluid"
+                       width="400" height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.lange-boots.com/IT/I"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/lange.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.dynastar.com/it/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/dynastar.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.flixbus.com/" target="_blank">
+                  <img data-original="images/home/sponsors/flixbus.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.twentybz.it/" target="_blank">
+                  <img data-original="images/home/sponsors/twenty.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.marlene.it/" target="_blank">
+                  <img data-original="images/home/sponsors/marlene.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.audiotek-bz.org/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/audiotek.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://getuptitude.com/" target="_blank">
+                  <img data-original="images/home/sponsors/uptitude.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.whatsbroadcast.com/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/whatsbroadcast.png" class="img-fluid"
+                       width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.koelln.de/" target="_blank">
+                  <img data-original="images/home/sponsors/koln.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://shop.trikon.it/it/" target="_blank">
+                  <img data-original="images/home/sponsors/trikon.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-12">
+            <div class="d-flex justify-content-around flex-row flex-wrap mx-4 mb-3">
+              <h4>SPONSORS</h4>
+            </div>
+            <div class="container">
+              <div class="row d-flex align-items-center justify-content-center mb-5 px-3 px-md-5">
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.salewa.it/it/" target="_blank">
+                  <img data-original="images/home/sponsors/salewa.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.burgerking.it/" target="_blank">
+                  <img data-original="images/home/sponsors/burgerking.png" class="img-fluid"
+                       width="400" height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.loacker.com/int/en/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/loacker.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.pizzacall.eu/" target="_blank">
+                  <img data-original="images/home/sponsors/pizzacall.jpg" class="img-fluid"
+                       width="400" height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="https://www.wam-socks.com/en/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/wams.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.lenis.coop/it/index.php"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/lenis.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://andreadezulian.com/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/adgems.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.senfter.it/" target="_blank">
+                  <img data-original="images/home/sponsors/senfter.jpg" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.iltuomuesli.it/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/iltuomuesli.jpg" class="img-fluid"
+                       width="400" height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.markas.com/it/home.html"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/markas.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://elferpromotion.it/" target="_blank">
+                  <img data-original="images/home/sponsors/elfer.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+                <a class="col-5 col-md-2 mx-2 mx-md-4" href="http://www.acquaplose.com/"
+                   target="_blank">
+                  <img data-original="images/home/sponsors/plose.png" class="img-fluid" width="400"
+                       height="400">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row no-margin mt-4">
+      <div class="col-12 text-center" style="height: 50px;">
+        <p>Developed with <img draggable="false" class="emoji"
+                               src="https://twemoji.maxcdn.com/2/72x72/1f496.png"> by
+          <a href="https://it.linkedin.com/in/romeobellon">Romeo Bellon</a>
+        </p>
+      </div>
+    </div>
+  </div>
 </template>

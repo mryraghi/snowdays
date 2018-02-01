@@ -70,8 +70,6 @@
       </div>
 
       <div class="col-12 col-lg-4">
-
-
         <!-- FILTERS -->
         <h4><i class="fa fa-filter" aria-hidden="true"></i> Filters</h4>
         <h5 class="text-muted">{{countText 'filters'}} active</h5>
@@ -162,67 +160,62 @@
       <h6>User</h6>
       <ul class="list-unstyled">
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="username" disabled>
             <label class="custom-control-label" for="username">Username</label>
-          </label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="profile_firstName" disabled>
             <label class="custom-control-label" for="username">First name</label>
-          </label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="profile_lastName" disabled>
             <label class="custom-control-label" for="username">Last name</label>
-          </label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="profile_gender">
             <label class="custom-control-label" for="username">Gender</label>
-          </label>
+          </div>
         </li>
       </ul>
     </div>
     <div class="col-md-2">
       <ul>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="profile_university">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">University</span>
-          </label>
+            <label class="custom-control-label" for="profile_university">University</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="profile_allowedParticipants">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description"># participants</span>
-          </label>
+            <label class="custom-control-label" for="profile_allowedParticipants"># participants</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="roles">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Role</span>
-          </label>
+            <label class="custom-control-label" for="roles">Role</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="survey">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Survey</span>
-          </label>
+            <label class="custom-control-label" for="survey">Survey</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="createdAt">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Created at</span>
-          </label>
+            <label class="custom-control-label" for="createdAt">Created at</label>
+          </div>
         </li>
       </ul>
     </div>
@@ -241,14 +234,10 @@
   <option value="gender">Gender</option>
   <option disabled>Host</option>
   <option value="host.info.accommodation" disabled>– Accommodation</option>
-  <option disabled>Day 1</option>
-  <option value="day1.activity">– Activity</option>
-  <option value="day1.rental">– Rental</option>
-  <option disabled>Day 2</option>
-  <option value="day2.activity">– Activity</option>
-  <option value="day2.rental">– Rental</option>
-  <option value="day2.course">– Ski course</option>
   <option disabled>––––––––––––––––––</option>
+  <option value="activity">– Ski/Snowboard</option>
+  <option value="rental">– Rental</option>
+  <option value="course">– Course</option>
   <option value="foodAllergies">Food allergies</option>
   <option value="isVolleyPlayer">isVolleyPlayer</option>
   <option value="isFootballPlayer">isFootballPlayer</option>
@@ -256,6 +245,7 @@
   <option value="hasStudentID">hasStudentID</option>
   <option value="statusComplete">statusComplete</option>
   <option value="checkedIn">checkedIn</option>
+  <option value="hasPaid">hasPaid</option>
 </template>
 
 <template name="ParticipantsFields">
@@ -264,46 +254,40 @@
       <h6>Participant</h6>
       <ul class="list-unstyled">
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" checked disabled id="firstName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">First name</span>
-          </label>
+            <label class="custom-control-label" for="firstName">First name</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" checked disabled id="lastName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Last name</span>
-          </label>
+            <label class="custom-control-label" for="lastName">Last name</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="gender">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Gender</span>
-          </label>
+            <label class="custom-control-label" for="gender">Gender</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="email">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Email</span>
-          </label>
+            <label class="custom-control-label" for="email">Email</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="phone">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Phone</span>
-          </label>
+            <label class="custom-control-label" for="phone">Phone</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="university">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">University</span>
-          </label>
+            <label class="custom-control-label" for="university">University</label>
+          </div>
         </li>
       </ul>
     </div>
@@ -312,46 +296,40 @@
       <h6>Address</h6>
       <ul class="list-unstyled">
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="info_street">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Street</span>
-          </label>
+            <label class="custom-control-label" for="info_street">Street</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="info_number">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Number</span>
-          </label>
+            <label class="custom-control-label" for="info_number">Number</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="info_city">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">City</span>
-          </label>
+            <label class="custom-control-label" for="info_city">City</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="info_zip">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">ZIP</span>
-          </label>
+            <label class="custom-control-label" for="info_zip">ZIP</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="info_province">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Province</span>
-          </label>
+            <label class="custom-control-label" for="info_province">Province</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="info_country">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Country</span>
-          </label>
+            <label class="custom-control-label" for="info_country">Country</label>
+          </div>
         </li>
       </ul>
     </div>
@@ -360,214 +338,180 @@
       <h6>Birth</h6>
       <ul class="list-unstyled">
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="birth_date">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Date</span>
-          </label>
+            <label class="custom-control-label" for="info_city">City</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="birth_country">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Country</span>
-          </label>
+            <label class="custom-control-label" for="info_city">City</label>
+          </div>
         </li>
       </ul>
       <h6>Settings</h6>
       <ul class="list-unstyled">
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="statusComplete">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">statusComplete</span>
-          </label>
+            <label class="custom-control-label" for="statusComplete">statusComplete</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="course">
+            <label class="custom-control-label" for="course">Course</label>
+          </div>
+        </li>
+        <li>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="activity">
+            <label class="custom-control-label" for="activity">Activity</label>
+          </div>
+        </li>
+        <li>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="rental">
+            <label class="custom-control-label" for="rental">Rental</label>
+          </div>
+        </li>
+        <li>
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="isVolleyPlayer">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">isVolleyPlayer</span>
-          </label>
+            <label class="custom-control-label" for="isVolleyPlayer">isVolleyPlayer</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="isFootballPlayer">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">isFootballPlayer</span>
-          </label>
+            <label class="custom-control-label" for="isFootballPlayer">isFootballPlayer</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="hasPersonalID">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">hasPersonalID</span>
-          </label>
+            <label class="custom-control-label" for="hasPersonalID">hasPersonalID</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="hasStudentID">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">hasStudentID</span>
-          </label>
+            <label class="custom-control-label" for="hasStudentID">hasStudentID</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="foodAllergies">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Food allergies</span>
-          </label>
+            <label class="custom-control-label" for="foodAllergies">Food allergies</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="tshirt">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">T-shirt</span>
-          </label>
+            <label class="custom-control-label" for="tshirt">T-shirt</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="shoeSize">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Shoe size</span>
-          </label>
+            <label class="custom-control-label" for="shoeSize">Shoe size</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="height">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Height</span>
-          </label>
+            <label class="custom-control-label" for="height">Height</label>
+          </div>
         </li>
         <li>
-          <label class="custom-control custom-checkbox">
+          <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="weight">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Weight</span>
-          </label>
+            <label class="custom-control-label" for="weight">Weight</label>
+          </div>
         </li>
       </ul>
     </div>
 
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-      <h6>Host</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_firstName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">First name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_lastName">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Last name</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_accommodation">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Accomm.</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_room">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Room</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_street">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Street</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_number">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Number</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_city">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">City</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_zip">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">ZIP</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_province">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Province</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="host_info_country">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Country</span>
-          </label>
-        </li>
-      </ul>
-    </div>
-
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-      <h6>Day 1</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day1_activity">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Activity</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day1_rental">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Rental</span>
-          </label>
-        </li>
-      </ul>
-      <h6>Day 2</h6>
-      <ul class="list-unstyled">
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day2_activity">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Activity</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day2_rental">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Rental</span>
-          </label>
-        </li>
-        <li>
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="day2_course">
-            <span class="custom-control-indicator"></span>
-            <span class="custom-control-description">Course</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+    <!--<div class="col-6 col-sm-4 col-md-3 col-lg-2">-->
+      <!--<h6>Host</h6>-->
+      <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_firstName">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">First name</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_lastName">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Last name</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_accommodation">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Accomm.</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_room">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Room</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_street">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Street</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_number">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Number</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_city">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">City</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_zip">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">ZIP</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_province">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Province</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<div class="custom-control custom-checkbox">-->
+            <!--<input type="checkbox" class="custom-control-input" id="host_info_country">-->
+            <!--<span class="custom-control-indicator"></span>-->
+            <!--<span class="custom-control-description">Country</span>-->
+          <!--</div>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -851,20 +795,6 @@
         <span class="sn-checkbox-indicator"></span>
       </label>
     </dd>
-
-    <dt class="col-4 col-sm-3">Activity</dt>
-    <dd class="col-6 col-sm-7">{{user.day1.activity}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day1.activity" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Rental</dt>
-    <dd class="col-6 col-sm-7">{{user.day1.rental}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day1.rental" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
   </dl>
   <hr>
   <h5>Day 2</h5>
@@ -883,29 +813,6 @@
       <label class="sn-checkbox-control sn-checkbox">
         <input type="checkbox" class="sn-checkbox-input" data-field="day2.bus2" data-field-type="checkbox"
                data-collection="participant" value="{{user.day2.bus2}}" checked="{{user.day2.bus2}}">
-        <span class="sn-checkbox-indicator"></span>
-      </label>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Activity</dt>
-    <dd class="col-6 col-sm-7">{{user.day2.activity}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day2.activity" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Rental</dt>
-    <dd class="col-6 col-sm-7">{{user.day2.rental}}</dd>
-    <dd class="col-2">
-      <a class="sn-modal-edit" data-field="day2.rental" data-field-type="text" data-collection="participant"
-         href>Edit</a>
-    </dd>
-
-    <dt class="col-4 col-sm-3">Course</dt>
-    <dd class="col-8 col-sm-9">
-      <label class="sn-checkbox-control sn-checkbox">
-        <input type="checkbox" class="sn-checkbox-input" data-field="day2.course" data-field-type="checkbox"
-               data-collection="participant" value="{{user.day2.course}}" checked="{{user.day2.course}}">
         <span class="sn-checkbox-indicator"></span>
       </label>
     </dd>
@@ -965,6 +872,33 @@
       <label class="sn-checkbox-control sn-checkbox">
         <input type="checkbox" class="sn-checkbox-input" data-field="checkedIn" data-field-type="checkbox"
                data-collection="participant" value="{{user.checkedIn}}" checked="{{user.checkedIn}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Rental</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="rental" data-field-type="checkbox"
+               data-collection="participant" value="{{user.rental}}" checked="{{user.rental}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Activity</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="activity" data-field-type="checkbox"
+               data-collection="participant" value="{{user.activity}}" checked="{{user.activity}}">
+        <span class="sn-checkbox-indicator"></span>
+      </label>
+    </dd>
+
+    <dt class="col-4 col-sm-3">Course</dt>
+    <dd class="col-8 col-sm-9">
+      <label class="sn-checkbox-control sn-checkbox">
+        <input type="checkbox" class="sn-checkbox-input" data-field="course" data-field-type="checkbox"
+               data-collection="participant" value="{{user.course}}" checked="{{user.course}}">
         <span class="sn-checkbox-indicator"></span>
       </label>
     </dd>
@@ -1303,18 +1237,16 @@
       <div class="col-12">
         <ul>
           <li>
-            <label class="sn-checkbox-control sn-checkbox">
+            <div class="sn-checkbox-control sn-checkbox">
               <input type="checkbox" class="sn-checkbox-input" name="ask_student_id" id="ask_student_id">
-              <span class="sn-checkbox-indicator"></span>
-              <span class="sn-checkbox-description">Do not ask for student ID</span>
-            </label>
+              <label class="custom-control-label" for="ask_student_id">Do not ask for student ID</label>
+            </div>
           </li>
           <li>
-            <label class="sn-checkbox-control sn-checkbox">
+            <div class="sn-checkbox-control sn-checkbox">
               <input type="checkbox" class="sn-checkbox-input" name="ask_personal_id" id="ask_personal_id">
-              <span class="sn-checkbox-indicator"></span>
-              <span class="sn-checkbox-description">Do not ask for personal ID</span>
-            </label>
+              <label class="custom-control-label" for="ask_personal_id">Do not ask for personal ID</label>
+            </div>
           </li>
         </ul>
       </div>

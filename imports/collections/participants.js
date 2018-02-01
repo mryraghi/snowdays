@@ -5,15 +5,6 @@ import _ from "lodash";
 const Participants = new Mongo.Collection("participants");
 const Schemas = {};
 
-// firstName and lastName have index: 1
-// See https://github.com/aldeed/meteor-schema-index
-
-// 1 Unicity (ale piccoli)
-// 1 benedikt
-//
-
-// TODO: shoe size, height, weight
-
 Schemas.Day1 = new SimpleSchema({
   bus1: {
     type: Boolean,
@@ -25,18 +16,6 @@ Schemas.Day1 = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
     label: "(Day 1) Bus 2",
-    optional: true
-  },
-  activity: {
-    type: String,
-    label: "(Day 1) activity",
-    allowedValues: ['relax', 'ski', 'snowboard', 'sledging'],
-    optional: true
-  },
-  rental: {
-    type: String,
-    label: "(Day 1) rental",
-    allowedValues: ['no', 'ski', 'snowboard', 'ski + boots', 'snowboard + boots', 'ski boots', 'snowboard boots', 'sledge'],
     optional: true
   },
   meal1: {
@@ -70,50 +49,24 @@ Schemas.Day2 = new SimpleSchema({
     label: "(Day 2) Bus 2",
     optional: true
   },
-  activity: {
-    type: String,
-    label: "(Day 2) Activity",
-    allowedValues: ['relax', 'ski', 'snowboard', 'ski race', 'snowboard race', 'snowshoe hiking', 'cross country'],
-    optional: true
-  },
-  rental: {
-    type: String,
-    label: "Day 2 rental",
-    allowedValues: ['no', 'ski', 'snowboard', 'ski + boots', 'snowboard + boots', 'ski boots', 'snowboard boots', 'snow rackets', 'cross country ski'],
-    optional: true
-  },
-  course: {
-    type: Boolean,
-    defaultValue: false,
-    label: "Day 2 course",
-    optional: true
-  },
-
-  // Kronplatz
   meal1: {
     type: Boolean,
     defaultValue: false,
     label: "(Day 2) Meal 1",
     optional: true
   },
-
-  // UniMensa
   meal2: {
     type: Boolean,
     defaultValue: false,
     label: "(Day 2) Meal 2",
     optional: true
   },
-
   hasSkipass: {
     type: Boolean,
     defaultValue: false,
     label: "(Day 2) Has ski pass",
     optional: true
   },
-
-  // todo: check if already true
-  // if dressed up
   drink1: {
     type: Boolean,
     defaultValue: false,
@@ -123,7 +76,6 @@ Schemas.Day2 = new SimpleSchema({
 });
 
 Schemas.Day3 = new SimpleSchema({
-
   bus1: {
     type: Boolean,
     defaultValue: false,
@@ -257,7 +209,6 @@ Schemas.Participant = new SimpleSchema({
     max: 40,
     optional: true
   },
-  // TODO: validate phone number
   phone: {
     type: String,
     max: 15,
@@ -297,6 +248,26 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true
   },
+
+  // ACTIVITIES
+  course: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Ski/Snowboard Course",
+    optional: true
+  },
+  activity: {
+    type: Boolean,
+    label: "Ski/Snowboard",
+    defaultValue: false,
+    optional: true
+  },
+  rental: {
+    type: Boolean,
+    label: "Ski Rental",
+    allowedValues: false,
+    optional: true
+  },
   isVolleyPlayer: {
     label: 'isVolleyPlayer',
     type: Boolean,
@@ -309,6 +280,8 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true
   },
+
+  // DOCUMENTS
   hasPersonalID: {
     label: 'hasPersonalID',
     type: Boolean,
@@ -349,6 +322,12 @@ Schemas.Participant = new SimpleSchema({
     label: 'Weight',
     type: Number,
     max: 200,
+    optional: true
+  },
+  hasPaid: {
+    label: 'Has paid',
+    type: Boolean,
+    defaultValue: false,
     optional: true
   },
   history: {
@@ -465,8 +444,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
   // list of fields checked
   let fields = ['firstName', 'lastName', 'gender', 'email', 'phone', 'university',
     'info.street', 'info.number', 'info.zip', 'info.city', 'info.country', 'info.province',
-    'birth.date', 'birth.country', 'day1.activity', 'day1.rental', 'day2.activity',
-    'day2.rental', 'tshirt', 'hasAcceptedTandC'];
+    'birth.date', 'birth.country', 'activity', 'rental', 'course', 'tshirt', 'hasAcceptedTandC'];
 
   // check if every field is set
   _.forEach(fields, function (field) {
