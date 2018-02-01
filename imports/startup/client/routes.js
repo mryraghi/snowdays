@@ -46,10 +46,10 @@ Router.route('/login', {
     }
 });
 
-Router.route('/register', {
-  name: 'Register',
-  template: 'RegisterPage'
-});
+// Router.route('/register', {
+//   name: 'Register',
+//   template: 'RegisterPage'
+// });
 
 // TODO: rename in Schedule
 Router.route('/event', {
