@@ -46,10 +46,10 @@ Router.route('/login', {
     }
 });
 
-Router.route('/register', {
-  name: 'Register',
-  template: 'RegisterPage'
-});
+// Router.route('/register', {
+//   name: 'Register',
+//   template: 'RegisterPage'
+// });
 
 // TODO: rename in Schedule
 Router.route('/event', {
@@ -131,3 +131,17 @@ Router.route('/thankyou', {
   name: 'ThankYou',
   template: 'ThankYouPage'
 });
+
+Router.route('/press',{
+    name: 'PressKit',
+    template: 'PressKitPage'
+});
+
+//Router.map(function() {
+    // Home Route
+    //this.route('PressKitPage', {path: '/press'})});
+
+//Router.route('/press', function () {
+    //name: 'PressKitPage'
+    //his.render('PressKitPage');
+    //});
