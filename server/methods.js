@@ -8,6 +8,7 @@ import {checkMasterPassword, unflatten} from "./utilities";
 import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
 import Settings from "/imports/collections/settings";
+import Flixbus from "/imports/collections/flixbus";
 
 Meteor.methods({
 
@@ -184,10 +185,8 @@ Meteor.methods({
     switch (field) {
       case 'form':
         return Settings.upsert({_id: _id}, {$set: {'form.doNotAsk': object}});
-        break;
       default:
         throw new Meteor.Error('settings.update', 'Wrong field');
-        break;
     }
   },
 

@@ -4,6 +4,7 @@ import IDs from "/imports/collections/ids";
 import Surveys from "/imports/collections/surveys";
 import Events from "/imports/collections/events";
 import Reports from "/imports/collections/reports";
+import Flixbus from "/imports/collections/flixbus";
 
 Meteor.users.allow({
   insert: function (userId, doc) {
@@ -81,6 +82,18 @@ Settings.allow({
 });
 
 Events.allow({
+  insert: function (userId, doc) {
+    return true
+  },
+  update: function (userId, doc, fieldNames, modifier) {
+    return true
+  },
+  remove: function (userId, doc) {
+    return true
+  }
+});
+
+Flixbus.allow({
   insert: function (userId, doc) {
     return true
   },
