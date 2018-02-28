@@ -7,6 +7,7 @@ import "../../ui/pages/event";
 import "../../ui/pages/register";
 import "../../ui/pages/errors/404/not_found";
 import "../../ui/pages/thankyou";
+import "../../ui/pages/press";
 import _ from "lodash";
 
 Router.configure({
@@ -136,12 +137,3 @@ Router.route('/press',{
     name: 'PressKit',
     template: 'PressKitPage'
 });
-
-//Router.map(function() {
-    // Home Route
-    //this.route('PressKitPage', {path: '/press'})});
-
-//Router.route('/press', function () {
-    //name: 'PressKitPage'
-    //his.render('PressKitPage');
-    //});
