@@ -246,8 +246,9 @@ Meteor.methods({
       if (SID && SID.path) SIDfilename = _.last(SID.path.split('/'));
 
       // check if files are on the server
-      if (PID && PIDfilename) PIDonServer = existsSync(PIDfilename);
-      if (SID && SIDfilename) SIDonServer = existsSync(SIDfilename);
+      let path = '/opt/snowdays/bundle/programs/server/images/uploads/ids/';
+      if (PID && PIDfilename) PIDonServer = existsSync(path + PIDfilename);
+      if (SID && SIDfilename) SIDonServer = existsSync(path + SIDfilename);
 
       // avoid showing participants who haven't
       // tried to upload any ID
