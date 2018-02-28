@@ -2,6 +2,7 @@ import Participants from "/imports/collections/participants";
 import IDs from "/imports/collections/ids";
 import Events from "/imports/collections/events";
 import Reports from "/imports/collections/reports";
+import Flixbus from "/imports/collections/flixbus";
 import _ from "lodash";
 
 Meteor.publish('users.current', function (token) {
@@ -148,6 +149,10 @@ Meteor.publish('events.all', function () {
 
 Meteor.publish('events.one', function (_id) {
   return Events.find(_id)
+});
+
+Meteor.publish('flixbus.all', function () {
+  return Flixbus.find()
 });
 
 // Meteor.publish('files.ids.all', function () {

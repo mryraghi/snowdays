@@ -8,6 +8,7 @@ import "../../ui/pages/register";
 import "../../ui/pages/errors/404/not_found";
 import "../../ui/pages/thankyou";
 import "../../ui/pages/press";
+import "../../ui/pages/flixbus";
 import _ from "lodash";
 
 Router.configure({
@@ -19,6 +20,11 @@ Router.configure({
 Router.route('/', {
     name: 'Home',
     template: 'Home'
+});
+
+Router.route('/flixbus', {
+    name: 'Flixbus',
+    template: 'FlixbusPage'
 });
 
 Router.route('/login', {
