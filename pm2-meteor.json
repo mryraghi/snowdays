@@ -24,6 +24,6 @@
     },
     "exec_mode": "fork_mode",
     "instances": 1,
-    "pem": "~/.ssh/id_rsa"
+    "pem": "~/.ssh/id_rsa_nopasswd"
   }
 }
