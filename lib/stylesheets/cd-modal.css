@@ -121,16 +121,19 @@
 }
 
 .cd-modal-action .btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 8em;
     border: 2px solid white;
     color: white;
     box-shadow: 0 0 15px rgba(0, 0, 0, .2);
     /*color: rgb(0, 104, 161);*/
-    padding: 0.6rem 1rem 0.5rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 50px;
     font-family: CircularMedium, sans-serif;
     font-size: 1.4em;
-    margin-left: .5em;
+    /*margin-left: .5em;*/
     white-space: nowrap;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

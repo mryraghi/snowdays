@@ -41,6 +41,11 @@ Schema.Profile = new SimpleSchema({
   survey: {
     type: Boolean,
     defaultValue: false
+  },
+  participantId: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+    optional: true
   }
 });
 
