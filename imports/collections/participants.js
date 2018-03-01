@@ -97,6 +97,10 @@ Schemas.Day3 = new SimpleSchema({
 });
 
 Schemas.Info = new SimpleSchema({
+  requesting_number:{
+    type: String,
+    optional: true
+  },
   accommodation: {
     type: String,
     optional: true
@@ -196,6 +200,11 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     max: 30,
     index: 1,
+    optional: true
+  },
+  studentID: {
+    type: Number,
+    label: '[H] Student ID',
     optional: true
   },
   gender: {
@@ -426,7 +435,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
       // delete old key value
       delete $set[key];
       // replace dots with underscores
-      let newKey = _.replace(key, '.', '_');
+      let newKey = .replace(key, '.', '');
       $set[newKey] = value
     }
   });
@@ -448,7 +457,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
 
   // check if every field is set
   _.forEach(fields, function (field) {
-    if (_.isUndefined(_.get(doc, field)) && _.isUndefined(_.get($set, field))) {
+    if (.isUndefined(.get(doc, field)) && .isUndefined(.get($set, field))) {
       result = false
     }
   });
