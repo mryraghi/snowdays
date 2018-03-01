@@ -1,0 +1,60 @@
+<template name="TCSection">
+  <div class="row">
+    <div class="col-12">
+      <h4 class="mb-3">Letter of Agreement</h4>
+      <p>
+        The undersigned, participant at “Bolzano Snowdays” from 8th to 10th March 2018, declares to release the
+        organisers from any liability towards the undersigned and from any responsibility regarding potential
+        casualties suffered or a damage inflicted to a third party in the exercise of the activities of the
+        whole sports event.
+      </p>
+      <h5 class="mb-2">Legal aspects</h5>
+      <p>
+        During the whole event, if I willingly or grossly negligently damage anything I will be held responsible
+        for the complete amount of the damage inflicted.
+        <!--<br>In case of property damages either to student dorms or-->
+        <!--to guest houses, I will pay the related amount of the damage inflicted.-->
+        <br>If I break or lose my sledge
+        during the Moon-Sledge-Riding on Thursday 8th, I will pay a fee of 150€ to SCUB.<br>The Snowdays Team
+        cannot take any responsibility for sport accidents or self-inflicted accidents, thefts or losses of any
+        kind. Please take care and look after your belongings yourself.<br>I authorize the release of pictures
+        of
+        myself taken during the event from 8th to 10th March 2018 on the official website of the event, on other
+        internet channels controlled by the organizational team and on informational material.
+      </p>
+      {{#if isExternal}}
+        <h5 class="mb-2">Sleeping</h5>
+        <p>
+          I accept to follow the house rules of the student dorms and the instructions of my host.<br>I accept
+          to be excluded from Snowdays in case of violation of house rules, host’s instructions and
+          common rules of behavior aimed at ensuring a pleasant environment.<br>If I cause any damage to the
+          student dorm and/or I lose the key, SCUB reserves the right of keeping a deposit of 50€, which
+          will not be returned to me after the event.
+        </p>
+      {{/if}}
+      <h5 class="mb-2">Bus damages</h5>
+      <p>If I cause any damage to the buses, I will pay a fee of 100€ as agreed with the bus company.</p>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div class="row">
+    <nav class="col-12 mb-3 flex-column">
+      <hr>
+      <div class="row text-left">
+        <div class="col-6">
+          <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i>Need help?</h6>
+          <p>Drop an email to<br>
+            <a
+              href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
+          </p>
+        </div>
+        <div class="col-6 text-right">
+          <button type="button" class="sn-btn-outline-blue" id="acceptTandC">
+            <i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> I agree to the Terms and Conditions
+          </button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</template>
