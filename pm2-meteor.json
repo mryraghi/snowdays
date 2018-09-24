@@ -1,7 +1,7 @@
 {
   "appName": "snowdays",
   "appLocation": {
-    "local": "./"
+    "local": "."
   },
   "meteorSettingsLocation": "settings.json",
   "meteorSettingsInRepo": true,
@@ -10,11 +10,11 @@
   "env": {
     "ROOT_URL": "https://www.snowdays.it",
     "PORT": "3000",
-    "MONGO_URL": "mongodb://team:VaWHeALPyMngVVU@snowdays.it:27017/snowdays",
+    "MONGO_URL": "mongodb://team:C8MQ39oEEH9iyJGP3KWh@snowdays.it:27017/snowdays",
     "MAIL_URL": "smtp://no-reply%40snowdays.it:XxoxRAuUNjKzznd@mx.snowdays.it:587"
   },
   "server": {
-    "host": "46.101.102.201",
+    "host": "142.93.167.44",
     "username": "team",
     "deploymentDir": "/opt",
     "loadProfile": "",

@@ -435,7 +435,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
       // delete old key value
       delete $set[key];
       // replace dots with underscores
-      let newKey = .replace(key, '.', '');
+      let newKey = _.replace(key, '.', '');
       $set[newKey] = value
     }
   });
@@ -457,7 +457,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
 
   // check if every field is set
   _.forEach(fields, function (field) {
-    if (.isUndefined(.get(doc, field)) && .isUndefined(.get($set, field))) {
+    if (_.isUndefined(_.get(doc, field)) && _.isUndefined(_.get($set, field))) {
       result = false
     }
   });
