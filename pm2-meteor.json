@@ -16,6 +16,7 @@
   "server": {
     "host": "142.93.167.44",
     "username": "team",
+    "password": "Pitf2P8SXwmsdc0FbMCn",
     "deploymentDir": "/opt",
     "loadProfile": "",
     "nvm": {
@@ -23,7 +24,6 @@
       "use": ""
     },
     "exec_mode": "fork_mode",
-    "instances": 1,
-    "pem": "~/.ssh/id_rsa_nopasswd"
+    "instances": 1
   }
 }
