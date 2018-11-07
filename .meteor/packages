@@ -47,3 +47,4 @@ simply:tether
 froala:editor
 dynamic-import@0.2.0
 jquery@1.11.10
+http

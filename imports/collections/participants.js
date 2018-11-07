@@ -117,6 +117,23 @@ Schemas.Day3 = new SimpleSchema({
 });
 
 Schemas.Requestor = new SimpleSchema({
+    university: {
+        type: String,
+        optional: true
+    },
+    request_capacity:{
+        type: String,
+        optional: true
+    }
+});
+
+
+
+Schemas.Info = new SimpleSchema({
+    requesting_number:{
+        type: String,
+        optional: true
+    },
   university: {
     type: String,
     optional: true
@@ -430,6 +447,7 @@ Schemas.Participant = new SimpleSchema({
     max: 200,
     optional: true
   },
+
   history: {
     type: Array,
     optional: true,

@@ -7,6 +7,7 @@ import _ from "lodash";
 import base64url from "base64url";
 import {checkMasterPassword, unflatten} from "./utilities";
 import Participants from "/imports/collections/participants";
+import Accommodations from "/imports/collections/accommodations";
 import IDs from "/imports/collections/ids";
 import Settings from "/imports/collections/settings";
 
@@ -143,6 +144,27 @@ Meteor.methods({
     return Meteor.users.update(user._id || this.userId, {
       $set: user
     })
+  },
+
+  //Accommodation
+  'accommodation.create': function(accommodation, role) {
+    if(_.isEqual(role, 'admin')) {
+      // generate _id
+      let _id = Random.id();
+      
+      // get token from contact person
+      let token = user.profile.token;
+      
+      // encrypt _id with token
+      let encrypted = CryptoJS.AES.encrypt(_id, token);
+      
+      accommodation._id = _id;
+      accommodation['token'] = base64url.encode(encrypted.toString());
+      console.log(accommodation);
+      Accommodation.insert(accommodation);
+    } else {
+      Accommodations.insert(accommodation);
+    }
   },
 
   'admin.users.update': function (user) {
@@ -328,9 +350,44 @@ Meteor.methods({
   'event.insert': function (event) {
     return Events.insert(event)
   },
+    'matching_algorithm': function () {
+
+        let accommodations = Accommodations.find().fetch();
+        let users = Meteor.users.find().fetch();
+
+        let build_dict = {"accommodations":[], "participants":[]};
+        let build_dict_WG = {"accommodations":[], "participants":[]};
+
+        _.forEach(users, function (p) {
+           if (p.roles[0] == 'external') {
+               let uni = {"university": p.profile.university, "capacity": p.profile.allowed_participants, "id": p._id};
+               build_dict["participants"].push(uni);
+           }
+        });
+        _.forEach(accommodations, function (acc) {
+            if (acc.isWG == false) {
+                let accom = {"name": acc.name, "capacity": acc.capacity, buz_zone: acc.busZone, "id": acc._id};
+                build_dict["accommodations"].push(accom);
+            }
+            if (acc.isWG != false) {
+                let accom = {"name": acc.name, "capacity": acc.capacity, buz_zone: acc.busZone, 'id': acc._id};
+                build_dict_WG["accommodations"].push(accom);
+            }
+        });
+        this.unblock();
+        let url = 'http://floating-everglades-30881.herokuapp.com/';
+        //let url = 'http://localhost:5000/';
+        let intial_response = Meteor.http.call("POST", url, {data:{"data":build_dict}});
+        let json_response = JSON.parse(intial_response.content);
+        build_dict_WG.participants = json_response.unassigned_data.unassigned_participants;
+        build_dict_WG.accommodations.concat(json_response.unassigned_data.unassigned_accommodations);
+        let meteor_response = Meteor.http.call("POST", url + 'with_wg', {data:{"data":build_dict_WG}});
+        return {'initial': intial_response, 'second': meteor_response};
+        },
 });
 
 function existsSync(filename) {
   let fullPath = path.join(process.cwd(), '../server/images/uploads/ids/', filename);
   return fs.existsSync(fullPath)
 }
+

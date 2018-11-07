@@ -30,9 +30,14 @@ Schema.Profile = new SimpleSchema({
     min: 128,
     optional: true
   },
+    //linking array with the participants
   allowedParticipants: {
     type: Number
   },
+    // participantsArray:{
+    //   type: Array,
+    //     optional: true
+    // },
   survey: {
     type: Boolean,
     defaultValue: false

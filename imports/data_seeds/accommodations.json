@@ -1,0 +1,1728 @@
+[
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf71"
+    },
+    "name":"HSB",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":24,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:34.460Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:37:03.896Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:37:04.671Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:37:04.975Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:06.946Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:34.459Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf72"
+    },
+    "name":"HAUSSB",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":24,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:46.920Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:46.627Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:46.920Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf73"
+    },
+    "name":"SALEETA_HSB",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":18,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:47.398Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:47.108Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:47.397Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf74"
+    },
+    "name":"RAINERUM",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":6,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:47.913Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:47.626Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:47.912Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf75"
+    },
+    "name":"GALILEI",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":78,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:48.371Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:48.088Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:48.370Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf76"
+    },
+    "name":"CARDUCCI",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":60,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:48.841Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:48.548Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:48.841Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf77"
+    },
+    "name":"via Rosmini, 67, Bolzano",
+    "address":"via Rosmini, 67, Bolzano",
+    "coordinates":"46.4990429,11.3477936",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:49.451Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:49.450Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf78"
+    },
+    "name":"via Rosmini, 67, Bolzano",
+    "address":"via Rosmini, 67, Bolzano",
+    "coordinates":"46.4990429,11.3477936",
+    "busZone":"3",
+    "isWG":true,
+    "capacity":1,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:49.741Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:49.741Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf79"
+    },
+    "name":"Via Rosmini 67, Bolzano",
+    "address":"Via Rosmini 67, Bolzano",
+    "coordinates":"46.4990429,11.3477936",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:31.858Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:50.038Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:31.856Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf7a"
+    },
+
+    "name":"Via Rosmini, 67, Bolzano",
+    "address":"Via Rosmini, 67, Bolzano",
+    "coordinates":"46.4990429,11.3477936",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:50.334Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:50.333Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf7b"
+    },
+
+    "name":"via Castelweinegg, 21, Bolzano",
+    "address":"via Castelweinegg, 21, Bolzano",
+    "coordinates":"46.4822336,11.3486968",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:50.889Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:50.888Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf7c"
+    },
+    "name":"via della Visitazione, 4d, Bolzano",
+    "address":"via della Visitazione, 4d, Bolzano",
+    "coordinates":"46.4964167,11.337919",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:51.527Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:51.527Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf7d"
+    },
+    "name":"via della Visitazione, 4d, Bolzano",
+    "address":"via della Visitazione, 4d, Bolzano",
+    "coordinates":"46.4964167,11.337919",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:51.819Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:51.818Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf7e"
+    },
+
+    "name":"via Carducci, 2d, Bolzano",
+    "address":"via Carducci, 2d, Bolzano",
+    "coordinates":"46.4971381,11.3501219",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:52.124Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:52.124Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf7f"
+    },
+    "name":"via Carducci, 2d, Bolzano",
+    "address":"via Carducci, 2d, Bolzano",
+    "coordinates":"46.4971381,11.3501219",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:52.516Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:52.516Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf80"
+    },
+
+    "name":"via Carducci, 2d, Bolzano",
+    "address":"via Carducci, 2d, Bolzano",
+    "coordinates":"46.4971381,11.3501219",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:53.065Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:53.065Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf81"
+    },
+    "name":"Via Penegal, 2, Bolzano",
+    "address":"Via Penegal, 2, Bolzano",
+    "coordinates":"46.5021286,11.3348113",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:32.411Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:53.866Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:32.408Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf82"
+    },
+    "name":"Via Leonardo da vinci, 20, Bolzano",
+    "address":"Via Leonardo da vinci, 20, Bolzano",
+    "coordinates":"46.4991669,11.3488839",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:54.564Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:54.564Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf83"
+    },
+    "name":"Via Leonardo da vinci 2/a, Bolzano",
+    "address":"Via Leonardo da vinci 2/a, Bolzano",
+    "coordinates":"46.499068,11.352302",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:55.242Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:55.242Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf84"
+    },
+    "name":"Via Vintler 5, Bolzano",
+    "address":"Via Vintler 5, Bolzano",
+    "coordinates":"46.5011483,11.356119",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:33.031Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:55.946Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:33.031Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf85"
+    },
+    "name":"Via Resia, 103 A, Bolzano",
+    "address":"Via Resia, 103 A, Bolzano",
+    "coordinates":"46.4857067,11.319481",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:56.657Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:56.657Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf86"
+    },
+    "name":"via san Osvaldo, 53, Bolzano",
+    "address":"via san Osvaldo, 53, Bolzano",
+    "coordinates":"46.5046738,11.3575808",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:57.274Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:57.274Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf87"
+    },
+    "name":"via montello 26, Bolzano",
+    "address":"via montello 26, Bolzano",
+    "coordinates":"46.5046082,11.3436662",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:57.957Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:57.957Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf88"
+    },
+    "name":" Prato Isarco 16, Bolzano",
+    "address":" Prato Isarco 16, Bolzano",
+    "coordinates":"46.495188,11.44658",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:58.531Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:58.531Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf89"
+    },
+    "name":"Batzenhaeuselgasse 5,appartement 14, Bolzano",
+    "address":"Batzenhaeuselgasse 5,appartement 14, Bolzano",
+    "coordinates":"46.5012966,11.3575361",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:59.157Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:59.157Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf8a"
+    },
+    "name":"via dei Portici, 44, Bolzano",
+    "address":"via dei Portici, 44, Bolzano",
+    "coordinates":"46.4996,11.35421",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:59.748Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:59.747Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf8b"
+    },
+    "name":"via della Torre 18, Bolzano",
+    "address":"via della Torre 18, Bolzano",
+    "coordinates":"46.5089,11.3438336",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:00.277Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:00.276Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf8c"
+    },
+    "name":"vicolo Sabbia, 5, Bolzano",
+    "address":"vicolo Sabbia, 5, Bolzano",
+    "coordinates":"46.50591,11.3506",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:33.567Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:01.075Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:33.567Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf8d"
+    },
+    "name":"SALETTA",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":33,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:01.879Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:01.264Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:01.878Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf8e"
+    },
+    "name":"RIGLER",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":20,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:02.361Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:02.053Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:02.360Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf8f"
+    },
+    "name":"UNICITY",
+    "address":"Bolzano",
+    "coordinates":"46.4982953,11.3547582",
+    "busZone":"3",
+    "capacity":27,
+    "isWG":false,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:03.057Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:02.547Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:03.056Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf90"
+    },
+    "name":"via Diaz 13, Bolzano",
+    "address":"via Diaz 13, Bolzano",
+    "coordinates":"46.5022485,11.343918",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:33.869Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:03.600Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:33.868Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf91"
+    },
+    "name":"via Ortles, 23, Bolzano",
+    "address":"via Ortles, 23, Bolzano",
+    "coordinates":"46.4819934,11.3178838",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:34.163Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:04.330Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:34.162Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf92"
+    },
+    "name":"viale Druso 137, Bolzano",
+    "address":"viale Druso 137, Bolzano",
+    "coordinates":"46.4951131,11.3337869",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:04.920Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:04.919Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf93"
+    },
+    "name":"via Guttenberg, 2, Bolzano",
+    "address":"via Guttenberg, 2, Bolzano",
+    "coordinates":"46.49157,11.32072",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:05.561Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:05.560Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf94"
+    },
+    "name":"Annette von Menz Passage, 6, Bolzano",
+    "address":"Annette von Menz Passage, 6, Bolzano",
+    "coordinates":"46.4999015,11.3535118",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:06.150Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:06.150Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf95"
+    },
+    "name":"Viale Trieste 22/a, Bolzano",
+    "address":"Viale Trieste 22/a, Bolzano",
+    "coordinates":"46.4927336,11.3450884",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:42:06.653Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:42:06.652Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf96"
+    },
+    "name":"Viale Trieste 22/a, Bolzano",
+    "address":"Viale Trieste 22/a, Bolzano",
+    "coordinates":"46.4927336,11.3450884",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:34.748Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:33.828Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:34.748Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf97"
+    },
+
+    "name":"Via San Quirino 16, Bolzano",
+    "address":"Via San Quirino 16, Bolzano",
+    "coordinates":"46.4979576,11.3445114",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:35.349Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:34.383Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:35.348Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf98"
+    },
+
+    "name":"Via San Quirino 16, Bolzano",
+    "address":"Via San Quirino 16, Bolzano",
+    "coordinates":"46.4979576,11.3445114",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:35.669Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:34.693Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:35.669Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf99"
+    },
+
+    "name":"Via San Pietro 5/2, Bolzano",
+    "address":"Via San Pietro 5/2, Bolzano",
+    "coordinates":"46.5122207,11.3542684",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:36.216Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:35.323Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:36.216Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf9a"
+    },
+    "name":"Vicolo Sabbia 7, Bolzano",
+    "address":"Vicolo Sabbia 7, Bolzano",
+    "coordinates":"46.5059108,11.3506096",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:36.744Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:35.909Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:36.743Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf9b"
+    },
+    "name":"Via Gutemberg 2, Bolzano",
+    "address":"Via Gutemberg 2, Bolzano",
+    "coordinates":"46.49157,11.32072",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:30.156Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:36.530Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:29.841Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:30.154Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf9c"
+    },
+
+    "name":"Via Rosmini, 55, Bolzano",
+    "address":"Via Rosmini, 55, Bolzano",
+    "coordinates":"46.4983945,11.3478905",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:37.298Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:37.114Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:37.298Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf9d"
+    },
+
+    "name":"Via Isarco 11/a, Bolzano",
+    "address":"Via Isarco 11/a, Bolzano",
+    "coordinates":"46.4960672,11.3537516",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:37.775Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:37.774Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf9e"
+    },
+
+    "name":"Via Isarco 11/a, Bolzano",
+    "address":"Via Isarco 11/a, Bolzano",
+    "coordinates":"46.4960672,11.3537516",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:38.081Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:38.081Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bf9f"
+    },
+    "name":"Via rentsch 22b, Bolzano",
+    "address":"Via rentsch 22b, Bolzano",
+    "coordinates":"51.1513226,14.0239807",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:38.896Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:38.896Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa0"
+    },
+    "name":"viale druso 114d, Bolzano",
+    "address":"viale druso 114d, Bolzano",
+    "coordinates":"46.4957822,11.3185984",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:39.492Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:39.489Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa1"
+    },
+
+    "name":"corso italia 12, Bolzano",
+    "address":"corso italia 12, Bolzano",
+    "coordinates":"46.4995216,11.3396478",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:40.065Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:40.065Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa2"
+    },
+
+    "name":"via Carducci,12, Bolzano",
+    "address":"via Carducci,12, Bolzano",
+    "coordinates":"46.4960197,11.3504548",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:40.676Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:40.675Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa3"
+    },
+    "name":"via Carducci,12, Bolzano",
+    "address":"via Carducci,12, Bolzano",
+    "coordinates":"46.4960197,11.3504548",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:41.006Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:41.005Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa4"
+    },
+    "name":"corso italia 12, Bolzano",
+    "address":"corso italia 12, Bolzano",
+    "coordinates":"46.4995216,11.3396478",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:41.302Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:41.301Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa5"
+    },
+    "name":"via della zecca, 9b, Bolzano",
+    "address":"via della zecca, 9b, Bolzano",
+    "coordinates":"46.5015152,11.3370154",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:41.851Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:41.851Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa6"
+    },
+    "name":"Via della Torre 18, Bolzano",
+    "address":"Via della Torre 18, Bolzano",
+    "coordinates":"46.5089,11.3438336",
+    "busZone":"1",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:42.390Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:42.390Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa7"
+    },
+
+    "name":"Via Raffaello Sernesi, 19, Bolzano",
+    "address":"Via Raffaello Sernesi, 19, Bolzano",
+    "coordinates":"46.4980261,11.3509091",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:43.004Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:43.004Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa8"
+    },
+    "name":"Via Raffaello Sernesi, 19, Bolzano",
+    "address":"Via Raffaello Sernesi, 19, Bolzano",
+    "coordinates":"46.4980261,11.3509091",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:43.310Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:43.310Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfa9"
+    },
+
+    "name":"Via Bassano del Grappa, 14, Bolzano",
+    "address":"Via Bassano del Grappa, 14, Bolzano",
+    "coordinates":"46.4890214,11.3344687",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:43.857Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:43.857Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfaa"
+    },
+    "name":"Via Parma 1D, Bolzano",
+    "address":"Via Parma 1D, Bolzano",
+    "coordinates":"46.4840713,11.3241594",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:30.978Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:44.409Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:30.975Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfab"
+    },
+    "_id:":698,
+    "name":"Via della Vigna, 52, Bolzano",
+    "address":"Via della Vigna, 52, Bolzano",
+    "coordinates":"46.4996089,11.3171536",
+    "busZone":"2",
+    "capacity":1,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:44.968Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:44.966Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfac"
+    },
+    "name":"Via Carducci 2c, Bolzano",
+    "address":"Via Carducci 2c, Bolzano",
+    "coordinates":"46.4971381,11.3501219",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:45.522Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:45.521Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfad"
+    },
+    "name":"Via Parma 1D, Bolzano",
+    "address":"Via Parma 1D, Bolzano",
+    "coordinates":"46.4840713,11.3241594",
+    "busZone":"2",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:47:31.300Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:45.821Z"
+        },
+        "updates":{
+
+        }
+      },
+      {
+        "date":{
+          "$date":"2017-12-07T07:47:31.297Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"5a28e7acb657dad44576bfae"
+    },
+    "name":"via Carducci,12, Bolzano",
+    "address":"via Carducci,12, Bolzano",
+    "coordinates":"46.4960197,11.3504548",
+    "busZone":"3",
+    "capacity":1,
+    "isWG":true,
+    "updatedAt":{
+      "$date":"2017-12-07T07:41:46.127Z"
+    },
+    "history":[
+      {
+        "date":{
+          "$date":"2017-12-07T07:41:46.126Z"
+        },
+        "updates":{
+
+        }
+      }
+    ]
+  }
+]

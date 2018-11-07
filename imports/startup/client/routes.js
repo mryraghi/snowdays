@@ -1,8 +1,10 @@
 import "../../ui/pages/home";
 import "../../ui/pages/thankyou";
 import "../../ui/pages/login";
-import "../../ui/pages/register";
 import "../../ui/pages/admin";
+import "../../ui/pages/externals";
+import "../../ui/pages/participant";
+import "../../ui/pages/register";
 import "../../ui/pages/externals/index";
 import "../../ui/pages/participant/index";
 import "../../ui/pages/event";
