@@ -10,7 +10,7 @@
   "env": {
     "ROOT_URL": "https://www.snowdays.it",
     "PORT": "3000",
-    "MONGO_URL": "mongodb://team:C8MQ39oEEH9iyJGP3KWh@snowdays.it:27017/snowdays",
+    "MONGO_URL": "mongodb://client:L6gIm7lZFfbnRBWsl8Yd5aPt@127.0.0.1:27017/snowdays",
     "MAIL_URL": "smtp://no-reply%40snowdays.it:XxoxRAuUNjKzznd@mx.snowdays.it:587"
   },
   "server": {
