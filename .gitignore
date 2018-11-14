@@ -2,4 +2,3 @@ node_modules/
 .idea/workspace.xml
 /.deploy/
 package-lock.json
-pm2-meteor.json

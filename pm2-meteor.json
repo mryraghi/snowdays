@@ -15,15 +15,9 @@
   },
   "server": {
     "host": "142.93.167.44",
-    "username": "team",
-    "password": "Pitf2P8SXwmsdc0FbMCn",
+    "pem":"~/.ssh/snowdays_id_rsa",
     "deploymentDir": "/opt",
-    "loadProfile": "",
-    "nvm": {
-      "bin": "~/.nvm/nvm.sh",
-      "use": ""
-    },
-    "exec_mode": "fork_mode",
+    "exec_mode": "cluster_mode",
     "instances": 1
   }
 }
