@@ -15,7 +15,8 @@
   },
   "server": {
     "host": "142.93.167.44",
-    "pem":"~/.ssh/snowdays_id_rsa",
+    "username": "team",
+    "password": "Pitf2P8SXwmsdc0FbMCn",
     "deploymentDir": "/opt",
     "exec_mode": "cluster_mode",
     "instances": 1
