@@ -28,8 +28,13 @@ Router.route('/', {
 });
 
 Router.route('/flixbus', {
-    name: 'Flixbus',
-    template: 'FlixbusPage'
+  name: 'Flixbus',
+  template: 'FlixbusPage'
+});
+
+Router.route('/press', {
+  name: 'PressKit',
+  template: 'PressKitPage'
 });
 
 Router.route('/login', {
@@ -207,14 +212,4 @@ Router.route('/participant', {
       token: this.params.query.token || ''
     };
   }
-});
-
-Router.route('/thankyou', {
-  name: 'ThankYou',
-  template: 'ThankYouPage'
-});
-
-Router.route('/press',{
-    name: 'PressKit',
-    template: 'PressKitPage'
 });
