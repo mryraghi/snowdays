@@ -121,23 +121,6 @@ Router.route('/thankyou', {
   template: 'ThankYouPage'
 });
 
-Router.route('/verify-email/:token', {
-  name: 'VerifyEmail',
-  action: function () {
-    if (!this.params.token)
-      this.render('LoginPage');
-
-    Accounts.verifyEmail(this.params.token, (error) => {
-      if (error) {
-        swal('Error', error.reason, 'error');
-        this.render('LoginPage');
-      } else {
-        this.render('SuccessSection');
-      }
-    });
-  }
-});
-
 // TODO: rename in Schedule
 Router.route('/event', {
   name: 'Event',
