@@ -445,9 +445,9 @@
                               Sport ({{helpersLeft 'sport' 30}} left)
                             </option>
                           {{/if}}
-                          {{#if isHelperCategoryAvailable 'catering' 35}}
+                          {{#if isHelperCategoryAvailable 'catering' 40}}
                             <option value="catering" {{selectedIf lp.helperCategory 'catering'}}>
-                              Catering ({{helpersLeft 'catering' 35}} left)
+                              Catering ({{helpersLeft 'catering' 40}} left)
                             </option>
                           {{/if}}
                           {{#if isHelperCategoryAvailable 'party' 30}}
@@ -455,14 +455,19 @@
                               Party ({{helpersLeft 'party' 30}} left)
                             </option>
                           {{/if}}
-                          {{#if isHelperCategoryAvailable 'logistics' 10}}
+                          {{#if isHelperCategoryAvailable 'logistics' 20}}
                             <option value="logistics" {{selectedIf lp.helperCategory 'logistics'}}>
-                              Logistics ({{helpersLeft 'logistics' 10}} left)
+                              Logistics ({{helpersLeft 'logistics' 20}} left)
                             </option>
                           {{/if}}
-                          {{#if isHelperCategoryAvailable 'it' 2}}
-                            <option value="it" {{selectedIf lp.helperCategory 'it'}}>
-                              IT ({{helpersLeft 'it' 2}} left)
+                          {{#if isHelperCategoryAvailable 'spirit' 5}}
+                            <option value="spirit" {{selectedIf lp.helperCategory 'spirit'}}>
+                              Spirit ({{helpersLeft 'spirit' 5}} left)
+                            </option>
+                          {{/if}}
+                          {{#if isHelperCategoryAvailable 'accomodation' 5}}
+                            <option value="spirit" {{selectedIf lp.helperCategory 'accomodation'}}>
+                              Accomodation ({{helpersLeft 'accomodation' 5}} left)
                             </option>
                           {{/if}}
                         </select>

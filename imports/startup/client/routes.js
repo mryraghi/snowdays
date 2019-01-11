@@ -70,7 +70,7 @@ Router.route('/register', {
     let _id = localStorage.getItem('id');
     let subscriptions = [];
 
-    if (moment().isBetween('2018-01-01', '2018-01-21')) {
+    if (moment().isBetween('2019-01-14', '2019-01-21')) {
       subscriptions = [
         Meteor.subscribe('stats.helpers.internals'),
         Meteor.subscribe('stats.dorms.internals'),

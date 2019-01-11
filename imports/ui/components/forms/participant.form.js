@@ -49,9 +49,9 @@ Template.UserFormSection.onCreated(function () {
   template.isAdmin = !_.isNull(Meteor.userId()) && Roles.userIsInRole(Meteor.userId(), 'admin');
 
   // internal registration happens first
-  template.hasToBeHelperOrHost = moment().isBetween('2018-01-14', '2018-01-21');
+  template.hasToBeHelperOrHost = moment().isBetween('2019-01-14', '2019-01-21');
 
-  console.log('hasToBeHelperOrHost', moment().isBetween('2018-01-14', '2018-01-21'));
+  console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-14', '2019-01-21'));
   console.log('Meteor user', Meteor.user());
 
   // set _id session variable when editing

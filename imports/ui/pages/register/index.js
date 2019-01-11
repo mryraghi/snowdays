@@ -19,7 +19,7 @@ Template.RegisterPage.helpers({
     return Template.instance().currentTab.get();
   },
   registrationIsOpen: () => {
-    return moment().isBetween('2018-01-01', '2018-01-21')
+    return moment().isBetween('2019-01-14', '2019-01-21')
   }
 });
 
