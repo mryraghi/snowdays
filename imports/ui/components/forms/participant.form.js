@@ -111,7 +111,11 @@ Template.UserFormSection.onCreated(function () {
   template.hasPersonalIDFront = new ReactiveVar(!!p.hasPersonalIDFront);
   template.hasPersonalIDBack = new ReactiveVar(!!p.hasPersonalIDBack);
   template.paymentID = !_.isUndefined(p.paymentID) ? p.paymentID : calculatePaymentID();
-
+  template.rentSkiis = new ReactiveVar(_.isEqual(p.rentMaterial, 'Ski'));
+  template.rentSnowboard = new ReactiveVar(_.isEqual(p.rentMaterial, 'Snowboard'));
+  template.noRent = new ReactiveVar(_.isEqual(p.rentMaterial, 'None'));
+  
+  
   // TODO: check these
   template.uploadingSIDFront = new ReactiveVar(false);
   template.uploadingSIDBack = new ReactiveVar(false);
@@ -182,7 +186,21 @@ Template.UserFormSection.helpers({
   dormPlacesLeft: function (dorm, max) {
     return max - Participants.find({studentDorm: dorm}).count()
   },
+ 
+// RENTAL 
+rentSkiis: function () {
+  let template = Template.instance();
+  return (template.rentSkiis.get() ? template.rentSkiis.get() : false);
+},
 
+rentSnowboard: function () {
+  let template = Template.instance();
+  return (template.rentSnowboard.get() ? template.rentSnowboard.get() : false);
+},
+noRent: function () {
+  let template = Template.instance();
+  return (template.noRent.get() ? template.noRent.get() : false);
+},
   // INTERNALS ONLY: number of guest chosen and allowed (if in dorm only 1)
   noOfGuests: function () {
     return Template.instance().noOfGuests.get();
@@ -192,7 +210,6 @@ Template.UserFormSection.helpers({
   isInDorm: function () {
     return Template.instance().isInDorm.get();
   },
-
   // INTERNALS ONLY: password required to create a user that can login
   isPasswordRequired: function () {
     return !Template.instance().hasUser;
@@ -288,7 +305,28 @@ Template.UserFormSection.events({
     console.info(id, checked);
     template[id].set(checked);
   },
-
+  // CHANGE: rental type
+  'change #rent_material':(event, template) => {
+    let rentingSkiis = _.isEqual(event.target.value, 'Ski');
+    template.rentSkiis.set(rentingSkiis);
+    let rentingSnowboard = _.isEqual(event.target.value, 'Snowboard');
+    template.rentSnowboard.set(rentingSnowboard);
+    let noRenting = _.isEqual(event.target.value, 'None');
+    template.noRent.set(noRenting);
+    if(noRenting) {
+      if(template.rentSkiBoots) {template.rentSkiBoots.set(false);};
+      if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
+      if(template.rentSnowboardBoots) {template.rentSnowboardBoots.set(false);};
+      if(template.rentHelmet) {template.rentHelmet.set(false);};
+    };
+    if(rentingSkiis) {
+      if(template.rentSnowboardBoots) {template.rentSnowboardBoots.set(false);};
+    };
+    if(rentingSnowboard) {
+      if(template.rentSkiBoots) {template.rentSkiBoots.set(false);};
+      if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
+    };
+  },
   // CHANGE: number of guests
   'change #noOfGuests': (event, template) => {
     template.noOfGuests.set(_.toNumber(event.target.value));
@@ -424,6 +462,12 @@ Template.UserFormSection.events({
       weight: target.weight.value,
       tshirt: target.tshirt.value,
 
+      //rental
+      rentMaterial: target.rent_material.value,
+      rentSkiBoots: (template.rentSkiis.get() ? target.rentSkiBoots.checked: false),
+      rentSkiSticks: (template.rentSkiis.get() ? target.rentSkiSticks.checked: false),
+      rentSnowboardBoots: (template.rentSnowboard.get() ? target.rentSnowboardBoots.checked: false),
+      rentHelmet: (template.noRent.get() ? false: target.rentHelmet.checked),
       // HELPER
       isHelper: template.isHelper.get(),
       helperCategory: (template.isHelper.get() ? target.helperCategory.value : undefined),

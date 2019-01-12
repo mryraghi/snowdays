@@ -182,10 +182,56 @@
               <!-- COLUMN 2 -->
               <div class="col-12 col-md-6">
 
+                <!-- RENTAL -->
+                <h4 class="mt-5 mt-md-0">Renting Material</h4>
+                <hr> 
+                <div class="sn-field-group">
+                  <select class="sn-field-input sn-a-0" id="rent_material" name="rent_material" required>
+                    <option disabled>Choose</option>
+                    <option value="None" {{selectedIf lp.rentMaterial 'None'}}>None</option>
+                    <option value="Ski" {{selectedIf lp.rentMaterial 'Ski'}}>Ski</option>
+                    <option value="Snowboard" {{selectedIf lp.rentMaterial 'Snowboard'}}>Snowboard</option>
+                  </select>
+                  <label for="rent_material" class="sn-field-label sn-upper-label">Renting maerial</label>
+                </div>
+                {{#if rentSkiis}}
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.rentSkiBoots}}
+                  <input type="checkbox" class="custom-control-input" id="rentSkiBoots" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="rentSkiBoots"> {{/if}}
+                  <label class="custom-control-label" for="rentSkiBoots">Ski Boots</label>
+                </label>
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.rentSkiSticks}}
+                  <input type="checkbox" class="custom-control-input" id="rentSkiSticks" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="rentSkiSticks"> {{/if}}
+                  <label class="custom-control-label" for="rentSkiSticks">Ski Sticks</label>
+                </label>
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.rentHelmet}}
+                  <input type="checkbox" class="custom-control-input" id="rentHelmet" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
+                  <label class="custom-control-label" for="rentHelmet">Helmet</label>
+                </label>
+                {{/if}}
+                {{#if rentSnowboard}}
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.rentSnowboardBoots}}
+                  <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots"> {{/if}}
+                  <label class="custom-control-label" for="rentSnowboardBoots">Snowboard</label>
+                </label>
+                <label class="custom-control custom-checkbox">
+                  {{#if lp.rentHelmet}}
+                  <input type="checkbox" class="custom-control-input" id="rentHelmet" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
+                  <label class="custom-control-label" for="rentHelmet">Helmet</label>
+                </label>
+                {{/if}}
 
                 <!-- ACTIVITIES -->
                 <h4 class="mt-5 mt-md-0">Activities</h4>
-                <hr>
+                <hr> 
 
                 <div class="sn-field-group">
                   <div>

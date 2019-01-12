@@ -49,7 +49,20 @@ Schemas.Day1 = new SimpleSchema({
     optional: true
     // todo: return if external or not
     // only for externals in UniMensa
+  },
+  swimming: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) Swimming",
+    optional: true
+  },
+  bubble_football: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) BubbleFootBall",
+    optional: true
   }
+
 });
 
 Schemas.Day2 = new SimpleSchema({
@@ -88,7 +101,38 @@ Schemas.Day2 = new SimpleSchema({
     defaultValue: false,
     label: "(Day 2) Drink 1",
     optional: true
+  },
+  ski_or_snow: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski/SnowBoard",
+    optional: true
+  },
+  ski_course: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski/Snowboard course",
+    optional: true
+  },
+  ski_race: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski/SnowBoard Race",
+    optional: true
+  },
+  jib_session: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Jib Session Competition",
+    optional: true
+  },
+  other_activities: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Other Activities",
+    optional: true
   }
+
 });
 
 Schemas.Day3 = new SimpleSchema({
@@ -430,6 +474,41 @@ Schemas.Participant = new SimpleSchema({
     max: 200,
     optional: true
   },
+  //RENTAL 
+  rentMaterial: {
+    label: 'Ski/Snowboard',
+    type: String,
+    allowedValues: ['None', 'Ski', 'Snowboard'],
+    optional: true
+  },
+  rentSkiBoots: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Ski Boots",
+    optional: true
+  },
+  rentSkiSticks: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Ski Sticks",
+    optional: true
+  },
+  rentSnowboardBoots: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Snowboard Boots",
+    optional: true
+  },
+  rentHelmet: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Helmet",
+    optional: true
+  },
+
+
+
+
   history: {
     type: Array,
     optional: true,
