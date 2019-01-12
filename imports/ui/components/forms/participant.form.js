@@ -49,9 +49,9 @@ Template.UserFormSection.onCreated(function () {
   template.isAdmin = !_.isNull(Meteor.userId()) && Roles.userIsInRole(Meteor.userId(), 'admin');
 
   // internal registration happens first
-  template.hasToBeHelperOrHost = moment().isBetween('2019-01-14', '2019-01-21');
+  template.hasToBeHelperOrHost = moment().isBetween('2019-01-01', '2019-01-21');
 
-  console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-14', '2019-01-21'));
+  console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-01', '2019-01-21'));
   console.log('Meteor user', Meteor.user());
 
   // set _id session variable when editing
@@ -300,9 +300,23 @@ Template.UserFormSection.events({
     template.isInDorm.set(isDorm);
 
     if (isDorm) {
-      swal('Warning!', 'If your roomate is not hosting/participating and you wish to host more than 1 external ' +
-        'student, you can take his/her guest. To do this, please contact us before paying since you can get and ' +
-        'extra 15€ discount.', 'info');
+      swal('Important!',
+      'We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception. \n' + 
+      '(If places are finished in your student hall, you can become a helper to get the discount.)'
+      , 'info');
+      /*swal('',
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception.</span></strong></p>' +
+      '<p>&nbsp;</p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Rainerum:</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> 1 guest per student</span></p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Peter Rigler</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student</span></p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Marianum: </span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">no guests allowed (in order to get the discount you can become a helper)</span></p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Haus st. Benedikt</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student</span></p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Univercity</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student. Double apartments: max 3 guests if both students agree.</span></p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kolping</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: no guests allowed (in order to get the discount you can become a helper)</span></p>' +
+      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kolping - Dante apartments</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: max 3 guests in each apartment</span></p>' +
+      '<p>&nbsp;</p>' +
+      '<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">(If places are finished in your student hall, you can become a helper to get the discount.)</span></strong></p>'
+      , 'info');*/
       template.noOfGuests.set(1);
     }
   },
@@ -381,6 +395,7 @@ Template.UserFormSection.events({
       _id: template.participant.get()._id,
       firstName: target.first_name.value,
       lastName: target.last_name.value,
+      studentID: target.student_id.value,
       email: target.email.value,
       gender: target.gender.value,
       phone: target.phone.value,

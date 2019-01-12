@@ -2,625 +2,651 @@
   <div class="row animated fadeIn">
     <div class="col">
       {{#if Template.subscriptionsReady}}
-        <!-- !T&C -->
-        {{#if hasAcceptedTandC}}
-          <form id="user_form">
-            <!-- email not verified && account created -->
-            {{#if $or emailNotVerified hasToPay}}
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <h4 class="alert-heading">Current status</h4>
-                <hr>
-                {{#if emailNotVerified}}
-                  <strong>Missing verification:</strong> you haven't verified your email yet.
-                  This is a fundamental step for you to be successfully enrolled.
-                  <a id="resendEmailVerification" href>Resend</a>
-                {{/if}}
+      <!-- !T&C -->
+      {{#if hasAcceptedTandC}}
+      <form id="user_form">
+        <!-- email not verified && account created -->
+        {{#if $or emailNotVerified hasToPay}}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <h4 class="alert-heading">Current status</h4>
+          <hr> {{#if emailNotVerified}}
+          <strong>Missing verification:</strong> you haven't verified your email yet. This is a fundamental step for you to be successfully
+          enrolled.
+          <a id="resendEmailVerification" href>Resend</a>
+          {{/if}} {{#if $and emailNotVerified hasToPay}}
+          <hr> {{/if}} {{#if hasToPay}}
+          <strong>Missing payment:</strong> we still haven't received you back transfer with the following information.
+          <ul class="mb-0">
+            <li>
+              Amount to pay:
+              <strong>{{lp.amountToPay}}</strong>
+            </li>
+            <li>
+              Reason for payment:
+              <strong>Snowdays fee - {{lp.paymentID}} - {{lp.lastName}} - {{lp.university}}</strong>
+            </li>
+            <li>
+              IBAN:
+              <strong>IT32Q 08081 11610 000306004547</strong>
+            </li>
+            <li>
+              Directed to:
+              <strong>SPORTS CLUB UNIVERSITY BOLZANO</strong>
+            </li>
+            <li>
+              Bank:
+              <strong>Cassa Rurale Bolzano</strong>
+            </li>
+          </ul>
+          {{/if}}
+        </div>
+        {{/if}}
 
-                {{#if $and emailNotVerified hasToPay}}
-                  <hr>
-                {{/if}}
-
-                {{#if hasToPay}}
-                  <strong>Missing payment:</strong> we still haven't received you back transfer with the following
-                  information.
-                  <ul class="mb-0">
-                    <li>
-                      Amount to pay:
-                      <strong>{{lp.amountToPay}}</strong>
-                    </li>
-                    <li>
-                      Reason for payment:
-                      <strong>Snowdays fee - {{lp.paymentID}} - {{lp.lastName}} - {{lp.university}}</strong>
-                    </li>
-                    <li>
-                      IBAN: <strong>IT32Q 08081 11610 000306004547</strong>
-                    </li>
-                    <li>
-                      Directed to: <strong>SPORTS CLUB UNIVERSITY BOLZANO</strong>
-                    </li>
-                    <li>
-                      Bank: <strong>Cassa Rurale Bolzano</strong>
-                    </li>
-                  </ul>
-                {{/if}}
-              </div>
-            {{/if}}
-
+        <div class="row">
+          <!-- COLUMN 1 -->
+          <div class="col-12 col-md-8">
             <div class="row">
               <!-- COLUMN 1 -->
-              <div class="col-12 col-md-8">
+              <div class="col-12 col-md-6">
+                <h4>Personal</h4>
+                <hr>
                 <div class="row">
-                  <!-- COLUMN 1 -->
-                  <div class="col-12 col-md-6">
-                    <h4>Personal</h4>
-                    <hr>
-                    <div class="row">
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="first_name" id="first_name"
-                                 value="{{lp.firstName}}" required>
-                          <label for="first_name" class="sn-field-label">First name</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="last_name" id="last_name"
-                                 value="{{lp.lastName}}" required>
-                          <label for="last_name" class="sn-field-label">Last name</label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                        <div class="sn-field-group">
-                          <select class="sn-field-input sn-a-0" id="gender" name="gender"
-                                  required>
-                            <option disabled>Choose</option>
-                            <option value="M" {{selectedIf lp.gender 'M'}}>Male</option>
-                            <option value="F" {{selectedIf lp.gender 'F'}}>Female</option>
-                          </select>
-                          <label for="gender" class="sn-field-label">Gender</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
-                        <div class="sn-field-group">
-                          <input class="sn-field-input" type="date" name="birth_date" id="birth_date"
-                                 value="{{lp.birth.date}}" required placeholder="mm/dd/yyyy">
-                          <label for="birth_date" class="sn-field-label sn-upper-label">Birth date</label>
-                        </div>
-                      </div>
-                    </div>
-
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
                     <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="birth_country" id="birth_country"
-                             value="{{lp.birth.country}}"
-                             required>
-                      <label for="birth_country" class="sn-field-label">Birth country</label>
-                    </div>
-
-                    <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="university" id="university"
-                             value="Free University of Bolzano" disabled required>
-                      <label for="university" class="sn-field-label">University</label>
-                    </div>
-
-                    <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}"
-                             required>
-                      <label for="phone" class="sn-field-label">Phone</label>
-                    </div>
-                    <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}"
-                             required>
-                      <label for="email" class="sn-field-label">Email</label>
-                      <small id="emailHelp" class="form-text text-muted">
-                        You'll receive a confirmation email.
-                      </small>
-                      <small id="emailHelp" class="form-text text-muted">
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                        We won't share it with anyone.
-                      </small>
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="sn-field-group">
-                      {{#if isPasswordRequired}}
-                        <input type="password" class="sn-field-input" name="password" id="password" required>
-                      {{else}}
-                        <input type="password" class="sn-field-input" name="password" id="password">
-                      {{/if}}
-                      <label for="password" class="sn-field-label">Password</label>
-                      <small id="passwordHelp" class="form-text text-muted">
-                        You'll be able to login again with email and password in case you'll need to update your
-                        preferences.
-                      </small>
+                      <input type="text" class="sn-field-input" name="first_name" id="first_name" value="{{lp.firstName}}" required>
+                      <label for="first_name" class="sn-field-label">First name</label>
                     </div>
                   </div>
-
-                  <!-- COLUMN 2 -->
-                  <div class="col-12 col-md-6">
-                    <!-- ADDRESS -->
-                    <h4 class="mt-5 mt-md-0">Address</h4>
-                    <small class="form-text text-danger">
-                      NOTE: if you are a host please fill in your address here in Bolzano and specify a room number if
-                      you live in a dorm.
-                    </small>
-                    <hr>
-                    <div class="row">
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="street" id="street" required
-                                 value="{{lp.info.street}}">
-                          <label for="street" class="sn-field-label">Street</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-3 col-md-12 col-lg-3 px-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="number" id="number" required
-                                 value="{{lp.info.number}}">
-                          <label for="number" class="sn-field-label">#</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-3 col-md-12 col-lg-3 pl-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="room_number" id="room_number"
-                                 value="{{lp.info.room}}">
-                          <label for="room_number" class="sn-field-label">Room #</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-sm-8 col-md-12 col-lg-8 pr-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="city" id="city" required
-                                 value="{{lp.info.city}}">
-                          <label for="city" class="sn-field-label">City</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-4 col-md-12 col-lg-4 pl-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="zip" id="zip" required
-                                 value="{{lp.info.zip}}">
-                          <label for="zip" class="sn-field-label">ZIP</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="province" id="province" required
-                                 value="{{lp.info.province}}">
-                          <label for="province" class="sn-field-label">Province</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
-                        <div class="sn-field-group">
-                          <input type="text" class="sn-field-input" name="country" id="country" required
-                                 value="{{lp.info.country}}">
-                          <label for="country" class="sn-field-label">Country</label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- ACTIVITIES -->
-                    <h4 class="mt-5 mt-md-0">Activities</h4>
-                    <hr>
-
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
                     <div class="sn-field-group">
-                      <div>
-                        <label class="custom-control custom-checkbox">
-                          {{#if lp.activity}}
-                            <input type="checkbox" class="custom-control-input" id="activity" checked>
-                          {{else}}
-                            <input type="checkbox" class="custom-control-input" id="activity">
-                          {{/if}}
-                          <label class="custom-control-label" for="activity">Ski or Snowboard?</label>
-                        </label>
-                      </div>
-                      <div>
-                        <label class="custom-control custom-checkbox">
-                          {{#if lp.course}}
-                            <input type="checkbox" class="custom-control-input" id="course" checked>
-                          {{else}}
-                            <input type="checkbox" class="custom-control-input" id="course">
-                          {{/if}}
-                          <label class="custom-control-label" for="course">Ski course?</label>
-                        </label>
-                      </div>
-                      <div>
-                        <label class="custom-control custom-checkbox">
-                          {{#if lp.rental}}
-                            <input type="checkbox" class="custom-control-input" id="rental" checked>
-                          {{else}}
-                            <input type="checkbox" class="custom-control-input" id="rental">
-                          {{/if}}
-                          <label class="custom-control-label" for="rental">Need rental?</label>
-                        </label>
-                      </div>
-                      <div>
-                        <label class="custom-control custom-checkbox">
-                          {{#if lp.isVolleyPlayer}}
-                            <input type="checkbox" class="custom-control-input" id="isVolleyPlayer" checked>
-                          {{else}}
-                            <input type="checkbox" class="custom-control-input" id="isVolleyPlayer">
-                          {{/if}}
-                          <span class="custom-control-label">Part of SnowVolley team?</span>
-                        </label>
-                      </div>
-                      <div>
-                        <label class="custom-control custom-checkbox">
-                          {{#if lp.isFootballPlayer}}
-                            <input type="checkbox" class="custom-control-input" id="isFootballPlayer" checked>
-                          {{else}}
-                            <input type="checkbox" class="custom-control-input" id="isFootballPlayer">
-                          {{/if}}
-                          <span class="custom-control-label">Part of the Snow Football team?</span>
-                        </label>
-                      </div>
+                      <input type="text" class="sn-field-input" name="last_name" id="last_name" value="{{lp.lastName}}" required>
+                      <label for="last_name" class="sn-field-label">Last name</label>
                     </div>
+                  </div>
+                </div>
 
-                    <!-- PREFERENCES -->
-                    <h4 class="mt-5 mt-md-0">Preferences</h4>
-                    <hr>
-                    <div class="row">
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                        <div class="sn-field-group">
-                          <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
-                            <option disabled>Choose</option>
-                            <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
-                            <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
-                            <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
-                            <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
-                          </select>
-                          <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
-                        <div class="sn-field-group">
-                          <input type="number" class="sn-field-input" name="height" id="height"
-                                 value="{{lp.height}}">
-                          <label for="height" class="sn-field-label">Height (cm)</label>
-                          <small class="form-text text-muted">
-                            Required if renting.
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                        <div class="sn-field-group">
-                          <input type="number" class="sn-field-input" name="weight" id="weight"
-                                 value="{{lp.weight}}">
-                          <label for="weight" class="sn-field-label">Weight (kg)</label>
-                          <small class="form-text text-muted">
-                            Required if renting.
-                          </small>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
-                        <div class="sn-field-group">
-                          <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size"
-                                 value="{{lp.shoeSize}}">
-                          <label for="shoe_size" class="sn-field-label">Shoe size</label>
-                          <small class="form-text text-muted">
-                            Required if renting.
-                          </small>
-                        </div>
-                      </div>
-                    </div>
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
                     <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies"
-                             value="{{lp.foodAllergies}}">
-                      <!-- TODO: datalist -->
-                      <label for="food_allergies" class="sn-field-label">Food allergies</label>
-                      <small class="form-text text-muted">Separate with commas if any.</small>
+                      <select class="sn-field-input sn-a-0" id="gender" name="gender" required>
+                        <option disabled>Choose</option>
+                        <option value="M" {{selectedIf lp.gender 'M'}}>Male</option>
+                        <option value="F" {{selectedIf lp.gender 'F'}}>Female</option>
+                      </select>
+                      <label for="gender" class="sn-field-label">Gender</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                    <div class="sn-field-group">
+                      <input class="sn-field-input" type="date" name="birth_date" id="birth_date" value="{{lp.birth.date}}" required placeholder="mm/dd/yyyy">
+                      <label for="birth_date" class="sn-field-label sn-upper-label">Birth date</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="student_id" id="student_id" value="{{lp.studentID}}" required>
+                  <label for="student_id" class="sn-field-label">Student ID</label>
+                </div>
+
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="birth_country" id="birth_country" value="{{lp.birth.country}}" required>
+                  <label for="birth_country" class="sn-field-label">Birth country</label>
+                </div>
+
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="university" id="university" value="Free University of Bolzano" disabled required>
+                  <label for="university" class="sn-field-label">University</label>
+                </div>
+
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}" required>
+                  <label for="phone" class="sn-field-label">Phone</label>
+                </div>
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}" required>
+                  <label for="email" class="sn-field-label">Email</label>
+                  <small id="emailHelp" class="form-text text-muted">
+                    You'll receive a confirmation email.
+                  </small>
+                  <small id="emailHelp" class="form-text text-muted">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    We won't share it with anyone.
+                  </small>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="sn-field-group">
+                  {{#if isPasswordRequired}}
+                  <input type="password" class="sn-field-input" name="password" id="password" required> {{else}}
+                  <input type="password" class="sn-field-input" name="password" id="password"> {{/if}}
+                  <label for="password" class="sn-field-label">Password</label>
+                  <small id="passwordHelp" class="form-text text-muted">
+                    You'll be able to login again with email and password in case you'll need to update your preferences.
+                  </small>
+                </div>
+                <!-- ADDRESS -->
+                <h4 class="mt-5 mt-md-0">Address</h4>
+                <small class="form-text text-danger">
+                  NOTE: if you are a host please fill in your address here in Bolzano and specify a room number if you live in a dorm.
+                </small>
+                <hr>
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="street" id="street" required value="{{lp.info.street}}">
+                      <label for="street" class="sn-field-label">Street</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-3 col-md-12 col-lg-3 px-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="number" id="number" required value="{{lp.info.number}}">
+                      <label for="number" class="sn-field-label">#</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-3 col-md-12 col-lg-3 pl-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="room_number" id="room_number" value="{{lp.info.room}}">
+                      <label for="room_number" class="sn-field-label">Room #</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-8 col-md-12 col-lg-8 pr-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="city" id="city" required value="{{lp.info.city}}">
+                      <label for="city" class="sn-field-label">City</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4 col-md-12 col-lg-4 pl-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="zip" id="zip" required value="{{lp.info.zip}}">
+                      <label for="zip" class="sn-field-label">ZIP</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="province" id="province" required value="{{lp.info.province}}">
+                      <label for="province" class="sn-field-label">Province</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="country" id="country" required value="{{lp.info.country}}">
+                      <label for="country" class="sn-field-label">Country</label>
                     </div>
                   </div>
                 </div>
               </div>
+              <!-- COLUMN 2 -->
+              <div class="col-12 col-md-6">
 
 
-              <!-- COLUMN 3 -->
-              <div class="col-12 col-md-4">
-                <!-- DOCUMENTS -->
-                <h4 class="mt-5 mt-md-0">Documents
-                  <small class="text-muted">png/jpg</small>
-                </h4>
-                <small class="text-muted text-danger">BOTH SIDES</small>
+                <!-- ACTIVITIES -->
+                <h4 class="mt-5 mt-md-0">Activities</h4>
                 <hr>
-                <div class="d-flex justify-content-around align-items-center flex-column">
-                  <!-- FRONT -->
-                  <div class="d-flex justify-content-center">
-                    {{#if hasPersonalIDFront}}
-                      <p class="animated fadeIn mb-0">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        Personal ID [FRONT]
-                      </p>
-                    {{else}}
-                      {{#with uploadingPIDFront}}
-                        <p class="sn-loader">Uploading...</p>
-                      {{else}}
-                        <input type="file" name="has_personal_id_front" id="has_personal_id_front"
-                               class="sn-input-file sn-btn-rounded"/>
-                        <label for="has_personal_id_front" class="m-0">
-                          <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                          <b>Personal ID [FRONT]</b>
-                        </label>
-                      {{/with}}
-                    {{/if}}
-                  </div>
 
-                  <!-- BACK -->
-                  <div class="mt-1 d-flex justify-content-center">
-                    {{#if hasPersonalIDBack}}
-                      <p class="animated fadeIn mb-0">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        Personal ID [BACK]
-                      </p>
-                    {{else}}
-                      {{#with uploadingPIDBack}}
-                        <p class="sn-loader">Uploading...</p>
-                      {{else}}
-                        <input type="file" name="has_personal_id_back" id="has_personal_id_back"
-                               class="sn-input-file sn-btn-rounded"/>
-                        <label for="has_personal_id_back" class="m-0">
-                          <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                          <b>Personal ID [BACK]</b>
-                        </label>
-                      {{/with}}
-                    {{/if}}
+                <div class="sn-field-group">
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if lp.activity}}
+                      <input type="checkbox" class="custom-control-input" id="activity" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="activity"> {{/if}}
+                      <label class="custom-control-label" for="activity">Ski or Snowboard?</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if lp.course}}
+                      <input type="checkbox" class="custom-control-input" id="course" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="course"> {{/if}}
+                      <label class="custom-control-label" for="course">Ski course?</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if lp.rental}}
+                      <input type="checkbox" class="custom-control-input" id="rental" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="rental"> {{/if}}
+                      <label class="custom-control-label" for="rental">Need rental?</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if lp.isVolleyPlayer}}
+                      <input type="checkbox" class="custom-control-input" id="isVolleyPlayer" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="isVolleyPlayer"> {{/if}}
+                      <span class="custom-control-label">Part of SnowVolley team?</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if lp.isFootballPlayer}}
+                      <input type="checkbox" class="custom-control-input" id="isFootballPlayer" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="isFootballPlayer"> {{/if}}
+                      <span class="custom-control-label">Part of the Snow Football team?</span>
+                    </label>
                   </div>
                 </div>
-                <div class="mt-2 d-flex justify-content-around align-items-center flex-column">
-                  {{#if not_equals lp.university 'Alumni Bolzano'}}
-                    <!-- FRONT -->
-                    <div class="d-flex justify-content-center">
-                      {{#if hasStudentIDFront}}
-                        <p class="animated fadeIn mb-0">
-                          <i class="fa fa-check" aria-hidden="true"></i>
-                          Student ID [FRONT]
-                        </p>
-                      {{else}}
-                        {{#with uploadingSIDFront}}
-                          <p class="sn-loader mt-1">Uploading...</p>
-                        {{else}}
-                          <input type="file" name="has_student_id_front" id="has_student_id_front"
-                                 class="sn-input-file sn-btn-rounded mt-2"/>
-                          <label for="has_student_id_front" class="m-0">
-                            <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                            <b>Student ID [FRONT]</b>
-                          </label>
-                        {{/with}}
-                      {{/if}}
-                    </div>
 
-                    <!-- BACK -->
-                    <div class="d-flex mt-1 justify-content-center">
-                      {{#if hasStudentIDBack}}
-                        <p class="animated fadeIn mb-0">
-                          <i class="fa fa-check" aria-hidden="true"></i>
-                          Student ID [BACK]
-                        </p>
-                      {{else}}
-                        {{#with uploadingSIDBack}}
-                          <p class="sn-loader mt-1">Uploading...</p>
-                        {{else}}
-                          <input type="file" name="has_student_id_back" id="has_student_id_back"
-                                 class="sn-input-file sn-btn-rounded mt-2"/>
-                          <label for="has_student_id_back" class="m-0">
-                            <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                            <b>Student ID [BACK]</b>
-                          </label>
-                        {{/with}}
-                      {{/if}}
+                <!-- PREFERENCES -->
+                <h4 class="mt-5 mt-md-0">Preferences</h4>
+                <hr>
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                    <div class="sn-field-group">
+                      <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                        <option disabled>Choose</option>
+                        <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
+                        <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
+                        <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
+                        <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
+                      </select>
+                      <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
                     </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                    <div class="sn-field-group">
+                      <input type="number" class="sn-field-input" name="height" id="height" value="{{lp.height}}">
+                      <label for="height" class="sn-field-label">Height (cm)</label>
+                      <small class="form-text text-muted">
+                        Required if renting.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                    <div class="sn-field-group">
+                      <input type="number" class="sn-field-input" name="weight" id="weight" value="{{lp.weight}}">
+                      <label for="weight" class="sn-field-label">Weight (kg)</label>
+                      <small class="form-text text-muted">
+                        Required if renting.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                    <div class="sn-field-group">
+                      <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size" value="{{lp.shoeSize}}">
+                      <label for="shoe_size" class="sn-field-label">Shoe size</label>
+                      <small class="form-text text-muted">
+                        Required if renting.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <!-- TODO: datalist -->
+                <!--<div class="row">
+                      
+                        <div class="sn-field-group">
+                          <select class="sn-field-input sn-a-0" id="food_allergies" name="food_allergies" required>
+                            <option disabled>Choose</option>
+                            <option value="None" {{selectedIf lp.foodAllergies 'None'}}>None</option>
+                            <option value="Celiac" {{selectedIf lp.foodAllergies 'Celiac'}}>Celiac</option>
+                            <option value="Vegan" {{selectedIf lp.foodAllergies 'Vegan'}}>Vegan</option>
+                            <option value="Vegetarian" {{selectedIf lp.foodAllergies 'Vegetarian'}}>Vegetarian</option>
+                          </select>
+                          <label for="food_allergies" class="sn-field-label sn-upper-label">Food allergies</label>
+                        </div>
+                    </div>-->
+                <div class="sn-field-group">
+                  <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies" value="{{lp.foodAllergies}}">
+                  <label for="food_allergies" class="sn-field-label">Food allergies</label>
+                  <small class="form-text text-muted">Separate with commas if any.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- COLUMN 3 -->
+          <div class="col-12 col-md-4">
+            <!-- DOCUMENTS -->
+            <h4 class="mt-5 mt-md-0">Documents
+              <small class="text-muted">png/jpg</small>
+            </h4>
+            <small class="text-muted text-danger">BOTH SIDES</small>
+            <hr>
+            <div class="d-flex justify-content-around align-items-center flex-column">
+              <!-- FRONT -->
+              <div class="d-flex justify-content-center">
+                {{#if hasPersonalIDFront}}
+                <p class="animated fadeIn mb-0">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  Personal ID [FRONT]
+                </p>
+                {{else}} {{#with uploadingPIDFront}}
+                <p class="sn-loader">Uploading...</p>
+                {{else}}
+                <input type="file" name="has_personal_id_front" id="has_personal_id_front" class="sn-input-file sn-btn-rounded" />
+                <label for="has_personal_id_front" class="m-0">
+                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                  <b>Personal ID [FRONT]</b>
+                </label>
+                {{/with}} {{/if}}
+              </div>
+
+              <!-- BACK -->
+              <div class="mt-1 d-flex justify-content-center">
+                {{#if hasPersonalIDBack}}
+                <p class="animated fadeIn mb-0">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  Personal ID [BACK]
+                </p>
+                {{else}} {{#with uploadingPIDBack}}
+                <p class="sn-loader">Uploading...</p>
+                {{else}}
+                <input type="file" name="has_personal_id_back" id="has_personal_id_back" class="sn-input-file sn-btn-rounded" />
+                <label for="has_personal_id_back" class="m-0">
+                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                  <b>Personal ID [BACK]</b>
+                </label>
+                {{/with}} {{/if}}
+              </div>
+            </div>
+            <div class="mt-2 d-flex justify-content-around align-items-center flex-column">
+              {{#if not_equals lp.university 'Alumni Bolzano'}}
+              <!-- FRONT -->
+              <div class="d-flex justify-content-center">
+                {{#if hasStudentIDFront}}
+                <p class="animated fadeIn mb-0">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  Student ID [FRONT]
+                </p>
+                {{else}} {{#with uploadingSIDFront}}
+                <p class="sn-loader mt-1">Uploading...</p>
+                {{else}}
+                <input type="file" name="has_student_id_front" id="has_student_id_front" class="sn-input-file sn-btn-rounded mt-2" />
+                <label for="has_student_id_front" class="m-0">
+                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                  <b>Student ID [FRONT]</b>
+                </label>
+                {{/with}} {{/if}}
+              </div>
+
+              <!-- BACK -->
+              <div class="d-flex mt-1 justify-content-center">
+                {{#if hasStudentIDBack}}
+                <p class="animated fadeIn mb-0">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  Student ID [BACK]
+                </p>
+                {{else}} {{#with uploadingSIDBack}}
+                <p class="sn-loader mt-1">Uploading...</p>
+                {{else}}
+                <input type="file" name="has_student_id_back" id="has_student_id_back" class="sn-input-file sn-btn-rounded mt-2" />
+                <label for="has_student_id_back" class="m-0">
+                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                  <b>Student ID [BACK]</b>
+                </label>
+                {{/with}} {{/if}}
+              </div>
+              {{/if}}
+            </div>
+            <hr>
+            <!-- HELPER -->
+            <div class="card" style="border: 2px solid #ff1c4f">
+              <div class="card-body">
+                <h6 class="card-subtitle mt-0 mb-2 sn-dark-red">Important</h6>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">First Year Students are required to host in order to participate.</span>
+                  </strong>
+                </p>
+
+                <div>
+                  <label class="custom-control custom-checkbox mb-0">
+                    {{#if lp.isHelper}}
+                    <input type="checkbox" class="custom-control-input" id="isHelper" name="internals" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="isHelper" name="internals"> {{/if}}
+                    <span class="custom-control-label">Helper</span>
+                  </label>
+                </div>
+                {{#if isHelper}}
+                <div class="sn-field-group mb-0 mt-1">
+                  <select class="sn-field-input sn-a-0" id="helperCategory" name="helperCategory" required>
+                    <option disabled>Choose</option>
+                    {{#if isHelperCategoryAvailable 'sport' 30}}
+                    <option value="sport" {{selectedIf lp.helperCategory 'sport'}}>
+                      Sport ({{helpersLeft 'sport' 30}} left)
+                    </option>
+                    {{/if}} {{#if isHelperCategoryAvailable 'catering' 40}}
+                    <option value="catering" {{selectedIf lp.helperCategory 'catering'}}>
+                      Catering ({{helpersLeft 'catering' 40}} left)
+                    </option>
+                    {{/if}} {{#if isHelperCategoryAvailable 'party' 30}}
+                    <option value="party" {{selectedIf lp.helperCategory 'party'}}>
+                      Party ({{helpersLeft 'party' 30}} left)
+                    </option>
+                    {{/if}} {{#if isHelperCategoryAvailable 'logistics' 20}}
+                    <option value="logistics" {{selectedIf lp.helperCategory 'logistics'}}>
+                      Logistics ({{helpersLeft 'logistics' 20}} left)
+                    </option>
+                    {{/if}} {{#if isHelperCategoryAvailable 'spirit' 2}}
+                    <option value="spirit" {{selectedIf lp.helperCategory 'spirit'}}>
+                      Spirit ({{helpersLeft 'spirit' 2}} left)
+                    </option>
+                    {{/if}} {{#if isHelperCategoryAvailable 'accomodation' 8}}
+                    <option value="spirit" {{selectedIf lp.helperCategory 'accomodation'}}>
+                      Accomodation ({{helpersLeft 'accomodation' 8}} left)
+                    </option>
+                    {{/if}}
+                  </select>
+                  <label for="helperCategory" class="sn-field-label">Category</label>
+                </div>
+                {{/if}}
+              </div>
+            </div>
+            <!-- HOST -->
+            <div class="card mt-2" style="border: 2px solid #ff1c4f">
+              <div class="card-body">
+                <h6 class="card-subtitle mt-0 mb-2 sn-dark-red">Important</h6>
+
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">We will give you an extra key at the check-in to give to your guest but they will be responsible of their
+                      own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the
+                      event and leave it at the student hall reception.</span>
+                  </strong>
+                </p>
+                <p>&nbsp;</p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Rainerum:</span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">
+                  1 guest per student</span>
+                </p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Peter Rigler</span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student</span>
+                </p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Marianum: </span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">no guests allowed (in order to get the discount you can become a helper)</span>
+                </p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Haus st. Benedikt</span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student</span>
+                </p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Univercity</span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student. Double apartments: max 3 guests if both students agree.</span>
+                </p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kolping</span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: no guests allowed (in order to get the discount you can become a helper)</span>
+                </p>
+                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kolping - Dante apartments</span>
+                  </strong>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: max 3 guests in each apartment</span>
+                </p>
+                <p>&nbsp;</p>
+                <p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;">
+                  <strong>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">(If places are finished in your student hall, you can become a helper to get the discount.)</span>
+                  </strong>
+                </p>
+
+
+                <div>
+                  <label class="custom-control custom-checkbox mb-0 mt-2">
+                    {{#if lp.isHost}}
+                    <input type="checkbox" class="custom-control-input" id="isHost" name="internals" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="isHost" name="internals"> {{/if}}
+                    <span class="custom-control-label">Host</span>
+                  </label>
+                </div>
+                {{#if isHost}}
+                <!-- ACCOMMODATION TYPE -->
+                <div class="sn-field-group mb-0 mt-1">
+                  <select class="sn-field-input sn-a-0" id="accommodationType" name="accommodationType" required>
+                    <option disabled>Choose</option>
+                    <option value="private" {{selectedIf lp.accommodationType 'private'}}>Private</option>
+                    <option value="dorm" {{selectedIf lp.accommodationType 'dorm'}}>Student dorm</option>
+                  </select>
+                  <label for="accommodationType" class="sn-field-label">Accommodation type</label>
+                </div>
+
+                {{#if isInDorm}}
+                <!-- IF STUDENT DORM, CHOOSE ONE -->
+                <div class="sn-field-group mb-0 mt-1">
+                  <select class="sn-field-input sn-a-0" id="studentDorm" name="studentDorm" required>
+                    <option disabled>Choose</option>
+                    {{#if isDormAvailable 'rigler' 35}}
+                    <option value="rigler" {{selectedIf lp.studentDorm 'rigler'}}>
+                      Peter Rigler ({{dormPlacesLeft 'rigler' 35}} left)
+                    </option>
+                    {{/if}} {{#if isDormAvailable 'univercity_s' 65}}
+                    <option value="univercity_s" {{selectedIf lp.studentDorm 'univercity_s'}}>
+                      Univercity Single Room({{dormPlacesLeft 'univercity_s' 65}} left)
+                    </option>
+                    {{/if}} {{#if isDormAvailable 'univercity_d' 65}}
+                    <option value="univercity_d" {{selectedIf lp.studentDorm 'univercity_d'}}>
+                      Univercity Double Room ({{dormPlacesLeft 'univercity' 65}} left)
+                    </option>
+                    {{/if}} {{#if isDormAvailable 'hsb' 50}}
+                    <option value="hsb" {{selectedIf lp.studentDorm 'hsb'}}>
+                      Haus St. Benedikt ({{dormPlacesLeft 'hsb' 50}} left)
+                    </option>
+                    {{/if}} {{#if isDormAvailable 'rainerum' 6}}
+                    <option value="rainerum" {{selectedIf lp.studentDorm 'rainerum'}}>
+                      Rainerum ({{dormPlacesLeft 'rainerum' 6}} left)
+                    </option>
+                    {{/if}} {{#if isDormAvailable 'dante' 24}}
+                    <option value="dante" {{selectedIf lp.studentDorm 'dante'}}>
+                      Apt. Dante ({{dormPlacesLeft 'dante' 24}} left)
+                    </option>
+                    {{/if}}
+                  </select>
+                  <label for="gender" class="sn-field-label">Student dorm</label>
+                </div>
+                {{/if}}
+
+                <!-- GUEST PREFERENCE -->
+                <div class="sn-field-group mb-0 mt-1">
+                  <select class="sn-field-input sn-a-0" id="guestPreference" name="guestPreference" required>
+                    <option value="-" {{selectedIf lp.guestPreference '-'}} selected>Whoever</option>
+                    <option value="M" {{selectedIf lp.guestPreference 'M'}}>Male</option>
+                    <option value="F" {{selectedIf lp.guestPreference 'F'}}>Female</option>
+                  </select>
+                  <label for="gender" class="sn-field-label">Guest preference</label>
+                </div>
+
+                <!-- # OF GUEST -->
+                <div class="sn-field-group mb-0 mt-1">
+                  {{#if isInDorm}}
+                  <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+                    <option disabled>Choose</option>
+                    <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+                  </select>
+                  {{else}}
+                  <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+                    <option disabled>Choose</option>
+                    <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+                    <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
+                    <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
+                    <option value="4" {{selectedIf lp.noOfGuests 4}}>4</option>
+                    <option value="5" {{selectedIf lp.noOfGuests 5}}>5</option>
+                    <option value="6" {{selectedIf lp.noOfGuests 6}}>6</option>
+                    <option value="7" {{selectedIf lp.noOfGuests 7}}>7</option>
+                  </select>
                   {{/if}}
+                  <label for="noOfGuests" class="sn-field-label"># of guests</label>
+                  <small class="form-text text-muted">
+                    Contact us if # of guests > 7, you may be eligible for a free ticket.
+                  </small>
                 </div>
-                <hr>
-                <div class="card" style="border: 2px solid #ff1c4f">
-                  <div class="card-body">
-                    <h6 class="card-subtitle mt-0 mb-2 sn-dark-red">Important</h6>
-                    <p class="card-text">Only helpers and hosts can currently register, so please make your choice
-                      below.</p>
-
-                    <!-- HELPER -->
-                    <div>
-                      <label class="custom-control custom-checkbox mb-0">
-                        {{#if lp.isHelper}}
-                          <input type="checkbox" class="custom-control-input" id="isHelper" name="internals" checked>
-                        {{else}}
-                          <input type="checkbox" class="custom-control-input" id="isHelper" name="internals">
-                        {{/if}}
-                        <span class="custom-control-label">Helper</span>
-                      </label>
-                    </div>
-                    {{#if isHelper}}
-                      <div class="sn-field-group mb-0 mt-1">
-                        <select class="sn-field-input sn-a-0" id="helperCategory" name="helperCategory"
-                                required>
-                          <option disabled>Choose</option>
-                          {{#if isHelperCategoryAvailable 'sport' 30}}
-                            <option value="sport" {{selectedIf lp.helperCategory 'sport'}}>
-                              Sport ({{helpersLeft 'sport' 30}} left)
-                            </option>
-                          {{/if}}
-                          {{#if isHelperCategoryAvailable 'catering' 40}}
-                            <option value="catering" {{selectedIf lp.helperCategory 'catering'}}>
-                              Catering ({{helpersLeft 'catering' 40}} left)
-                            </option>
-                          {{/if}}
-                          {{#if isHelperCategoryAvailable 'party' 30}}
-                            <option value="party" {{selectedIf lp.helperCategory 'party'}}>
-                              Party ({{helpersLeft 'party' 30}} left)
-                            </option>
-                          {{/if}}
-                          {{#if isHelperCategoryAvailable 'logistics' 20}}
-                            <option value="logistics" {{selectedIf lp.helperCategory 'logistics'}}>
-                              Logistics ({{helpersLeft 'logistics' 20}} left)
-                            </option>
-                          {{/if}}
-                          {{#if isHelperCategoryAvailable 'spirit' 5}}
-                            <option value="spirit" {{selectedIf lp.helperCategory 'spirit'}}>
-                              Spirit ({{helpersLeft 'spirit' 5}} left)
-                            </option>
-                          {{/if}}
-                          {{#if isHelperCategoryAvailable 'accomodation' 5}}
-                            <option value="spirit" {{selectedIf lp.helperCategory 'accomodation'}}>
-                              Accomodation ({{helpersLeft 'accomodation' 5}} left)
-                            </option>
-                          {{/if}}
-                        </select>
-                        <label for="helperCategory" class="sn-field-label">Category</label>
-                      </div>
-                    {{/if}}
-
-                    <!-- HOST -->
-                    <div>
-                      <label class="custom-control custom-checkbox mb-0 mt-2">
-                        {{#if lp.isHost}}
-                          <input type="checkbox" class="custom-control-input" id="isHost" name="internals" checked>
-                        {{else}}
-                          <input type="checkbox" class="custom-control-input" id="isHost" name="internals">
-                        {{/if}}
-                        <span class="custom-control-label">Host</span>
-                      </label>
-                    </div>
-                    {{#if isHost}}
-                      <!-- ACCOMMODATION TYPE -->
-                      <div class="sn-field-group mb-0 mt-1">
-                        <select class="sn-field-input sn-a-0" id="accommodationType" name="accommodationType"
-                                required>
-                          <option disabled>Choose</option>
-                          <option value="private" {{selectedIf lp.accommodationType 'private'}}>Private</option>
-                          <option value="dorm" {{selectedIf lp.accommodationType 'dorm'}}>Student dorm</option>
-                        </select>
-                        <label for="accommodationType" class="sn-field-label">Accommodation type</label>
-                      </div>
-
-                      {{#if isInDorm}}
-                        <!-- IF STUDENT DORM, CHOOSE ONE -->
-                        <div class="sn-field-group mb-0 mt-1">
-                          <select class="sn-field-input sn-a-0" id="studentDorm" name="studentDorm"
-                                  required>
-                            <option disabled>Choose</option>
-                            {{#if isDormAvailable 'rigler' 35}}
-                              <option value="rigler" {{selectedIf lp.studentDorm 'rigler'}}>
-                                Peter Rigler ({{dormPlacesLeft 'rigler' 35}} left)
-                              </option>
-                            {{/if}}
-                            {{#if isDormAvailable 'hsb' 50}}
-                              <option value="hsb" {{selectedIf lp.studentDorm 'hsb'}}>
-                                Haus St. Benedikt ({{dormPlacesLeft 'hsb' 50}} left)
-                              </option>
-                            {{/if}}
-                            {{#if isDormAvailable 'univercity' 65}}
-                              <option value="univercity" {{selectedIf lp.studentDorm 'univercity'}}>
-                                Univercity ({{dormPlacesLeft 'univercity' 65}} left)
-                              </option>
-                            {{/if}}
-                            {{#if isDormAvailable 'rainerum' 6}}
-                              <option value="rainerum" {{selectedIf lp.studentDorm 'rainerum'}}>
-                                Rainerum ({{dormPlacesLeft 'rainerum' 6}} left)
-                              </option>
-                            {{/if}}
-                            {{#if isDormAvailable 'dante' 24}}
-                              <option value="dante" {{selectedIf lp.studentDorm 'dante'}}>
-                                Apt. Dante ({{dormPlacesLeft 'dante' 24}} left)
-                              </option>
-                            {{/if}}
-                          </select>
-                          <label for="gender" class="sn-field-label">Student dorm</label>
-                        </div>
-                      {{/if}}
-
-                      <!-- GUEST PREFERENCE -->
-                      <div class="sn-field-group mb-0 mt-1">
-                        <select class="sn-field-input sn-a-0" id="guestPreference" name="guestPreference"
-                                required>
-                          <option value="-" {{selectedIf lp.guestPreference '-'}} selected>Whoever</option>
-                          <option value="M" {{selectedIf lp.guestPreference 'M'}}>Male</option>
-                          <option value="F" {{selectedIf lp.guestPreference 'F'}}>Female</option>
-                        </select>
-                        <label for="gender" class="sn-field-label">Guest preference</label>
-                      </div>
-
-                      <!-- # OF GUEST -->
-                      <div class="sn-field-group mb-0 mt-1">
-                        {{#if isInDorm}}
-                          <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
-                            <option disabled>Choose</option>
-                            <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
-                          </select>
-                        {{else}}
-                          <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
-                            <option disabled>Choose</option>
-                            <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
-                            <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
-                            <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
-                            <option value="4" {{selectedIf lp.noOfGuests 4}}>4</option>
-                            <option value="5" {{selectedIf lp.noOfGuests 5}}>5</option>
-                            <option value="6" {{selectedIf lp.noOfGuests 6}}>6</option>
-                            <option value="7" {{selectedIf lp.noOfGuests 7}}>7</option>
-                          </select>
-                        {{/if}}
-                        <label for="noOfGuests" class="sn-field-label"># of guests</label>
-                        <small class="form-text text-muted">
-                          Contact us if # of guests > 7, you may be eligible for a free ticket.
-                        </small>
-                      </div>
-                    {{/if}}
-                  </div>
-                </div>
-
-                <!-- PAYMENT SUMMARY -->
-                <div class="card mt-2" style="border: 2px solid #f1c40f">
-                  <div class="card-body">
-                    <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
-                    <ul class="text-muted">
-                      <li>Helper/host: <strong>80€</strong></li>
-                      <li>Helper + host: <strong>65€</strong></li>
-                      <li>Discount for each hosted person: <strong>-15€</strong></li>
-                      <li>Minimum ticket price: <strong>50€</strong></li>
-                    </ul>
-                    <h1 class="font-weight-bold sn-red">{{finalPrice}}</h1>
-                  </div>
-                </div>
+                {{/if}}
               </div>
             </div>
-            <div class="row">
-              <nav class="col-12 mb-3 flex-column">
-                <hr>
-                <div class="row">
-                  <div class="col-6 text-left">
-                    <h6 class="mb-1"><i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
-                    <p>Drop an email to<br>
-                      <a
-                        href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
-                    </p>
-                  </div>
-                  <div class="col-6 text-right">
-                    {{#if isInRole 'admin'}}
-                      <button type="submit" class="sn-btn-outline-green" name="save" formnovalidate>
-                        Save
-                      </button>
-                    {{else}}
-                      <button type="submit" class="sn-btn-outline-green" name="save">
-                        {{proceedButton}}
-                      </button>
-                    {{/if}}
-                  </div>
-                </div>
-              </nav>
+
+            <!-- PAYMENT SUMMARY -->
+            <div class="card mt-2" style="border: 2px solid #f1c40f">
+              <div class="card-body">
+                <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
+                <ul class="text-muted">
+                  <li>Helper/host:
+                    <strong>80€</strong>
+                  </li>
+                  <li>Helper + host:
+                    <strong>65€</strong>
+                  </li>
+                  <li>Discount for each hosted person:
+                    <strong>-15€</strong>
+                  </li>
+                  <li>Minimum ticket price:
+                    <strong>50€</strong>
+                  </li>
+                </ul>
+                <h1 class="font-weight-bold sn-red">{{finalPrice}}</h1>
+              </div>
             </div>
-          </form>
-        {{else}}
-          <!-- T&C-->
-          {{> TCSection}}
-        {{/if}}
+          </div>
+        </div>
+        <div class="row">
+          <nav class="col-12 mb-3 flex-column">
+            <hr>
+            <div class="row">
+              <div class="col-6 text-left">
+                <h6 class="mb-1">
+                  <i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
+                <p>Drop an email to
+                  <br>
+                  <a href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
+                </p>
+              </div>
+              <div class="col-6 text-right">
+                {{#if isInRole 'admin'}}
+                <button type="submit" class="sn-btn-outline-green" name="save" formnovalidate>
+                  Save
+                </button>
+                {{else}}
+                <button type="submit" class="sn-btn-outline-green" name="save">
+                  {{proceedButton}}
+                </button>
+                {{/if}}
+              </div>
+            </div>
+          </nav>
+        </div>
+      </form>
       {{else}}
-        {{> Loader}}
-      {{/if}}
+      <!-- T&C-->
+      {{> TCSection}} {{/if}} {{else}} {{> Loader}} {{/if}}
     </div>
   </div>
 </template>
@@ -629,11 +655,14 @@
   <div class="row mt-5">
     <div class="col-12 text-center">
       <h3>Congratulations!</h3>
-      <p><strong>Your email has been verified and your information successfully saved.</strong></p>
+      <p>
+        <strong>Your email has been verified and your information successfully saved.</strong>
+      </p>
 
       <div class="card">
         <div class="card-body">
-          Last thing: payment. Please send a bank transfer to Snowdays <strong>before</strong> the 21th.
+          Last thing: payment. Please send a bank transfer to Snowdays
+          <strong>before</strong> the 21th.
           <ul>
             <li>
               Amount to pay:
@@ -644,41 +673,41 @@
               <strong>Snowdays fee - {{lp.paymentID}} - {{lp.lastName}} - {{lp.university}}</strong>
             </li>
             <li>
-              IBAN: <strong>IT32Q 08081 11610 000306004547</strong>
+              IBAN:
+              <strong>IT32Q 08081 11610 000306004547</strong>
             </li>
             <li>
-              Directed to: <strong>SPORTS CLUB UNIVERSITY BOLZANO</strong>
+              Directed to:
+              <strong>SPORTS CLUB UNIVERSITY BOLZANO</strong>
             </li>
             <li>
-              Bank: <strong>Cassa Rurale Bolzano</strong>
+              Bank:
+              <strong>Cassa Rurale Bolzano</strong>
             </li>
           </ul>
         </div>
       </div>
 
-      <p>Now lean back and enjoy <br class="hidden-sm-up"> the <strong>new</strong> promo video <br
-        class="hidden-sm-up"> and last year's aftermovie!</p>
+      <p>Now lean back and enjoy
+        <br class="hidden-sm-up"> the
+        <strong>new</strong> promo video
+        <br class="hidden-sm-up"> and last year's aftermovie!</p>
       <p>Take also the time to like our page and share our event on Facebook!</p>
-      <iframe
-        src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId=216607852080016"
-        width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-        allowTransparency="true"></iframe>
+      <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=true&height=80&appId=216607852080016"
+        width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
     </div>
   </div>
   <div class="row my-5">
     <div class="col-12 col-md-6 mb-5 mb-md-0">
       <div class="embed-responsive embed-responsive-16by9">
-        <iframe src="https://player.vimeo.com/video/163717461?color=008eff&byline=0&portrait=0" width="640"
-                height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen
-                allowfullscreen></iframe>
+        <iframe src="https://player.vimeo.com/video/163717461?color=008eff&byline=0&portrait=0" width="640" height="360" frameborder="0"
+          webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       </div>
     </div>
     <div class="col-12 col-md-6 mb-5 mb-md-0">
       <div class="embed-responsive embed-responsive-16by9">
-        <iframe
-          src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&width=640&show_text=false&height=360&appId"
-          width="640" height="360" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-          allowTransparency="true"></iframe>
+        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FSnowdays.Bolzano%2Fvideos%2F1346529438744459%2F&width=640&show_text=false&height=360&appId"
+          width="640" height="360" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
       </div>
     </div>
   </div>
