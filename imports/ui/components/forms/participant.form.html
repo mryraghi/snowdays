@@ -184,7 +184,7 @@
 
                 <!-- RENTAL -->
                 <h4 class="mt-5 mt-md-0">Renting Material</h4>
-                <hr> 
+                <hr>
                 <div class="sn-field-group">
                   <select class="sn-field-input sn-a-0" id="rent_material" name="rent_material" required>
                     <option disabled>Choose</option>
@@ -193,48 +193,124 @@
                     <option value="Snowboard" {{selectedIf lp.rentMaterial 'Snowboard'}}>Snowboard</option>
                   </select>
                   <label for="rent_material" class="sn-field-label sn-upper-label">Renting maerial</label>
+
+                  {{#if rentSkiis}}
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentSkiBoots}}
+                    <input type="checkbox" class="custom-control-input" id="rentSkiBoots" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentSkiBoots"> {{/if}}
+                    <label class="custom-control-label" for="rentSkiBoots">Ski Boots</label>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentSkiSticks}}
+                    <input type="checkbox" class="custom-control-input" id="rentSkiSticks" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentSkiSticks"> {{/if}}
+                    <label class="custom-control-label" for="rentSkiSticks">Ski Sticks</label>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentHelmet}}
+                    <input type="checkbox" class="custom-control-input" id="rentHelmet" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
+                    <label class="custom-control-label" for="rentHelmet">Helmet</label>
+                  </label>
+                  {{/if}} {{#if rentSnowboard}}
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentSnowboardBoots}}
+                    <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots"> {{/if}}
+                    <label class="custom-control-label" for="rentSnowboardBoots">Snowboard</label>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentHelmet}}
+                    <input type="checkbox" class="custom-control-input" id="rentHelmet" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
+                    <label class="custom-control-label" for="rentHelmet">Helmet</label>
+                  </label>
+                  {{/if}}
                 </div>
-                {{#if rentSkiis}}
-                <label class="custom-control custom-checkbox">
-                  {{#if lp.rentSkiBoots}}
-                  <input type="checkbox" class="custom-control-input" id="rentSkiBoots" checked> {{else}}
-                  <input type="checkbox" class="custom-control-input" id="rentSkiBoots"> {{/if}}
-                  <label class="custom-control-label" for="rentSkiBoots">Ski Boots</label>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  {{#if lp.rentSkiSticks}}
-                  <input type="checkbox" class="custom-control-input" id="rentSkiSticks" checked> {{else}}
-                  <input type="checkbox" class="custom-control-input" id="rentSkiSticks"> {{/if}}
-                  <label class="custom-control-label" for="rentSkiSticks">Ski Sticks</label>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  {{#if lp.rentHelmet}}
-                  <input type="checkbox" class="custom-control-input" id="rentHelmet" checked> {{else}}
-                  <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
-                  <label class="custom-control-label" for="rentHelmet">Helmet</label>
-                </label>
-                {{/if}}
-                {{#if rentSnowboard}}
-                <label class="custom-control custom-checkbox">
-                  {{#if lp.rentSnowboardBoots}}
-                  <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots" checked> {{else}}
-                  <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots"> {{/if}}
-                  <label class="custom-control-label" for="rentSnowboardBoots">Snowboard</label>
-                </label>
-                <label class="custom-control custom-checkbox">
-                  {{#if lp.rentHelmet}}
-                  <input type="checkbox" class="custom-control-input" id="rentHelmet" checked> {{else}}
-                  <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
-                  <label class="custom-control-label" for="rentHelmet">Helmet</label>
-                </label>
-                {{/if}}
-
                 <!-- ACTIVITIES -->
-                <h4 class="mt-5 mt-md-0">Activities</h4>
-                <hr> 
 
+                <!-- Day1 -->
+                <h4 class="mt-5 mt-md-0">First Day Activities</h4>
+                <hr>
                 <div class="sn-field-group">
                   <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay1Swimming}}
+                      <input type="checkbox" class="custom-control-input" id="swimming" name="swimming" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="swimming" name="swimming"> {{/if}}
+                      <label class="custom-control-label" for="swimming">Swimming?</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay1BubbleFootball}}
+                      <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football"> {{/if}}
+                      <label class="custom-control-label" for="bubble_football">Bubble Football</label>
+                    </label>
+                  </div>
+                </div>
+                <h4 class="mt-5 mt-md-0">Second Day Activities</h4>
+                <hr>
+                <div class="sn-field-group">
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay2SkiOrSnow}}
+                      <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow"> {{/if}}
+                      <label class="custom-control-label" for="day2_ski_or_snow">Will you be skiing/snowboarding?</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay2Other}}
+                      <input type="checkbox" class="custom-control-input" id="day2_other" name="day2_other" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day2_other" name="day2_other"> {{/if}}
+                      <label class="custom-control-label" for="day2_other">Other Activities(....)</label>
+                    </label>
+                  </div>
+                </div>
+                <h4 class="mt-5 mt-md-0">Third Day Activities</h4>
+                <hr>
+                <div class="sn-field-group">
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay3Snowvolley}}
+                      <input type="checkbox" class="custom-control-input" id="day3_snow_volley" name="day3_snow_volley" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day3_snow_volley" name="day3_snow_volley"> {{/if}}
+                      <label class="custom-control-label" for="day3_snow_volley">SnowVolley Tournament</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay3SnowFootball}}
+                      <input type="checkbox" class="custom-control-input" id="day3_snow_football" name="day3_snow_football" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day3_snow_football" name="day3_snow_football"> {{/if}}
+                      <label class="custom-control-label" for="day3_snow_football">Human table SnowFootball Tournament</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay3SkiOrSnow}}
+                      <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow"> {{/if}}
+                      <label class="custom-control-label" for="day3_ski_or_snow">Will you be skiing/snowboarding?</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay3Other}}
+                      <input type="checkbox" class="custom-control-input" id="day3_other" name="day3_other" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day3_other" name="day3_other"> {{/if}}
+                      <label class="custom-control-label" for="day3_other">Other Activities(....)</label>
+                    </label>
+                  </div>
+                </div>
+                <h4 class="mt-5 mt-md-0">General Activities</h4>
+                <hr>
+                <div class="sn-field-group">
+                 <!-- <div>
                     <label class="custom-control custom-checkbox">
                       {{#if lp.activity}}
                       <input type="checkbox" class="custom-control-input" id="activity" checked> {{else}}
@@ -257,7 +333,7 @@
                       <input type="checkbox" class="custom-control-input" id="rental"> {{/if}}
                       <label class="custom-control-label" for="rental">Need rental?</label>
                     </label>
-                  </div>
+                  </div>-->
                   <div>
                     <label class="custom-control custom-checkbox">
                       {{#if lp.isVolleyPlayer}}
@@ -275,6 +351,7 @@
                     </label>
                   </div>
                 </div>
+              
 
                 <!-- PREFERENCES -->
                 <h4 class="mt-5 mt-md-0">Preferences</h4>
@@ -491,9 +568,7 @@
 
                 <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
                   <strong>
-                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">We will give you an extra key at the check-in to give to your guest but they will be responsible of their
-                      own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the
-                      event and leave it at the student hall reception.</span>
+                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">We will give you an extra key at the check-in to give to your guest but they will be responsible of theirown key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception.</span>
                   </strong>
                 </p>
                 <p>&nbsp;</p>
@@ -501,8 +576,7 @@
                   <strong>
                     <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Rainerum:</span>
                   </strong>
-                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">
-                  1 guest per student</span>
+                  <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">1 guest per student</span>
                 </p>
                 <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
                   <strong>

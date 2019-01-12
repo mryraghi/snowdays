@@ -114,8 +114,16 @@ Template.UserFormSection.onCreated(function () {
   template.rentSkiis = new ReactiveVar(_.isEqual(p.rentMaterial, 'Ski'));
   template.rentSnowboard = new ReactiveVar(_.isEqual(p.rentMaterial, 'Snowboard'));
   template.noRent = new ReactiveVar(_.isEqual(p.rentMaterial, 'None'));
+  template.isDay1Swimming = new ReactiveVar(!!p.day1.swimming);
+  template.isDay1BubbleFootball= new ReactiveVar(!!p.day1.bubble_football);
   
-  
+  template.isDay2SkiOrSnow =  new ReactiveVar(!!p.day2.ski_or_snow);
+  template.isDay2Other =  new ReactiveVar(!!p.day2.other_activities);
+
+  template.isDay3Snowvolley =  new ReactiveVar(!!p.day3.snow_volley_tournament);
+  template.isDay3SnowFootball =  new ReactiveVar(!!p.day3.snow_football_tournament);
+  template.isDay3SkiOrSnow =  new ReactiveVar(!!p.day3.ski_or_snow);
+  template.isDay3Other =  new ReactiveVar(!!p.day3.other_activities);
   // TODO: check these
   template.uploadingSIDFront = new ReactiveVar(false);
   template.uploadingSIDBack = new ReactiveVar(false);
@@ -200,6 +208,44 @@ rentSnowboard: function () {
 noRent: function () {
   let template = Template.instance();
   return (template.noRent.get() ? template.noRent.get() : false);
+},
+
+//Day1 Activities
+isDay1Swimming: function() {
+  //return this.swimming === true?'checked':'';
+  let template = Template.instance();
+  return (template.isDay1Swimming.get() ? template.isDay1Swimming.get() : false);
+},
+isDay1BubbleFootball: function() {
+  //return this.bubble_football === true?'checked':'';
+  let template = Template.instance();
+  return (template.isDay1BubbleFootball.get() ? template.isDay1BubbleFootball.get() : false);
+},
+// Day2 Activities
+isDay2SkiOrSnow:function () {
+  let template = Template.instance();
+  return (template.isDay2SkiOrSnow.get() ? template.isDay2SkiOrSnow.get() : false);
+},
+isDay2Other: function () {
+  let template = Template.instance();
+  return (template.isDay2Other.get() ? template.isDay2Other.get() : false);
+},
+// Day3 Activities
+isDay3Snowvolley:function () {
+  let template = Template.instance();
+  return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
+},
+isDay3SnowFootball: function () {
+  let template = Template.instance();
+  return (template.isDay3SnowFootball.get() ? template.isDay3SnowFootball.get() : false);
+},
+isDay3SkiOrSnow:function () {
+  let template = Template.instance();
+  return (template.isDay3SkiOrSnow.get() ? template.isDay3SkiOrSnow.get() : false);
+},
+isDay3Other: function () {
+  let template = Template.instance();
+  return (template.isDay3Other.get() ? template.isDay3Other.get() : false);
 },
   // INTERNALS ONLY: number of guest chosen and allowed (if in dorm only 1)
   noOfGuests: function () {
@@ -305,6 +351,91 @@ Template.UserFormSection.events({
     console.info(id, checked);
     template[id].set(checked);
   },
+  //CHANGE day1 activitiy
+  'change input[name="swimming"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    
+    template.isDay1Swimming.set(checked);
+
+    if(template.isDay1Swimming) {template.isDay1BubbleFootball.set(false);};
+//    console.info(id, checked);
+    template[id].set(checked);
+  },
+  'change input[name="bubble_football"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay1BubbleFootball.set(checked);
+    if(template.isDay1BubbleFootball) {template.isDay1Swimming.set(false);};
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
+  //CHANGE: day2 activities
+  'change input[name="day2_ski_or_snow"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SkiOrSnow.set(checked);
+    if(template.isDay2SkiOrSnow) {template.isDay2Other.set(false);};
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
+  'change input[name="day2_other"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2Other.set(checked);
+    if(template.isDay2Other) {template.isDay2SkiOrSnow.set(false);};
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
+  //CHANGE: day3 activities
+  'change input[name="day3_snow_volley"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3Snowvolley.set(checked);
+    if(template.isDay3Snowvolley) {
+      template.isDay3SnowFootball.set(false);
+      template.isDay3SkiOrSnow.set(false);
+      template.isDay3Other.set(false);
+    };
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
+  'change input[name="day3_snow_football"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3SnowFootball.set(checked);
+    if(template.isDay3SnowFootball){
+      template.isDay3Snowvolley.set(false);
+      template.isDay3SkiOrSnow.set(false);
+      template.isDay3Other.set(false);
+    };
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
+  'change input[name="day3_ski_or_snow"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3SkiOrSnow.set(checked);
+    if(template.isDay3SkiOrSnow) {
+      template.isDay3Snowvolley.set(false);
+      template.isDay3SnowFootball.set(false);
+      template.isDay3Other.set(false);
+    };
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
+  'change input[name="day3_other"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3Other.set(checked);
+    if(template.isDay3Other) {
+      template.isDay3Snowvolley.set(false);
+      template.isDay3SnowFootball.set(false);
+      template.isDay3SkiOrSnow.set(false);
+    };
+   // console.info(id, checked);
+    template[id].set(checked);
+  },
   // CHANGE: rental type
   'change #rent_material':(event, template) => {
     let rentingSkiis = _.isEqual(event.target.value, 'Ski');
@@ -327,6 +458,9 @@ Template.UserFormSection.events({
       if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
     };
   },
+
+  //CHANGE: DAY1 activities
+
   // CHANGE: number of guests
   'change #noOfGuests': (event, template) => {
     template.noOfGuests.set(_.toNumber(event.target.value));
@@ -451,9 +585,25 @@ Template.UserFormSection.events({
         date: parsedDate,
         country: target.birth_country.value
       },
-      activity: target.activity.checked,
-      rental: target.rental.checked,
-      course: target.course.checked,
+      //Activities
+      day1: {
+        swimming: target.swimming.checked,
+        bubble_football: target.bubble_football.checked,
+      },
+      day2: {
+        ski_or_snow: target.day2_ski_or_snow.checked,
+        other_activities: target.day2_other.checked,
+      },
+      day3: {
+        snow_volley_tournament: target.day3_snow_volley.checked,
+        snow_football_tournament: target.day3_snow_football.checked,
+        ski_or_snow: target.day3_ski_or_snow.checked,
+        other_activities: target.day3_other.checked,
+      },
+      
+      //activity: target.activity.checked,
+      //rental: target.rental.checked,
+      //course: target.course.checked,
       isVolleyPlayer: target.isVolleyPlayer.checked,
       isFootballPlayer: target.isFootballPlayer.checked,
       foodAllergies: target.food_allergies.value,

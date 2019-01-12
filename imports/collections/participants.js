@@ -153,7 +153,32 @@ Schemas.Day3 = new SimpleSchema({
     defaultValue: false,
     label: "(Day 3) Meal 2",
     optional: true
+  },
+  snow_volley_tournament: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Tournament: Snowvolley",
+    optional: true
+  },
+  snow_football_tournament: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Tournament: Human table SnowFootball",
+    optional: true
+  },
+  ski_or_snow: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 3) Ski/SnowBoard",
+    optional: true
+  },
+  other_activities: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 3) Other Activities",
+    optional: true
   }
+
 });
 
 Schemas.Requestor = new SimpleSchema({
