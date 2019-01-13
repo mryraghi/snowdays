@@ -475,10 +475,10 @@ Template.UserFormSection.events({
     template.isInDorm.set(isDorm);
 
     if (isDorm) {
-      swal('Important!',
+      /*swal('Important!',
       'We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception. \n' + 
       '(If places are finished in your student hall, you can become a helper to get the discount.)'
-      , 'info');
+      , 'info');*/
       /*swal('',
       '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception.</span></strong></p>' +
       '<p>&nbsp;</p>' +
