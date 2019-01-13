@@ -626,7 +626,7 @@ Schemas.Participant = new SimpleSchema({
   studentDorm: {
     type: String,
     label: 'Accommodation type',
-    allowedValues: ['rigler', 'hsb', 'univercity', 'rainerum', 'dante'],
+    allowedValues: ['rigler', 'univercity', 'rainerum', 'dante'],
     optional: true,
     custom: function () {
       let shouldBeRequired = this.field('isHost').value && _.isEqual(this.field('accommodationType'), 'dorm');

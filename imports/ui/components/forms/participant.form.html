@@ -184,7 +184,9 @@
 
                 <!-- RENTAL -->
                 <h4 class="mt-5 mt-md-0">Renting Material</h4>
+                <h6 class="mt-5 mt-md-0">Rental Fee NOT included in the ticket</h6>
                 <hr>
+                
                 <div class="sn-field-group">
                   <select class="sn-field-input sn-a-0" id="rent_material" name="rent_material" required>
                     <option disabled>Choose</option>
@@ -252,6 +254,7 @@
                   </div>
                 </div>
                 <h4 class="mt-5 mt-md-0">Second Day Activities</h4>
+                
                 <hr>
                 <div class="sn-field-group">
                   <div>
@@ -272,6 +275,7 @@
                   </div>
                 </div>
                 <h4 class="mt-5 mt-md-0">Third Day Activities</h4>
+                <h6 class="mt-5 mt-md-0">IMPORTANT: if you participate in the tournaments you won’t be able to ski/snowboard</h6>
                 <hr>
                 <div class="sn-field-group">
                   <div>
@@ -308,6 +312,7 @@
                   </div>
                 </div>
                 <h4 class="mt-5 mt-md-0">General Activities</h4>
+                
                 <hr>
                 <div class="sn-field-group">
                  <!-- <div>
@@ -355,6 +360,7 @@
 
                 <!-- PREFERENCES -->
                 <h4 class="mt-5 mt-md-0">Preferences</h4>
+                <h7 class="mt-5 mt-md-0">IMPORTANT: be aware that you won’t be able to modify the information given here after the enrolment closes. Rental material will be prepared before the event based on the given information.</h7>
                 <hr>
                 <div class="row">
                   <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
@@ -551,7 +557,7 @@
                       Spirit ({{helpersLeft 'spirit' 2}} left)
                     </option>
                     {{/if}} {{#if isHelperCategoryAvailable 'accomodation' 8}}
-                    <option value="spirit" {{selectedIf lp.helperCategory 'accomodation'}}>
+                    <option value="accomodation" {{selectedIf lp.helperCategory 'accomodation'}}>
                       Accomodation ({{helpersLeft 'accomodation' 8}} left)
                     </option>
                     {{/if}}
@@ -650,17 +656,9 @@
                     <option value="rigler" {{selectedIf lp.studentDorm 'rigler'}}>
                       Peter Rigler ({{dormPlacesLeft 'rigler' 35}} left)
                     </option>
-                    {{/if}} {{#if isDormAvailable 'univercity_s' 65}}
-                    <option value="univercity_s" {{selectedIf lp.studentDorm 'univercity_s'}}>
-                      Univercity Single Room({{dormPlacesLeft 'univercity_s' 65}} left)
-                    </option>
-                    {{/if}} {{#if isDormAvailable 'univercity_d' 65}}
-                    <option value="univercity_d" {{selectedIf lp.studentDorm 'univercity_d'}}>
-                      Univercity Double Room ({{dormPlacesLeft 'univercity' 65}} left)
-                    </option>
-                    {{/if}} {{#if isDormAvailable 'hsb' 50}}
-                    <option value="hsb" {{selectedIf lp.studentDorm 'hsb'}}>
-                      Haus St. Benedikt ({{dormPlacesLeft 'hsb' 50}} left)
+                    {{/if}} {{#if isDormAvailable 'univercity' 60}}
+                    <option value="univercity" {{selectedIf lp.studentDorm 'univercity'}}>
+                      Univercity Single Room({{dormPlacesLeft 'univercity' 60}} left)
                     </option>
                     {{/if}} {{#if isDormAvailable 'rainerum' 6}}
                     <option value="rainerum" {{selectedIf lp.studentDorm 'rainerum'}}>
@@ -719,11 +717,10 @@
               <div class="card-body">
                 <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
                 <ul class="text-muted">
-                  <li>Helper/host:
-                    <strong>80€</strong>
+                    <li>Helper:  you will receive the discount money back at the end of the event. Helpers who don’t show to their shifts during the event, won't receive the refund. Don’t worry, shifts last up to 2 hours and are scheduled so that you can enjoy all the activities!
                   </li>
-                  <li>Helper + host:
-                    <strong>65€</strong>
+                    <li>host:
+                    <strong>80€</strong>
                   </li>
                   <li>Discount for each hosted person:
                     <strong>-15€</strong>

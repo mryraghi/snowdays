@@ -114,16 +114,16 @@ Template.UserFormSection.onCreated(function () {
   template.rentSkiis = new ReactiveVar(_.isEqual(p.rentMaterial, 'Ski'));
   template.rentSnowboard = new ReactiveVar(_.isEqual(p.rentMaterial, 'Snowboard'));
   template.noRent = new ReactiveVar(_.isEqual(p.rentMaterial, 'None'));
-  template.isDay1Swimming = new ReactiveVar(!!p.day1.swimming);
-  template.isDay1BubbleFootball= new ReactiveVar(!!p.day1.bubble_football);
+  template.isDay1Swimming = new ReactiveVar((p.day1 ? p.day1.swimming : false));
+  template.isDay1BubbleFootball= new ReactiveVar((p.day1 ? p.day1.bubble_football : false));
   
-  template.isDay2SkiOrSnow =  new ReactiveVar(!!p.day2.ski_or_snow);
-  template.isDay2Other =  new ReactiveVar(!!p.day2.other_activities);
+  template.isDay2SkiOrSnow =  new ReactiveVar((p.day2 ? p.day2.ski_or_snow : false));
+  template.isDay2Other =  new ReactiveVar((p.day2 ? p.day2.other_activities : false));
 
-  template.isDay3Snowvolley =  new ReactiveVar(!!p.day3.snow_volley_tournament);
-  template.isDay3SnowFootball =  new ReactiveVar(!!p.day3.snow_football_tournament);
-  template.isDay3SkiOrSnow =  new ReactiveVar(!!p.day3.ski_or_snow);
-  template.isDay3Other =  new ReactiveVar(!!p.day3.other_activities);
+  template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
+  template.isDay3SnowFootball =  new ReactiveVar((p.day3 ? p.day3.snow_football_tournament : false));
+  template.isDay3SkiOrSnow =  new ReactiveVar((p.day3 ? p.day3.ski_or_snow : false));
+  template.isDay3Other =  new ReactiveVar((p.day3 ? p.day3.other_activities : false));
   // TODO: check these
   template.uploadingSIDFront = new ReactiveVar(false);
   template.uploadingSIDBack = new ReactiveVar(false);
@@ -359,16 +359,14 @@ Template.UserFormSection.events({
     template.isDay1Swimming.set(checked);
 
     if(template.isDay1Swimming) {template.isDay1BubbleFootball.set(false);};
-//    console.info(id, checked);
-    template[id].set(checked);
+    console.info(id, checked);
   },
   'change input[name="bubble_football"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay1BubbleFootball.set(checked);
     if(template.isDay1BubbleFootball) {template.isDay1Swimming.set(false);};
-   // console.info(id, checked);
-    template[id].set(checked);
+    console.info(id, checked);
   },
   //CHANGE: day2 activities
   'change input[name="day2_ski_or_snow"]':(item, template) => {
@@ -376,16 +374,18 @@ Template.UserFormSection.events({
     checked = item.target.checked;
     template.isDay2SkiOrSnow.set(checked);
     if(template.isDay2SkiOrSnow) {template.isDay2Other.set(false);};
-   // console.info(id, checked);
-    template[id].set(checked);
+    swal('Important!',
+      'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
+      , 'info');
+    console.info(id, checked);
   },
   'change input[name="day2_other"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay2Other.set(checked);
     if(template.isDay2Other) {template.isDay2SkiOrSnow.set(false);};
-   // console.info(id, checked);
-    template[id].set(checked);
+    console.info(id, checked);
+    
   },
   //CHANGE: day3 activities
   'change input[name="day3_snow_volley"]':(item, template) => {
@@ -397,8 +397,8 @@ Template.UserFormSection.events({
       template.isDay3SkiOrSnow.set(false);
       template.isDay3Other.set(false);
     };
-   // console.info(id, checked);
-    template[id].set(checked);
+    console.info(id, checked);
+    
   },
   'change input[name="day3_snow_football"]':(item, template) => {
     let id = item.target.id;
@@ -409,8 +409,8 @@ Template.UserFormSection.events({
       template.isDay3SkiOrSnow.set(false);
       template.isDay3Other.set(false);
     };
-   // console.info(id, checked);
-    template[id].set(checked);
+    console.info(id, checked);
+    
   },
   'change input[name="day3_ski_or_snow"]':(item, template) => {
     let id = item.target.id;
@@ -421,8 +421,11 @@ Template.UserFormSection.events({
       template.isDay3SnowFootball.set(false);
       template.isDay3Other.set(false);
     };
-   // console.info(id, checked);
-    template[id].set(checked);
+    swal('Important!',
+      'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
+      , 'info');
+    console.info(id, checked);
+    
   },
   'change input[name="day3_other"]':(item, template) => {
     let id = item.target.id;
@@ -433,8 +436,8 @@ Template.UserFormSection.events({
       template.isDay3SnowFootball.set(false);
       template.isDay3SkiOrSnow.set(false);
     };
-   // console.info(id, checked);
-    template[id].set(checked);
+    console.info(id, checked);
+    
   },
   // CHANGE: rental type
   'change #rent_material':(event, template) => {
@@ -617,7 +620,7 @@ Template.UserFormSection.events({
       rentSkiBoots: (template.rentSkiis.get() ? target.rentSkiBoots.checked: false),
       rentSkiSticks: (template.rentSkiis.get() ? target.rentSkiSticks.checked: false),
       rentSnowboardBoots: (template.rentSnowboard.get() ? target.rentSnowboardBoots.checked: false),
-      rentHelmet: (template.noRent.get() ? false: target.rentHelmet.checked),
+      rentHelmet: ((template.rentSnowboard.get() || template.rentSnowboard.get()) ? target.rentHelmet.checked: false),
       // HELPER
       isHelper: template.isHelper.get(),
       helperCategory: (template.isHelper.get() ? target.helperCategory.value : undefined),
@@ -625,7 +628,7 @@ Template.UserFormSection.events({
       // HOST
       isHost: template.isHost.get(),
       accommodationType: (template.isHost.get() ? target.accommodationType.value : undefined),
-      studentDorm: (template.isHost.get() ? target.studentDorm.value : undefined),
+      studentDorm: (template.isInDorm.get() ? target.studentDorm.value : undefined),
       guestPreference: (template.isHost.get() ? target.guestPreference.value : undefined),
       noOfGuests: (template.isHost.get() ? target.noOfGuests.value : undefined),
 
@@ -819,8 +822,8 @@ function uploadID(file, template, idType, bf) {
  */
 function calculateFinalPrice() {
   let template = Template.instance();
-  let price = 100;
-
+  let price = 110;
+/*
   // HELPER + HOST
   if (template.isHelper.get() && template.isHost.get()) {
     price = price - 35;
@@ -830,7 +833,11 @@ function calculateFinalPrice() {
   else if (template.isHelper.get() || template.isHost.get()) {
     price = price - 20;
   }
-
+*/
+// HOST
+if ( template.isHost.get()) {
+  price = price - 30;
+}
   // NUMBER OF GUESTS
   let noOfGuests = template.noOfGuests.get();
   if (noOfGuests > 1) {
