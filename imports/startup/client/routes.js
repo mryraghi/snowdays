@@ -6,7 +6,7 @@ import "../../ui/pages/admin";
 import "../../ui/pages/externals/index";
 import "../../ui/pages/participant/index";
 import "../../ui/pages/event";
-import "../../ui/pages/register";
+import "../../ui/pages/registers";
 import "../../ui/pages/errors/404/not_found";
 import "../../ui/pages/thankyou";
 import "../../ui/pages/press";
@@ -56,7 +56,7 @@ Router.route('/login', {
 
       // UNIBZ
       if (Roles.userIsInRole(user, 'unibz'))
-        this.redirect('/register');
+        this.redirect('/sdafjlasdflfwejweu2347euw82usdu28us72');
     }
 
     this.next()
@@ -92,6 +92,41 @@ Router.route('/register', {
         this.render();
       } else {
         this.render('RegisterClosedSection')
+      }
+    } else {
+      this.render('Loader');
+    }
+  }
+});
+Router.route('/sdafjlasdflfwejweu2347euw82usdu28us72', {
+  name: 'Registers',
+  template: 'RegistersPage',
+  subscriptions: function () {
+    let _id = localStorage.getItem('id');
+    let subscriptions = [];
+
+    if (moment().isBetween('2019-01-01', '2019-01-13')) {
+      subscriptions = [
+        Meteor.subscribe('stats.helpers.internals'),
+        Meteor.subscribe('stats.dorms.internals'),
+        Meteor.subscribe('count.internals')
+      ]
+    }
+
+    // returning a subscription handle or an array of subscription handles
+    // adds them to the wait list.
+    return Object.assign(subscriptions, [
+      Meteor.subscribe('participant.internal', _id),
+      Meteor.subscribe('user.internal', _id)
+    ]);
+  },
+  action: function () {
+    if (this.ready()) {
+      // registration closes when 300 participants successfully enrolled
+      if (!_.isNull(Meteor.user()) || Participants.find().count() < 300) {
+        this.render();
+      } else {
+        this.render('RegistersClosedSection')
       }
     } else {
       this.render('Loader');

@@ -4,11 +4,7 @@
   <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
 </head>
 
-<template name="RegisterPage">
-    <!-- registration for internals starts the 15/01 -->
-      <p class="text-center">Registration for internals will begin from 14th January!</p>
-  </template>
-<template name="Register_Page">
+<template name="RegistersPage">
   <!-- registration for internals starts the 15/01 -->
   {{#if registrationIsOpen}}
     {{> Template.dynamic template=tab}}
@@ -18,7 +14,7 @@
 </template>
 
 <!-- WELCOME SECTION -->
-<template name="RegisterWelcomeSection">
+<template name="RegistersWelcomeSection">
 
   <div class="container d-flex justify-content-center align-items-center flex-column"
        style="height: 100%; width: 100%;">
@@ -37,14 +33,14 @@
 </template>
 
 <!-- REGISTRATION CLOSED -->
-<template name="RegisterClosedSection">
+<template name="RegistersClosedSection">
   <div class="d-flex justify-content-center align-items-center flex-column" style="height: 100%; width: 100%;">
     <p>Registration for internals has come to an end, see you at Snowdays!</p>
   </div>
 </template>
 
 <!-- MAIN FORM -->
-<template name="RegisterFormSection">
+<template name="RegistersFormSection">
   <div class="container">
     <div class="row mt-5">
       <div class="col">
