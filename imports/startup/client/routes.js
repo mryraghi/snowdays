@@ -56,7 +56,7 @@ Router.route('/login', {
 
       // UNIBZ
       if (Roles.userIsInRole(user, 'unibz'))
-        this.redirect('/sdafjlasdflfwejweu2347euw82usdu28us72');
+        this.redirect('/register');
     }
 
     this.next()
@@ -70,7 +70,7 @@ Router.route('/register', {
     let _id = localStorage.getItem('id');
     let subscriptions = [];
 
-    if (moment().isBetween('2019-01-14', '2019-01-21')) {
+    if (moment().isBetween('2019-01-14 12:00:00', '2019-01-20 23:59:00')) {
       subscriptions = [
         Meteor.subscribe('stats.helpers.internals'),
         Meteor.subscribe('stats.dorms.internals'),
@@ -98,14 +98,14 @@ Router.route('/register', {
     }
   }
 });
-Router.route('/sdafjlasdflfwejweu2347euw82usdu28us72', {
+/*Router.route('/asdsddafsgasdgwerw', {
   name: 'Registers',
   template: 'RegistersPage',
   subscriptions: function () {
     let _id = localStorage.getItem('id');
     let subscriptions = [];
 
-    if (moment().isBetween('2019-01-01', '2019-01-13')) {
+    if (moment().isBetween('2019-01-01 00:00:00', '2019-01-14 12:00:00')) {
       subscriptions = [
         Meteor.subscribe('stats.helpers.internals'),
         Meteor.subscribe('stats.dorms.internals'),
@@ -132,7 +132,7 @@ Router.route('/sdafjlasdflfwejweu2347euw82usdu28us72', {
       this.render('Loader');
     }
   }
-});
+});*/
 
 Router.route('/verify-email/:token', {
   name: 'VerifyEmail',

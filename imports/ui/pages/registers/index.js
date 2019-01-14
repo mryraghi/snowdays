@@ -5,6 +5,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 Template.RegistersPage.onCreated(function () {
   let loggedIn = !_.isNull(Meteor.user());
   this.currentTab = new ReactiveVar(loggedIn ? 'RegistersFormSection' : "RegistersWelcomeSection");
+
 });
 
 Template.RegistersPage.events({
@@ -19,8 +20,9 @@ Template.RegistersPage.helpers({
     return Template.instance().currentTab.get();
   },
   registrationIsOpen: () => {
-    return moment().isBetween('2019-01-01', '2019-01-14')
-  }
+    return moment().isBetween('2019-01-01 00:00:00', '2019-01-14 12:00:00')
+  },
+  
 });
 
 Template.RegistersPage.onDestroyed(function () {

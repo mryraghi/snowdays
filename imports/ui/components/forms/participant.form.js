@@ -49,9 +49,9 @@ Template.UserFormSection.onCreated(function () {
   template.isAdmin = !_.isNull(Meteor.userId()) && Roles.userIsInRole(Meteor.userId(), 'admin');
 
   // internal registration happens first
-  template.hasToBeHelperOrHost = moment().isBetween('2019-01-01', '2019-01-21');
+  template.hasToBeHelperOrHost = moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00');
 
-  console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-01', '2019-01-21'));
+  console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00'));
   console.log('Meteor user', Meteor.user());
 
   // set _id session variable when editing
@@ -103,8 +103,11 @@ Template.UserFormSection.onCreated(function () {
   template.emailSent = new ReactiveVar(false);
   template.hasAcceptedTandC = new ReactiveVar(!!p.hasAcceptedTandC);
   template.isHelper = new ReactiveVar(!!p.isHelper);
+  template.isLoggedIn = new ReactiveVar(!!p.userId);
   template.isHost = new ReactiveVar(!!p.isHost);
   template.isInDorm = new ReactiveVar(_.isEqual(p.accommodationType, 'dorm'));
+  template.isDormDante = new ReactiveVar(_.isEqual(p.studentDorm, 'dante'));
+  template.isDormUnicity = new ReactiveVar(_.isEqual(p.studentDorm, 'univercity'));
   template.noOfGuests = new ReactiveVar((p.noOfGuests ? p.noOfGuests : 1));
   template.hasStudentIDFront = new ReactiveVar(!!p.hasStudentIDFront);
   template.hasStudentIDBack = new ReactiveVar(!!p.hasStudentIDBack);
@@ -116,8 +119,13 @@ Template.UserFormSection.onCreated(function () {
   template.noRent = new ReactiveVar(_.isEqual(p.rentMaterial, 'None'));
   template.isDay1Swimming = new ReactiveVar((p.day1 ? p.day1.swimming : false));
   template.isDay1BubbleFootball= new ReactiveVar((p.day1 ? p.day1.bubble_football : false));
-  
+  template.isDay1Other= new ReactiveVar((p.day1 ? p.day1.other_activities : false));
   template.isDay2SkiOrSnow =  new ReactiveVar((p.day2 ? p.day2.ski_or_snow : false));
+  template.isDay2SkiCourse =  new ReactiveVar((p.day2 ? p.day2.ski_course : false));
+  template.isDay2SnowCourse =  new ReactiveVar((p.day2 ? p.day2.snow_course : false));
+  template.isDay2SkiRace =  new ReactiveVar((p.day2 ? p.day2.ski_race : false));
+  template.isDay2SnowRace =  new ReactiveVar((p.day2 ? p.day2.snow_race : false));
+  template.isDay2JibSession =  new ReactiveVar((p.day2 ? p.day2.jib_session : false));
   template.isDay2Other =  new ReactiveVar((p.day2 ? p.day2.other_activities : false));
 
   template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
@@ -145,6 +153,7 @@ Template.UserFormSection.onCreated(function () {
     if (p) {
       // again, if admin then set true since not needed
       template.filling.set(!p.statusComplete);
+      //template.isLoggedIn.set(true);
       getSettings(template);
     }
     let acceptTandC = (Roles.userIsInRole(Meteor.userId(), 'admin') ? true : (p ? p.hasAcceptedTandC : false));
@@ -162,7 +171,10 @@ Template.UserFormSection.helpers({
   finalPrice: function () {
     return `${calculateFinalPrice()}€`;
   },
-
+  isLoggedIn: function() {
+    let template = Template.instance();
+    return (!!template.userId);
+  },
   // INTERNALS ONLY: isHelper and isHost
   isHelper: function () {
     let template = Template.instance();
@@ -183,6 +195,15 @@ Template.UserFormSection.helpers({
     let template = Template.instance();
     return (template.isHost.get() ? template.isHost.get() : false)
   },
+  isDormDante: function () {
+    let template = Template.instance();
+    return (template.isDormDante.get() ? true : false)
+  },
+  isDormUnicity: function () {
+    let template = Template.instance();
+    return (template.isDormUnicity.get() ? true : false)
+  },
+
   isDormAvailable: function (dorm, max) {
     return Participants.find({
       $and: [
@@ -193,6 +214,11 @@ Template.UserFormSection.helpers({
   },
   dormPlacesLeft: function (dorm, max) {
     return max - Participants.find({studentDorm: dorm}).count()
+  },
+  isCorrectDorm: function (dorm) {
+    let template = Template.instance();
+    console.log(dorm );
+    return (template.dorm == dorm);
   },
  
 // RENTAL 
@@ -221,10 +247,34 @@ isDay1BubbleFootball: function() {
   let template = Template.instance();
   return (template.isDay1BubbleFootball.get() ? template.isDay1BubbleFootball.get() : false);
 },
+isDay1Other: function() {
+  let template = Template.instance();
+  return (template.isDay1Other.get() ? template.isDay1Other.get() : false);
+},
 // Day2 Activities
 isDay2SkiOrSnow:function () {
   let template = Template.instance();
   return (template.isDay2SkiOrSnow.get() ? template.isDay2SkiOrSnow.get() : false);
+},
+isDay2SkiCourse:function () {
+  let template = Template.instance();
+  return (template.isDay2SkiCourse.get() ? template.isDay2SkiCourse.get() : false);
+},
+isDay2SnowCourse:function () {
+  let template = Template.instance();
+  return (template.isDay2SnowCourse.get() ? template.isDay2SnowCourse.get() : false);
+},
+isDay2SkiRace:function () {
+  let template = Template.instance();
+  return (template.isDay2SkiRace.get() ? template.isDay2SkiRace.get() : false);
+},
+isDay2SnowRace:function () {
+  let template = Template.instance();
+  return (template.isDay2SnowRace.get() ? template.isDay2SnowRace.get() : false);
+},
+isDay2JibSession:function () {
+  let template = Template.instance();
+  return (template.isDay2JibSession.get() ? template.isDay2JibSession.get() : false);
 },
 isDay2Other: function () {
   let template = Template.instance();
@@ -358,14 +408,30 @@ Template.UserFormSection.events({
     
     template.isDay1Swimming.set(checked);
 
-    if(template.isDay1Swimming) {template.isDay1BubbleFootball.set(false);};
+    if(template.isDay1Swimming) {
+      template.isDay1BubbleFootball.set(false);
+      template.isDay1Other.set(false);};
     console.info(id, checked);
   },
   'change input[name="bubble_football"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay1BubbleFootball.set(checked);
-    if(template.isDay1BubbleFootball) {template.isDay1Swimming.set(false);};
+    if(template.isDay1BubbleFootball) {
+      template.isDay1Swimming.set(false);
+      template.isDay1Other.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day1_other"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay1Other.set(checked);
+    if(template.isDay1Other) {
+      template.isDay1Swimming.set(false);
+      template.isDay1BubbleFootball.set(false);
+    };
+
     console.info(id, checked);
   },
   //CHANGE: day2 activities
@@ -373,17 +439,101 @@ Template.UserFormSection.events({
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay2SkiOrSnow.set(checked);
-    if(template.isDay2SkiOrSnow) {template.isDay2Other.set(false);};
-    swal('Important!',
+    if(template.isDay2SkiOrSnow) {
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    /*swal('Important!',
       'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
-      , 'info');
+      , 'info');*/
+    console.info(id, checked);
+  },
+  'change input[name="day2_ski_course"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SkiCourse.set(checked);
+    if(template.isDay2SkiCourse) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_snow_course"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SnowCourse.set(checked);
+    if(template.isDay2SnowCourse) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_ski_race"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SkiRace.set(checked);
+    if(template.isDay2SkiRace) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_snow_race"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SnowRace.set(checked);
+    if(template.isDay2SnowRace) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_jib_session"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2JibSession.set(checked);
+    if(template.isDay2JibSession) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2Other.set(false);
+    };
     console.info(id, checked);
   },
   'change input[name="day2_other"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay2Other.set(checked);
-    if(template.isDay2Other) {template.isDay2SkiOrSnow.set(false);};
+    if(template.isDay2Other) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+    };
     console.info(id, checked);
     
   },
@@ -421,9 +571,9 @@ Template.UserFormSection.events({
       template.isDay3SnowFootball.set(false);
       template.isDay3Other.set(false);
     };
-    swal('Important!',
+    /*swal('Important!',
       'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
-      , 'info');
+      , 'info');*/
     console.info(id, checked);
     
   },
@@ -468,13 +618,32 @@ Template.UserFormSection.events({
   'change #noOfGuests': (event, template) => {
     template.noOfGuests.set(_.toNumber(event.target.value));
   },
-
+  'change #studentDorm': (event,template) => {
+    let dorm = event.target.value;
+    if (dorm == "univercity") {template.isDormUnicity.set(true);
+      template.isDormDante.set(false)}
+    else if (dorm == "dante") {template.isDormDante.set(true);
+      template.isDormUnicity.set(false)}
+    else {template.isDormUnicity.set(false);
+      template.isDormDante.set(false)
+    };
+    console.log(dorm);
+  },
   // CHANGE: accommodation type
   'change #accommodationType': (event, template) => {
     let isDorm = _.isEqual(event.target.value, 'dorm');
+    
     template.isInDorm.set(isDorm);
-
     if (isDorm) {
+      console.log("passa");
+      dorm = template.studentDorm;
+    if (dorm == "univercity") {template.isDormUnicity.set(true);
+      template.isDormDante.set(false)}
+    else if (dorm == "dante") {template.isDormDante.set(true);
+      template.isDormUnicity.set(false)}
+    else {template.isDormUnicity.set(false);
+      template.isDormDante.set(false)
+    };
       /*swal('Important!',
       'We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception. \n' + 
       '(If places are finished in your student hall, you can become a helper to get the discount.)'
@@ -493,9 +662,13 @@ Template.UserFormSection.events({
       '<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">(If places are finished in your student hall, you can become a helper to get the discount.)</span></strong></p>'
       , 'info');*/
       template.noOfGuests.set(1);
+    }else{
+      template.isDormUnicity.set(false);
+      template.isDormDante.set(false);
     }
+    
+    template.isInDorm.set(isDorm);
   },
-
   'click #resendEmailVerification': function (event, template) {
     Meteor.call('sendVerificationLink', (error) => {
       if (error) {
@@ -592,9 +765,15 @@ Template.UserFormSection.events({
       day1: {
         swimming: target.swimming.checked,
         bubble_football: target.bubble_football.checked,
+        other_activities: target.day1_other.checked,
       },
       day2: {
         ski_or_snow: target.day2_ski_or_snow.checked,
+        ski_course:target.day2_ski_course.checked,
+        snow_course:target.day2_snow_course.checked,
+        ski_race:target.day2_ski_race.checked,
+        snow_race:target.day2_snow_race.checked,
+        jib_session:target.day2_jib_session.checked,
         other_activities: target.day2_other.checked,
       },
       day3: {
@@ -607,8 +786,8 @@ Template.UserFormSection.events({
       //activity: target.activity.checked,
       //rental: target.rental.checked,
       //course: target.course.checked,
-      isVolleyPlayer: target.isVolleyPlayer.checked,
-      isFootballPlayer: target.isFootballPlayer.checked,
+      //isVolleyPlayer: target.isVolleyPlayer.checked,
+      //isFootballPlayer: target.isFootballPlayer.checked,
       foodAllergies: target.food_allergies.value,
       shoeSize: target.shoe_size.value,
       height: target.height.value,
@@ -627,8 +806,10 @@ Template.UserFormSection.events({
 
       // HOST
       isHost: template.isHost.get(),
+      isDormDante: (template.isHost.get() ? template.isDormDante.get() : undefined),
+      isDormUnicity: (template.isHost.get() ? template.isDormUnicity.get() : undefined),
       accommodationType: (template.isHost.get() ? target.accommodationType.value : undefined),
-      studentDorm: (template.isInDorm.get() ? target.studentDorm.value : undefined),
+      studentDorm: (template.isHost.get() && template.isInDorm.get() ? target.studentDorm.value : undefined),
       guestPreference: (template.isHost.get() ? target.guestPreference.value : undefined),
       noOfGuests: (template.isHost.get() ? target.noOfGuests.value : undefined),
 
@@ -663,7 +844,7 @@ Template.UserFormSection.events({
           }
         }, function (error) {
           if (error) swal('Error', 'There has been an error saving your profile!', 'error');
-          else swal('Success', 'Profile updated!', 'success');
+          else swal('Success', "Profile updated!     Amount to pay: "+ participant.amountToPay + '€.', 'success');
         });
       }
 
@@ -689,6 +870,7 @@ Template.UserFormSection.events({
                 swal('Error', error.reason, 'error');
               }
             });
+            swal('Success', "Profile Created!     Amount to pay: "+ participant.amountToPay + '€.', 'success');
           }
         });
       }
@@ -837,12 +1019,13 @@ function calculateFinalPrice() {
 // HOST
 if ( template.isHost.get()) {
   price = price - 30;
-}
   // NUMBER OF GUESTS
   let noOfGuests = template.noOfGuests.get();
   if (noOfGuests > 1) {
     price = price - (15 * (noOfGuests - 1));
   }
+}
+  
 
   // cannot go beyond 50
   if (price < 50) {

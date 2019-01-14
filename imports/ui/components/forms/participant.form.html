@@ -178,6 +178,88 @@
                     </div>
                   </div>
                 </div>
+                <!-- DOCUMENTS -->
+            <h4 class="mt-5 mt-md-0">Documents
+                <small class="text-muted">png/jpg</small>
+              </h4>
+              <small class="text-muted text-danger">BOTH SIDES</small>
+              <hr>
+              <div class="d-flex justify-content-around align-items-center flex-column">
+                <!-- FRONT -->
+                <div class="d-flex justify-content-center">
+                  {{#if hasPersonalIDFront}}
+                  <p class="animated fadeIn mb-0">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Personal ID [FRONT]
+                  </p>
+                  {{else}} {{#with uploadingPIDFront}}
+                  <p class="sn-loader">Uploading...</p>
+                  {{else}}
+                  <input type="file" name="has_personal_id_front" id="has_personal_id_front" class="sn-input-file sn-btn-rounded" />
+                  <label for="has_personal_id_front" class="m-0">
+                    <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                    <b>Personal ID [FRONT]</b>
+                  </label>
+                  {{/with}} {{/if}}
+                </div>
+  
+                <!-- BACK -->
+                <div class="mt-1 d-flex justify-content-center">
+                  {{#if hasPersonalIDBack}}
+                  <p class="animated fadeIn mb-0">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Personal ID [BACK]
+                  </p>
+                  {{else}} {{#with uploadingPIDBack}}
+                  <p class="sn-loader">Uploading...</p>
+                  {{else}}
+                  <input type="file" name="has_personal_id_back" id="has_personal_id_back" class="sn-input-file sn-btn-rounded" />
+                  <label for="has_personal_id_back" class="m-0">
+                    <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                    <b>Personal ID [BACK]</b>
+                  </label>
+                  {{/with}} {{/if}}
+                </div>
+              </div>
+              <div class="mt-2 d-flex justify-content-around align-items-center flex-column">
+                {{#if not_equals lp.university 'Alumni Bolzano'}}
+                <!-- FRONT -->
+                <div class="d-flex justify-content-center">
+                  {{#if hasStudentIDFront}}
+                  <p class="animated fadeIn mb-0">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Student ID [FRONT]
+                  </p>
+                  {{else}} {{#with uploadingSIDFront}}
+                  <p class="sn-loader mt-1">Uploading...</p>
+                  {{else}}
+                  <input type="file" name="has_student_id_front" id="has_student_id_front" class="sn-input-file sn-btn-rounded mt-2" />
+                  <label for="has_student_id_front" class="m-0">
+                    <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                    <b>Student ID [FRONT]</b>
+                  </label>
+                  {{/with}} {{/if}}
+                </div>
+  
+                <!-- BACK -->
+                <div class="d-flex mt-1 justify-content-center">
+                  {{#if hasStudentIDBack}}
+                  <p class="animated fadeIn mb-0">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Student ID [BACK]
+                  </p>
+                  {{else}} {{#with uploadingSIDBack}}
+                  <p class="sn-loader mt-1">Uploading...</p>
+                  {{else}}
+                  <input type="file" name="has_student_id_back" id="has_student_id_back" class="sn-input-file sn-btn-rounded mt-2" />
+                  <label for="has_student_id_back" class="m-0">
+                    <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
+                    <b>Student ID [BACK]</b>
+                  </label>
+                  {{/with}} {{/if}}
+                </div>
+                {{/if}}
+              </div>
               </div>
               <!-- COLUMN 2 -->
               <div class="col-12 col-md-6">
@@ -242,7 +324,7 @@
                       {{#if isDay1Swimming}}
                       <input type="checkbox" class="custom-control-input" id="swimming" name="swimming" checked> {{else}}
                       <input type="checkbox" class="custom-control-input" id="swimming" name="swimming"> {{/if}}
-                      <label class="custom-control-label" for="swimming">Swimming?</label>
+                      <label class="custom-control-label" for="swimming">Swimming</label>
                     </label>
                   </div>
                   <div>
@@ -250,7 +332,15 @@
                       {{#if isDay1BubbleFootball}}
                       <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football" checked> {{else}}
                       <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football"> {{/if}}
-                      <label class="custom-control-label" for="bubble_football">Bubble Football</label>
+                      <label class="custom-control-label" for="bubble_football">Bubble Football Tournament</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay1Other}}
+                      <input type="checkbox" class="custom-control-input" id="day1_other" name="day1_other" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day1_other" name="day1_other"> {{/if}}
+                      <label class="custom-control-label" for="day1_other">I just want to drink, dance and have fun</label>
                     </label>
                   </div>
                 </div>
@@ -264,8 +354,48 @@
                       {{#if isDay2SkiOrSnow}}
                       <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow" checked> {{else}}
                       <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow"> {{/if}}
-                      <label class="custom-control-label" for="day2_ski_or_snow">Ski/Snowboard </label>
+                      <label class="custom-control-label" for="day2_ski_or_snow">I want to Ski/Snowboard on my own</label>
                     </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SkiCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_course">Ski Course</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SnowCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SkiRace}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_race" name="day2_ski_race" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_race" name="day2_ski_race"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_race">Ski Race</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SnowRace}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_race" name="day2_snow_race" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_race" name="day2_snow_race"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_race">Snowboard Race</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2JibSession}}
+                        <input type="checkbox" class="custom-control-input" id="day2_jib_session" name="day2_jib_session" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_jib_session" name="day2_jib_session"> {{/if}}
+                        <label class="custom-control-label" for="day2_jib_session">Jib Session Competition</label>
+                      </label>
                   </div>
                   <div>
                     <label class="custom-control custom-checkbox">
@@ -278,7 +408,7 @@
                 </div>
                 <h4 class="mt-5 mt-md-0">Third Day Activities</h4>
                 <small class="form-text text-danger">
-                  IMPORTANT: if you want to participate in other activities you won’t be able to ski/snowboard as you won't get a skipass</small>
+                  IMPORTANT: if you want to participate in other activities or in the tournaments you won’t be able to ski/snowboard as you won't get a skipass</small>
                 <hr>
                 <div class="sn-field-group">
                   <div>
@@ -302,7 +432,7 @@
                       {{#if isDay3SkiOrSnow}}
                       <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow" checked> {{else}}
                       <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow"> {{/if}}
-                      <label class="custom-control-label" for="day3_ski_or_snow">Will you be skiing/snowboarding?</label>
+                      <label class="custom-control-label" for="day3_ski_or_snow">Ski/Snowboard on my own</label>
                     </label>
                   </div>
                   <div>
@@ -358,7 +488,7 @@
                   <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
                     <div class="sn-field-group">
                       <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size" value="{{lp.shoeSize}}">
-                      <label for="shoe_size" class="sn-field-label">Shoe size</label>
+                      <label for="shoe_size" class="sn-field-label">Shoe size (EU or US size only)</label>
                       <small class="form-text text-muted">
                         Required if renting.
                       </small>
@@ -391,89 +521,7 @@
 
           <!-- COLUMN 3 -->
           <div class="col-12 col-md-4">
-            <!-- DOCUMENTS -->
-            <h4 class="mt-5 mt-md-0">Documents
-              <small class="text-muted">png/jpg</small>
-            </h4>
-            <small class="text-muted text-danger">BOTH SIDES</small>
-            <hr>
-            <div class="d-flex justify-content-around align-items-center flex-column">
-              <!-- FRONT -->
-              <div class="d-flex justify-content-center">
-                {{#if hasPersonalIDFront}}
-                <p class="animated fadeIn mb-0">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                  Personal ID [FRONT]
-                </p>
-                {{else}} {{#with uploadingPIDFront}}
-                <p class="sn-loader">Uploading...</p>
-                {{else}}
-                <input type="file" name="has_personal_id_front" id="has_personal_id_front" class="sn-input-file sn-btn-rounded" />
-                <label for="has_personal_id_front" class="m-0">
-                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                  <b>Personal ID [FRONT]</b>
-                </label>
-                {{/with}} {{/if}}
-              </div>
-
-              <!-- BACK -->
-              <div class="mt-1 d-flex justify-content-center">
-                {{#if hasPersonalIDBack}}
-                <p class="animated fadeIn mb-0">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                  Personal ID [BACK]
-                </p>
-                {{else}} {{#with uploadingPIDBack}}
-                <p class="sn-loader">Uploading...</p>
-                {{else}}
-                <input type="file" name="has_personal_id_back" id="has_personal_id_back" class="sn-input-file sn-btn-rounded" />
-                <label for="has_personal_id_back" class="m-0">
-                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                  <b>Personal ID [BACK]</b>
-                </label>
-                {{/with}} {{/if}}
-              </div>
-            </div>
-            <div class="mt-2 d-flex justify-content-around align-items-center flex-column">
-              {{#if not_equals lp.university 'Alumni Bolzano'}}
-              <!-- FRONT -->
-              <div class="d-flex justify-content-center">
-                {{#if hasStudentIDFront}}
-                <p class="animated fadeIn mb-0">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                  Student ID [FRONT]
-                </p>
-                {{else}} {{#with uploadingSIDFront}}
-                <p class="sn-loader mt-1">Uploading...</p>
-                {{else}}
-                <input type="file" name="has_student_id_front" id="has_student_id_front" class="sn-input-file sn-btn-rounded mt-2" />
-                <label for="has_student_id_front" class="m-0">
-                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                  <b>Student ID [FRONT]</b>
-                </label>
-                {{/with}} {{/if}}
-              </div>
-
-              <!-- BACK -->
-              <div class="d-flex mt-1 justify-content-center">
-                {{#if hasStudentIDBack}}
-                <p class="animated fadeIn mb-0">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                  Student ID [BACK]
-                </p>
-                {{else}} {{#with uploadingSIDBack}}
-                <p class="sn-loader mt-1">Uploading...</p>
-                {{else}}
-                <input type="file" name="has_student_id_back" id="has_student_id_back" class="sn-input-file sn-btn-rounded mt-2" />
-                <label for="has_student_id_back" class="m-0">
-                  <i class="fa fa-cloud-upload mr-2" aria-hidden="true"></i>
-                  <b>Student ID [BACK]</b>
-                </label>
-                {{/with}} {{/if}}
-              </div>
-              {{/if}}
-            </div>
-            <hr>
+            
             <!-- HELPER -->
             <div class="card" style="border: 2px solid #ff1c4f">
               <div class="card-body">
@@ -482,7 +530,7 @@
                   <strong>
                     <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">
 First year students are required to host in order to participate. If you are staying in a student dorm and places are finished or unavailable, you can become a helper to get the discount.
-If you are staying in a student dorm, we will give you an extra key at the check-in to give to your guest and they will be responsible for it. If lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student dorm reception.
+If you are staying in a student dorm, we will give you an extra key at the check-in to give to your guests and they will be responsible for it. If lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student dorm reception.
                        
 Rainerum: 1 guest per student
 Peter Rigler: 1 guest per student
@@ -566,7 +614,7 @@ If you are a helper, you will receive the discount money back at the end of the 
                       </option>
                       {{/if}} {{#if isDormAvailable 'univercity' 60}}
                       <option value="univercity" {{selectedIf lp.studentDorm 'univercity'}}>
-                        Univercity Single Room({{dormPlacesLeft 'univercity' 60}} left)
+                        Univercity({{dormPlacesLeft 'univercity' 60}} left)
                       </option>
                       {{/if}} {{#if isDormAvailable 'rainerum' 6}}
                       <option value="rainerum" {{selectedIf lp.studentDorm 'rainerum'}}>
@@ -593,11 +641,27 @@ If you are a helper, you will receive the discount money back at the end of the 
 
     <!-- # OF GUEST -->
     <div class="sn-field-group mb-0 mt-1">
-      {{#if isInDorm}}
-      <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+        
+      {{#if isDormUnicity}} 
+        <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
         <option disabled>Choose</option>
         <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+        <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
+        <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
       </select>
+      {{else if isDormDante}}
+      <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+          <option disabled>Choose</option>
+          <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+          <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
+          <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
+          <option value="4" {{selectedIf lp.noOfGuests 4}}>4</option>
+        </select>
+      {{else if isInDorm}}
+      <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
+          <option disabled>Choose</option>
+          <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
+        </select>
       {{else}}
       <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
         <option disabled>Choose</option>
@@ -614,7 +678,8 @@ If you are a helper, you will receive the discount money back at the end of the 
       <small class="form-text text-muted">
         Contact us if # of guests > 7, you may be eligible for a free ticket.
       </small>
-    </div>
+      
+      </div>
     {{/if}}
               </div>
             </div>
@@ -625,14 +690,16 @@ If you are a helper, you will receive the discount money back at the end of the 
               <div class="card-body">
                 <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
                 <ul class="text-muted">
-                    <li>host:
+                    <li>Host:
                         <strong>80€</strong>
                       </li>
                     <li>Helper:
-                    <strong>80€</strong>
+                    <strong>110€  (you will receive the discount money back at the end of the event)
+                      </strong>
                   </li>
                   <li>Host + Helper:
-                      <strong>65€</strong>
+                      <strong>80€  (you will receive the discount money back at the end of the event)
+                        </strong>
                     </li>
                   <li>Discount for each hosted person:
                     <strong>-15€</strong>
@@ -641,7 +708,6 @@ If you are a helper, you will receive the discount money back at the end of the 
                     <strong>50€</strong>
                   </li>
                 </ul>
-                <h1 class="font-weight-bold sn-red">{{finalPrice}}</h1>
               </div>
             </div>
           </div>
@@ -655,9 +721,10 @@ If you are a helper, you will receive the discount money back at the end of the 
                   <i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
                 <p>Drop an email to
                   <br>
-                  <a href="mailto:it@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">it@snowdays.it</a>
+                  <a href="mailto:info@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">info@snowdays.it</a>
                 </p>
               </div>
+              
               <div class="col-6 text-right">
                 {{#if isInRole 'admin'}}
                 <button type="submit" class="sn-btn-outline-green" name="save" formnovalidate>

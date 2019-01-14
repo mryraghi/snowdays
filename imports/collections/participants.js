@@ -61,6 +61,12 @@ Schemas.Day1 = new SimpleSchema({
     defaultValue: false,
     label: "(Day 1) BubbleFootBall",
     optional: true
+  },
+  other_activities: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) Chilling",
+    optional: true
   }
 
 });
@@ -105,19 +111,32 @@ Schemas.Day2 = new SimpleSchema({
   ski_or_snow: {
     type: Boolean,
     defaultValue: false,
-    label: "(Day 2) Ski/SnowBoard",
+    label: "(Day 2) Ski/SnowBoard own",
     optional: true
   },
   ski_course: {
     type: Boolean,
     defaultValue: false,
-    label: "(Day 2) Ski/Snowboard course",
+    label: "(Day 2) Ski course",
+    optional: true
+  },
+  
+  snow_course: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Snowboard course",
     optional: true
   },
   ski_race: {
     type: Boolean,
     defaultValue: false,
-    label: "(Day 2) Ski/SnowBoard Race",
+    label: "(Day 2) Ski Race",
+    optional: true
+  },
+  snow_race: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) SnowBoard Race",
     optional: true
   },
   jib_session: {
@@ -581,7 +600,7 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true,
     custom: function () {
-      let shouldBeRequired = moment().isBetween('2018-01-01', '2018-01-21');
+      let shouldBeRequired = moment().isBetween('2019-01-14', '2019-01-20');
 
       if (shouldBeRequired
         && !this.field('isHelper').value
@@ -604,7 +623,7 @@ Schemas.Participant = new SimpleSchema({
 
       // check whether he/she is in a dorm
       // if yes max is 1
-      if (_.isEqual(this.value, 'dorm') && this.field('noOfGuests').value > 1) {
+      if (_.isEqual(this.value, 'dorm') && this.field('noOfGuests').value > 4) {
         return "maxOneHostInDorm"
       }
 
@@ -680,7 +699,8 @@ Schemas.Participant = new SimpleSchema({
 
       // check whether he/she is in a dorm
       // if yes max is 1
-      if (_.isEqual(this.field('accommodationType').value, 'dorm') && this.value > 1) {
+      console.log(this.value);
+      if (_.isEqual(this.field('accommodationType').value, 'dorm') && this.value > 4) {
         return "maxOneHostInDorm"
       }
 
@@ -707,7 +727,7 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true,
     custom: function () {
-      let shouldBeRequired = moment().isBetween('2018-01-01', '2018-01-21');
+      let shouldBeRequired = moment().isBetween('2019-01-14', '2019-01-20');
 
       if (shouldBeRequired
         && !this.field('isHost').value
@@ -724,7 +744,7 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     label: 'Helper category',
     optional: true,
-    allowedValues: ['sport', 'catering', 'party', 'logistics', 'it'],
+    allowedValues: ['sport', 'catering', 'party', 'logistics', 'spirit','accomodation'],
     custom: function () {
       let shouldBeRequired = this.field('isHelper').value;
 

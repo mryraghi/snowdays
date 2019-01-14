@@ -13,8 +13,8 @@ import Flixbus from "/imports/collections/flixbus";
 
 Meteor.methods({
   'participants.internals.limit': function () {
-    let maxNotReached = Participants.find({university: 'Free University of Bolzano'}).count() <= 350;
-    let internalEnrolment = moment().isBetween('2019-01-01', '2019-01-21');
+    let maxNotReached = Participants.find({university: 'Free University of Bolzano'}).count() <= 300;
+    let internalEnrolment = moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00');
     return maxNotReached && internalEnrolment
   },
   'sendVerificationLink': function () {
