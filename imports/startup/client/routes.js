@@ -63,6 +63,12 @@ Router.route('/login', {
   }
 });
 
+// TEMP: 
+Router.route('/temp', {
+  name: 'Temp',
+  template: 'ExternalsPage'
+});
+
 Router.route('/register', {
   name: 'Register',
   template: 'RegisterPage',
