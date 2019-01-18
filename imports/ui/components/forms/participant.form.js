@@ -659,8 +659,8 @@ Template.UserFormSection.events({
         other_activities: target.day2_other.checked,
       },
       day3: {
-        /*snow_volley_tournament: target.day3_snow_volley.checked,
-        snow_football_tournament: target.day3_snow_football.checked,*/
+        /*snow_volley_tournament: target.day3_snow_volley.checked,*/
+        part_of_team: target.day3_part_of_team.checked,
         ski_or_snow: target.day3_ski_or_snow.checked,
         other_activities: target.day3_other.checked,
       },
