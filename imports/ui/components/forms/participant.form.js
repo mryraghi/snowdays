@@ -49,15 +49,15 @@ Template.UserFormSection.onCreated(function () {
   template.isAdmin = !_.isNull(Meteor.userId()) && Roles.userIsInRole(Meteor.userId(), 'admin');
 
   // internal registration happens first
-  template.hasToBeHelperOrHost = moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00');
+  //template.hasToBeHelperOrHost = moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00');
 
-  console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00'));
-  console.log('Meteor user', Meteor.user());
+  //console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00'));
+  //console.log('Meteor user', Meteor.user());
 
   // set _id session variable when editing
   // participant in external cp list
   setSessions();
-  facebookSetup();
+  //facebookSetup();
 
   // let _id = Session.get('_id') || Meteor.userId();
 
@@ -102,13 +102,15 @@ Template.UserFormSection.onCreated(function () {
   template.emailVerified = template.hasUser ? template.user.emails[0].verified : false;
   template.emailSent = new ReactiveVar(false);
   template.hasAcceptedTandC = new ReactiveVar(!!p.hasAcceptedTandC);
-  template.isHelper = new ReactiveVar(!!p.isHelper);
+  //template.isHelper = new ReactiveVar(!!p.isHelper);
   template.isLoggedIn = new ReactiveVar(!!p.userId);
+  /*
   template.isHost = new ReactiveVar(!!p.isHost);
   template.isInDorm = new ReactiveVar(_.isEqual(p.accommodationType, 'dorm'));
   template.isDormDante = new ReactiveVar(_.isEqual(p.studentDorm, 'dante'));
   template.isDormUnicity = new ReactiveVar(_.isEqual(p.studentDorm, 'univercity'));
   template.noOfGuests = new ReactiveVar((p.noOfGuests ? p.noOfGuests : 1));
+  */
   template.hasStudentIDFront = new ReactiveVar(!!p.hasStudentIDFront);
   template.hasStudentIDBack = new ReactiveVar(!!p.hasStudentIDBack);
   template.hasPersonalIDFront = new ReactiveVar(!!p.hasPersonalIDFront);
@@ -128,8 +130,11 @@ Template.UserFormSection.onCreated(function () {
   template.isDay2JibSession =  new ReactiveVar((p.day2 ? p.day2.jib_session : false));
   template.isDay2Other =  new ReactiveVar((p.day2 ? p.day2.other_activities : false));
 
+  /*
   template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
-  template.isDay3SnowFootball =  new ReactiveVar((p.day3 ? p.day3.snow_football_tournament : false));
+  */
+  template.isDay3ParOfTeam =  new ReactiveVar((p.day3 ? p.day3.part_of_team : false));
+  
   template.isDay3SkiOrSnow =  new ReactiveVar((p.day3 ? p.day3.ski_or_snow : false));
   template.isDay3Other =  new ReactiveVar((p.day3 ? p.day3.other_activities : false));
   // TODO: check these
@@ -167,60 +172,12 @@ Template.UserFormSection.onCreated(function () {
 });
 
 Template.UserFormSection.helpers({
-  // shown for hosting and helping internals
-  finalPrice: function () {
-    return `${calculateFinalPrice()}€`;
-  },
+ 
   isLoggedIn: function() {
     let template = Template.instance();
     return (!!template.userId);
   },
-  // INTERNALS ONLY: isHelper and isHost
-  isHelper: function () {
-    let template = Template.instance();
-    return (template.isHelper.get() ? template.isHelper.get() : false)
-  },
-  isHelperCategoryAvailable: function (category, max) {
-    return Participants.find({
-      $and: [
-        {helperCategory: category},
-        {_id: {$ne: Template.instance().participant.get()._id}}
-      ]
-    }).count() < max;
-  },
-  helpersLeft: function (category, max) {
-    return max - Participants.find({helperCategory: category}).count()
-  },
-  isHost: function () {
-    let template = Template.instance();
-    return (template.isHost.get() ? template.isHost.get() : false)
-  },
-  isDormDante: function () {
-    let template = Template.instance();
-    return (template.isDormDante.get() ? true : false)
-  },
-  isDormUnicity: function () {
-    let template = Template.instance();
-    return (template.isDormUnicity.get() ? true : false)
-  },
 
-  isDormAvailable: function (dorm, max) {
-    return Participants.find({
-      $and: [
-        {studentDorm: dorm},
-        {_id: {$ne: Template.instance().participant.get()._id}}
-      ]
-    }).count() < max;
-  },
-  dormPlacesLeft: function (dorm, max) {
-    return max - Participants.find({studentDorm: dorm}).count()
-  },
-  isCorrectDorm: function (dorm) {
-    let template = Template.instance();
-    console.log(dorm );
-    return (template.dorm == dorm);
-  },
- 
 // RENTAL 
 rentSkiis: function () {
   let template = Template.instance();
@@ -281,13 +238,13 @@ isDay2Other: function () {
   return (template.isDay2Other.get() ? template.isDay2Other.get() : false);
 },
 // Day3 Activities
-isDay3Snowvolley:function () {
+/*isDay3Snowvolley:function () {
   let template = Template.instance();
   return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
-},
-isDay3SnowFootball: function () {
+},*/
+isDay3ParOfTeam: function () {
   let template = Template.instance();
-  return (template.isDay3SnowFootball.get() ? template.isDay3SnowFootball.get() : false);
+  return (template.isDay3ParOfTeam.get() ? template.isDay3ParOfTeam.get() : false);
 },
 isDay3SkiOrSnow:function () {
   let template = Template.instance();
@@ -297,15 +254,7 @@ isDay3Other: function () {
   let template = Template.instance();
   return (template.isDay3Other.get() ? template.isDay3Other.get() : false);
 },
-  // INTERNALS ONLY: number of guest chosen and allowed (if in dorm only 1)
-  noOfGuests: function () {
-    return Template.instance().noOfGuests.get();
-  },
-
-  // INTERNALS ONLY: where the participant lives in a dorm
-  isInDorm: function () {
-    return Template.instance().isInDorm.get();
-  },
+// !!!
   // INTERNALS ONLY: password required to create a user that can login
   isPasswordRequired: function () {
     return !Template.instance().hasUser;
@@ -395,12 +344,12 @@ isDay3Other: function () {
 
 Template.UserFormSection.events({
   // CHANGE: isHelper/isHost checkboxes
-  'change input[name="internals"]': (item, template) => {
+ /* 'change input[name="internals"]': (item, template) => {
     let id = item.target.id;
     let checked = item.target.checked;
     console.info(id, checked);
     template[id].set(checked);
-  },
+  },*/
   //CHANGE day1 activitiy
   'change input[name="swimming"]':(item, template) => {
     let id = item.target.id;
@@ -538,7 +487,7 @@ Template.UserFormSection.events({
     
   },
   //CHANGE: day3 activities
-  'change input[name="day3_snow_volley"]':(item, template) => {
+ /* 'change input[name="day3_snow_volley"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay3Snowvolley.set(checked);
@@ -549,13 +498,12 @@ Template.UserFormSection.events({
     };
     console.info(id, checked);
     
-  },
-  'change input[name="day3_snow_football"]':(item, template) => {
+  },*/
+  'change input[name="day3_part_of_team"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
-    template.isDay3SnowFootball.set(checked);
-    if(template.isDay3SnowFootball){
-      template.isDay3Snowvolley.set(false);
+    template.isDay3PartOfTeam.set(checked);
+    if(template.isDay3PartOfTeam){
       template.isDay3SkiOrSnow.set(false);
       template.isDay3Other.set(false);
     };
@@ -567,13 +515,9 @@ Template.UserFormSection.events({
     checked = item.target.checked;
     template.isDay3SkiOrSnow.set(checked);
     if(template.isDay3SkiOrSnow) {
-      template.isDay3Snowvolley.set(false);
-      template.isDay3SnowFootball.set(false);
+      template.isDay3PartOfTeam.set(false);
       template.isDay3Other.set(false);
     };
-    /*swal('Important!',
-      'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
-      , 'info');*/
     console.info(id, checked);
     
   },
@@ -582,8 +526,7 @@ Template.UserFormSection.events({
     checked = item.target.checked;
     template.isDay3Other.set(checked);
     if(template.isDay3Other) {
-      template.isDay3Snowvolley.set(false);
-      template.isDay3SnowFootball.set(false);
+      template.isDay3PartOfTeam.set(false);
       template.isDay3SkiOrSnow.set(false);
     };
     console.info(id, checked);
@@ -614,61 +557,6 @@ Template.UserFormSection.events({
 
   //CHANGE: DAY1 activities
 
-  // CHANGE: number of guests
-  'change #noOfGuests': (event, template) => {
-    template.noOfGuests.set(_.toNumber(event.target.value));
-  },
-  'change #studentDorm': (event,template) => {
-    let dorm = event.target.value;
-    if (dorm == "univercity") {template.isDormUnicity.set(true);
-      template.isDormDante.set(false)}
-    else if (dorm == "dante") {template.isDormDante.set(true);
-      template.isDormUnicity.set(false)}
-    else {template.isDormUnicity.set(false);
-      template.isDormDante.set(false)
-    };
-    console.log(dorm);
-  },
-  // CHANGE: accommodation type
-  'change #accommodationType': (event, template) => {
-    let isDorm = _.isEqual(event.target.value, 'dorm');
-    
-    template.isInDorm.set(isDorm);
-    if (isDorm) {
-      console.log("passa");
-      dorm = template.studentDorm;
-    if (dorm == "univercity") {template.isDormUnicity.set(true);
-      template.isDormDante.set(false)}
-    else if (dorm == "dante") {template.isDormDante.set(true);
-      template.isDormUnicity.set(false)}
-    else {template.isDormUnicity.set(false);
-      template.isDormDante.set(false)
-    };
-      /*swal('Important!',
-      'We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception. \n' + 
-      '(If places are finished in your student hall, you can become a helper to get the discount.)'
-      , 'info');*/
-      /*swal('',
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">We will give you an extra key at the check-in to give to your guest but they will be responsible of their own key, if lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student hall reception.</span></strong></p>' +
-      '<p>&nbsp;</p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Rainerum:</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> 1 guest per student</span></p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Peter Rigler</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student</span></p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Marianum: </span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">no guests allowed (in order to get the discount you can become a helper)</span></p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Haus st. Benedikt</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student</span></p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Univercity</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: 1 guest per student. Double apartments: max 3 guests if both students agree.</span></p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kolping</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: no guests allowed (in order to get the discount you can become a helper)</span></p>' +
-      '<p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kolping - Dante apartments</span></strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-weight: 400; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">: max 3 guests in each apartment</span></p>' +
-      '<p>&nbsp;</p>' +
-      '<p style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><strong><span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">(If places are finished in your student hall, you can become a helper to get the discount.)</span></strong></p>'
-      , 'info');*/
-      template.noOfGuests.set(1);
-    }else{
-      template.isDormUnicity.set(false);
-      template.isDormDante.set(false);
-    }
-    
-    template.isInDorm.set(isDorm);
-  },
   'click #resendEmailVerification': function (event, template) {
     Meteor.call('sendVerificationLink', (error) => {
       if (error) {
@@ -698,28 +586,23 @@ Template.UserFormSection.events({
     // // check STUDENT ID
     if (!template.hasStudentIDFront.get() && !template.isAdmin) {
       $(target.save).text(previousText);
-      return swal('Error', 'You need to upload your personal ID!', 'warning');
+      return swal('Error', 'You need to upload your student ID!', 'warning');
     }
     if (!template.hasStudentIDBack.get() && !template.isAdmin) {
       $(target.save).text(previousText);
-      return swal('Error', 'You need to upload your personal ID!', 'warning');
+      return swal('Error', 'You need to upload your student ID!', 'warning');
     }
 
     // check PERSONAL ID
-    if (!template.hasPersonalIDFront.get() && !template.isAdmin && !_.isEqual(target.university.value, 'Alumni Bolzano')) {
+    if (!template.hasPersonalIDFront.get() && !template.isAdmin) {
       $(target.save).text(previousText);
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
-    if (!template.hasPersonalIDBack.get() && !template.isAdmin && !_.isEqual(target.university.value, 'Alumni Bolzano')) {
+    if (!template.hasPersonalIDBack.get() && !template.isAdmin) {
       $(target.save).text(previousText);
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
 
-    // between the 15th and the 21st people can register only if they are helpers or hosts
-    if (template.hasToBeHelperOrHost && !template.isHost.get() && !template.isHelper.get()) {
-      $(target.save).text(previousText);
-      return swal('Error', 'You need to be either a helper or a host in order to register!', 'warning');
-    }
 
     // let p = template.participant.get()._id;
     // if (_.isEqual($.inArray('hasPersonalID', settings), -1) && !isAdmin) {
@@ -743,7 +626,6 @@ Template.UserFormSection.events({
       _id: template.participant.get()._id,
       firstName: target.first_name.value,
       lastName: target.last_name.value,
-      studentID: target.student_id.value,
       email: target.email.value,
       gender: target.gender.value,
       phone: target.phone.value,
@@ -777,8 +659,8 @@ Template.UserFormSection.events({
         other_activities: target.day2_other.checked,
       },
       day3: {
-        snow_volley_tournament: target.day3_snow_volley.checked,
-        snow_football_tournament: target.day3_snow_football.checked,
+        /*snow_volley_tournament: target.day3_snow_volley.checked,
+        snow_football_tournament: target.day3_snow_football.checked,*/
         ski_or_snow: target.day3_ski_or_snow.checked,
         other_activities: target.day3_other.checked,
       },
@@ -801,6 +683,7 @@ Template.UserFormSection.events({
       rentSnowboardBoots: (template.rentSnowboard.get() ? target.rentSnowboardBoots.checked: false),
       rentHelmet: ((template.rentSnowboard.get() || template.rentSnowboard.get()) ? target.rentHelmet.checked: false),
       // HELPER
+      /*
       isHelper: template.isHelper.get(),
       helperCategory: (template.isHelper.get() ? target.helperCategory.value : undefined),
 
@@ -812,9 +695,9 @@ Template.UserFormSection.events({
       studentDorm: (template.isHost.get() && template.isInDorm.get() ? target.studentDorm.value : undefined),
       guestPreference: (template.isHost.get() ? target.guestPreference.value : undefined),
       noOfGuests: (template.isHost.get() ? target.noOfGuests.value : undefined),
-
+*/
       // PAYMENT
-      amountToPay: calculateFinalPrice(),
+      amountToPay: 115,
       paymentID: template.paymentID
     };
 
@@ -998,42 +881,7 @@ function uploadID(file, template, idType, bf) {
   upload.start();
 }
 
-/**
- * Calculate final price to pay based on whether he/she is a helper and # of hosts.
- * @returns {string}
- */
-function calculateFinalPrice() {
-  let template = Template.instance();
-  let price = 110;
-/*
-  // HELPER + HOST
-  if (template.isHelper.get() && template.isHost.get()) {
-    price = price - 35;
-  }
 
-  // HELPER OR HOST
-  else if (template.isHelper.get() || template.isHost.get()) {
-    price = price - 20;
-  }
-*/
-// HOST
-if ( template.isHost.get()) {
-  price = price - 30;
-  // NUMBER OF GUESTS
-  let noOfGuests = template.noOfGuests.get();
-  if (noOfGuests > 1) {
-    price = price - (15 * (noOfGuests - 1));
-  }
-}
-  
-
-  // cannot go beyond 50
-  if (price < 50) {
-    price = 50;
-  }
-
-  return price
-}
 
 function calculatePaymentID() {
   return Math.random().toString(36).slice(-8);
@@ -1054,27 +902,6 @@ function getSettings(template) {
   });
 }
 
-function facebookSetup() {
-  window.fbAsyncInit = function () {
-    FB.init({
-      appId: '216607852080016',
-      xfbml: true,
-      version: 'v2.8'
-    });
-    FB.AppEvents.logPageView();
-  };
-
-  (function (d, s, id) {
-    let js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-      return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-}
 
 function toggleLoading(type, bf, template) {
   switch (type) {
@@ -1096,7 +923,7 @@ function toggleLoading(type, bf, template) {
 }
 
 Template.SuccessSection.onCreated(function () {
-  Meteor.subscribe('participant.internal', localStorage.getItem('id'))
+  //Meteor.subscribe('participant.internal', localStorage.getItem('id'))
 });
 
 Template.SuccessSection.helpers({
