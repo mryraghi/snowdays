@@ -185,6 +185,12 @@ Schemas.Day3 = new SimpleSchema({
     label: "Tournament: Human table SnowFootball",
     optional: true
   },
+  part_of_team: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Part Of Team",
+    optional: true
+  },
   ski_or_snow: {
     type: Boolean,
     defaultValue: false,
@@ -334,11 +340,11 @@ Schemas.Participant = new SimpleSchema({
     index: 1,
     optional: true
   },
-  studentID: {
+ /* studentID: {
     type: Number,
     label: '[H] Student ID',
     optional: true
-  },
+  },*/
   gender: {
     type: String,
     allowedValues: ['M', 'F'],
@@ -351,8 +357,8 @@ Schemas.Participant = new SimpleSchema({
     optional: true,
     custom: function () {
       if (this.field('isHost').value || this.field('isHelper').value) {
-        let pattern = /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(unibz|stud\.claudiana\.bz)\.it$/g;
-
+        let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
+        
         if (!pattern.test(this.value)) {
           return "invalidInternalEmail"
         }
@@ -369,10 +375,10 @@ Schemas.Participant = new SimpleSchema({
     max: 40,
     optional: true
   },
-  host: {
+/*  host: {
     type: Schemas.Host,
     optional: true
-  },
+  },*/
   info: {
     type: Schemas.Info,
     optional: true
@@ -394,38 +400,6 @@ Schemas.Participant = new SimpleSchema({
     optional: true
   },
   checkedIn: {
-    type: Boolean,
-    defaultValue: false,
-    optional: true
-  },
-
-  // ACTIVITIES
-  course: {
-    type: Boolean,
-    defaultValue: false,
-    label: "Ski/Snowboard Course",
-    optional: true
-  },
-  activity: {
-    type: Boolean,
-    label: "Ski/Snowboard",
-    defaultValue: false,
-    optional: true
-  },
-  rental: {
-    type: Boolean,
-    label: "Ski Rental",
-    allowedValues: false,
-    optional: true
-  },
-  isVolleyPlayer: {
-    label: 'isVolleyPlayer',
-    type: Boolean,
-    defaultValue: false,
-    optional: true
-  },
-  isFootballPlayer: {
-    label: 'isFootballPlayer',
     type: Boolean,
     defaultValue: false,
     optional: true
@@ -592,7 +566,7 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     optional: true
   },
-
+/*
   // HOST
   isHost: {
     type: Boolean,
@@ -787,6 +761,7 @@ Schemas.Participant = new SimpleSchema({
       }
     }
   },
+  */
   statusComplete: {
     type: Boolean,
     label: '',
@@ -862,9 +837,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
   // list of fields checked
   let fields = ['firstName', 'lastName', 'gender', 'email', 'phone', 'university',
     'info.street', 'info.number', 'info.zip', 'info.city', 'info.country', 'info.province',
-    'birth.date', 'birth.country', 'day1.activity', 'day1.rental', 'day2.activity',
-    'day2.rental', 'tshirt', 'hasAcceptedTandC', 'hasPaid', 'isHost', 'accommodationType', 'studentDorm',
-    'guestPreference', 'noOfGuests', 'helperCategory', 'isHelper'];
+    'birth.date', 'birth.country', 'tshirt', 'hasAcceptedTandC', 'hasPaid'];
 
   // check if every field is set
   _.forEach(fields, function (field) {
