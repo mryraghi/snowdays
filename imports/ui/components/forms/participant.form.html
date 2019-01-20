@@ -13,7 +13,9 @@
           <strong>Missing verification:</strong> you haven't verified your email yet. This is a fundamental step for you to be successfully
           enrolled.
           <a id="resendEmailVerification" href>Resend</a>
-          {{/if}} {{#if $and emailNotVerified hasToPay}}
+          {{/if}} 
+          <!-- MISSING PAYMENT NOT NEEDED FOR EXTERNALS
+          {{#if $and emailNotVerified hasToPay}}
           <hr> {{/if}} {{#if hasToPay}}
           <strong>Missing payment:</strong> we still haven't received you back transfer with the following information.
           <ul class="mb-0">
@@ -38,7 +40,7 @@
               <strong>Cassa Rurale Bolzano</strong>
             </li>
           </ul>
-          {{/if}}
+          {{/if}} -->
         </div>
         {{/if}}
 
@@ -83,18 +85,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="student_id" id="student_id" value="{{lp.studentID}}" required>
-                  <label for="student_id" class="sn-field-label">Student ID</label>
-                </div>
-
+                
                 <div class="sn-field-group">
                   <input type="text" class="sn-field-input" name="birth_country" id="birth_country" value="{{lp.birth.country}}" required>
                   <label for="birth_country" class="sn-field-label">Birth country</label>
                 </div>
 
                 <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="university" id="university" value="Free University of Bolzano" disabled required>
+                  <input type="text" class="sn-field-input" name="university" id="university" value="UNI FROM ADMIN GOES HERE" disabled required>
                   <label for="university" class="sn-field-label">University</label>
                 </div>
 
@@ -102,6 +100,7 @@
                   <input type="text" class="sn-field-input" name="phone" id="phone" value="{{lp.phone}}" required>
                   <label for="phone" class="sn-field-label">Phone</label>
                 </div>
+    
                 <div class="sn-field-group">
                   <input type="text" class="sn-field-input" name="email" id="email" value="{{lp.email}}" required>
                   <label for="email" class="sn-field-label">Email</label>
@@ -126,9 +125,6 @@
                 </div>
                 <!-- ADDRESS -->
                 <h4 class="mt-5 mt-md-0">Address</h4>
-                <small class="form-text text-danger">
-                  Note: if you are a host please fill in the address where you will be hosting.
-                </small>
                 <hr>
                 <div class="row">
                   <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
@@ -137,16 +133,10 @@
                       <label for="street" class="sn-field-label">Street</label>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-3 col-md-12 col-lg-3 px-1">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
                     <div class="sn-field-group">
                       <input type="text" class="sn-field-input" name="number" id="number" required value="{{lp.info.number}}">
-                      <label for="number" class="sn-field-label">#</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-3 col-md-12 col-lg-3 pl-1">
-                    <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="room_number" id="room_number" value="{{lp.info.room}}">
-                      <label for="room_number" class="sn-field-label">Room #</label>
+                      <label for="number" class="sn-field-label">Number</label>
                     </div>
                   </div>
                 </div>
@@ -263,9 +253,134 @@
               </div>
               <!-- COLUMN 2 -->
               <div class="col-12 col-md-6">
+                <!-- ACTIVITIES -->
+                <!-- DAY 1 -->
+                <h4 class="mt-5 mt-md-0">First Day Activities</h4>
+                <hr>
+                <div class="sn-field-group">
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay1Swimming}}
+                      <input type="checkbox" class="custom-control-input" id="swimming" name="swimming" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="swimming" name="swimming"> {{/if}}
+                      <label class="custom-control-label" for="swimming">Swimming</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay1BubbleFootball}}
+                      <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football"> {{/if}}
+                      <label class="custom-control-label" for="bubble_football">Bubble Football Tournament</label>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay1Other}}
+                      <input type="checkbox" class="custom-control-input" id="day1_other" name="day1_other" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day1_other" name="day1_other"> {{/if}}
+                      <label class="custom-control-label" for="day1_other">I just want to drink, dance and have fun</label>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- DAY 2 -->
+                <h4 class="mt-5 mt-md-0">Second Day Activities</h4>
+                <small class="form-text text-danger">
+                  IMPORTANT: if you want to participate in other activities you won’t be able to ski/snowboard as you WON'T get a skipass</small>
+                <hr>
+                <div class="sn-field-group">
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay2SkiOrSnow}}
+                      <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow"> {{/if}}
+                      <label class="custom-control-label" for="day2_ski_or_snow">I want to ski/snowboard on my own</label>
+                    </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SkiCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_course">Ski Course</label>
+                      </label>
+
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if begginerSkiCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_begginer" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_begginer"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_course_begginer">begginer</label>
+                      </label>
+
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if intermediateSkiCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_intermediate" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_intermediate"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_course_intermediate">intermeddiate</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SnowCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked {{selectedIf lp.courseType 'Snow'}} > {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
+                      </label>
+                    
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if begginerSnowCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_begginer" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_begginer"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_course_begginer">begginer</label>
+                      </label>
+
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if intermediateSnowCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_course_intermediate">intermeddiate</label>
+                      </label>
+
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SkiRace}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_race" name="day2_ski_race" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_race" name="day2_ski_race"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_race">Ski Race</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2SnowRace}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_race" name="day2_snow_race" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_race" name="day2_snow_race"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_race">Snowboard Race</label>
+                      </label>
+                  </div>
+                  <div>
+                      <label class="custom-control custom-checkbox">
+                        {{#if isDay2JibSession}}
+                        <input type="checkbox" class="custom-control-input" id="day2_jib_session" name="day2_jib_session" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_jib_session" name="day2_jib_session"> {{/if}}
+                        <label class="custom-control-label" for="day2_jib_session">Jib Session Competition</label>
+                      </label>
+                  </div>
+                  <div>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay2Other}}
+                      <input type="checkbox" class="custom-control-input" id="day2_other" name="day2_other" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day2_other" name="day2_other"> {{/if}}
+                      <label class="custom-control-label" for="day2_other">Other activities (beer pong, snowshoes walking, line dragging, twister, slackline, flunky ball)</label>
+                    </label>
+                  </div>
+                </div>
 
                 <!-- RENTAL -->
-                <h4 class="mt-5 mt-md-0">Renting Material</h4>
+                <div> 
+                    <h4 class="mt-5 mt-md-0">Renting Material</h4><h6>(Second Day)</h6>
+                </div>
                 <small class="form-text text-danger">
                   Rental Fee NOT included in the ticket</small>
                 <hr>
@@ -313,159 +428,14 @@
                   </label>
                   {{/if}}
                 </div>
-                <!-- ACTIVITIES -->
 
-                <!-- Day1 -->
-                <h4 class="mt-5 mt-md-0">First Day Activities</h4>
-                <hr>
-                <div class="sn-field-group">
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay1Swimming}}
-                      <input type="checkbox" class="custom-control-input" id="swimming" name="swimming" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="swimming" name="swimming"> {{/if}}
-                      <label class="custom-control-label" for="swimming">Swimming</label>
-                    </label>
-                  </div>
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay1BubbleFootball}}
-                      <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="bubble_football" name="bubble_football"> {{/if}}
-                      <label class="custom-control-label" for="bubble_football">Bubble Football Tournament</label>
-                    </label>
-                  </div>
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay1Other}}
-                      <input type="checkbox" class="custom-control-input" id="day1_other" name="day1_other" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day1_other" name="day1_other"> {{/if}}
-                      <label class="custom-control-label" for="day1_other">I just want to drink, dance and have fun</label>
-                    </label>
-                  </div>
-                </div>
-                <h4 class="mt-5 mt-md-0">Second Day Activities</h4>
-                <small class="form-text text-danger">
-                  IMPORTANT: if you want to participate in other activities you won’t be able to ski/snowboard as you won't get a skipass</small>
-                <hr>
-                <div class="sn-field-group">
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay2SkiOrSnow}}
-                      <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow"> {{/if}}
-                      <label class="custom-control-label" for="day2_ski_or_snow">I want to Ski/Snowboard on my own</label>
-                    </label>
-                  </div>
-                  <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if isDay2SkiCourse}}
-                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course"> {{/if}}
-                        <label class="custom-control-label" for="day2_ski_course">Ski Course</label>
-                      </label>
-                  </div>
-                  <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if isDay2SnowCourse}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course"> {{/if}}
-                        <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
-                      </label>
-                  </div>
-                  <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if isDay2SkiRace}}
-                        <input type="checkbox" class="custom-control-input" id="day2_ski_race" name="day2_ski_race" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_ski_race" name="day2_ski_race"> {{/if}}
-                        <label class="custom-control-label" for="day2_ski_race">Ski Race</label>
-                      </label>
-                  </div>
-                  <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if isDay2SnowRace}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_race" name="day2_snow_race" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_race" name="day2_snow_race"> {{/if}}
-                        <label class="custom-control-label" for="day2_snow_race">Snowboard Race</label>
-                      </label>
-                  </div>
-                  <div>
-                      <label class="custom-control custom-checkbox">
-                        {{#if isDay2JibSession}}
-                        <input type="checkbox" class="custom-control-input" id="day2_jib_session" name="day2_jib_session" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_jib_session" name="day2_jib_session"> {{/if}}
-                        <label class="custom-control-label" for="day2_jib_session">Jib Session Competition</label>
-                      </label>
-                  </div>
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay2Other}}
-                      <input type="checkbox" class="custom-control-input" id="day2_other" name="day2_other" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day2_other" name="day2_other"> {{/if}}
-                      <label class="custom-control-label" for="day2_other">Other activities (beer pong, snowshoes walking, line dragging, twister, slackline, flunky ball)</label>
-                    </label>
-                  </div>
-                </div>
-                <h4 class="mt-5 mt-md-0">Third Day Activities</h4>
-                <small class="form-text text-danger">
-                  IMPORTANT: if you want to participate in other activities or in the tournaments you won’t be able to ski/snowboard as you won't get a skipass</small>
-                <hr>
-                <div class="sn-field-group">
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay3Snowvolley}}
-                      <input type="checkbox" class="custom-control-input" id="day3_snow_volley" name="day3_snow_volley" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day3_snow_volley" name="day3_snow_volley"> {{/if}}
-                      <label class="custom-control-label" for="day3_snow_volley">SnowVolley Tournament</label>
-                    </label>
-                  </div>
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay3SnowFootball}}
-                      <input type="checkbox" class="custom-control-input" id="day3_snow_football" name="day3_snow_football" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day3_snow_football" name="day3_snow_football"> {{/if}}
-                      <label class="custom-control-label" for="day3_snow_football">Human table SnowFootball Tournament</label>
-                    </label>
-                  </div>
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay3SkiOrSnow}}
-                      <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow"> {{/if}}
-                      <label class="custom-control-label" for="day3_ski_or_snow">Ski/Snowboard on my own</label>
-                    </label>
-                  </div>
-                  <div>
-                    <label class="custom-control custom-checkbox">
-                      {{#if isDay3Other}}
-                      <input type="checkbox" class="custom-control-input" id="day3_other" name="day3_other" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day3_other" name="day3_other"> {{/if}}
-                      <label class="custom-control-label" for="day3_other"> Other activities (beer pong, table boulder contest, line dragging, twister, slackline, flunky ball)</label>
-                    </label>
-                  </div>
-                </div>
-                
-
-                <!-- PREFERENCES -->
-                <h4 class="mt-5 mt-md-0">Preferences</h4>
-                <small class="form-text text-danger">IMPORTANT: be aware that you won’t be able to modify the information given here after the enrolment closes. Rental material will be prepared before the event based on the given information.</small>
+                <!-- RENTING PREFERENCES -->
+                <h4 class="mt-5 mt-md-0">Renting Preferences</h4>
+                <small class="form-text text-danger">IMPORTANT: be aware that you WON'T be able to modify the information given here after the enrolment closes. Rental material will be prepared before the event based on the given information.</small>
                 <hr>
                 <h7 class="mt-5 mt-md-0"></h7>
-                <hr>
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                    <div class="sn-field-group">
-                      <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
-                        <option disabled>Choose</option>
-                        <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
-                        <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
-                        <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
-                        <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
-                      </select>
-                      <label for="tshirt" class="sn-field-label sn-upper-label">T-shirt size</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="sn-field-group">
                       <input type="number" class="sn-field-input" name="height" id="height" value="{{lp.height}}">
                       <label for="height" class="sn-field-label">Height (cm)</label>
@@ -495,230 +465,93 @@
                     </div>
                   </div>
                 </div>
-                <!-- TODO: datalist -->
-                <!--<div class="row">
-                      
-                        <div class="sn-field-group">
-                          <select class="sn-field-input sn-a-0" id="food_allergies" name="food_allergies" required>
-                            <option disabled>Choose</option>
-                            <option value="None" {{selectedIf lp.foodAllergies 'None'}}>None</option>
-                            <option value="Celiac" {{selectedIf lp.foodAllergies 'Celiac'}}>Celiac</option>
-                            <option value="Vegan" {{selectedIf lp.foodAllergies 'Vegan'}}>Vegan</option>
-                            <option value="Vegetarian" {{selectedIf lp.foodAllergies 'Vegetarian'}}>Vegetarian</option>
-                          </select>
-                          <label for="food_allergies" class="sn-field-label sn-upper-label">Food allergies</label>
-                        </div>
-                    </div>-->
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies" value="{{lp.foodAllergies}}">
-                  <label for="food_allergies" class="sn-field-label">Food allergies</label>
-                  <small class="form-text text-muted">Separate with commas if any.</small>
-                </div>
+      
               </div>
             </div>
           </div>
-
 
           <!-- COLUMN 3 -->
           <div class="col-12 col-md-4">
             
-            <!-- HELPER -->
-            <div class="card" style="border: 2px solid #ff1c4f">
-              <div class="card-body">
-                <h6 class="card-subtitle mt-0 mb-2 sn-dark-red">Important</h6>
-                <p style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
-                  <strong>
-                    <span style="font-size: 11pt; font-family: Arial; color: #000000; background-color: transparent; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">
-First year students are required to host in order to participate. If you are staying in a student dorm and places are finished or unavailable, you can become a helper to get the discount.
-If you are staying in a student dorm, we will give you an extra key at the check-in to give to your guests and they will be responsible for it. If lost they have to pay a fee. PLEASE be sure to collect the extra key at the end of the event and leave it at the student dorm reception.
-                       
-Rainerum: 1 guest per student
-Peter Rigler: 1 guest per student
-Univercity : 1 guest per student. Double apartments: max 3 guests if both students agree.
-Dante apartments: max 4 guests in each apartment
-Haus St. Benedikt, Marianum and Kolping: no guests allowed (in order to get the discount you can become a helper)
-                       
-If you are a helper, you will receive the discount money back at the end of the event. Helpers who don’t show to their shifts during the event, won't receive the refund. Don’t worry, shifts are scheduled so that you can enjoy all the activities!
-                      </span>
-                  </strong>
-                </p>
-
+            <!-- DAY 3 -->
+            <h4 class="mt-5 mt-md-0">Third Day Activities</h4>
+            <small class="form-text text-danger">
+              IMPORTANT: if you want to participate in other activities or in the tournaments you won’t be able to ski/snowboard as you WON'T get a skipass</small>
+            <hr>
+      
+            <div class="sn-field-group">
                 <div>
-                  <label class="custom-control custom-checkbox mb-0">
-                    {{#if lp.isHelper}}
-                    <input type="checkbox" class="custom-control-input" id="isHelper" name="internals" checked> {{else}}
-                    <input type="checkbox" class="custom-control-input" id="isHelper" name="internals"> {{/if}}
-                    <span class="custom-control-label">Helper</span>
-                  </label>
-                </div>
-                {{#if isHelper}}
-                <div class="sn-field-group mb-0 mt-1">
-                  <select class="sn-field-input sn-a-0" id="helperCategory" name="helperCategory" required>
-                    <option disabled>Choose</option>
-                    {{#if isHelperCategoryAvailable 'sport' 30}}
-                    <option value="sport" {{selectedIf lp.helperCategory 'sport'}}>
-                      Sport ({{helpersLeft 'sport' 30}} left)
-                    </option>
-                    {{/if}} {{#if isHelperCategoryAvailable 'catering' 40}}
-                    <option value="catering" {{selectedIf lp.helperCategory 'catering'}}>
-                      Catering ({{helpersLeft 'catering' 40}} left)
-                    </option>
-                    {{/if}} {{#if isHelperCategoryAvailable 'party' 40}}
-                    <option value="party" {{selectedIf lp.helperCategory 'party'}}>
-                      Party ({{helpersLeft 'party' 40}} left)
-                    </option>
-                    {{/if}} {{#if isHelperCategoryAvailable 'logistics' 20}}
-                    <option value="logistics" {{selectedIf lp.helperCategory 'logistics'}}>
-                      Logistics ({{helpersLeft 'logistics' 20}} left)
-                    </option>
-                    {{/if}} {{#if isHelperCategoryAvailable 'spirit' 2}}
-                    <option value="spirit" {{selectedIf lp.helperCategory 'spirit'}}>
-                      Spirit ({{helpersLeft 'spirit' 2}} left)
-                    </option>
-                    {{/if}} {{#if isHelperCategoryAvailable 'accomodation' 8}}
-                    <option value="accomodation" {{selectedIf lp.helperCategory 'accomodation'}}>
-                      Accomodation ({{helpersLeft 'accomodation' 8}} left)
-                    </option>
-                    {{/if}}
-                  </select>
-                  <label for="helperCategory" class="sn-field-label">Category</label>
-                </div>
-                {{/if}}
-                <div>
-                    <label class="custom-control custom-checkbox mb-0 mt-2">
-                      {{#if lp.isHost}}
-                      <input type="checkbox" class="custom-control-input" id="isHost" name="internals" checked> {{else}}
-                      <input type="checkbox" class="custom-control-input" id="isHost" name="internals"> {{/if}}
-                      <span class="custom-control-label">Host</span>
+                    <label class="custom-control custom-checkbox">
+                      {{#if isDay3PartOfTeam}}
+                      <input type="checkbox" class="custom-control-input" id="day3_part_of_team" name="day3_part_of_team" checked> {{else}}
+                      <input type="checkbox" class="custom-control-input" id="day3_part_of_team" name="day3_part_of_team"> {{/if}}
+                      <label class="custom-control-label" for="day3_part_of_team">I’m part of a Snowvolley/Human Table Snowfootball team</label>
                     </label>
                   </div>
-                  {{#if isHost}}
-                  <!-- ACCOMMODATION TYPE -->
-                  <div class="sn-field-group mb-0 mt-1">
-                    <select class="sn-field-input sn-a-0" id="accommodationType" name="accommodationType" required>
-                      <option disabled>Choose</option>
-                      <option value="private" {{selectedIf lp.accommodationType 'private'}}>Private</option>
-                      <option value="dorm" {{selectedIf lp.accommodationType 'dorm'}}>Student dorm</option>
-                    </select>
-                    <label for="accommodationType" class="sn-field-label">Accommodation type</label>
-                  </div>
-  
-                  {{#if isInDorm}}
-                  <!-- IF STUDENT DORM, CHOOSE ONE -->
-                  <div class="sn-field-group mb-0 mt-1">
-                    <select class="sn-field-input sn-a-0" id="studentDorm" name="studentDorm" required>
-                      <option disabled>Choose</option>
-                      {{#if isDormAvailable 'rigler' 35}}
-                      <option value="rigler" {{selectedIf lp.studentDorm 'rigler'}}>
-                        Peter Rigler ({{dormPlacesLeft 'rigler' 35}} left)
-                      </option>
-                      {{/if}} {{#if isDormAvailable 'univercity' 60}}
-                      <option value="univercity" {{selectedIf lp.studentDorm 'univercity'}}>
-                        Univercity({{dormPlacesLeft 'univercity' 60}} left)
-                      </option>
-                      {{/if}} {{#if isDormAvailable 'rainerum' 6}}
-                      <option value="rainerum" {{selectedIf lp.studentDorm 'rainerum'}}>
-                        Rainerum ({{dormPlacesLeft 'rainerum' 6}} left)
-                      </option>
-                      {{/if}} {{#if isDormAvailable 'dante' 48}}
-                      <option value="dante" {{selectedIf lp.studentDorm 'dante'}}>
-                        Apt. Dante ({{dormPlacesLeft 'dante' 48}} left)
-                      </option>
-                      {{/if}}
-                    </select>
-                    <label for="gender" class="sn-field-label">Student dorm</label>
-                  </div>
-                  {{/if}}
-  <!-- GUEST PREFERENCE -->
-  <div class="sn-field-group mb-0 mt-1">
-      <select class="sn-field-input sn-a-0" id="guestPreference" name="guestPreference" required>
-        <option value="-" {{selectedIf lp.guestPreference '-'}} selected>Whoever</option>
-        <option value="M" {{selectedIf lp.guestPreference 'M'}}>Male</option>
-        <option value="F" {{selectedIf lp.guestPreference 'F'}}>Female</option>
-      </select>
-      <label for="gender" class="sn-field-label">Guest preference</label>
-    </div>
-
-    <!-- # OF GUEST -->
-    <div class="sn-field-group mb-0 mt-1">
-        
-      {{#if isDormUnicity}} 
-        <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
-        <option disabled>Choose</option>
-        <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
-        <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
-        <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
-      </select>
-      {{else if isDormDante}}
-      <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
-          <option disabled>Choose</option>
-          <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
-          <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
-          <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
-          <option value="4" {{selectedIf lp.noOfGuests 4}}>4</option>
-        </select>
-      {{else if isInDorm}}
-      <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
-          <option disabled>Choose</option>
-          <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
-        </select>
-      {{else}}
-      <select class="sn-field-input sn-a-0" id="noOfGuests" name="noOfGuests">
-        <option disabled>Choose</option>
-        <option value="1" {{selectedIf lp.noOfGuests 1}} selected>1</option>
-        <option value="2" {{selectedIf lp.noOfGuests 2}}>2</option>
-        <option value="3" {{selectedIf lp.noOfGuests 3}}>3</option>
-        <option value="4" {{selectedIf lp.noOfGuests 4}}>4</option>
-        <option value="5" {{selectedIf lp.noOfGuests 5}}>5</option>
-        <option value="6" {{selectedIf lp.noOfGuests 6}}>6</option>
-        <option value="7" {{selectedIf lp.noOfGuests 7}}>7</option>
-      </select>
-      {{/if}}
-      <label for="noOfGuests" class="sn-field-label"># of guests</label>
-      <small class="form-text text-muted">
-        Contact us if # of guests > 7, you may be eligible for a free ticket.
-      </small>
-      
-      </div>
-    {{/if}}
+              <div>
+                <label class="custom-control custom-checkbox">
+                  {{#if isDay3SkiOrSnow}}
+                  <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow"> {{/if}}
+                  <label class="custom-control-label" for="day3_ski_or_snow">I want to ski/snowboard on my own</label>
+                </label>
+              </div>
+              <div>
+                <label class="custom-control custom-checkbox">
+                  {{#if isDay3Other}}
+                  <input type="checkbox" class="custom-control-input" id="day3_other" name="day3_other" checked> {{else}}
+                  <input type="checkbox" class="custom-control-input" id="day3_other" name="day3_other"> {{/if}}
+                  <label class="custom-control-label" for="day3_other"> Other activities (beer pong, table boulder contest, line dragging, twister, slackline, flunky ball)</label>
+                </label>
               </div>
             </div>
-            <!-- HOST -->
-            
+
+            <h4 class="mt-5 mt-md-0">Extra Information</h4>
+                <hr><h7 class="mt-5 mt-md-0"></h7>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="sn-field-group">
+                      <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                        <option disabled>Choose</option>
+                        <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
+                        <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
+                        <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
+                        <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
+                      </select>
+                      <label for="tshirt" class="sn-field-label sn-upper-label"> T-Shirt size</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies" value="{{lp.foodAllergies}}">
+                      <label for="food_allergies" class="sn-field-label">Food allergies</label>
+                      <small class="form-text text-muted">Separate with commas if any.</small>
+                    </div>
+                  </div>
+              </div>
+
             <!-- PAYMENT SUMMARY -->
-            <div class="card mt-2" style="border: 2px solid #f1c40f">
+            <div class="card mt-2" style="border: 2px solid #f1c40f; margin-top: 10px;">
               <div class="card-body">
                 <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
                 <ul class="text-muted">
-                    <li>Host:
-                        <strong>80€</strong>
-                      </li>
-                    <li>Helper:
-                    <strong>110€  (you will receive the discount money back at the end of the event)
-                      </strong>
-                  </li>
-                  <li>Host + Helper:
-                      <strong>80€  (you will receive the discount money back at the end of the event)
-                        </strong>
-                    </li>
-                  <li>Discount for each hosted person:
-                    <strong>-15€</strong>
-                  </li>
-                  <li>Minimum ticket price:
-                    <strong>50€</strong>
-                  </li>
+                    <li>Ticket price:<strong> 115€</strong></li>
                 </ul>
+                <p style="font-size: 12px; margin-top: 10px;">*Please get in touch with your contact person for the payment procedure.</p>
               </div>
             </div>
+
           </div>
         </div>
+
         <div class="row">
           <nav class="col-12 mb-3 flex-column">
             <hr>
             <div class="row">
               <div class="col-6 text-left">
-                <h6 class="mb-1">
-                  <i class="fa fa-question-circle-o mr-1" aria-hidden="true"></i> Need help?</h6>
+                <h6 class="mb-1">Need help?</h6>
                 <p>Drop an email to
                   <br>
                   <a href="mailto:info@snowdays.it?subject=[Snowdays%20Help]%20{{lp.firstName}}%20{{lp.lastName}}%20({{lp._id}})">info@snowdays.it</a>

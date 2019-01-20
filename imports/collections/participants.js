@@ -356,12 +356,11 @@ Schemas.Participant = new SimpleSchema({
     max: 40,
     optional: true,
     custom: function () {
-      if (this.field('isHost').value || this.field('isHelper').value) {
-        let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
+      
+      let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
         
-        if (!pattern.test(this.value)) {
-          return "invalidInternalEmail"
-        }
+      if (!pattern.test(this.value)) {
+        return "invalidInternalEmail"
       }
     }
   },
