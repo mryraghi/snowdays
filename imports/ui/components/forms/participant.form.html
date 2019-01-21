@@ -324,11 +324,28 @@
                        
                       </label>
 
+<<<<<<< HEAD
                       
+=======
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if begginerSkiCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_begginer" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_begginer"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_course_begginer">begginer</label>
+                      </label>
+
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if intermediateSkiCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_intermediate" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course_intermediate"> {{/if}}
+                        <label class="custom-control-label" for="day2_ski_course_intermediate">intermeddiate</label>
+                      </label>
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
                   </div>
                   <div>
                       <label class="custom-control custom-checkbox">
                         {{#if isDay2SnowCourse}}
+<<<<<<< HEAD
                         <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked>
                         <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
 
@@ -348,9 +365,30 @@
 
                         {{else}}
                         <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course">
+=======
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked {{selectedIf lp.courseType 'Snow'}} > {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course"> {{/if}}
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
                         <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
                         {{/if}}
                       </label>
+<<<<<<< HEAD
+=======
+                    
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if begginerSnowCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_begginer" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_begginer"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_course_begginer">begginer</label>
+                      </label>
+
+                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 20px;">
+                        {{#if intermediateSnowCourse}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate" checked> {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate"> {{/if}}
+                        <label class="custom-control-label" for="day2_snow_course_intermediate">intermeddiate</label>
+                      </label>
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
 
                   </div>
                   <div>

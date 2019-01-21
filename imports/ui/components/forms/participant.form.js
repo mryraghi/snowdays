@@ -146,6 +146,10 @@ Template.UserFormSection.onCreated(function () {
   template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
   */
   template.isDay3PartOfTeam =  new ReactiveVar((p.day3 ? p.day3.part_of_team : false));
+<<<<<<< HEAD
+=======
+  
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
   template.isDay3SkiOrSnow =  new ReactiveVar((p.day3 ? p.day3.ski_or_snow : false));
   template.isDay3Other =  new ReactiveVar((p.day3 ? p.day3.other_activities : false));
   // TODO: check these
@@ -270,8 +274,11 @@ isDay2Other: function () {
   return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
 },*/
 isDay3PartOfTeam: function () {
+<<<<<<< HEAD
   console.log(template.isDay3PartOfTeam.get());
   
+=======
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
   let template = Template.instance();
   return (template.isDay3PartOfTeam.get() ? template.isDay3PartOfTeam.get() : false);
 },
@@ -763,6 +770,7 @@ Template.UserFormSection.events({
 
     const participant = {
       _id: template.participant.get()._id,
+  
       firstName: target.first_name.value,
       lastName: target.last_name.value,
       email: target.email.value,
@@ -772,7 +780,11 @@ Template.UserFormSection.events({
       info: {
         street: target.street.value,
         number: target.number.value,
+<<<<<<< HEAD
         // room: target.room_number.value,
+=======
+        //room: target.room_number.value,
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
         city: target.city.value,
         zip: _.toInteger(target.zip.value),
         province: target.province.value,
@@ -808,6 +820,10 @@ Template.UserFormSection.events({
         other_activities: target.day2_other.checked,
       },
       day3: {
+<<<<<<< HEAD
+=======
+        //snow_volley_tournament: target.day3_snow_volley.checked,
+>>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
         part_of_team: target.day3_part_of_team.checked,
         ski_or_snow: target.day3_ski_or_snow.checked,
         other_activities: target.day3_other.checked,
@@ -845,7 +861,7 @@ Template.UserFormSection.events({
       noOfGuests: (template.isHost.get() ? target.noOfGuests.value : undefined),
 */
       // PAYMENT
-      amountToPay: 115,
+      amountToPay: 115, 
       paymentID: template.paymentID
     };
 
@@ -855,8 +871,9 @@ Template.UserFormSection.events({
     // check security section on Meteor's documentation
     Meteor.call('participants.update', participant, function (error, result) {
 
-      console.log(error);
+      
       if (error) {
+        console.log(error);
         swal('Error', error.reason.split('#')[0], 'error');
         $(target.save).text(previousText);
         return;
