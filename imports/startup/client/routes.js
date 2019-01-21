@@ -69,6 +69,12 @@ Router.route('/temp', {
   template: 'ExternalsPage'
 });
 
+// TEMP: 
+Router.route('/tempAdmin', {
+  name: 'TempAdmin',
+  template: 'AdminPage'
+});
+
 Router.route('/register', {
   name: 'Register',
   template: 'RegisterPage',

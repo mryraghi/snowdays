@@ -123,8 +123,20 @@ Template.UserFormSection.onCreated(function () {
   template.isDay1BubbleFootball= new ReactiveVar((p.day1 ? p.day1.bubble_football : false));
   template.isDay1Other= new ReactiveVar((p.day1 ? p.day1.other_activities : false));
   template.isDay2SkiOrSnow =  new ReactiveVar((p.day2 ? p.day2.ski_or_snow : false));
+
+
+  // COURSES SECTION
   template.isDay2SkiCourse =  new ReactiveVar((p.day2 ? p.day2.ski_course : false));
+  // VARS FOR THE HIDDEN COURSE DIFFICULTIES
+  template.isSkiBeginner =  new ReactiveVar((p.day2 ? p.day2.ski_course_beginner : false));
+  template.isSkiIntermediate =  new ReactiveVar((p.day2 ? p.day2.ski_course_intermediate : false));
+
   template.isDay2SnowCourse =  new ReactiveVar((p.day2 ? p.day2.snow_course : false));
+  // VARS FOR THE HIDDEN COURSE DIFFICULTIES
+  template.isSnowBeginner =  new ReactiveVar((p.day2 ? p.day2.snow_course_beginner : false));
+  template.isSnowIntermediate =  new ReactiveVar((p.day2 ? p.day2.snow_course_intermediate : false));
+
+
   template.isDay2SkiRace =  new ReactiveVar((p.day2 ? p.day2.ski_race : false));
   template.isDay2SnowRace =  new ReactiveVar((p.day2 ? p.day2.snow_race : false));
   template.isDay2JibSession =  new ReactiveVar((p.day2 ? p.day2.jib_session : false));
@@ -133,8 +145,7 @@ Template.UserFormSection.onCreated(function () {
   /*
   template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
   */
-  template.isDay3ParOfTeam =  new ReactiveVar((p.day3 ? p.day3.part_of_team : false));
-  
+  template.isDay3PartOfTeam =  new ReactiveVar((p.day3 ? p.day3.part_of_team : false));
   template.isDay3SkiOrSnow =  new ReactiveVar((p.day3 ? p.day3.ski_or_snow : false));
   template.isDay3Other =  new ReactiveVar((p.day3 ? p.day3.other_activities : false));
   // TODO: check these
@@ -217,9 +228,25 @@ isDay2SkiCourse:function () {
   let template = Template.instance();
   return (template.isDay2SkiCourse.get() ? template.isDay2SkiCourse.get() : false);
 },
+isSkiBeginner:function () {
+  let template = Template.instance();
+  return (template.isSkiBeginner.get() ? template.isSkiBeginner.get() : false);
+},
+isSkiIntermediate:function () {
+  let template = Template.instance();
+  return (template.isSkiIntermediate.get() ? template.isSkiIntermediate.get() : false);
+},
 isDay2SnowCourse:function () {
   let template = Template.instance();
   return (template.isDay2SnowCourse.get() ? template.isDay2SnowCourse.get() : false);
+},
+isSnowBeginner:function () {
+  let template = Template.instance();
+  return (template.isSnowBeginner.get() ? template.isSnowBeginner.get() : false);
+},
+isSnowIntermediate:function () {
+  let template = Template.instance();
+  return (template.isSnowIntermediate.get() ? template.isSnowIntermediate.get() : false);
 },
 isDay2SkiRace:function () {
   let template = Template.instance();
@@ -242,9 +269,11 @@ isDay2Other: function () {
   let template = Template.instance();
   return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
 },*/
-isDay3ParOfTeam: function () {
+isDay3PartOfTeam: function () {
+  console.log(template.isDay3PartOfTeam.get());
+  
   let template = Template.instance();
-  return (template.isDay3ParOfTeam.get() ? template.isDay3ParOfTeam.get() : false);
+  return (template.isDay3PartOfTeam.get() ? template.isDay3PartOfTeam.get() : false);
 },
 isDay3SkiOrSnow:function () {
   let template = Template.instance();
@@ -395,13 +424,18 @@ Template.UserFormSection.events({
       template.isDay2SnowRace.set(false);
       template.isDay2JibSession.set(false);
       template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+
     };
     /*swal('Important!',
       'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
       , 'info');*/
     console.info(id, checked);
   },
-  'change input[name="day2_ski_course"]':(item, template) => {
+  'change input[name="day2_ski_course"]':(item, template) => {    
     let id = item.target.id;
     checked = item.target.checked;
     template.isDay2SkiCourse.set(checked);
@@ -412,9 +446,54 @@ Template.UserFormSection.events({
       template.isDay2SnowRace.set(false);
       template.isDay2JibSession.set(false);
       template.isDay2Other.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
     };
     console.info(id, checked);
   },
+
+  'change input[name="day2_ski_course_beginner"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSkiBeginner.set(checked);
+    if(template.isSkiBeginner) {
+      template.isDay2SkiCourse.set(true);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+    console.info(template.isSnowBeginner)
+    console.info(template.isDay2JibSession)
+
+  },
+
+  'change input[name="day2_ski_course_intermediate"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSkiIntermediate.set(checked);
+    if(template.isSkiIntermediate) {
+      template.isDay2SkiCourse.set(true);
+      template.isSkiBeginner.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+    
+  },
+
   'change input[name="day2_snow_course"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
@@ -426,9 +505,53 @@ Template.UserFormSection.events({
       template.isDay2SnowRace.set(false);
       template.isDay2JibSession.set(false);
       template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
     };
     console.info(id, checked);
   },
+  
+  'change input[name="day2_snow_course_beginner"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSnowBeginner.set(checked);
+    if(template.isSnowBeginner) {
+      template.isDay2SnowCourse.set(true);
+      template.isSnowIntermediate.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(true);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+
+  'change input[name="day2_snow_course_intermediate"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSnowIntermediate.set(checked);
+    if(template.isSnowIntermediate) {
+      template.isDay2SnowCourse.set(true);
+      template.isSnowBeginner.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(true);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+
+
   'change input[name="day2_ski_race"]':(item, template) => {
     let id = item.target.id;
     checked = item.target.checked;
@@ -440,6 +563,10 @@ Template.UserFormSection.events({
       template.isDay2SnowRace.set(false);
       template.isDay2JibSession.set(false);
       template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
     };
     console.info(id, checked);
   },
@@ -454,6 +581,10 @@ Template.UserFormSection.events({
       template.isDay2SkiRace.set(false);
       template.isDay2JibSession.set(false);
       template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
     };
     console.info(id, checked);
   },
@@ -468,6 +599,10 @@ Template.UserFormSection.events({
       template.isDay2SkiRace.set(false);
       template.isDay2SnowRace.set(false);
       template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
     };
     console.info(id, checked);
   },
@@ -482,6 +617,10 @@ Template.UserFormSection.events({
       template.isDay2SkiRace.set(false);
       template.isDay2SnowRace.set(false);
       template.isDay2JibSession.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
     };
     console.info(id, checked);
     
@@ -633,7 +772,7 @@ Template.UserFormSection.events({
       info: {
         street: target.street.value,
         number: target.number.value,
-        room: target.room_number.value,
+        // room: target.room_number.value,
         city: target.city.value,
         zip: _.toInteger(target.zip.value),
         province: target.province.value,
@@ -651,15 +790,24 @@ Template.UserFormSection.events({
       },
       day2: {
         ski_or_snow: target.day2_ski_or_snow.checked,
-        ski_course:target.day2_ski_course.checked,
-        snow_course:target.day2_snow_course.checked,
+
+
+        ski_course: target.day2_ski_course.checked,
+        // new var for the course levels
+        ski_course_beginner: (target.day2_ski_course_beginner == null) ? false:target.day2_ski_course_beginner.checked,
+        ski_course_intermediate: (target.day2_ski_course_intermediate == null) ? false:target.day2_ski_course_intermediate.checked,
+        snow_course: target.day2_snow_course.checked,
+        // new var for the course levels
+        snow_course_beginner: (target.day2_snow_course_beginner == null) ? false:target.day2_snow_course_beginner.checked,
+        snow_course_intermediate: (target.day2_snow_course_intermediate == null) ? false:target.day2_snow_course_intermediate.checked,
+
+
         ski_race:target.day2_ski_race.checked,
         snow_race:target.day2_snow_race.checked,
         jib_session:target.day2_jib_session.checked,
         other_activities: target.day2_other.checked,
       },
       day3: {
-        /*snow_volley_tournament: target.day3_snow_volley.checked,*/
         part_of_team: target.day3_part_of_team.checked,
         ski_or_snow: target.day3_ski_or_snow.checked,
         other_activities: target.day3_other.checked,
@@ -727,7 +875,7 @@ Template.UserFormSection.events({
           }
         }, function (error) {
           if (error) swal('Error', 'There has been an error saving your profile!', 'error');
-          else swal('Success', "Profile updated!     Amount to pay: "+ participant.amountToPay + '€.', 'success');
+          else swal('Success', "Profile updated", 'success');
         });
       }
 
@@ -753,7 +901,7 @@ Template.UserFormSection.events({
                 swal('Error', error.reason, 'error');
               }
             });
-            swal('Success', "Profile Created!     Amount to pay: "+ participant.amountToPay + '€.', 'success');
+            swal('Success', "Profile created!", 'success');
           }
         });
       }

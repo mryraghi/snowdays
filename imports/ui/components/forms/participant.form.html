@@ -13,7 +13,9 @@
           <strong>Missing verification:</strong> you haven't verified your email yet. This is a fundamental step for you to be successfully
           enrolled.
           <a id="resendEmailVerification" href>Resend</a>
-          {{/if}} {{#if $and emailNotVerified hasToPay}}
+          {{/if}} 
+          <!-- MISSING PAYMENT NOT NEEDED FOR EXTERNALS
+          {{#if $and emailNotVerified hasToPay}}
           <hr> {{/if}} {{#if hasToPay}}
           <strong>Missing payment:</strong> we still haven't received you back transfer with the following information.
           <ul class="mb-0">
@@ -38,7 +40,7 @@
               <strong>Cassa Rurale Bolzano</strong>
             </li>
           </ul>
-          {{/if}}
+          {{/if}} -->
         </div>
         {{/if}}
 
@@ -83,18 +85,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="student_id" id="student_id" value="{{lp.studentID}}" required>
-                  <label for="student_id" class="sn-field-label">Student ID</label>
-                </div>
-
+                
                 <div class="sn-field-group">
                   <input type="text" class="sn-field-input" name="birth_country" id="birth_country" value="{{lp.birth.country}}" required>
                   <label for="birth_country" class="sn-field-label">Birth country</label>
                 </div>
 
                 <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="university" id="university" value="Free University of Bolzano" disabled required>
+                  <input type="text" class="sn-field-input" name="university" id="university" value="UNI FROM ADMIN GOES HERE" disabled required>
                   <label for="university" class="sn-field-label">University</label>
                 </div>
 
@@ -135,16 +133,10 @@
                       <label for="street" class="sn-field-label">Street</label>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-3 col-md-12 col-lg-3 px-1">
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
                     <div class="sn-field-group">
                       <input type="text" class="sn-field-input" name="number" id="number" required value="{{lp.info.number}}">
-                      <label for="number" class="sn-field-label">#</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-3 col-md-12 col-lg-3 pl-1">
-                    <div class="sn-field-group">
-                      <input type="text" class="sn-field-input" name="room_number" id="room_number" value="{{lp.info.room}}">
-                      <label for="room_number" class="sn-field-label">Room #</label>
+                      <label for="number" class="sn-field-label">Number</label>
                     </div>
                   </div>
                 </div>
@@ -295,7 +287,7 @@
                 <!-- DAY 2 -->
                 <h4 class="mt-5 mt-md-0">Second Day Activities</h4>
                 <small class="form-text text-danger">
-                  IMPORTANT: if you want to participate in other activities you won’t be able to  as you WON'T get a skipass</small>
+                  IMPORTANT: if you want to participate in other activities you won’t be able to ski/snowboard as you WON'T get a skipass</small>
                 <hr>
                 <div class="sn-field-group">
                   <div>
@@ -303,24 +295,63 @@
                       {{#if isDay2SkiOrSnow}}
                       <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow" checked> {{else}}
                       <input type="checkbox" class="custom-control-input" id="day2_ski_or_snow" name="day2_ski_or_snow"> {{/if}}
-                      <label class="custom-control-label" for="day2_ski_or_snow">I want to  on my own</label>
+                      <label class="custom-control-label" for="day2_ski_or_snow">I want to ski/snowboard on my own</label>
                     </label>
                   </div>
                   <div>
                       <label class="custom-control custom-checkbox">
                         {{#if isDay2SkiCourse}}
-                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course"> {{/if}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course" checked>
                         <label class="custom-control-label" for="day2_ski_course">Ski Course</label>
+
+                          <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px; padding-top: 5px;">
+                            {{#if isSkiBeginner}}
+                            <input type="checkbox" class="custom-control-input" id="day2_ski_course_beginner" name="day2_ski_course_beginner" checked> {{else}}
+                            <input type="checkbox" class="custom-control-input" id="day2_ski_course_beginner" name="day2_ski_course_beginner"> {{/if}}
+                            <label class="custom-control-label" for="day2_ski_course_beginner" style="padding-top: 3px;">beginner</label>
+                          </label>
+    
+                          <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px;">
+                            {{#if isSkiIntermediate}}
+                            <input type="checkbox" class="custom-control-input" id="day2_ski_course_intermediate" name="day2_ski_course_intermediate" checked> {{else}}
+                            <input type="checkbox" class="custom-control-input" id="day2_ski_course_intermediate" name="day2_ski_course_intermediate"> {{/if}}
+                            <label class="custom-control-label" for="day2_ski_course_intermediate" style="padding-top: 3px;">intermediate</label>
+                          </label>
+                        {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_ski_course" name="day2_ski_course"> 
+                        <label class="custom-control-label" for="day2_ski_course">Ski Course</label>
+                        {{/if}}
+                       
                       </label>
+
+                      
                   </div>
                   <div>
                       <label class="custom-control custom-checkbox">
                         {{#if isDay2SnowCourse}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course"> {{/if}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked>
                         <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
+
+                        <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px; padding-top: 5px;">
+                          {{#if isSnowBeginner}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_beginner" name="day2_snow_course_beginner" checked> {{else}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_beginner" name="day2_snow_course_beginner"> {{/if}}
+                          <label class="custom-control-label" for="day2_snow_course_beginner" style="padding-top: 3px;">beginner</label>
+                        </label>
+  
+                        <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px;">
+                          {{#if isSnowIntermediate}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate"  name="day2_snow_course_intermediate" checked> {{else}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate" name="day2_snow_course_intermediate"> {{/if}}
+                          <label class="custom-control-label" for="day2_snow_course_intermediate" style="padding-top: 3px;">intermediate</label>
+                        </label>
+
+                        {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course">
+                        <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
+                        {{/if}}
                       </label>
+
                   </div>
                   <div>
                       <label class="custom-control custom-checkbox">
@@ -357,7 +388,9 @@
                 </div>
 
                 <!-- RENTAL -->
-                <h4 class="mt-5 mt-md-0">Renting Material</h4>
+                <div> 
+                    <h4 class="mt-5 mt-md-0">Renting Material</h4><h6>(Second Day)</h6>
+                </div>
                 <small class="form-text text-danger">
                   Rental Fee NOT included in the ticket</small>
                 <hr>
@@ -411,21 +444,8 @@
                 <small class="form-text text-danger">IMPORTANT: be aware that you WON'T be able to modify the information given here after the enrolment closes. Rental material will be prepared before the event based on the given information.</small>
                 <hr>
                 <h7 class="mt-5 mt-md-0"></h7>
-                <hr>
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
-                    <div class="sn-field-group">
-                      <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
-                        <option disabled>Choose</option>
-                        <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
-                        <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
-                        <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
-                        <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
-                      </select>
-                      <label for="tshirt" class="sn-field-label sn-upper-label"> T-Shirt size</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="sn-field-group">
                       <input type="number" class="sn-field-input" name="height" id="height" value="{{lp.height}}">
                       <label for="height" class="sn-field-label">Height (cm)</label>
@@ -455,30 +475,10 @@
                     </div>
                   </div>
                 </div>
-                
-                <!-- TODO: datalist -->
-                <!--<div class="row">
-                      
-                        <div class="sn-field-group">
-                          <select class="sn-field-input sn-a-0" id="food_allergies" name="food_allergies" required>
-                            <option disabled>Choose</option>
-                            <option value="None" {{selectedIf lp.foodAllergies 'None'}}>None</option>
-                            <option value="Celiac" {{selectedIf lp.foodAllergies 'Celiac'}}>Celiac</option>
-                            <option value="Vegan" {{selectedIf lp.foodAllergies 'Vegan'}}>Vegan</option>
-                            <option value="Vegetarian" {{selectedIf lp.foodAllergies 'Vegetarian'}}>Vegetarian</option>
-                          </select>
-                          <label for="food_allergies" class="sn-field-label sn-upper-label">Food allergies</label>
-                        </div>
-                    </div>-->
-                <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies" value="{{lp.foodAllergies}}">
-                  <label for="food_allergies" class="sn-field-label">Food allergies</label>
-                  <small class="form-text text-muted">Separate with commas if any.</small>
-                </div>
+      
               </div>
             </div>
           </div>
-
 
           <!-- COLUMN 3 -->
           <div class="col-12 col-md-4">
@@ -495,7 +495,7 @@
                       {{#if isDay3PartOfTeam}}
                       <input type="checkbox" class="custom-control-input" id="day3_part_of_team" name="day3_part_of_team" checked> {{else}}
                       <input type="checkbox" class="custom-control-input" id="day3_part_of_team" name="day3_part_of_team"> {{/if}}
-                      <label class="custom-control-label" for="day3_ski_or_snow">I’m part of a Snowvolley/Human Table Snowfootball team</label>
+                      <label class="custom-control-label" for="day3_part_of_team">I’m part of a Snowvolley/Human Table Snowfootball team</label>
                     </label>
                   </div>
               <div>
@@ -503,7 +503,7 @@
                   {{#if isDay3SkiOrSnow}}
                   <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow" checked> {{else}}
                   <input type="checkbox" class="custom-control-input" id="day3_ski_or_snow" name="day3_ski_or_snow"> {{/if}}
-                  <label class="custom-control-label" for="day3_ski_or_snow">Ski/Snowboard on my own</label>
+                  <label class="custom-control-label" for="day3_ski_or_snow">I want to ski/snowboard on my own</label>
                 </label>
               </div>
               <div>
@@ -516,13 +516,40 @@
               </div>
             </div>
 
+            <h4 class="mt-5 mt-md-0">Extra Information</h4>
+                <hr><h7 class="mt-5 mt-md-0"></h7>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="sn-field-group">
+                      <select class="sn-field-input sn-a-0" id="tshirt" name="tshirt" required>
+                        <option disabled>Choose</option>
+                        <option value="S" {{selectedIf lp.tshirt 'S'}}>Small</option>
+                        <option value="M" {{selectedIf lp.tshirt 'M'}}>Medium</option>
+                        <option value="L" {{selectedIf lp.tshirt 'L'}}>Large</option>
+                        <option value="XL" {{selectedIf lp.tshirt 'XL'}}>Extra Large</option>
+                      </select>
+                      <label for="tshirt" class="sn-field-label sn-upper-label"> T-Shirt size</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="sn-field-group">
+                      <input type="text" class="sn-field-input" name="food_allergies" id="food_allergies" value="{{lp.foodAllergies}}">
+                      <label for="food_allergies" class="sn-field-label">Food allergies</label>
+                      <small class="form-text text-muted">Separate with commas if any.</small>
+                    </div>
+                  </div>
+              </div>
+
             <!-- PAYMENT SUMMARY -->
             <div class="card mt-2" style="border: 2px solid #f1c40f; margin-top: 10px;">
               <div class="card-body">
                 <h6 class="card-subtitle mt-0 mb-2 sn-orange">Payment summary</h6>
                 <ul class="text-muted">
-                    <li>External participant:<strong> 115€</strong></li>
+                    <li>Ticket price:<strong> 115€</strong></li>
                 </ul>
+                <p style="font-size: 12px; margin-top: 10px;">*Please get in touch with your contact person for the payment procedure.</p>
               </div>
             </div>
 

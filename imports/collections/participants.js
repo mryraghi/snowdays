@@ -120,11 +120,34 @@ Schemas.Day2 = new SimpleSchema({
     label: "(Day 2) Ski course",
     optional: true
   },
-  
+  ski_course_beginner: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski course level: Beginner",
+    optional: true
+  },
+  ski_course_intermediate: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski course level: Intermediate",
+    optional: true
+  },
   snow_course: {
     type: Boolean,
     defaultValue: false,
     label: "(Day 2) Snowboard course",
+    optional: true
+  },
+  snow_course_beginner: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Snowboard course level: Beginner",
+    optional: true
+  },
+  snow_course_intermediate: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Snowboard course level: Intermediate",
     optional: true
   },
   ski_race: {
