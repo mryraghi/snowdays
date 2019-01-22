@@ -85,5 +85,5 @@ Finally, we also implemented a detailed view of the participant including all th
 
 # Credits
 - Romeo Bellon ([GitHub](https://github.com/mryraghi), [LinkedIn](https://www.linkedin.com/in/romeobellon/))
-- Daniel Morandini ([GitHub](https://github.com/danielmorandini))
+- Daniel Morandini ([GitHub](https://github.com/jecoz))
 - Alessandro Piccoli ([GitHub](https://github.com/alpicco))
