@@ -13,7 +13,7 @@ const Schemas = {};
 SimpleSchema.setDefaultMessages({
   messages: {
     en: {
-      "invalidInternalEmail": "'{{{value}}}' is not a valid email: only @unibz.it and @stud.claudiana.bz.it are allowed #",
+      "invalidInternalEmail": "'{{{value}}}' is not a valid email: Please enter a valid email. #",
       "mustBeHelperOrHost": "Registrations are allowed only to helpers and hosts until the 21st #",
       "maxOneHostInDorm": "Since you live in a dorm only 1 guest is allowed #",
       "maxAllowedHelperReached": "The helper category you've chosen is complete. Please chose another one or host some. #"

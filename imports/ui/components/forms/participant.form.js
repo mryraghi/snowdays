@@ -281,7 +281,6 @@ isDay3Other: function () {
   let template = Template.instance();
   return (template.isDay3Other.get() ? template.isDay3Other.get() : false);
 },
-// !!!
   // INTERNALS ONLY: password required to create a user that can login
   isPasswordRequired: function () {
     return !Template.instance().hasUser;
@@ -714,7 +713,7 @@ Template.UserFormSection.events({
 
     // saving spinner
     $(target.save).text('Loading...');
-/* !!!
+
     // // check STUDENT ID
     if (!template.hasStudentIDFront.get() && !template.isAdmin) {
       $(target.save).text(previousText);
@@ -735,7 +734,6 @@ Template.UserFormSection.events({
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
 
-*/
     // let p = template.participant.get()._id;
     // if (_.isEqual($.inArray('hasPersonalID', settings), -1) && !isAdmin) {
     //   $(target.save).text('Save');
@@ -876,12 +874,10 @@ Template.UserFormSection.events({
 
       // CREATE user
       else {
-        console.log("pippo");
         console.log(participant);
-        console.log(target.password.value);
         Accounts.createUser({
           email: participant.email,
-          //!!!  password: target.password.value,
+          password: target.password.value,
           profile: {
             participantId: participant._id,
             firstName: participant.firstName,

@@ -64,6 +64,7 @@ Router.route('/login', {
 });
 
 // TEMP: 
+/*
 Router.route('/temp', {
   name: 'Temp',
   template: 'ExternalsPage'
@@ -74,15 +75,18 @@ Router.route('/tempAdmin', {
   name: 'TempAdmin',
   template: 'AdminPage'
 });
-
+*/
 Router.route('/register', {
-  name: 'Register',
+  onBeforeAction: function () {
+  this.redirect('/');
+  }
+/*  name: 'Register',
   template: 'RegisterPage',
   subscriptions: function () {
     let _id = localStorage.getItem('id');
     let subscriptions = [];
 
-    if (moment().isBetween('2019-01-14 12:00:00', '2019-01-20 23:59:00')) {
+    if (moment().isBetween('2019-01-14 12:00:00', '2019-01-27 23:59:00')) {
       subscriptions = [
         Meteor.subscribe('stats.helpers.internals'),
         Meteor.subscribe('stats.dorms.internals'),
@@ -108,43 +112,9 @@ Router.route('/register', {
     } else {
       this.render('Loader');
     }
-  }
+  }*/
 });
-/*Router.route('/asdsddafsgasdgwerw', {
-  name: 'Registers',
-  template: 'RegistersPage',
-  subscriptions: function () {
-    let _id = localStorage.getItem('id');
-    let subscriptions = [];
 
-    if (moment().isBetween('2019-01-01 00:00:00', '2019-01-14 12:00:00')) {
-      subscriptions = [
-        Meteor.subscribe('stats.helpers.internals'),
-        Meteor.subscribe('stats.dorms.internals'),
-        Meteor.subscribe('count.internals')
-      ]
-    }
-
-    // returning a subscription handle or an array of subscription handles
-    // adds them to the wait list.
-    return Object.assign(subscriptions, [
-      Meteor.subscribe('participant.internal', _id),
-      Meteor.subscribe('user.internal', _id)
-    ]);
-  },
-  action: function () {
-    if (this.ready()) {
-      // registration closes when 300 participants successfully enrolled
-      if (!_.isNull(Meteor.user()) || Participants.find().count() < 300) {
-        this.render();
-      } else {
-        this.render('RegistersClosedSection')
-      }
-    } else {
-      this.render('Loader');
-    }
-  }
-});*/
 
 Router.route('/verify-email/:token', {
   name: 'VerifyEmail',
