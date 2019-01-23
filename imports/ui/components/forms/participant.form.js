@@ -146,10 +146,6 @@ Template.UserFormSection.onCreated(function () {
   template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
   */
   template.isDay3PartOfTeam =  new ReactiveVar((p.day3 ? p.day3.part_of_team : false));
-<<<<<<< HEAD
-=======
-  
->>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
   template.isDay3SkiOrSnow =  new ReactiveVar((p.day3 ? p.day3.ski_or_snow : false));
   template.isDay3Other =  new ReactiveVar((p.day3 ? p.day3.other_activities : false));
   // TODO: check these
@@ -274,11 +270,6 @@ isDay2Other: function () {
   return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
 },*/
 isDay3PartOfTeam: function () {
-<<<<<<< HEAD
-  console.log(template.isDay3PartOfTeam.get());
-  
-=======
->>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
   let template = Template.instance();
   return (template.isDay3PartOfTeam.get() ? template.isDay3PartOfTeam.get() : false);
 },
@@ -476,8 +467,6 @@ Template.UserFormSection.events({
       template.isDay2Other.set(false);
     };
     console.info(id, checked);
-    console.info(template.isSnowBeginner)
-    console.info(template.isDay2JibSession)
 
   },
 
@@ -498,7 +487,6 @@ Template.UserFormSection.events({
       template.isDay2Other.set(false);
     };
     console.info(id, checked);
-    
   },
 
   'change input[name="day2_snow_course"]':(item, template) => {
@@ -528,7 +516,6 @@ Template.UserFormSection.events({
       template.isSkiBeginner.set(false);
       template.isSkiIntermediate.set(false);
       template.isDay2SkiCourse.set(false);
-      template.isDay2SnowCourse.set(true);
       template.isDay2SkiOrSnow.set(false);
       template.isDay2SkiRace.set(false);
       template.isDay2SnowRace.set(false);
@@ -548,7 +535,6 @@ Template.UserFormSection.events({
       template.isSkiBeginner.set(false);
       template.isSkiIntermediate.set(false);
       template.isDay2SkiCourse.set(false);
-      template.isDay2SnowCourse.set(true);
       template.isDay2SkiOrSnow.set(false);
       template.isDay2SkiRace.set(false);
       template.isDay2SnowRace.set(false);
@@ -728,7 +714,7 @@ Template.UserFormSection.events({
 
     // saving spinner
     $(target.save).text('Loading...');
-
+/* !!!
     // // check STUDENT ID
     if (!template.hasStudentIDFront.get() && !template.isAdmin) {
       $(target.save).text(previousText);
@@ -749,7 +735,7 @@ Template.UserFormSection.events({
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
 
-
+*/
     // let p = template.participant.get()._id;
     // if (_.isEqual($.inArray('hasPersonalID', settings), -1) && !isAdmin) {
     //   $(target.save).text('Save');
@@ -780,11 +766,7 @@ Template.UserFormSection.events({
       info: {
         street: target.street.value,
         number: target.number.value,
-<<<<<<< HEAD
-        // room: target.room_number.value,
-=======
         //room: target.room_number.value,
->>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
         city: target.city.value,
         zip: _.toInteger(target.zip.value),
         province: target.province.value,
@@ -820,10 +802,7 @@ Template.UserFormSection.events({
         other_activities: target.day2_other.checked,
       },
       day3: {
-<<<<<<< HEAD
-=======
         //snow_volley_tournament: target.day3_snow_volley.checked,
->>>>>>> cc55dc48105cc18b2d182793678e6cb314a16dd1
         part_of_team: target.day3_part_of_team.checked,
         ski_or_snow: target.day3_ski_or_snow.checked,
         other_activities: target.day3_other.checked,
@@ -878,7 +857,6 @@ Template.UserFormSection.events({
         $(target.save).text(previousText);
         return;
       }
-
       // UPDATE user if already exists
       if (!!template.userId) {
         Meteor.users.update({_id: template.userId}, {
@@ -898,9 +876,12 @@ Template.UserFormSection.events({
 
       // CREATE user
       else {
+        console.log("pippo");
+        console.log(participant);
+        console.log(target.password.value);
         Accounts.createUser({
           email: participant.email,
-          password: target.password.value,
+          //!!!  password: target.password.value,
           profile: {
             participantId: participant._id,
             firstName: participant.firstName,
@@ -910,14 +891,14 @@ Template.UserFormSection.events({
           }
         }, function (error) {
           if (error) {
-            swal('Error', `There has been an error while creating your account. Please contact us at it@snowdays.it. Thank you (${error.reason})`, 'error');
+            swal('Error', `There has been an error while creating your account. Please contact us at info@snowdays.it. Thank you (${error.reason})`, 'error');
           } else {
-            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'unibz');
-            Meteor.call('sendVerificationLink', (error) => {
+            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'external');
+            /*Meteor.call('sendVerificationLink', (error) => {
               if (error) {
                 swal('Error', error.reason, 'error');
               }
-            });
+            });*/
             swal('Success', "Profile created!", 'success');
           }
         });

@@ -379,9 +379,7 @@ Schemas.Participant = new SimpleSchema({
     max: 40,
     optional: true,
     custom: function () {
-      
       let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
-        
       if (!pattern.test(this.value)) {
         return "invalidInternalEmail"
       }
