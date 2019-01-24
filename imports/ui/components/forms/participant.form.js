@@ -103,7 +103,7 @@ Template.UserFormSection.onCreated(function () {
   template.emailSent = new ReactiveVar(false);
   template.hasAcceptedTandC = new ReactiveVar(!!p.hasAcceptedTandC);
   //template.isHelper = new ReactiveVar(!!p.isHelper);
-  template.isLoggedIn = new ReactiveVar(!!p.userId);
+  template.isLoggedIn = new ReactiveVar(!!p.userId);  
   /*
   template.isHost = new ReactiveVar(!!p.isHost);
   template.isInDorm = new ReactiveVar(_.isEqual(p.accommodationType, 'dorm'));
@@ -270,8 +270,6 @@ isDay2Other: function () {
   return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
 },*/
 isDay3PartOfTeam: function () {
-  console.log(template.isDay3PartOfTeam.get());
-  
   let template = Template.instance();
   return (template.isDay3PartOfTeam.get() ? template.isDay3PartOfTeam.get() : false);
 },

@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="sn-field-group">
-                  <input type="text" class="sn-field-input" name="university" id="university" value="UNI FROM ADMIN GOES HERE" disabled required>
+                  <input type="text" class="sn-field-input" name="university" id="university" value="{{lp.university}}" disabled required>
                   <label for="university" class="sn-field-label">University</label>
                 </div>
 
@@ -428,7 +428,7 @@
                     {{#if lp.rentSnowboardBoots}}
                     <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots" checked> {{else}}
                     <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots"> {{/if}}
-                    <label class="custom-control-label" for="rentSnowboardBoots">Snowboard</label>
+                    <label class="custom-control-label" for="rentSnowboardBoots">Snowboard Boots</label>
                   </label>
                   <label class="custom-control custom-checkbox">
                     {{#if lp.rentHelmet}}
