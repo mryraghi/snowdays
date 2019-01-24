@@ -99,7 +99,7 @@ Template.UserFormSection.onCreated(function () {
   template.participant = new ReactiveVar(p);
   template.userId = template.user ? template.user._id : undefined;
   template.hasUser = !!template.userId;
-  template.emailVerified = template.hasUser ? template.user.emails[0].verified : false;
+  template.emailVerified = (template.hasUser && template.user.emails) ? template.user.emails[0].verified : false;
   template.emailSent = new ReactiveVar(false);
   template.hasAcceptedTandC = new ReactiveVar(!!p.hasAcceptedTandC);
   //template.isHelper = new ReactiveVar(!!p.isHelper);
