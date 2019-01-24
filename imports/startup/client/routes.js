@@ -6,7 +6,7 @@ import "../../ui/pages/admin";
 import "../../ui/pages/externals/index";
 import "../../ui/pages/participant/index";
 import "../../ui/pages/event";
-import "../../ui/pages/register";
+import "../../ui/pages/registers";
 import "../../ui/pages/errors/404/not_found";
 import "../../ui/pages/thankyou";
 import "../../ui/pages/press";
@@ -63,14 +63,30 @@ Router.route('/login', {
   }
 });
 
+// TEMP: 
+/*
+Router.route('/temp', {
+  name: 'Temp',
+  template: 'ExternalsPage'
+});
+
+// TEMP: 
+Router.route('/tempAdmin', {
+  name: 'TempAdmin',
+  template: 'AdminPage'
+});
+*/
 Router.route('/register', {
-  name: 'Register',
+  onBeforeAction: function () {
+  this.redirect('/');
+  }
+/*  name: 'Register',
   template: 'RegisterPage',
   subscriptions: function () {
     let _id = localStorage.getItem('id');
     let subscriptions = [];
 
-    if (moment().isBetween('2018-01-01', '2018-01-21')) {
+    if (moment().isBetween('2019-01-14 12:00:00', '2019-01-27 23:59:00')) {
       subscriptions = [
         Meteor.subscribe('stats.helpers.internals'),
         Meteor.subscribe('stats.dorms.internals'),
@@ -96,8 +112,9 @@ Router.route('/register', {
     } else {
       this.render('Loader');
     }
-  }
+  }*/
 });
+
 
 Router.route('/verify-email/:token', {
   name: 'VerifyEmail',
@@ -119,23 +136,6 @@ Router.route('/verify-email/:token', {
 Router.route('/thankyou', {
   name: 'ThankYou',
   template: 'ThankYouPage'
-});
-
-Router.route('/verify-email/:token', {
-  name: 'VerifyEmail',
-  action: function () {
-    if (!this.params.token)
-      this.render('LoginPage');
-
-    Accounts.verifyEmail(this.params.token, (error) => {
-      if (error) {
-        swal('Error', error.reason, 'error');
-        this.render('LoginPage');
-      } else {
-        this.render('SuccessSection');
-      }
-    });
-  }
 });
 
 // TODO: rename in Schedule

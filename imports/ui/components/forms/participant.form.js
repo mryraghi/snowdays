@@ -49,15 +49,15 @@ Template.UserFormSection.onCreated(function () {
   template.isAdmin = !_.isNull(Meteor.userId()) && Roles.userIsInRole(Meteor.userId(), 'admin');
 
   // internal registration happens first
-  template.hasToBeHelperOrHost = moment().isBetween('2018-01-14', '2018-01-21');
+  //template.hasToBeHelperOrHost = moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00');
 
-  console.log('hasToBeHelperOrHost', moment().isBetween('2018-01-14', '2018-01-21'));
-  console.log('Meteor user', Meteor.user());
+  //console.log('hasToBeHelperOrHost', moment().isBetween('2019-01-14 00:00:00', '2019-01-20 23:59:00'));
+  //console.log('Meteor user', Meteor.user());
 
   // set _id session variable when editing
   // participant in external cp list
   setSessions();
-  facebookSetup();
+  //facebookSetup();
 
   // let _id = Session.get('_id') || Meteor.userId();
 
@@ -102,16 +102,52 @@ Template.UserFormSection.onCreated(function () {
   template.emailVerified = template.hasUser ? template.user.emails[0].verified : false;
   template.emailSent = new ReactiveVar(false);
   template.hasAcceptedTandC = new ReactiveVar(!!p.hasAcceptedTandC);
-  template.isHelper = new ReactiveVar(!!p.isHelper);
+  //template.isHelper = new ReactiveVar(!!p.isHelper);
+  template.isLoggedIn = new ReactiveVar(!!p.userId);
+  /*
   template.isHost = new ReactiveVar(!!p.isHost);
   template.isInDorm = new ReactiveVar(_.isEqual(p.accommodationType, 'dorm'));
+  template.isDormDante = new ReactiveVar(_.isEqual(p.studentDorm, 'dante'));
+  template.isDormUnicity = new ReactiveVar(_.isEqual(p.studentDorm, 'univercity'));
   template.noOfGuests = new ReactiveVar((p.noOfGuests ? p.noOfGuests : 1));
+  */
   template.hasStudentIDFront = new ReactiveVar(!!p.hasStudentIDFront);
   template.hasStudentIDBack = new ReactiveVar(!!p.hasStudentIDBack);
   template.hasPersonalIDFront = new ReactiveVar(!!p.hasPersonalIDFront);
   template.hasPersonalIDBack = new ReactiveVar(!!p.hasPersonalIDBack);
   template.paymentID = !_.isUndefined(p.paymentID) ? p.paymentID : calculatePaymentID();
+  template.rentSkiis = new ReactiveVar(_.isEqual(p.rentMaterial, 'Ski'));
+  template.rentSnowboard = new ReactiveVar(_.isEqual(p.rentMaterial, 'Snowboard'));
+  template.noRent = new ReactiveVar(_.isEqual(p.rentMaterial, 'None'));
+  template.isDay1Swimming = new ReactiveVar((p.day1 ? p.day1.swimming : false));
+  template.isDay1BubbleFootball= new ReactiveVar((p.day1 ? p.day1.bubble_football : false));
+  template.isDay1Other= new ReactiveVar((p.day1 ? p.day1.other_activities : false));
+  template.isDay2SkiOrSnow =  new ReactiveVar((p.day2 ? p.day2.ski_or_snow : false));
 
+
+  // COURSES SECTION
+  template.isDay2SkiCourse =  new ReactiveVar((p.day2 ? p.day2.ski_course : false));
+  // VARS FOR THE HIDDEN COURSE DIFFICULTIES
+  template.isSkiBeginner =  new ReactiveVar((p.day2 ? p.day2.ski_course_beginner : false));
+  template.isSkiIntermediate =  new ReactiveVar((p.day2 ? p.day2.ski_course_intermediate : false));
+
+  template.isDay2SnowCourse =  new ReactiveVar((p.day2 ? p.day2.snow_course : false));
+  // VARS FOR THE HIDDEN COURSE DIFFICULTIES
+  template.isSnowBeginner =  new ReactiveVar((p.day2 ? p.day2.snow_course_beginner : false));
+  template.isSnowIntermediate =  new ReactiveVar((p.day2 ? p.day2.snow_course_intermediate : false));
+
+
+  template.isDay2SkiRace =  new ReactiveVar((p.day2 ? p.day2.ski_race : false));
+  template.isDay2SnowRace =  new ReactiveVar((p.day2 ? p.day2.snow_race : false));
+  template.isDay2JibSession =  new ReactiveVar((p.day2 ? p.day2.jib_session : false));
+  template.isDay2Other =  new ReactiveVar((p.day2 ? p.day2.other_activities : false));
+
+  /*
+  template.isDay3Snowvolley =  new ReactiveVar((p.day3 ? p.day3.snow_volley_tournament : false));
+  */
+  template.isDay3PartOfTeam =  new ReactiveVar((p.day3 ? p.day3.part_of_team : false));
+  template.isDay3SkiOrSnow =  new ReactiveVar((p.day3 ? p.day3.ski_or_snow : false));
+  template.isDay3Other =  new ReactiveVar((p.day3 ? p.day3.other_activities : false));
   // TODO: check these
   template.uploadingSIDFront = new ReactiveVar(false);
   template.uploadingSIDBack = new ReactiveVar(false);
@@ -133,6 +169,7 @@ Template.UserFormSection.onCreated(function () {
     if (p) {
       // again, if admin then set true since not needed
       template.filling.set(!p.statusComplete);
+      //template.isLoggedIn.set(true);
       getSettings(template);
     }
     let acceptTandC = (Roles.userIsInRole(Meteor.userId(), 'admin') ? true : (p ? p.hasAcceptedTandC : false));
@@ -146,53 +183,104 @@ Template.UserFormSection.onCreated(function () {
 });
 
 Template.UserFormSection.helpers({
-  // shown for hosting and helping internals
-  finalPrice: function () {
-    return `${calculateFinalPrice()}€`;
-  },
-
-  // INTERNALS ONLY: isHelper and isHost
-  isHelper: function () {
+ 
+  isLoggedIn: function() {
     let template = Template.instance();
-    return (template.isHelper.get() ? template.isHelper.get() : false)
-  },
-  isHelperCategoryAvailable: function (category, max) {
-    return Participants.find({
-      $and: [
-        {helperCategory: category},
-        {_id: {$ne: Template.instance().participant.get()._id}}
-      ]
-    }).count() < max;
-  },
-  helpersLeft: function (category, max) {
-    return max - Participants.find({helperCategory: category}).count()
-  },
-  isHost: function () {
-    let template = Template.instance();
-    return (template.isHost.get() ? template.isHost.get() : false)
-  },
-  isDormAvailable: function (dorm, max) {
-    return Participants.find({
-      $and: [
-        {studentDorm: dorm},
-        {_id: {$ne: Template.instance().participant.get()._id}}
-      ]
-    }).count() < max;
-  },
-  dormPlacesLeft: function (dorm, max) {
-    return max - Participants.find({studentDorm: dorm}).count()
+    return (!!template.userId);
   },
 
-  // INTERNALS ONLY: number of guest chosen and allowed (if in dorm only 1)
-  noOfGuests: function () {
-    return Template.instance().noOfGuests.get();
-  },
+// RENTAL 
+rentSkiis: function () {
+  let template = Template.instance();
+  return (template.rentSkiis.get() ? template.rentSkiis.get() : false);
+},
 
-  // INTERNALS ONLY: where the participant lives in a dorm
-  isInDorm: function () {
-    return Template.instance().isInDorm.get();
-  },
+rentSnowboard: function () {
+  let template = Template.instance();
+  return (template.rentSnowboard.get() ? template.rentSnowboard.get() : false);
+},
+noRent: function () {
+  let template = Template.instance();
+  return (template.noRent.get() ? template.noRent.get() : false);
+},
 
+//Day1 Activities
+isDay1Swimming: function() {
+  //return this.swimming === true?'checked':'';
+  let template = Template.instance();
+  return (template.isDay1Swimming.get() ? template.isDay1Swimming.get() : false);
+},
+isDay1BubbleFootball: function() {
+  //return this.bubble_football === true?'checked':'';
+  let template = Template.instance();
+  return (template.isDay1BubbleFootball.get() ? template.isDay1BubbleFootball.get() : false);
+},
+isDay1Other: function() {
+  let template = Template.instance();
+  return (template.isDay1Other.get() ? template.isDay1Other.get() : false);
+},
+// Day2 Activities
+isDay2SkiOrSnow:function () {
+  let template = Template.instance();
+  return (template.isDay2SkiOrSnow.get() ? template.isDay2SkiOrSnow.get() : false);
+},
+isDay2SkiCourse:function () {
+  let template = Template.instance();
+  return (template.isDay2SkiCourse.get() ? template.isDay2SkiCourse.get() : false);
+},
+isSkiBeginner:function () {
+  let template = Template.instance();
+  return (template.isSkiBeginner.get() ? template.isSkiBeginner.get() : false);
+},
+isSkiIntermediate:function () {
+  let template = Template.instance();
+  return (template.isSkiIntermediate.get() ? template.isSkiIntermediate.get() : false);
+},
+isDay2SnowCourse:function () {
+  let template = Template.instance();
+  return (template.isDay2SnowCourse.get() ? template.isDay2SnowCourse.get() : false);
+},
+isSnowBeginner:function () {
+  let template = Template.instance();
+  return (template.isSnowBeginner.get() ? template.isSnowBeginner.get() : false);
+},
+isSnowIntermediate:function () {
+  let template = Template.instance();
+  return (template.isSnowIntermediate.get() ? template.isSnowIntermediate.get() : false);
+},
+isDay2SkiRace:function () {
+  let template = Template.instance();
+  return (template.isDay2SkiRace.get() ? template.isDay2SkiRace.get() : false);
+},
+isDay2SnowRace:function () {
+  let template = Template.instance();
+  return (template.isDay2SnowRace.get() ? template.isDay2SnowRace.get() : false);
+},
+isDay2JibSession:function () {
+  let template = Template.instance();
+  return (template.isDay2JibSession.get() ? template.isDay2JibSession.get() : false);
+},
+isDay2Other: function () {
+  let template = Template.instance();
+  return (template.isDay2Other.get() ? template.isDay2Other.get() : false);
+},
+// Day3 Activities
+/*isDay3Snowvolley:function () {
+  let template = Template.instance();
+  return (template.isDay3Snowvolley.get() ? template.isDay3Snowvolley.get() : false);
+},*/
+isDay3PartOfTeam: function () {
+  let template = Template.instance();
+  return (template.isDay3PartOfTeam.get() ? template.isDay3PartOfTeam.get() : false);
+},
+isDay3SkiOrSnow:function () {
+  let template = Template.instance();
+  return (template.isDay3SkiOrSnow.get() ? template.isDay3SkiOrSnow.get() : false);
+},
+isDay3Other: function () {
+  let template = Template.instance();
+  return (template.isDay3Other.get() ? template.isDay3Other.get() : false);
+},
   // INTERNALS ONLY: password required to create a user that can login
   isPasswordRequired: function () {
     return !Template.instance().hasUser;
@@ -282,30 +370,323 @@ Template.UserFormSection.helpers({
 
 Template.UserFormSection.events({
   // CHANGE: isHelper/isHost checkboxes
-  'change input[name="internals"]': (item, template) => {
+ /* 'change input[name="internals"]': (item, template) => {
     let id = item.target.id;
     let checked = item.target.checked;
     console.info(id, checked);
     template[id].set(checked);
+  },*/
+  //CHANGE day1 activitiy
+  'change input[name="swimming"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    
+    template.isDay1Swimming.set(checked);
+
+    if(template.isDay1Swimming) {
+      template.isDay1BubbleFootball.set(false);
+      template.isDay1Other.set(false);};
+    console.info(id, checked);
+  },
+  'change input[name="bubble_football"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay1BubbleFootball.set(checked);
+    if(template.isDay1BubbleFootball) {
+      template.isDay1Swimming.set(false);
+      template.isDay1Other.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day1_other"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay1Other.set(checked);
+    if(template.isDay1Other) {
+      template.isDay1Swimming.set(false);
+      template.isDay1BubbleFootball.set(false);
+    };
+
+    console.info(id, checked);
+  },
+  //CHANGE: day2 activities
+  'change input[name="day2_ski_or_snow"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SkiOrSnow.set(checked);
+    if(template.isDay2SkiOrSnow) {
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+
+    };
+    /*swal('Important!',
+      'You will receive your skipass at the check-in of the event. From the moment you receive the skipass/es you are fully responsible of them. In case of loss you will have to buy a new one on your own.'
+      , 'info');*/
+    console.info(id, checked);
+  },
+  'change input[name="day2_ski_course"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SkiCourse.set(checked);
+    if(template.isDay2SkiCourse) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+    };
+    console.info(id, checked);
   },
 
-  // CHANGE: number of guests
-  'change #noOfGuests': (event, template) => {
-    template.noOfGuests.set(_.toNumber(event.target.value));
+  'change input[name="day2_ski_course_beginner"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSkiBeginner.set(checked);
+    if(template.isSkiBeginner) {
+      template.isDay2SkiCourse.set(true);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+
   },
 
-  // CHANGE: accommodation type
-  'change #accommodationType': (event, template) => {
-    let isDorm = _.isEqual(event.target.value, 'dorm');
-    template.isInDorm.set(isDorm);
-
-    if (isDorm) {
-      swal('Warning!', 'If your roomate is not hosting/participating and you wish to host more than 1 external ' +
-        'student, you can take his/her guest. To do this, please contact us before paying since you can get and ' +
-        'extra 15€ discount.', 'info');
-      template.noOfGuests.set(1);
-    }
+  'change input[name="day2_ski_course_intermediate"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSkiIntermediate.set(checked);
+    if(template.isSkiIntermediate) {
+      template.isDay2SkiCourse.set(true);
+      template.isSkiBeginner.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
   },
+
+  'change input[name="day2_snow_course"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SnowCourse.set(checked);
+    if(template.isDay2SnowCourse) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+    };
+    console.info(id, checked);
+  },
+  
+  'change input[name="day2_snow_course_beginner"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSnowBeginner.set(checked);
+    if(template.isSnowBeginner) {
+      template.isDay2SnowCourse.set(true);
+      template.isSnowIntermediate.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+
+  'change input[name="day2_snow_course_intermediate"]':(item, template) => {    
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isSnowIntermediate.set(checked);
+    if(template.isSnowIntermediate) {
+      template.isDay2SnowCourse.set(true);
+      template.isSnowBeginner.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+    };
+    console.info(id, checked);
+  },
+
+
+  'change input[name="day2_ski_race"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SkiRace.set(checked);
+    if(template.isDay2SkiRace) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_snow_race"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2SnowRace.set(checked);
+    if(template.isDay2SnowRace) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_jib_session"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2JibSession.set(checked);
+    if(template.isDay2JibSession) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2Other.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+    };
+    console.info(id, checked);
+  },
+  'change input[name="day2_other"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay2Other.set(checked);
+    if(template.isDay2Other) {
+      template.isDay2SkiOrSnow.set(false);
+      template.isDay2SkiCourse.set(false);
+      template.isDay2SnowCourse.set(false);
+      template.isDay2SkiRace.set(false);
+      template.isDay2SnowRace.set(false);
+      template.isDay2JibSession.set(false);
+      template.isSkiBeginner.set(false);
+      template.isSkiIntermediate.set(false);
+      template.isSnowBeginner.set(false);
+      template.isSnowIntermediate.set(false);
+    };
+    console.info(id, checked);
+    
+  },
+  //CHANGE: day3 activities
+ /* 'change input[name="day3_snow_volley"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3Snowvolley.set(checked);
+    if(template.isDay3Snowvolley) {
+      template.isDay3SnowFootball.set(false);
+      template.isDay3SkiOrSnow.set(false);
+      template.isDay3Other.set(false);
+    };
+    console.info(id, checked);
+    
+  },*/
+  'change input[name="day3_part_of_team"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3PartOfTeam.set(checked);
+    if(template.isDay3PartOfTeam){
+      template.isDay3SkiOrSnow.set(false);
+      template.isDay3Other.set(false);
+    };
+    console.info(id, checked);
+    
+  },
+  'change input[name="day3_ski_or_snow"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3SkiOrSnow.set(checked);
+    if(template.isDay3SkiOrSnow) {
+      template.isDay3PartOfTeam.set(false);
+      template.isDay3Other.set(false);
+    };
+    console.info(id, checked);
+    
+  },
+  'change input[name="day3_other"]':(item, template) => {
+    let id = item.target.id;
+    checked = item.target.checked;
+    template.isDay3Other.set(checked);
+    if(template.isDay3Other) {
+      template.isDay3PartOfTeam.set(false);
+      template.isDay3SkiOrSnow.set(false);
+    };
+    console.info(id, checked);
+    
+  },
+  // CHANGE: rental type
+  'change #rent_material':(event, template) => {
+    let rentingSkiis = _.isEqual(event.target.value, 'Ski');
+    template.rentSkiis.set(rentingSkiis);
+    let rentingSnowboard = _.isEqual(event.target.value, 'Snowboard');
+    template.rentSnowboard.set(rentingSnowboard);
+    let noRenting = _.isEqual(event.target.value, 'None');
+    template.noRent.set(noRenting);
+    if(noRenting) {
+      if(template.rentSkiBoots) {template.rentSkiBoots.set(false);};
+      if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
+      if(template.rentSnowboardBoots) {template.rentSnowboardBoots.set(false);};
+      if(template.rentHelmet) {template.rentHelmet.set(false);};
+    };
+    if(rentingSkiis) {
+      if(template.rentSnowboardBoots) {template.rentSnowboardBoots.set(false);};
+    };
+    if(rentingSnowboard) {
+      if(template.rentSkiBoots) {template.rentSkiBoots.set(false);};
+      if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
+    };
+  },
+
+  //CHANGE: DAY1 activities
 
   'click #resendEmailVerification': function (event, template) {
     Meteor.call('sendVerificationLink', (error) => {
@@ -336,27 +717,21 @@ Template.UserFormSection.events({
     // // check STUDENT ID
     if (!template.hasStudentIDFront.get() && !template.isAdmin) {
       $(target.save).text(previousText);
-      return swal('Error', 'You need to upload your personal ID!', 'warning');
+      return swal('Error', 'You need to upload your student ID!', 'warning');
     }
     if (!template.hasStudentIDBack.get() && !template.isAdmin) {
       $(target.save).text(previousText);
-      return swal('Error', 'You need to upload your personal ID!', 'warning');
+      return swal('Error', 'You need to upload your student ID!', 'warning');
     }
 
     // check PERSONAL ID
-    if (!template.hasPersonalIDFront.get() && !template.isAdmin && !_.isEqual(target.university.value, 'Alumni Bolzano')) {
+    if (!template.hasPersonalIDFront.get() && !template.isAdmin) {
       $(target.save).text(previousText);
       return swal('Error', 'You need to upload your personal ID!', 'warning');
     }
-    if (!template.hasPersonalIDBack.get() && !template.isAdmin && !_.isEqual(target.university.value, 'Alumni Bolzano')) {
+    if (!template.hasPersonalIDBack.get() && !template.isAdmin) {
       $(target.save).text(previousText);
       return swal('Error', 'You need to upload your personal ID!', 'warning');
-    }
-
-    // between the 15th and the 21st people can register only if they are helpers or hosts
-    if (template.hasToBeHelperOrHost && !template.isHost.get() && !template.isHelper.get()) {
-      $(target.save).text(previousText);
-      return swal('Error', 'You need to be either a helper or a host in order to register!', 'warning');
     }
 
     // let p = template.participant.get()._id;
@@ -379,6 +754,7 @@ Template.UserFormSection.events({
 
     const participant = {
       _id: template.participant.get()._id,
+  
       firstName: target.first_name.value,
       lastName: target.last_name.value,
       email: target.email.value,
@@ -388,7 +764,7 @@ Template.UserFormSection.events({
       info: {
         street: target.street.value,
         number: target.number.value,
-        room: target.room_number.value,
+        //room: target.room_number.value,
         city: target.city.value,
         zip: _.toInteger(target.zip.value),
         province: target.province.value,
@@ -398,30 +774,71 @@ Template.UserFormSection.events({
         date: parsedDate,
         country: target.birth_country.value
       },
-      activity: target.activity.checked,
-      rental: target.rental.checked,
-      course: target.course.checked,
-      isVolleyPlayer: target.isVolleyPlayer.checked,
-      isFootballPlayer: target.isFootballPlayer.checked,
+      //Activities
+      day1: {
+        swimming: target.swimming.checked,
+        bubble_football: target.bubble_football.checked,
+        other_activities: target.day1_other.checked,
+      },
+      day2: {
+        ski_or_snow: target.day2_ski_or_snow.checked,
+
+
+        ski_course: target.day2_ski_course.checked,
+        // new var for the course levels
+        ski_course_beginner: (target.day2_ski_course_beginner == null) ? false:target.day2_ski_course_beginner.checked,
+        ski_course_intermediate: (target.day2_ski_course_intermediate == null) ? false:target.day2_ski_course_intermediate.checked,
+        snow_course: target.day2_snow_course.checked,
+        // new var for the course levels
+        snow_course_beginner: (target.day2_snow_course_beginner == null) ? false:target.day2_snow_course_beginner.checked,
+        snow_course_intermediate: (target.day2_snow_course_intermediate == null) ? false:target.day2_snow_course_intermediate.checked,
+
+
+        ski_race:target.day2_ski_race.checked,
+        snow_race:target.day2_snow_race.checked,
+        jib_session:target.day2_jib_session.checked,
+        other_activities: target.day2_other.checked,
+      },
+      day3: {
+        //snow_volley_tournament: target.day3_snow_volley.checked,
+        part_of_team: target.day3_part_of_team.checked,
+        ski_or_snow: target.day3_ski_or_snow.checked,
+        other_activities: target.day3_other.checked,
+      },
+      
+      //activity: target.activity.checked,
+      //rental: target.rental.checked,
+      //course: target.course.checked,
+      //isVolleyPlayer: target.isVolleyPlayer.checked,
+      //isFootballPlayer: target.isFootballPlayer.checked,
       foodAllergies: target.food_allergies.value,
       shoeSize: target.shoe_size.value,
       height: target.height.value,
       weight: target.weight.value,
       tshirt: target.tshirt.value,
 
+      //rental
+      rentMaterial: target.rent_material.value,
+      rentSkiBoots: (template.rentSkiis.get() ? target.rentSkiBoots.checked: false),
+      rentSkiSticks: (template.rentSkiis.get() ? target.rentSkiSticks.checked: false),
+      rentSnowboardBoots: (template.rentSnowboard.get() ? target.rentSnowboardBoots.checked: false),
+      rentHelmet: ((template.rentSnowboard.get() || template.rentSnowboard.get()) ? target.rentHelmet.checked: false),
       // HELPER
+      /*
       isHelper: template.isHelper.get(),
       helperCategory: (template.isHelper.get() ? target.helperCategory.value : undefined),
 
       // HOST
       isHost: template.isHost.get(),
+      isDormDante: (template.isHost.get() ? template.isDormDante.get() : undefined),
+      isDormUnicity: (template.isHost.get() ? template.isDormUnicity.get() : undefined),
       accommodationType: (template.isHost.get() ? target.accommodationType.value : undefined),
-      studentDorm: (template.isHost.get() ? target.studentDorm.value : undefined),
+      studentDorm: (template.isHost.get() && template.isInDorm.get() ? target.studentDorm.value : undefined),
       guestPreference: (template.isHost.get() ? target.guestPreference.value : undefined),
       noOfGuests: (template.isHost.get() ? target.noOfGuests.value : undefined),
-
+*/
       // PAYMENT
-      amountToPay: calculateFinalPrice(),
+      amountToPay: 115, 
       paymentID: template.paymentID
     };
 
@@ -431,13 +848,13 @@ Template.UserFormSection.events({
     // check security section on Meteor's documentation
     Meteor.call('participants.update', participant, function (error, result) {
 
-      console.log(error);
+      
       if (error) {
+        console.log(error);
         swal('Error', error.reason.split('#')[0], 'error');
         $(target.save).text(previousText);
         return;
       }
-
       // UPDATE user if already exists
       if (!!template.userId) {
         Meteor.users.update({_id: template.userId}, {
@@ -451,12 +868,13 @@ Template.UserFormSection.events({
           }
         }, function (error) {
           if (error) swal('Error', 'There has been an error saving your profile!', 'error');
-          else swal('Success', 'Profile updated!', 'success');
+          else swal('Success', "Profile updated", 'success');
         });
       }
 
       // CREATE user
       else {
+        console.log(participant);
         Accounts.createUser({
           email: participant.email,
           password: target.password.value,
@@ -469,14 +887,15 @@ Template.UserFormSection.events({
           }
         }, function (error) {
           if (error) {
-            swal('Error', `There has been an error while creating your account. Please contact us at it@snowdays.it. Thank you (${error.reason})`, 'error');
+            swal('Error', `There has been an error while creating your account. Please contact us at info@snowdays.it. Thank you (${error.reason})`, 'error');
           } else {
-            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'unibz');
-            Meteor.call('sendVerificationLink', (error) => {
+            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'external');
+            /*Meteor.call('sendVerificationLink', (error) => {
               if (error) {
                 swal('Error', error.reason, 'error');
               }
-            });
+            });*/
+            swal('Success', "Profile created!", 'success');
           }
         });
       }
@@ -604,37 +1023,7 @@ function uploadID(file, template, idType, bf) {
   upload.start();
 }
 
-/**
- * Calculate final price to pay based on whether he/she is a helper and # of hosts.
- * @returns {string}
- */
-function calculateFinalPrice() {
-  let template = Template.instance();
-  let price = 100;
 
-  // HELPER + HOST
-  if (template.isHelper.get() && template.isHost.get()) {
-    price = price - 35;
-  }
-
-  // HELPER OR HOST
-  else if (template.isHelper.get() || template.isHost.get()) {
-    price = price - 20;
-  }
-
-  // NUMBER OF GUESTS
-  let noOfGuests = template.noOfGuests.get();
-  if (noOfGuests > 1) {
-    price = price - (15 * (noOfGuests - 1));
-  }
-
-  // cannot go beyond 50
-  if (price < 50) {
-    price = 50;
-  }
-
-  return price
-}
 
 function calculatePaymentID() {
   return Math.random().toString(36).slice(-8);
@@ -655,27 +1044,6 @@ function getSettings(template) {
   });
 }
 
-function facebookSetup() {
-  window.fbAsyncInit = function () {
-    FB.init({
-      appId: '216607852080016',
-      xfbml: true,
-      version: 'v2.8'
-    });
-    FB.AppEvents.logPageView();
-  };
-
-  (function (d, s, id) {
-    let js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-      return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-}
 
 function toggleLoading(type, bf, template) {
   switch (type) {
@@ -697,7 +1065,7 @@ function toggleLoading(type, bf, template) {
 }
 
 Template.SuccessSection.onCreated(function () {
-  Meteor.subscribe('participant.internal', localStorage.getItem('id'))
+  //Meteor.subscribe('participant.internal', localStorage.getItem('id'))
 });
 
 Template.SuccessSection.helpers({

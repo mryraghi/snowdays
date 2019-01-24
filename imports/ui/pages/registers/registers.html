@@ -4,17 +4,17 @@
   <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
 </head>
 
-<template name="RegisterPage">
+<template name="RegistersPage">
   <!-- registration for internals starts the 15/01 -->
   {{#if registrationIsOpen}}
     {{> Template.dynamic template=tab}}
   {{else}}
-    <p class="text-center">Registration for internals will begin from 14th January 12:00AM!</p>
+    <p class="text-center">Registration for internals will begin from 14th January!</p>
   {{/if}}
 </template>
 
 <!-- WELCOME SECTION -->
-<template name="RegisterWelcomeSection">
+<template name="RegistersWelcomeSection">
 
   <div class="container d-flex justify-content-center align-items-center flex-column"
        style="height: 100%; width: 100%;">
@@ -27,21 +27,23 @@
     </button>
     <br>
     <hr>
-    <p class="text-center"><strong>Party package</strong>: if you can't participate to the event but you still want to host, you will get one or two free entries at the parties, plus two free drinks. For more info send an email to <a
+    <p class="text-center"><strong>Party package</strong>: if you can’t participate to the event but you still want to host, you will get one or two free entries at the parties, plus two free drinks. For more info send an email to<a
         href="mailto:info@snowdays.it">info@snowdays.it</a>
     </p>
   </div>
 </template>
 
 <!-- REGISTRATION CLOSED -->
-<template name="RegisterClosedSection">
+<template name="RegistersClosedSection">
   <div class="d-flex justify-content-center align-items-center flex-column" style="height: 100%; width: 100%;">
-    <p>Registration for internals has come to an end, see you at Snowdays!</p>
+      <p>The online registration is open from the 14th until the 20th of January only for students who help and/or host.
+          Enrolment will continue from the 21st at our Helpdesk (only if there are tickets left)
+          </p>
   </div>
 </template>
 
 <!-- MAIN FORM -->
-<template name="RegisterFormSection">
+<template name="RegistersFormSection">
   <div class="container">
     <div class="row mt-5">
       <div class="col">
