@@ -893,14 +893,14 @@ Template.UserFormSection.events({
           }
         }, function (error) {
           if (error) {
-            swal('Error', `There has been an error while creating your account. Please contact us at it@snowdays.it. Thank you (${error.reason})`, 'error');
+            swal('Error', `There has been an error while creating your account. Please contact us at info@snowdays.it. Thank you (${error.reason})`, 'error');
           } else {
-            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'unibz');
-            Meteor.call('sendVerificationLink', (error) => {
+            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'external');
+            /*Meteor.call('sendVerificationLink', (error) => {
               if (error) {
                 swal('Error', error.reason, 'error');
               }
-            });
+            });*/
             swal('Success', "Profile created!", 'success');
           }
         });

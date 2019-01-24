@@ -5,6 +5,7 @@ import "./externals.html";
 import "../../components/forms/participant.form";
 import "./participants.table";
 import "/imports/ui/components/loader/loader";
+import swal from 'sweetalert2';
 
 Template.ExternalsPage.onCreated(function () {
   // subscribe as soon the template is created
