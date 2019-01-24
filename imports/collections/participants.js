@@ -13,7 +13,7 @@ const Schemas = {};
 SimpleSchema.setDefaultMessages({
   messages: {
     en: {
-      "invalidInternalEmail": "'{{{value}}}' is not a valid email: Please enter a valid email. #",
+      "invalidInternalEmail": "'{{{value}}}' is not a valid email: only @unibz.it and @stud.claudiana.bz.it are allowed #",
       "mustBeHelperOrHost": "Registrations are allowed only to helpers and hosts until the 21st #",
       "maxOneHostInDorm": "Since you live in a dorm only 1 guest is allowed #",
       "maxAllowedHelperReached": "The helper category you've chosen is complete. Please chose another one or host some. #"
@@ -379,9 +379,12 @@ Schemas.Participant = new SimpleSchema({
     max: 40,
     optional: true,
     custom: function () {
-      let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
-      if (!pattern.test(this.value)) {
-        return "invalidInternalEmail"
+      if (this.field('isHost').value || this.field('isHelper').value) {
+        let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
+        
+        if (!pattern.test(this.value)) {
+          return "invalidInternalEmail"
+        }
       }
     }
   },

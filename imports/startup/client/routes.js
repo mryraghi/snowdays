@@ -64,7 +64,6 @@ Router.route('/login', {
 });
 
 // TEMP: 
-/*
 Router.route('/temp', {
   name: 'Temp',
   template: 'ExternalsPage'
@@ -75,7 +74,7 @@ Router.route('/tempAdmin', {
   name: 'TempAdmin',
   template: 'AdminPage'
 });
-*/
+
 Router.route('/register', {
   onBeforeAction: function () {
   this.redirect('/');

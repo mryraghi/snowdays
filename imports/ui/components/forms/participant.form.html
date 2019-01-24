@@ -323,30 +323,35 @@
                         {{/if}}
                        
                       </label>
+
+                      
                   </div>
                   <div>
                       <label class="custom-control custom-checkbox">
                         {{#if isDay2SnowCourse}}
                         <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course" checked>
                         <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
-                      
-                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px;">
-                        {{#if isSnowBeginner}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_beginner" name="day2_snow_course_beginner" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_beginner" name="day2_snow_course_beginner"> {{/if}}
-                        <label class="custom-control-label" for="day2_snow_course_beginner" style="padding-top: 3px;">beginner</label>
+
+                        <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px; padding-top: 5px;">
+                          {{#if isSnowBeginner}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_beginner" name="day2_snow_course_beginner" checked> {{else}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_beginner" name="day2_snow_course_beginner"> {{/if}}
+                          <label class="custom-control-label" for="day2_snow_course_beginner" style="padding-top: 3px;">beginner</label>
+                        </label>
+  
+                        <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px;">
+                          {{#if isSnowIntermediate}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate"  name="day2_snow_course_intermediate" checked> {{else}}
+                          <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate" name="day2_snow_course_intermediate"> {{/if}}
+                          <label class="custom-control-label" for="day2_snow_course_intermediate" style="padding-top: 3px;">intermediate</label>
+                        </label>
+
+                        {{else}}
+                        <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course">
+                        <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
+                        {{/if}}
                       </label>
-                      <label class="custom-control custom-checkbox" style="font-size: 12px; margin-left: 15px;">
-                        {{#if isSnowIntermediate}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate" name="day2_snow_course_intermediate" checked> {{else}}
-                        <input type="checkbox" class="custom-control-input" id="day2_snow_course_intermediate" name="day2_snow_course_intermediate"> {{/if}}
-                        <label class="custom-control-label" for="day2_snow_course_intermediate" style="padding-top: 3px;">intermediate</label>
-                      </label>
-                      {{else}}
-                      <input type="checkbox" class="custom-control-input" id="day2_snow_course" name="day2_snow_course"> 
-                      <label class="custom-control-label" for="day2_snow_course">Snowboard Course</label>
-                      {{/if}}
-                    </label>
+
                   </div>
                   <div>
                       <label class="custom-control custom-checkbox">
@@ -463,7 +468,7 @@
                   <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
                     <div class="sn-field-group">
                       <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size" value="{{lp.shoeSize}}">
-                      <label for="shoe_size" class="sn-field-label">Shoe size (EU or US size only)</label>
+                      <label for="shoe_size" class="sn-field-label">Shoe size (EU - US sizes)</label>
                       <small class="form-text text-muted">
                         Required if renting.
                       </small>
