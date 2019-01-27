@@ -6,7 +6,7 @@
       {{#if hasAcceptedTandC}}
       <form id="user_form">
         <!-- email not verified && account created -->
-        {{#if $or emailNotVerified hasToPay}}
+       <!-- {{#if $or emailNotVerified hasToPay}}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           <h4 class="alert-heading">Current status</h4>
           <hr> {{#if emailNotVerified}}
@@ -14,7 +14,7 @@
           enrolled.
           <a id="resendEmailVerification" href>Resend</a>
           {{/if}} 
-          <!-- MISSING PAYMENT NOT NEEDED FOR EXTERNALS
+           MISSING PAYMENT NOT NEEDED FOR EXTERNALS
           {{#if $and emailNotVerified hasToPay}}
           <hr> {{/if}} {{#if hasToPay}}
           <strong>Missing payment:</strong> we still haven't received you back transfer with the following information.
@@ -40,10 +40,10 @@
               <strong>Cassa Rurale Bolzano</strong>
             </li>
           </ul>
-          {{/if}} -->
+          {{/if}} 
         </div>
         {{/if}}
-
+-->
         <div class="row">
           <!-- COLUMN 1 -->
           <div class="col-12 col-md-8">
@@ -393,6 +393,9 @@
                 </div>
                 <small class="form-text text-danger">
                   Rental Fee NOT included in the ticket</small>
+                  <small class="form-text text-danger">
+                  Rental is not guaranteed on the third day due to limited availability of the equipement.</small>
+                  
                 <hr>
                 
                 <div class="sn-field-group">
@@ -404,7 +407,13 @@
                   </select>
                   <label for="rent_material" class="sn-field-label sn-upper-label">Renting maerial</label>
 
-                  {{#if rentSkiis}}
+                  {{#if rentSkiisOpt}}
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentSki}}
+                    <input type="checkbox" class="custom-control-input" id="rentSki" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentSki"> {{/if}}
+                    <label class="custom-control-label" for="rentSki">Skis</label>
+                  </label>
                   <label class="custom-control custom-checkbox">
                     {{#if lp.rentSkiBoots}}
                     <input type="checkbox" class="custom-control-input" id="rentSkiBoots" checked> {{else}}
@@ -423,7 +432,13 @@
                     <input type="checkbox" class="custom-control-input" id="rentHelmet"> {{/if}}
                     <label class="custom-control-label" for="rentHelmet">Helmet</label>
                   </label>
-                  {{/if}} {{#if rentSnowboard}}
+                  {{/if}} {{#if rentSnowboardOpt}}
+                  <label class="custom-control custom-checkbox">
+                    {{#if lp.rentSnowboard}}
+                    <input type="checkbox" class="custom-control-input" id="rentSnowboard" checked> {{else}}
+                    <input type="checkbox" class="custom-control-input" id="rentSnowboard"> {{/if}}
+                    <label class="custom-control-label" for="rentSnowboard">Snowboard</label>
+                  </label>
                   <label class="custom-control custom-checkbox">
                     {{#if lp.rentSnowboardBoots}}
                     <input type="checkbox" class="custom-control-input" id="rentSnowboardBoots" checked> {{else}}
@@ -456,7 +471,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pr-1">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="sn-field-group">
                       <input type="number" class="sn-field-input" name="weight" id="weight" value="{{lp.weight}}">
                       <label for="weight" class="sn-field-label">Weight (kg)</label>
@@ -465,7 +480,9 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-6 pl-1">
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 pl-1">
                     <div class="sn-field-group">
                       <input type="number" class="sn-field-input" name="shoe_size" id="shoe_size" value="{{lp.shoeSize}}">
                       <label for="shoe_size" class="sn-field-label">Shoe size (EU - US sizes)</label>

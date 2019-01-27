@@ -522,6 +522,12 @@ Schemas.Participant = new SimpleSchema({
     allowedValues: ['None', 'Ski', 'Snowboard'],
     optional: true
   },
+  rentSki: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Skis",
+    optional: true
+  },
   rentSkiBoots: {
     type: Boolean,
     defaultValue: false,
@@ -532,6 +538,12 @@ Schemas.Participant = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
     label: "Rent Ski Sticks",
+    optional: true
+  },
+  rentSnowboard: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Snowboard",
     optional: true
   },
   rentSnowboardBoots: {

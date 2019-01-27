@@ -121,8 +121,9 @@ Template.UserFormSection.onCreated(function () {
   template.hasPersonalIDFront = new ReactiveVar(!!p.hasPersonalIDFront);
   template.hasPersonalIDBack = new ReactiveVar(!!p.hasPersonalIDBack);
   template.paymentID = !_.isUndefined(p.paymentID) ? p.paymentID : calculatePaymentID();
-  template.rentSkiis = new ReactiveVar(_.isEqual(p.rentMaterial, 'Ski'));
-  template.rentSnowboard = new ReactiveVar(_.isEqual(p.rentMaterial, 'Snowboard'));
+  template.rentSkiisOpt = new ReactiveVar(_.isEqual(p.rentMaterial, 'Ski'));
+  template.rentSnowboardOpt = new ReactiveVar(_.isEqual(p.rentMaterial, 'Snowboard'));
+
   template.noRent = new ReactiveVar(_.isEqual(p.rentMaterial, 'None'));
   template.isDay1Swimming = new ReactiveVar((p.day1 ? p.day1.swimming : false));
   template.isDay1BubbleFootball= new ReactiveVar((p.day1 ? p.day1.bubble_football : false));
@@ -195,14 +196,14 @@ Template.UserFormSection.helpers({
   },
 
 // RENTAL 
-rentSkiis: function () {
+rentSkiisOpt: function () {
   let template = Template.instance();
-  return (template.rentSkiis.get() ? template.rentSkiis.get() : false);
+  return (template.rentSkiisOpt.get() ? template.rentSkiisOpt.get() : false);
 },
 
-rentSnowboard: function () {
+rentSnowboardOpt: function () {
   let template = Template.instance();
-  return (template.rentSnowboard.get() ? template.rentSnowboard.get() : false);
+  return (template.rentSnowboardOpt.get() ? template.rentSnowboardOpt.get() : false);
 },
 noRent: function () {
   let template = Template.instance();
@@ -677,21 +678,25 @@ Template.UserFormSection.events({
   // CHANGE: rental type
   'change #rent_material':(event, template) => {
     let rentingSkiis = _.isEqual(event.target.value, 'Ski');
-    template.rentSkiis.set(rentingSkiis);
+    template.rentSkiisOpt.set(rentingSkiis);
     let rentingSnowboard = _.isEqual(event.target.value, 'Snowboard');
-    template.rentSnowboard.set(rentingSnowboard);
+    template.rentSnowboardOpt.set(rentingSnowboard);
     let noRenting = _.isEqual(event.target.value, 'None');
     template.noRent.set(noRenting);
     if(noRenting) {
+      if(template.rentSki) {template.rentSki.set(false);};
       if(template.rentSkiBoots) {template.rentSkiBoots.set(false);};
       if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
+      if(template.rentSnowboard) {template.rentSnowboard.set(false);};
       if(template.rentSnowboardBoots) {template.rentSnowboardBoots.set(false);};
       if(template.rentHelmet) {template.rentHelmet.set(false);};
     };
     if(rentingSkiis) {
       if(template.rentSnowboardBoots) {template.rentSnowboardBoots.set(false);};
+      if(template.rentSnowboard) {template.rentSnowboard.set(false);};
     };
     if(rentingSnowboard) {
+      if(template.rentSki) {template.rentSki.set(false);};
       if(template.rentSkiBoots) {template.rentSkiBoots.set(false);};
       if(template.rentSkiSticks) {template.rentSkiSticks.set(false);};
     };
@@ -829,10 +834,12 @@ Template.UserFormSection.events({
 
       //rental
       rentMaterial: target.rent_material.value,
-      rentSkiBoots: (template.rentSkiis.get() ? target.rentSkiBoots.checked: false),
-      rentSkiSticks: (template.rentSkiis.get() ? target.rentSkiSticks.checked: false),
-      rentSnowboardBoots: (template.rentSnowboard.get() ? target.rentSnowboardBoots.checked: false),
-      rentHelmet: ((template.rentSnowboard.get() || template.rentSnowboard.get()) ? target.rentHelmet.checked: false),
+      rentSki: (template.rentSkiisOpt.get() ? target.rentSki.checked: false),
+      rentSkiBoots: (template.rentSkiisOpt.get() ? target.rentSkiBoots.checked: false),
+      rentSkiSticks: (template.rentSkiisOpt.get() ? target.rentSkiSticks.checked: false),
+      rentSnowboard: (template.rentSnowboardOpt.get() ? target.rentSnowboard.checked: false),
+      rentSnowboardBoots: (template.rentSnowboardOpt.get() ? target.rentSnowboardBoots.checked: false),
+      rentHelmet: ((template.rentSnowboardOpt.get() || template.rentSkiisOpt.get()) ? target.rentHelmet.checked: false),
       // HELPER
       /*
       isHelper: template.isHelper.get(),
