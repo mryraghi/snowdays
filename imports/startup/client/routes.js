@@ -51,8 +51,12 @@ Router.route('/login', {
         this.redirect('/admin/' + user.username);
 
       // EXTERNAL
-      if (Roles.userIsInRole(user, 'external'))
+      if (Roles.userIsInRole(user, 'external')){
         this.redirect('/external');
+      }
+      if (Roles.userIsInRole(user, 'participant')){
+        this.redirect('/participant');
+      }
 
       // UNIBZ
       if (Roles.userIsInRole(user, 'unibz'))

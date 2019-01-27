@@ -893,6 +893,7 @@ Template.UserFormSection.events({
       else {
         Accounts.createUser({
           email: participant.email,
+          username: participant.firstName + "." + participant.lastName,
           password: target.password.value,
           profile: {
             participantId: participant._id,
@@ -905,7 +906,7 @@ Template.UserFormSection.events({
           if (error) {
             swal('Error', `There has been an error while creating your account. Please contact us at info@snowdays.it. Thank you (${error.reason})`, 'error');
           } else {
-            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'external');
+            Roles.addUsersToRoles((template.userId ? template.userId : Meteor.userId()), 'participant');
             /*Meteor.call('sendVerificationLink', (error) => {
               if (error) {
                 swal('Error', error.reason, 'error');
