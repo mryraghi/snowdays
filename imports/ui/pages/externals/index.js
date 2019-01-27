@@ -10,7 +10,8 @@ import swal from 'sweetalert2';
 Template.ExternalsPage.onCreated(function () {
   // subscribe as soon the template is created
   this.subscribe("users.current");
-
+  this.subscribe('participant.external', Meteor.userId());
+  this.subscribe("participants.all.related");
   // set default tab
   Session.set('tab', {name: 'ParticipantWelcomeSection'})
 
@@ -34,7 +35,7 @@ Template.ExternalsPage.events({
       case 'stats':
         Session.set('tab', {name: 'ParticipantStatsSection'});
         break;
-      case 'profile':
+      case 'profile': 
         Session.set('tab', {name: 'UserFormSection', _id: Meteor.userId()});
         break;
       case 'participants':

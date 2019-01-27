@@ -82,6 +82,11 @@ Template.UserFormSection.onCreated(function () {
    * 1. retrieve or create new participant
    * --> used to pre-fill the form
    */
+  if(Session.get('_id')){
+    localStorage.setItem('id',Session.get('_id'));
+  } else {
+  localStorage.setItem('id',Session.get('tab')._id);
+};
   let _id = localStorage.getItem('id');
   console.log('participant ID', _.toString(_id));
 
@@ -89,7 +94,7 @@ Template.UserFormSection.onCreated(function () {
 
   // if we don't have a participant then assign a unique ID
   if (!p) {
-    p = {_id: Random.id()};
+    p = {_id: _id};
   }
 
   // save to localStorage
