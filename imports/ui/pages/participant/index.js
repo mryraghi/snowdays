@@ -74,6 +74,7 @@ Template.ParticipantPage.events({
   },
 
   'click #sn-logout': (event, template) => {
+    localStorage.clear();
     Meteor.logout((error) => {
       if (error) console.log(error)
     })
