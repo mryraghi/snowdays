@@ -79,10 +79,6 @@ Template.LoginPage.events({
       }
     });
   },
-
-  'click #admin-login': function (event, template) {
-    template.currentTab.set('CreateAdminSection')
-  }
 });
 
 Template.LoginPage.helpers({
