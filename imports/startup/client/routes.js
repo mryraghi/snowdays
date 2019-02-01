@@ -11,6 +11,7 @@ import "../../ui/pages/errors/404/not_found";
 import "../../ui/pages/thankyou";
 import "../../ui/pages/press";
 import "../../ui/pages/flixbus";
+import "../../ui/pages/privacy";
 import _ from "lodash";
 import moment from "moment/moment";
 import swal from 'sweetalert2'
@@ -26,7 +27,10 @@ Router.route('/', {
   name: 'Home',
   template: 'Home'
 });
-
+Router.route('/privacy', {
+  name: 'Privacy',
+  template: 'PrivacyPage'
+});
 Router.route('/flixbus', {
   name: 'Flixbus',
   template: 'FlixbusPage'
