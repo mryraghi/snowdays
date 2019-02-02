@@ -62,7 +62,7 @@ Template.UserFormSection.onCreated(function () {
   // let _id = Session.get('_id') || Meteor.userId();
 
   // subscriptions
-  // this.subscribe("users.current");
+   //this.subscribe("users.current");
 
   // this.subscribe("participants.current", _id, function () {
   //   let p = Participants.findOne();
@@ -865,7 +865,6 @@ Template.UserFormSection.events({
     // check security section on Meteor's documentation
     Meteor.call('participants.update', participant, function (error, result) {
 
-      console.log(error);
       if (error) {
         swal('Error', error.reason.split('#')[0], 'error');
         $(target.save).text(previousText);
@@ -873,7 +872,8 @@ Template.UserFormSection.events({
       }
 
       // UPDATE user if already exists
-      if (!!template.userId) {
+      //console.log(template.userId);
+      /*if (!!template.userId) {
         Meteor.users.update({_id: template.userId}, {
           $set: {
             profile: {
@@ -912,11 +912,12 @@ Template.UserFormSection.events({
                 swal('Error', error.reason, 'error');
               }
             });*/
-            swal('Success', "Profile created!", 'success');
+      /*      swal('Success', "Profile created!", 'success');
           }
         });
       }
-
+      */
+      swal('Success', "Profile created!", 'success');
       // if (Roles.userIsInRole(Meteor.user(), 'admin')) {
       //   $('html, body').animate({scrollTop: 0}, 'fast');
       //   Session.set('tab', 'AdminListSection');
