@@ -2,7 +2,7 @@
   <title>Snowdays</title>
 
   <!-- Facebook Pixel Code -->
-  <script>
+ <!-- <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -16,7 +16,7 @@
   </script>
   <noscript>
     <img height="1" width="1" rc="https://www.facebook.com/tr?id=2008511006039374&ev=PageView&noscript=1"/>
-  </noscript>
+  </noscript>-->
   <!-- End Facebook Pixel Code -->
 </head>
 
@@ -38,12 +38,12 @@
           {{/if}}
           <h5>{{currentUser.profile.firstName}} {{currentUser.profile.lastName}}</h5>
 
-          <ul class="list-unstyled mt-2">
-            <li class="sn-menu-item {{isActive 'ParticipantWelcomeSection'}}" id="welcome"><a href>welcome</a></li>
+          <ul class="list-unstyled mt-2" >
+            <li class="sn-menu-item {{isActive 'ParticipantWelcomeSection'}}" id="welcome"><a href>WELCOME</a></li>
             <!--<li class="sn-menu-item {{isActive 'ParticipantStatsSection'}}" id="stats"><a href>stats</a></li>-->
-            <li class="sn-menu-item {{isActive 'UserFormSection'}}" id="profile"><a href>my profile</a></li>
+            <li class="sn-menu-item {{isActive 'UserFormSection'}}" id="profile"><a href>MY PROFILE</a></li>
             <li class="sn-menu-item {{isActive 'ParticipantsTableSection'}}" id="participants">
-              <a href>participants</a>
+              <a href>PARTICIPANTS</a>
             </li>
           </ul>
 
@@ -74,53 +74,74 @@
 
 <template name="ParticipantWelcomeSection">
   <h4>Welcome <strong>{{currentUser.profile.firstName}}</strong>,</h4>
-  <p>
-    Finally, things are getting real! The Snowdays selection process is over. Less than two months are left to the best
-    winter event of your life! Are you ready to rock with us on the slopes?
-  </p>
+  <p>Finally, things are getting real! The Snowdays selection process is over. Less than two months are left to the event every snow lover is waiting for! Are you ready to rock with us on the slopes? Pack your stuff, wipe away the dust from your skis and get ready to live this event at the fullest: we are waiting for you in the wonderful Bolzano!</p>
   <p>
     We are glad to announce you that you were selected to participate in this year’s unforgettable Snowdays edition! So,
     pack your stuff, wipe away the dust from your skis and get psychologically and physically ready to live it at the
     fullest: we are waiting for you in the wonderful Bolzano! ❤️️
   </p>
   <p>
-    <strong class="sn-bold-blue">The total amount of tickets available for your university
-      is {{currentUser.profile.allowedParticipants}}</strong>. Please note that from now on this number cannot be
-    increased. You will receive your billing via email, which has to be paid within 9th February. Please stick to the
-    deadline, otherwise your places will be given to the unlucky ones on the waiting list.
+    <strong class="sn-bold-black">The total amount of tickets for your University is: {{currentUser.profile.allowedParticipants}}</strong>.
   </p>
   <p>
-    As you already know, during the event you will take part in amazing sports and activities and you will compete
-    against
-    other universities to win the Spirit Cup.
-  </p>
-  <p>
-    Here's a reminder of the requirements your team has to meet in order to successfully enrol:
+    Here is a brief reminder about the basic requirements your team has to meet in order to successfully enrol:
   </p>
   <ul style="list-style-type: disc; padding-left: 2vw; color: #535353;">
-    <li>First, <strong class="sn-bold-blue">there must be at least one girl and one boy</strong> who will compete in the
-      ski race <strong class="sn-bold-blue">or at least one girl and one boy</strong> in the snowboard race.
+    <li>First, there must be at least <strong class="sn-bold-black">one girl and one boy</strong> who will compete in the
+      <strong class="sn-bold-black">ski race </strong>or at least <strong class="sn-bold-black">one girl and one boy</strong> in the <strong class="sn-bold-black">snowboard race.</strong>
     </li>
     <li>
-      Second, you are required to create one team which is going to compete against other universities in the
-      snow-volleyball tournament and/or one team for the snow-human-table-football tournament. (If your group has less
+      Second, you are required to create <strong class="sn-bold-black">one team</strong> which is going to compete against other universities in the
+      <strong class="sn-bold-black">snow-volleyball tournament (8 people)</strong> and/or <strong class="sn-bold-black">one team</strong> for the <strong class="sn-bold-black">snow-human-table-football tournament (7 people)</strong>. (If your group has less
       than 15 people, you can choose to create just one of the two teams).
-      Keep in mind that:
-      <ul>
-        <li>
-          The Snow Volleyball team must consist of 8 people (at least 1 girl always on the field);
-        </li>
-        <li>
-          The Snow Human Table Football team must consist of 7 people (at least 1 girl always on the field).
-        </li>
-      </ul>
     </li>
   </ul>
   <p>
-    In case you have any question or doubt, do not hesitate to contact us!
-    Keep pushing for Snowdays and see you in March!
+    <strong class="sn-bold-black">This year we offer you the possibility to take part in a new, breathtaking (for real) experience: we are organizing a RELAY RACE!</strong> In order to participate, you need a team of four runners. Will you be the fastest?
   </p>
-  <h6>Your Snowdays Team</h6>
+  <p>
+    As you already know, during the event you will take part in this and other amazing activities and you will compete against other universities to win the <strong class="sn-bold-black">Spirit Cup!!</strong> In order to increase your chances to win we remind you these three steps to follow:
+  </p>
+  <ul style="list-style-type: disc; padding-left: 2vw; color: #535353;">
+    <li>
+      <h6>SPIRIT MOVIE:</h6>
+    </li>
+ </ul>
+  <p>
+    In this video you have the chance to show us in a creative and funny way what your uni is about and why you want to come to Snowdays! Be crazy, be new and don’t be shy. We are looking forward to see some crazy shit. <strong class="sn-bold-black">Send it to us via <a href="https://wetransfer.com/">wetransfer</a> within the 17th of February!</strong> (If you send after the deadline we might not be able to publish it on our page!)
+    If you are looking for some inspiration, take a look at some of the spirit movies we received last year on our <a href="https://www.facebook.com/Snowdays.Bolzano/">FB page</a>.
+  </p>
+  <ul style="list-style-type: disc; padding-left: 2vw; color: #535353;">
+      <li>
+        <h6>OPENING CEREMONY:</h6>
+      </li>
+   </ul>
+   <p>
+     This year we will present each University in a very special way! Prepare your <strong class="sn-bold-black">University Mascot</strong> for a series of fun and unique activities and competitions! If your University doesn’t have one, it’s okay, just create one! Take this chance to be creative and crazy! Which will be the legendary winning mascot?!
+   </p>
+   <ul style="list-style-type: disc; padding-left: 2vw; color: #535353;">
+      <li>
+        <h6>INSTASTORIES TAKEOVER:</h6>
+      </li>
+   </ul>
+  <p>
+      Show us how you are getting ready for Snowdays and when you'll be on your way to Bolzano! Tag @snowdays.bolzano in your stories and you'll be featured on our stories showing your Snowdays energy to the other participants!
+  </p>
+  <p>
+      In the next few days you will receive all the information regarding <strong class="sn-bold-black">the enrolment process!</strong> Time is running and we can't wait to meet you all in beautiful Bolzano to enjoy Snowdays all together!!
+    </p>
+    <p>   
+      As always, remember...
+    </p>
+    <p>
+      there are no days like Snowdays!! ❄❄❄❄❄❄❄
+    </p>
+    <p>
+      With love,
+    </p>
+    <p>
+      The Snowdays Team            
+   </p> 
 </template>
 
 <template name="SurveySection">

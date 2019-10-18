@@ -32,7 +32,7 @@ Meteor.publish('participants.current', function (_id) {
     this.onStop(() => {
       console.log('participants.current STOP: ' + _id)
     });
-
+    
     return Participants.find({_id: _id});
   } else this.stop()
 });
@@ -64,7 +64,9 @@ Meteor.publish('participants.all', function (options) {
 Meteor.publish('participant.internal', function (_id) {
   return Participants.find(_id)
 });
-
+Meteor.publish('participant.external', function (_id) {
+  return Participants.find(_id)
+});
 /**
  * INTERNAL: USER
  */

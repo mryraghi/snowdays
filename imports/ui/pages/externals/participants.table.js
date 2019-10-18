@@ -1,5 +1,6 @@
 import "./externals.table.html";
 import Participants from "/imports/collections/participants";
+import swal from 'sweetalert2';
 import Clipboard from "clipboard";
 import _ from "lodash";
 let CryptoJS = require("crypto-js");

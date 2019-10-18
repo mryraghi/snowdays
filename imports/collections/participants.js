@@ -49,7 +49,26 @@ Schemas.Day1 = new SimpleSchema({
     optional: true
     // todo: return if external or not
     // only for externals in UniMensa
+  },
+  swimming: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) Swimming",
+    optional: true
+  },
+  bubble_football: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) BubbleFootBall",
+    optional: true
+  },
+  other_activities: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 1) Chilling",
+    optional: true
   }
+
 });
 
 Schemas.Day2 = new SimpleSchema({
@@ -88,7 +107,74 @@ Schemas.Day2 = new SimpleSchema({
     defaultValue: false,
     label: "(Day 2) Drink 1",
     optional: true
+  },
+  ski_or_snow: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski/SnowBoard own",
+    optional: true
+  },
+  ski_course: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski course",
+    optional: true
+  },
+  ski_course_beginner: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski course level: Beginner",
+    optional: true
+  },
+  ski_course_intermediate: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski course level: Intermediate",
+    optional: true
+  },
+  snow_course: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Snowboard course",
+    optional: true
+  },
+  snow_course_beginner: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Snowboard course level: Beginner",
+    optional: true
+  },
+  snow_course_intermediate: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Snowboard course level: Intermediate",
+    optional: true
+  },
+  ski_race: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Ski Race",
+    optional: true
+  },
+  snow_race: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) SnowBoard Race",
+    optional: true
+  },
+  jib_session: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Jib Session Competition",
+    optional: true
+  },
+  other_activities: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 2) Other Activities",
+    optional: true
   }
+
 });
 
 Schemas.Day3 = new SimpleSchema({
@@ -109,7 +195,38 @@ Schemas.Day3 = new SimpleSchema({
     defaultValue: false,
     label: "(Day 3) Meal 2",
     optional: true
+  },
+  snow_volley_tournament: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Tournament: Snowvolley",
+    optional: true
+  },
+  snow_football_tournament: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Tournament: Human table SnowFootball",
+    optional: true
+  },
+  part_of_team: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Part Of Team",
+    optional: true
+  },
+  ski_or_snow: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 3) Ski/SnowBoard",
+    optional: true
+  },
+  other_activities: {
+    type: Boolean,
+    defaultValue: false,
+    label: "(Day 3) Other Activities",
+    optional: true
   }
+
 });
 
 Schemas.Requestor = new SimpleSchema({
@@ -246,11 +363,11 @@ Schemas.Participant = new SimpleSchema({
     index: 1,
     optional: true
   },
-  studentID: {
+ /* studentID: {
     type: Number,
     label: '[H] Student ID',
     optional: true
-  },
+  },*/
   gender: {
     type: String,
     allowedValues: ['M', 'F'],
@@ -263,8 +380,8 @@ Schemas.Participant = new SimpleSchema({
     optional: true,
     custom: function () {
       if (this.field('isHost').value || this.field('isHelper').value) {
-        let pattern = /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(unibz|stud\.claudiana\.bz)\.it$/g;
-
+        let pattern = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/g;
+        
         if (!pattern.test(this.value)) {
           return "invalidInternalEmail"
         }
@@ -281,10 +398,10 @@ Schemas.Participant = new SimpleSchema({
     max: 40,
     optional: true
   },
-  host: {
+/*  host: {
     type: Schemas.Host,
     optional: true
-  },
+  },*/
   info: {
     type: Schemas.Info,
     optional: true
@@ -306,38 +423,6 @@ Schemas.Participant = new SimpleSchema({
     optional: true
   },
   checkedIn: {
-    type: Boolean,
-    defaultValue: false,
-    optional: true
-  },
-
-  // ACTIVITIES
-  course: {
-    type: Boolean,
-    defaultValue: false,
-    label: "Ski/Snowboard Course",
-    optional: true
-  },
-  activity: {
-    type: Boolean,
-    label: "Ski/Snowboard",
-    defaultValue: false,
-    optional: true
-  },
-  rental: {
-    type: Boolean,
-    label: "Ski Rental",
-    allowedValues: false,
-    optional: true
-  },
-  isVolleyPlayer: {
-    label: 'isVolleyPlayer',
-    type: Boolean,
-    defaultValue: false,
-    optional: true
-  },
-  isFootballPlayer: {
-    label: 'isFootballPlayer',
     type: Boolean,
     defaultValue: false,
     optional: true
@@ -430,6 +515,53 @@ Schemas.Participant = new SimpleSchema({
     max: 200,
     optional: true
   },
+  //RENTAL 
+  rentMaterial: {
+    label: 'Ski/Snowboard',
+    type: String,
+    allowedValues: ['None', 'Ski', 'Snowboard'],
+    optional: true
+  },
+  rentSki: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Skis",
+    optional: true
+  },
+  rentSkiBoots: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Ski Boots",
+    optional: true
+  },
+  rentSkiSticks: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Ski Sticks",
+    optional: true
+  },
+  rentSnowboard: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Snowboard",
+    optional: true
+  },
+  rentSnowboardBoots: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Snowboard Boots",
+    optional: true
+  },
+  rentHelmet: {
+    type: Boolean,
+    defaultValue: false,
+    label: "Rent Helmet",
+    optional: true
+  },
+
+
+
+
   history: {
     type: Array,
     optional: true,
@@ -469,7 +601,7 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     optional: true
   },
-
+/*
   // HOST
   isHost: {
     type: Boolean,
@@ -477,7 +609,7 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true,
     custom: function () {
-      let shouldBeRequired = moment().isBetween('2018-01-01', '2018-01-21');
+      let shouldBeRequired = moment().isBetween('2019-01-14', '2019-01-20');
 
       if (shouldBeRequired
         && !this.field('isHelper').value
@@ -500,7 +632,7 @@ Schemas.Participant = new SimpleSchema({
 
       // check whether he/she is in a dorm
       // if yes max is 1
-      if (_.isEqual(this.value, 'dorm') && this.field('noOfGuests').value > 1) {
+      if (_.isEqual(this.value, 'dorm') && this.field('noOfGuests').value > 4) {
         return "maxOneHostInDorm"
       }
 
@@ -522,7 +654,7 @@ Schemas.Participant = new SimpleSchema({
   studentDorm: {
     type: String,
     label: 'Accommodation type',
-    allowedValues: ['rigler', 'hsb', 'univercity', 'rainerum', 'dante'],
+    allowedValues: ['rigler', 'univercity', 'rainerum', 'dante'],
     optional: true,
     custom: function () {
       let shouldBeRequired = this.field('isHost').value && _.isEqual(this.field('accommodationType'), 'dorm');
@@ -576,7 +708,8 @@ Schemas.Participant = new SimpleSchema({
 
       // check whether he/she is in a dorm
       // if yes max is 1
-      if (_.isEqual(this.field('accommodationType').value, 'dorm') && this.value > 1) {
+      console.log(this.value);
+      if (_.isEqual(this.field('accommodationType').value, 'dorm') && this.value > 4) {
         return "maxOneHostInDorm"
       }
 
@@ -603,7 +736,7 @@ Schemas.Participant = new SimpleSchema({
     defaultValue: false,
     optional: true,
     custom: function () {
-      let shouldBeRequired = moment().isBetween('2018-01-01', '2018-01-21');
+      let shouldBeRequired = moment().isBetween('2019-01-14', '2019-01-20');
 
       if (shouldBeRequired
         && !this.field('isHost').value
@@ -620,7 +753,7 @@ Schemas.Participant = new SimpleSchema({
     type: String,
     label: 'Helper category',
     optional: true,
-    allowedValues: ['sport', 'catering', 'party', 'logistics', 'it'],
+    allowedValues: ['sport', 'catering', 'party', 'logistics', 'spirit','accomodation'],
     custom: function () {
       let shouldBeRequired = this.field('isHelper').value;
 
@@ -663,6 +796,7 @@ Schemas.Participant = new SimpleSchema({
       }
     }
   },
+  */
   statusComplete: {
     type: Boolean,
     label: '',
@@ -738,9 +872,7 @@ Participants.before.update(function (userId, doc, fieldNames, modifier) {
   // list of fields checked
   let fields = ['firstName', 'lastName', 'gender', 'email', 'phone', 'university',
     'info.street', 'info.number', 'info.zip', 'info.city', 'info.country', 'info.province',
-    'birth.date', 'birth.country', 'day1.activity', 'day1.rental', 'day2.activity',
-    'day2.rental', 'tshirt', 'hasAcceptedTandC', 'hasPaid', 'isHost', 'accommodationType', 'studentDorm',
-    'guestPreference', 'noOfGuests', 'helperCategory', 'isHelper'];
+    'birth.date', 'birth.country', 'tshirt', 'hasAcceptedTandC', 'hasPaid'];
 
   // check if every field is set
   _.forEach(fields, function (field) {

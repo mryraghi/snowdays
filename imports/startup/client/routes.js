@@ -6,11 +6,12 @@ import "../../ui/pages/admin";
 import "../../ui/pages/externals/index";
 import "../../ui/pages/participant/index";
 import "../../ui/pages/event";
-import "../../ui/pages/register";
+import "../../ui/pages/registers";
 import "../../ui/pages/errors/404/not_found";
 import "../../ui/pages/thankyou";
 import "../../ui/pages/press";
 import "../../ui/pages/flixbus";
+import "../../ui/pages/privacy";
 import _ from "lodash";
 import moment from "moment/moment";
 import swal from 'sweetalert2'
@@ -26,7 +27,10 @@ Router.route('/', {
   name: 'Home',
   template: 'Home'
 });
-
+Router.route('/privacy', {
+  name: 'Privacy',
+  template: 'PrivacyPage'
+});
 Router.route('/flixbus', {
   name: 'Flixbus',
   template: 'FlixbusPage'
@@ -51,8 +55,12 @@ Router.route('/login', {
         this.redirect('/admin/' + user.username);
 
       // EXTERNAL
-      if (Roles.userIsInRole(user, 'external'))
+      if (Roles.userIsInRole(user, 'external')){
         this.redirect('/external');
+      }
+      if (Roles.userIsInRole(user, 'participant')){
+        this.redirect('/participant');
+      }
 
       // UNIBZ
       if (Roles.userIsInRole(user, 'unibz'))
@@ -64,13 +72,16 @@ Router.route('/login', {
 });
 
 Router.route('/register', {
-  name: 'Register',
+  onBeforeAction: function () {
+  this.redirect('/');
+  }
+/*  name: 'Register',
   template: 'RegisterPage',
   subscriptions: function () {
     let _id = localStorage.getItem('id');
     let subscriptions = [];
 
-    if (moment().isBetween('2018-01-01', '2018-01-21')) {
+    if (moment().isBetween('2019-01-14 12:00:00', '2019-01-27 23:59:00')) {
       subscriptions = [
         Meteor.subscribe('stats.helpers.internals'),
         Meteor.subscribe('stats.dorms.internals'),
@@ -96,8 +107,9 @@ Router.route('/register', {
     } else {
       this.render('Loader');
     }
-  }
+  }*/
 });
+
 
 Router.route('/verify-email/:token', {
   name: 'VerifyEmail',
@@ -119,23 +131,6 @@ Router.route('/verify-email/:token', {
 Router.route('/thankyou', {
   name: 'ThankYou',
   template: 'ThankYouPage'
-});
-
-Router.route('/verify-email/:token', {
-  name: 'VerifyEmail',
-  action: function () {
-    if (!this.params.token)
-      this.render('LoginPage');
-
-    Accounts.verifyEmail(this.params.token, (error) => {
-      if (error) {
-        swal('Error', error.reason, 'error');
-        this.render('LoginPage');
-      } else {
-        this.render('SuccessSection');
-      }
-    });
-  }
 });
 
 // TODO: rename in Schedule

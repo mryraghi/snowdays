@@ -34,6 +34,7 @@ Template.AdminPage.events({
   },
 
   'click #sn-logout': (event, template) => {
+    localStorage.clear();
     Meteor.logout((error) => {
       // window.drift.reset();
       if (error) console.log(error)

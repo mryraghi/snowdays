@@ -10,8 +10,7 @@ let CryptoJS = require("crypto-js");
 Template.ParticipantPage.onCreated(function () {
   this.hash = new ReactiveVar();
   this.token = new ReactiveVar((this.data && this.data.token ? this.data.token : ''));
-
-  Meteor.subscribe("participants.current", Session.get('_id'));
+  Meteor.subscribe('participant.external', Session.get('_id'));
   Tracker.autorun(() => {
     if (this.subscriptionsReady()) {
       let p = Participants.findOne();
@@ -75,6 +74,7 @@ Template.ParticipantPage.events({
   },
 
   'click #sn-logout': (event, template) => {
+    localStorage.clear();
     Meteor.logout((error) => {
       if (error) console.log(error)
     })

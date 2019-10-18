@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import _ from "lodash";
 import {deepFind} from "/lib/js/utilities";
 import "/node_modules/bootstrap/dist/js/bootstrap.min";
+import swal from 'sweetalert2';
 
 let fields = require('/imports/collections/db_allowed_values.json');
 

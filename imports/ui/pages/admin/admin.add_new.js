@@ -1,5 +1,6 @@
 import "./admin.add_new.html";
 import _ from "lodash";
+import swal from 'sweetalert2';
 
 Template.AdminAddNewSection.events({
   'submit #admin_add_new_unibz_form': function (event, template) {
