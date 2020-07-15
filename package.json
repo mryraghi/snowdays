@@ -29,7 +29,7 @@
     "highcharts": "^5.0.15",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^8.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.22.2",
     "papaparse": "^4.6.2",
