@@ -32,7 +32,7 @@
     "lodash": "^4.17.11",
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.22.2",
-    "papaparse": "^4.6.2",
+    "papaparse": "^5.2.0",
     "pg": "^6.4.2",
     "pg-native": "^1.10.1",
     "popper.js": "^1.14.5",
