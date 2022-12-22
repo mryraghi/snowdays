@@ -28,7 +28,7 @@
     "fs-extra": "^3.0.1",
     "highcharts": "^5.0.15",
     "jquery": "^3.3.1",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.11",
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.22.2",
